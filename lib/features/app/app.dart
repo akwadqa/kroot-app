@@ -19,11 +19,16 @@ class App extends ConsumerStatefulWidget {
 class _AppState extends ConsumerState<App> {
   @override
   void initState() {
-    Future(
-      () => ref
+    Future(() {
+      ref.read(currentLanguageProvider.notifier).getLanguage(context);
+      ref
           .read(currentLanguageProvider.notifier)
-          .changeLanguage(context, ref.watch(currentLanguageProvider)),
-    );
+          .changeLanguage(context, context.locale.languageCode);
+      print('=============================');
+      print(context.locale.languageCode);
+      print('=============================');
+    });
+
     super.initState();
   }
 
@@ -31,11 +36,13 @@ class _AppState extends ConsumerState<App> {
   Widget build(BuildContext context) {
     // final appRouter = ref.watch(appRouterProvider);
     final currentLanguage = ref.watch(currentLanguageProvider);
+    final goRouter = ref.watch(goRouterProvider);
     return ScreenUtilInit(
       designSize: Size(375, 812),
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        routerConfig: GoRouterApp().routes,
+        // routerConfig: GoRouterApp().routes,
+        routerConfig: goRouter.routes,
         // routerDelegate: appRouter.delegate(
         //   deepLinkBuilder: (deepLink) => DeepLink.defaultPath,
         // ),

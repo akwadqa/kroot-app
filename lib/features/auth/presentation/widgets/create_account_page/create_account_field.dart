@@ -7,17 +7,27 @@ import 'package:wedding_app/src/theme/app_text_style.dart';
 
 class CreataAccountField extends StatelessWidget {
   const CreataAccountField({
+    
     super.key,
     required this.controller,
     required this.hint,
     required this.label,
-    required this.icon,
+    this.isReadOnly = false,
+     this.icon,
     required this.isRequired,
+    this.onTap,
+    this.withIcon = true,
+    this.validator,
+    this.inputType = TextInputType.none, this.value,
   });
+  final void Function()? onTap;
+  final String? value;
   final String hint, label;
-  final SvgGenImage icon;
-  final bool isRequired;
+  final SvgGenImage? icon;
+  final TextInputType? inputType;
+  final bool isRequired, isReadOnly,withIcon;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
   String? requiredVal(String? val, BuildContext context) {
     if ((val?.isEmpty ?? true) || val == null) {
@@ -70,24 +80,39 @@ class CreataAccountField extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            initialValue: value,
+            onTap: onTap,
+            keyboardType: inputType,
+            readOnly: isReadOnly,
             controller: controller,
-            validator: (val) =>
-                isRequired ? requiredVal(val, context) : emailVal(val, context),
+            validator:
+                validator ??
+                (val) => isRequired
+                    ? requiredVal(val, context)
+                    : emailVal(val, context),
             cursorColor: AppColors.primary,
             style: AppTextStyle.rubikRegular16.copyWith(
               color: AppColors.primary,
             ),
             decoration: InputDecoration(
+              suffixIcon: isReadOnly
+                  ? Icon(
+                      Icons.arrow_drop_down_rounded,
+                      color: AppColors.primary,
+                    )
+                  : null,
               hintText: hint,
               hintStyle: AppTextStyle.rubikRegular16.copyWith(
                 color: AppColors.grayHint,
               ),
 
               contentPadding: EdgeInsets.zero,
-              prefixIcon: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 17.w),
-                child: icon.svg(),
-              ),
+              prefixIcon: withIcon!
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 17.w),
+                      child: icon!.svg(),
+                    )
+                  : null,
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
                 borderSide: BorderSide(color: AppColors.primary),

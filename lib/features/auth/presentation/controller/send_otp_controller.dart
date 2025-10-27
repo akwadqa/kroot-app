@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wedding_app/features/auth/application/auth_service.dart';
 import 'package:wedding_app/features/auth/data/models/send_otp/send_otp_response.dart';
 import 'package:wedding_app/features/auth/data/repo/auth_repository.dart';
 
@@ -19,7 +20,9 @@ class SendOtpController extends _$SendOtpController {
       if (!isFromCreate) state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
-          .sendOtp(number: number);
+          // .sendOtp(number: number);
+          // todo : 
+          .sendOtp(number: '97451365471');
 
       if (result.status != 200 && result.status != 404) {
         throw Exception(result.message);

@@ -13,36 +13,46 @@ import 'package:wedding_app/src/theme/app_text_style.dart';
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool? withBackButton;
-  const CustomAppbar({super.key, required this.title, this.withBackButton});
+  final Widget? actionButton;
+  const CustomAppbar({
+    super.key,
+    required this.title,
+    this.withBackButton,
+    this.actionButton,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: ui.TextDirection.ltr,
       child: Container(
-        height: preferredSize.height,
+        height: preferredSize.height + 15.h,
         padding: EdgeInsets.symmetric(horizontal: 22.w),
 
         child: SafeArea(
           bottom: false,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (withBackButton ?? true)
-                GestureDetector(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Assets.icons.verificationArrowBackIc.svg(),
-                ),
+              (withBackButton ?? true)
+                  ? GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: Assets.icons.verificationArrowBackIc.svg(),
+                    )
+                  : 22.horizontalSpace,
 
-              Text(
-                title,
-                style: AppTextStyle.rubikMedium20.copyWith(
-                  color: AppColors.primary,
+              Center(
+                child: Text(
+                  title,
+                  style: AppTextStyle.rubikMedium20.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
-              22.horizontalSpace,
+              (actionButton != null) ? actionButton! : 22.horizontalSpace,
             ],
           ),
         ),

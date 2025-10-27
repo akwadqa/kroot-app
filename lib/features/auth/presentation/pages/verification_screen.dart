@@ -71,7 +71,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
         //     context,
         //   ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
         // } else {
-        context.push(Routes.home);
+        context.push(Routes.main);
         // }
       }
     });

@@ -16,10 +16,16 @@ class RemoteInterceptor extends Interceptor {
     final user = ref.read(userDataProvider);
     final language = ref.read(currentLanguageProvider);
 
-    if (user?.$1 != null) {
-      options.headers['Authorization'] =  user!.$1;
+    //? I removed the name and id here : 
+    // if (user?.$1 != null) {
+    //   options.headers['Authorization'] =  user!.$1;
+    //   // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
+    // }
+    // if (user != null) {
+      // options.headers['Authorization'] =  'token $user';
+      options.headers['Authorization'] =  'token 8076a272ef22208:0fc27caa720cc39';
       // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
-    }
+    // }
 
     options.headers['Accept-Language'] = language;
 

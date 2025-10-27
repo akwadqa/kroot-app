@@ -418,7 +418,7 @@ void showLogoutDialog(BuildContext context) {
               dsc: "logout_confirmation".tr(),
               yesButton: () async {
                 Navigator.pop(context);
-                await userData.removeData();
+                // await userData.removeData();
                 // context.router.replaceAll([const LoginRoute()]);
 
                 // Navigator.pop(context);

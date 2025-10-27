@@ -50,8 +50,7 @@ String _$sharedPreferencesHash() => r'ca329d21cb9532acf76436fc839fde21c0b7f1e6';
 @ProviderFor(UserData)
 const userDataProvider = UserDataProvider._();
 
-final class UserDataProvider
-    extends $NotifierProvider<UserData, (String, String, String)?> {
+final class UserDataProvider extends $NotifierProvider<UserData, String?> {
   const UserDataProvider._()
     : super(
         from: null,
@@ -71,29 +70,28 @@ final class UserDataProvider
   UserData create() => UserData();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue((String, String, String)? value) {
+  Override overrideWithValue(String? value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<(String, String, String)?>(value),
+      providerOverride: $SyncValueProvider<String?>(value),
     );
   }
 }
 
-String _$userDataHash() => r'e29adc3a63ead058c71549ee13a311193a490e47';
+String _$userDataHash() => r'6466c3675450a16643ce1154e4adb84aceb6699a';
 
-abstract class _$UserData extends $Notifier<(String, String, String)?> {
-  (String, String, String)? build();
+abstract class _$UserData extends $Notifier<String?> {
+  String? build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref =
-        this.ref as $Ref<(String, String, String)?, (String, String, String)?>;
+    final ref = this.ref as $Ref<String?, String?>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<(String, String, String)?, (String, String, String)?>,
-              (String, String, String)?,
+              AnyNotifier<String?, String?>,
+              String?,
               Object?,
               Object?
             >;

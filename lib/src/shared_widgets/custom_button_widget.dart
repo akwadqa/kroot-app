@@ -10,12 +10,14 @@ class CustomButtonWidget extends StatelessWidget {
   final Color? backgroundColor;
   final Color? color;
   final VoidCallback? onTap;
+  final BoxDecoration? boxDecoration;
   final bool isFiled;
   final double height;
   final double width;
   final double? radius;
   final double? topPading;
   const CustomButtonWidget({
+    this.boxDecoration,
     super.key,
     required this.text,
     this.backgroundColor,
@@ -31,7 +33,8 @@ class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      decoration:boxDecoration ,
       width: width,
       height: height,
       child: ElevatedButton(

@@ -1,0 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+class HomeUiState {
+  final int? bottomSheetIndex;
+
+  HomeUiState({required this.bottomSheetIndex});
+
+  factory HomeUiState.init() => HomeUiState(bottomSheetIndex: 0);
+
+  HomeUiState copyWith({int? bottomSheetIndex}) {
+    return HomeUiState(
+      bottomSheetIndex: bottomSheetIndex ?? this.bottomSheetIndex,
+    );
+  }
+}

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Pagination {
 
-@JsonKey(name: 'total') int get totalItems;@JsonKey(name: 'total_pages') int get totalPages;@JsonKey(name: 'page') int get currentPage;
+@JsonKey(name: 'total_items') int get totalItems;@JsonKey(name: 'total_pages') int get totalPages;@JsonKey(name: 'current_page') int get currentPage;
 /// Create a copy of Pagination
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $PaginationCopyWith<$Res>  {
   factory $PaginationCopyWith(Pagination value, $Res Function(Pagination) _then) = _$PaginationCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'total') int totalItems,@JsonKey(name: 'total_pages') int totalPages,@JsonKey(name: 'page') int currentPage
+@JsonKey(name: 'total_items') int totalItems,@JsonKey(name: 'total_pages') int totalPages,@JsonKey(name: 'current_page') int currentPage
 });
 
 
@@ -155,7 +155,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int totalItems, @JsonKey(name: 'total_pages')  int totalPages, @JsonKey(name: 'page')  int currentPage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_items')  int totalItems, @JsonKey(name: 'total_pages')  int totalPages, @JsonKey(name: 'current_page')  int currentPage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Pagination() when $default != null:
 return $default(_that.totalItems,_that.totalPages,_that.currentPage);case _:
@@ -176,7 +176,7 @@ return $default(_that.totalItems,_that.totalPages,_that.currentPage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total')  int totalItems, @JsonKey(name: 'total_pages')  int totalPages, @JsonKey(name: 'page')  int currentPage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_items')  int totalItems, @JsonKey(name: 'total_pages')  int totalPages, @JsonKey(name: 'current_page')  int currentPage)  $default,) {final _that = this;
 switch (_that) {
 case _Pagination():
 return $default(_that.totalItems,_that.totalPages,_that.currentPage);case _:
@@ -196,7 +196,7 @@ return $default(_that.totalItems,_that.totalPages,_that.currentPage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total')  int totalItems, @JsonKey(name: 'total_pages')  int totalPages, @JsonKey(name: 'page')  int currentPage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total_items')  int totalItems, @JsonKey(name: 'total_pages')  int totalPages, @JsonKey(name: 'current_page')  int currentPage)?  $default,) {final _that = this;
 switch (_that) {
 case _Pagination() when $default != null:
 return $default(_that.totalItems,_that.totalPages,_that.currentPage);case _:
@@ -211,12 +211,12 @@ return $default(_that.totalItems,_that.totalPages,_that.currentPage);case _:
 @JsonSerializable()
 
 class _Pagination implements Pagination {
-  const _Pagination({@JsonKey(name: 'total') required this.totalItems, @JsonKey(name: 'total_pages') required this.totalPages, @JsonKey(name: 'page') required this.currentPage});
+  const _Pagination({@JsonKey(name: 'total_items') required this.totalItems, @JsonKey(name: 'total_pages') required this.totalPages, @JsonKey(name: 'current_page') required this.currentPage});
   factory _Pagination.fromJson(Map<String, dynamic> json) => _$PaginationFromJson(json);
 
-@override@JsonKey(name: 'total') final  int totalItems;
+@override@JsonKey(name: 'total_items') final  int totalItems;
 @override@JsonKey(name: 'total_pages') final  int totalPages;
-@override@JsonKey(name: 'page') final  int currentPage;
+@override@JsonKey(name: 'current_page') final  int currentPage;
 
 /// Create a copy of Pagination
 /// with the given fields replaced by the non-null parameter values.
@@ -251,7 +251,7 @@ abstract mixin class _$PaginationCopyWith<$Res> implements $PaginationCopyWith<$
   factory _$PaginationCopyWith(_Pagination value, $Res Function(_Pagination) _then) = __$PaginationCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'total') int totalItems,@JsonKey(name: 'total_pages') int totalPages,@JsonKey(name: 'page') int currentPage
+@JsonKey(name: 'total_items') int totalItems,@JsonKey(name: 'total_pages') int totalPages,@JsonKey(name: 'current_page') int currentPage
 });
 
 

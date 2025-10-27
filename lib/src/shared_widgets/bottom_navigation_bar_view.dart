@@ -36,6 +36,8 @@ class BottomNavigationBarView extends ConsumerWidget {
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           ref.read(bottomNavIndexProvider.notifier).setIndex(index);
+          // index
+          //? TODO 
         },
         items: [
           _buildBottomNavBarItem(

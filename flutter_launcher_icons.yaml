@@ -17,3 +17,7 @@ flutter_launcher_icons:
   # image_path_ios_tinted_grayscale: "assets/icon/icon_tinted.png"
   # desaturate_tinted_to_grayscale_ios: true
   background_color_ios: "#ffffff"
+  android_12:
+    color: "#1E2E4F"
+    image: assets/images/splash.png
+    fullscreen: true

@@ -10,11 +10,19 @@ part 'current_language.g.dart';
 class CurrentLanguage extends _$CurrentLanguage {
   @override
   String build() {
-    return  PlatformDispatcher.instance.locale.languageCode;
+    return 'en';
+  }
+
+  void getLanguage(BuildContext context) {
+    String? languageCode = context.savedLocale?.languageCode;
+    if (languageCode != null) {
+      state = languageCode;
+    }
+    state = 'en';
   }
 
   void changeLanguage(BuildContext context, String languageCode) {
-    context.setLocale(Locale(languageCode));
+    context.setLocale(Locale(state));
     state = languageCode;
   }
 }

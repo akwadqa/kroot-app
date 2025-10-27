@@ -31,8 +31,8 @@ abstract class AppTheme {
         selectionColor: AppColors.primary,
         selectionHandleColor: AppColors.primary,
       ),
-      colorScheme:
-          ColorScheme.fromSwatch(primarySwatch:Colors.brown),
+      // colorScheme:
+      //     ColorScheme.fromSwatch(primarySwatch:AppColors.primarySwatch),
       fontFamily: FontFamily.cairo,
       textTheme: TextTheme(
         displayLarge: _baseTextStyle.copyWith(fontSize: 24),

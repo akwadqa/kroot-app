@@ -30,7 +30,7 @@ final class SendOtpControllerProvider
   SendOtpController create() => SendOtpController();
 }
 
-String _$sendOtpControllerHash() => r'26113d657b1de708ed76e7a8ab81e118ebd53daf';
+String _$sendOtpControllerHash() => r'4d82cad637389e4c768a617fd43959ecc0ce04fd';
 
 abstract class _$SendOtpController extends $AsyncNotifier<SendOtpResponse?> {
   FutureOr<SendOtpResponse?> build();

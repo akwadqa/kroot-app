@@ -10,6 +10,11 @@ abstract class EndPoints {
   static String verifyOtp = '$_baseUrl/kroot.api.auth.verify_otp';
   static String createAccount = '$_baseUrl/kroot.api.auth.register';
 
+  //? Home : 
+  static String getEvents = '$_baseUrl/kroot.api.api.get_user_events';
+  static String createEvent = '$_baseUrl/kroot.api.api.create_event';
+  static String getEventDetails = '$_baseUrl/kroot.api.api.get_event';
+
   // 🟩 CHECK
   static const String getGuests = '.get_invitees';
   static const String getActiveGates = '.get_active_gates';

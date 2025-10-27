@@ -92,11 +92,14 @@ class AuthController extends _$AuthController {
       state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
-          .verifyOtp(number: numberNull ?? number ?? '', otp: otp);
+          // .verifyOtp(number: numberNull ?? number ?? '', otp: otp);
+          .verifyOtp(number: '97451365471' ?? number ?? '', otp: otp);
 
       if (result.hasFailed) {
         throw Exception(result.message);
       }
+      ref.read(userDataProvider.notifier).setData(result.data!.token!);
+
       state = AsyncData(
         state.value?.copyWith(verifyOtpResponse: result.data) ??
             AuthControllerState(verifyOtpResponse: result.data),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wedding_app/features/auth/application/auth_service.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:wedding_app/features/auth/presentation/controller/send_otp_controller.dart';
@@ -31,8 +32,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   late TextEditingController _controller = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    Future(() {
+      final token = ref.read(userDataProvider);
+      if (token == null) {
+        context.pushReplacement(Routes.login);
+      }
+    });
+
     _controller = TextEditingController();
   }
 
