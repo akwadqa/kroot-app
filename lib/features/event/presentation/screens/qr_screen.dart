@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:wedding_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
+import 'package:wedding_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/bottm_navigation_bar_provider.dart';
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
@@ -13,57 +15,99 @@ import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
 
 import '../../../../src/routing/routes.dart';
 
 class QrScreen extends ConsumerWidget {
-  const QrScreen({super.key});
+  const QrScreen({super.key, required this.id});
+  final String? id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late BuildContext ctx;
-    ref.listen(homeControllerProvider, (prev, next) {
-      //? This listener for create event from this screen :
-      if (next.value?.isCreatingEvent != null) {
-        //? Loading :
-        if (next is AsyncLoading) {
-          AppAlert.showLoadingDialog(ctx);
+    if (id == null) {
+      //? Listener for add :
+      ref.listen(addEventControllerProvider, (prev, next) {
+        //? This listener for create event in this screen :
+        if (next.value!.isAddEvent != null) {
+          //? For loading :
+          if (next is AsyncLoading) {
+            AppAlert.showLoadingDialog(ctx);
+          }
+
+          if (next is AsyncData && prev is AsyncLoading) {
+            // if (context.canPop()) {
+            ctx.pop();
+            AppToast.doneToast('Done');
+
+            // context.pushReplacement(Routes.main);
+            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+
+            context.pushReplacement(
+              Routes.eventDetails,
+              // extra: widget.id != null
+              //? next.value!.updatedEvent!.occasionId
+              extra: next.value!.createEventResponse?.eventId,
+            );
+            ref.read(addEventControllerProvider.notifier).clearEventScreen();
+          }
+          // }
+
+          if (next is AsyncError && prev is AsyncLoading) {
+            ctx.pop();
+            AppToast.errorToast(next.error.toString());
+          }
         }
 
-        //? Loaded and the last will be loading - not error :
-        if (next is AsyncData && prev is AsyncLoading) {
-          //? Close the loading
-          ctx.pop();
+        //? This listener for add new contact :
+        if (next.value?.isAddContact ?? false) {
+          if (next is AsyncData) {
+            context.pop();
+            AppToast.doneToast('Contact added!');
+          }
 
-          //? Go to home
-          // context.pushReplacement(Routes.main);
-          context.pushReplacement(
-            Routes.eventDetails,
-            extra: next.value!.createEventResponse!.eventId,
-          );
-
-          //? Change the tab
-          ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
-          //? Cleare event details in create event screen
-          ref.read(homeControllerProvider.notifier).clearEventScreen();
-
-          //? Show message :
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('content added')));
+          if (next is AsyncError) {
+            context.pop();
+            AppToast.errorToast(next.error.toString());
+          }
         }
+      });
+    } else {
+      ref.listen(updateEventControllerProvider, (prev, next) {
+        //? This listener for create event in this screen :
+        if (next.value!.isUpdateEvent != null) {
+          //? For loading :
+          if (next is AsyncLoading) {
+            AppAlert.showLoadingDialog(ctx);
+          }
 
-        //? Error :
-        if (next is AsyncError) {
-          ctx.pop();
-          // ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+          if (next is AsyncData && prev is AsyncLoading) {
+            // if (context.canPop()) {
+            ctx.pop();
+            AppToast.doneToast('Done');
+
+            // context.pushReplacement(Routes.main);
+            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+
+            context.pushReplacement(
+              Routes.eventDetails,
+              // extra: widget.id != null
+              //? next.value!.updatedEvent!.occasionId
+              extra: next.value!.updatedEvent?.occasionId,
+            );
+            ref.read(addEventControllerProvider.notifier).clearEventScreen();
+          }
+          // }
+
+          if (next is AsyncError && prev is AsyncLoading) {
+            ctx.pop();
+            AppToast.errorToast(next.error.toString());
+          }
         }
-      }
-    });
+      });
+    }
+
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('qrPreview')),
 
@@ -155,7 +199,7 @@ class QrScreen extends ConsumerWidget {
               CustomButtonWidget(
                 text: '',
                 onTap: () {
-                  context.push(Routes.sendInvite);
+                  context.push(Routes.sendInvite , extra: id);
                 },
                 backgroundColor: AppColors.primary,
                 isFiled: true,

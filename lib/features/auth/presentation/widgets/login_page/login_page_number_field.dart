@@ -53,6 +53,7 @@ class _LoginPageNumberFieldState extends ConsumerState<LoginPageNumberField> {
       child: Directionality(
         textDirection: ui.TextDirection.ltr,
         child: IntlPhoneField(
+          autovalidateMode: AutovalidateMode.disabled,
           invalidNumberMessage: context.tr('invalidNumber'),
           controller: _nationalController,
           initialCountryCode: 'QA',

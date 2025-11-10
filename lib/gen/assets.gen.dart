@@ -57,6 +57,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/category.svg
   SvgGenImage get category => const SvgGenImage('assets/icons/category.svg');
 
+  /// File path: assets/icons/change_language_ic.svg
+  SvgGenImage get changeLanguageIc =>
+      const SvgGenImage('assets/icons/change_language_ic.svg');
+
   /// File path: assets/icons/close_ic.svg
   SvgGenImage get closeIc => const SvgGenImage('assets/icons/close_ic.svg');
 
@@ -71,6 +75,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/contact_number_ic.svg
   SvgGenImage get contactNumberIc =>
       const SvgGenImage('assets/icons/contact_number_ic.svg');
+
+  /// File path: assets/icons/contact_whatsapp_ic.svg
+  SvgGenImage get contactWhatsappIc =>
+      const SvgGenImage('assets/icons/contact_whatsapp_ic.svg');
 
   /// File path: assets/icons/correct_ic.svg
   SvgGenImage get correctIc => const SvgGenImage('assets/icons/correct_ic.svg');
@@ -97,6 +105,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/delete_ic.svg
   SvgGenImage get deleteIc => const SvgGenImage('assets/icons/delete_ic.svg');
 
+  /// File path: assets/icons/delete_user_ic.svg
+  SvgGenImage get deleteUserIc =>
+      const SvgGenImage('assets/icons/delete_user_ic.svg');
+
   /// File path: assets/icons/document_ic.svg
   SvgGenImage get documentIc =>
       const SvgGenImage('assets/icons/document_ic.svg');
@@ -111,6 +123,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/email_ic.svg
   SvgGenImage get emailIc => const SvgGenImage('assets/icons/email_ic.svg');
+
+  /// File path: assets/icons/empty_ic.svg
+  SvgGenImage get emptyIc => const SvgGenImage('assets/icons/empty_ic.svg');
 
   /// File path: assets/icons/enter_email_ic.svg
   SvgGenImage get enterEmailIc =>
@@ -152,6 +167,9 @@ class $AssetsIconsGen {
   SvgGenImage get locationIc =>
       const SvgGenImage('assets/icons/location_ic.svg');
 
+  /// File path: assets/icons/logout_ic.svg
+  SvgGenImage get logoutIc => const SvgGenImage('assets/icons/logout_ic.svg');
+
   /// File path: assets/icons/manage_access_ic.svg
   SvgGenImage get manageAccessIc =>
       const SvgGenImage('assets/icons/manage_access_ic.svg');
@@ -169,6 +187,13 @@ class $AssetsIconsGen {
   /// File path: assets/icons/phone_ic.svg
   SvgGenImage get phoneIc => const SvgGenImage('assets/icons/phone_ic.svg');
 
+  /// File path: assets/icons/pricing_correct_ic.svg
+  SvgGenImage get pricingCorrectIc =>
+      const SvgGenImage('assets/icons/pricing_correct_ic.svg');
+
+  /// File path: assets/icons/pricing_ic.svg
+  SvgGenImage get pricingIc => const SvgGenImage('assets/icons/pricing_ic.svg');
+
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
 
@@ -184,6 +209,21 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/scan_ic.svg
   SvgGenImage get scanIc => const SvgGenImage('assets/icons/scan_ic.svg');
+
+  /// File path: assets/icons/scan_qr_first_ic.svg
+  SvgGenImage get scanQrFirstIc =>
+      const SvgGenImage('assets/icons/scan_qr_first_ic.svg');
+
+  /// File path: assets/icons/scan_qr_ic.svg
+  SvgGenImage get scanQrIc => const SvgGenImage('assets/icons/scan_qr_ic.svg');
+
+  /// File path: assets/icons/scan_qr_second_ic.svg
+  SvgGenImage get scanQrSecondIc =>
+      const SvgGenImage('assets/icons/scan_qr_second_ic.svg');
+
+  /// File path: assets/icons/scan_qr_third_ic.svg
+  SvgGenImage get scanQrThirdIc =>
+      const SvgGenImage('assets/icons/scan_qr_third_ic.svg');
 
   /// File path: assets/icons/scanned_ic.svg
   SvgGenImage get scannedIc => const SvgGenImage('assets/icons/scanned_ic.svg');
@@ -214,6 +254,9 @@ class $AssetsIconsGen {
   SvgGenImage get whatsappIc =>
       const SvgGenImage('assets/icons/whatsapp_ic.svg');
 
+  /// File path: assets/icons/x_guest_ic.svg
+  SvgGenImage get xGuestIc => const SvgGenImage('assets/icons/x_guest_ic.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
     addContactIc,
@@ -223,10 +266,12 @@ class $AssetsIconsGen {
     arrowIc,
     backWhiteIc,
     category,
+    changeLanguageIc,
     closeIc,
     confirmedIc,
     contactNameIc,
     contactNumberIc,
+    contactWhatsappIc,
     correctIc,
     coupon,
     creditCardIc,
@@ -234,10 +279,12 @@ class $AssetsIconsGen {
     deleteContactIc,
     deleteEventIc,
     deleteIc,
+    deleteUserIc,
     documentIc,
     editContactIc,
     editEventIc,
     emailIc,
+    emptyIc,
     enterEmailIc,
     eventNameIc,
     eventSearchIc,
@@ -249,16 +296,23 @@ class $AssetsIconsGen {
     languageIc,
     lastNamePersonIc,
     locationIc,
+    logoutIc,
     manageAccessIc,
     messagesIc,
     mobileIc,
     optionsIc,
     phoneIc,
+    pricingCorrectIc,
+    pricingIc,
     profile,
     profileIc,
     qr,
     rejectedIc,
     scanIc,
+    scanQrFirstIc,
+    scanQrIc,
+    scanQrSecondIc,
+    scanQrThirdIc,
     scannedIc,
     selectedDateIc,
     settings,
@@ -267,11 +321,16 @@ class $AssetsIconsGen {
     verifiedCheckIc,
     waitingIc,
     whatsappIc,
+    xGuestIc,
   ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/animation_loading.gif
+  AssetGenImage get animationLoading =>
+      const AssetGenImage('assets/images/animation_loading.gif');
 
   /// File path: assets/images/check_done_image.png
   AssetGenImage get checkDoneImage =>
@@ -318,6 +377,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+    animationLoading,
     checkDoneImage,
     imErrorScreen,
     imWedding,

@@ -31,7 +31,7 @@ class AuthRemoteDataSource {
           data: SendOtpResponse.fromJson(e.response?.data['data']),
         );
       } else
-        rethrow;
+        return ApiResponse.error(message: e.toString());
     } catch (e) {
       return ApiResponse.error(error: e);
     }

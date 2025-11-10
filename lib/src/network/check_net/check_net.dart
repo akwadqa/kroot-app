@@ -13,25 +13,25 @@ class CheckNet<T> {
     required Function() tryRight,
     Future<T> Function()? tryRightCach,
   }) async {
-    // if (await networkInformation.isConnected) {
-    try {
-      return await tryRight();
-    } on DioException catch (e) {
-      rethrow;
-    } catch (e) {
-      throw Exception(e);
+    if (await networkInformation.isConnected) {
+      try {
+        return await tryRight();
+      } on DioException { 
+        rethrow;
+      } catch (e) {
+        rethrow;
+      }
+    } else {
+      //   if (tryRightCach == null) {
+      //     print('---------------------------------------------ofline!');
+      //     throw Exception('You are offline');
+      //   } else {
+      //     try {
+      //       return await tryRightCach();
+      //     } catch (e) {
+      throw Exception('You are offline');
+      //     }
+      //   }
     }
-    // } else {
-    //   if (tryRightCach == null) {
-    //     print('---------------------------------------------ofline!');
-    //     throw Exception('You are offline');
-    //   } else {
-    //     try {
-    //       return await tryRightCach();
-    //     } catch (e) {
-    //       throw Exception('You are offline');
-    //     }
-    //   }
-    // }
   }
 }

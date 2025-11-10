@@ -21,14 +21,16 @@ class SendOtpController extends _$SendOtpController {
       final result = await ref
           .read(authRepositoryProvider)
           // .sendOtp(number: number);
-          // todo : 
-          .sendOtp(number: '97451365471');
+          // todo :
+          // .sendOtp(number: '97451365471');
+          .sendOtp(number: number);
 
       if (result.status != 200 && result.status != 404) {
-        throw Exception(result.message);
+        // throw Exception(result.message);
+        state = AsyncError(result.message ?? '', StackTrace.current);
       }
       if (!isFromCreate) {
-        state = AsyncData(result.data );
+        state = AsyncData(result.data);
       }
     } catch (e, st) {
       state = AsyncError(e, st);

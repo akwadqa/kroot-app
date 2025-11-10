@@ -18,9 +18,11 @@ import 'package:wedding_app/src/theme/app_text_style.dart';
 
 class GuestListItem extends StatelessWidget {
   final SelectedContact contact;
+  final String? id;
   const GuestListItem({
     super.key,
     required this.contact,
+    required this.id,
     required this.increament,
     required this.decreament,
   });
@@ -38,8 +40,8 @@ class GuestListItem extends StatelessWidget {
             builder: (context) => Consumer(
               builder: (context, ref, child) {
                 List<Widget> pages = [
-                  EditGuestBottomSheet(contact: contact),
-                  EditGuestNameBottomSheet(contact: contact),
+                  EditGuestBottomSheet(contact: contact, id: id),
+                  EditGuestNameBottomSheet(contact: contact, id: id),
                 ];
                 final index = ref
                     .watch(homeUiControllerProvider)
@@ -52,7 +54,7 @@ class GuestListItem extends StatelessWidget {
         icon: Icon(Icons.more_vert),
       ),
       title: Text(
-        contact.contact.displayName,
+        '${contact.contact.name.first} ${contact.contact.name.last}',
         style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
       ),
       subtitle: Directionality(
@@ -62,22 +64,28 @@ class GuestListItem extends StatelessWidget {
               ? Alignment.centerRight
               : Alignment.centerLeft,
           child: Text(
-            contact.contact.phones.first.number,
+            // contact.contact.phones.first.number,
+            contact.contact.phones.isNotEmpty
+                ? contact.contact.phones.first.number
+                : context.tr('no_phone'),
             style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
           ),
         ),
       ),
       trailing: SizedBox(
-        width: 60.w,
+        width: 100.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              onTap: increament,
-              child: Text(
-                '+',
-                style: AppTextStyle.rubikRegular16.copyWith(
-                  color: AppColors.primary,
+            Expanded(
+              child: TextButton(
+                onPressed: increament,
+                child: Text(
+                  '+',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.rubikRegular16.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
             ),
@@ -87,12 +95,15 @@ class GuestListItem extends StatelessWidget {
                 color: AppColors.primary,
               ),
             ),
-            GestureDetector(
-              onTap: decreament,
-              child: Text(
-                '-',
-                style: AppTextStyle.rubikRegular16.copyWith(
-                  color: AppColors.primary,
+            Expanded(
+              child: TextButton(
+                onPressed: decreament,
+                child: Text(
+                  '-',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.rubikRegular16.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
             ),

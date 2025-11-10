@@ -17,12 +17,13 @@ class CurrentLanguage extends _$CurrentLanguage {
     String? languageCode = context.savedLocale?.languageCode;
     if (languageCode != null) {
       state = languageCode;
+    } else {
+      state = 'en';
     }
-    state = 'en';
   }
 
   void changeLanguage(BuildContext context, String languageCode) {
-    context.setLocale(Locale(state));
+    EasyLocalization.of(context)!.setLocale(Locale(languageCode));
     state = languageCode;
   }
 }

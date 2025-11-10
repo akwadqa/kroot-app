@@ -32,7 +32,10 @@ class AddContactScreenTile extends StatelessWidget {
               ? Alignment.centerRight
               : Alignment.centerLeft,
           child: Text(
-            contact.phones.first.number,
+            // contact.phones.first.number,
+            contact.phones.isNotEmpty
+                ? contact.phones.first.number
+                : context.tr('no_phone'),
             style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
           ),
         ),
@@ -44,11 +47,25 @@ class AddContactScreenTile extends StatelessWidget {
           }
           return AppColors.white;
         }),
-        value: selectedContacts.any((c) => c.contact.id == contact.id),
+        value: selectedContacts.any((c) {
+          final cNum = c.contact.phones.isNotEmpty
+              ? c.contact.phones.first.number
+              : '';
+          final tNum = contact.phones.isNotEmpty
+              ? contact.phones.first.number
+              : '';
+
+          return normalize(cNum) == normalize(tNum);
+        }),
+        // value: selectedContacts.any((c) => c.contact.id == contact.id),
         onChanged: (val) {
           onChange(val);
         },
       ),
     );
+  }
+
+  String normalize(String s) {
+    return s.replaceAll(RegExp(r'\D+'), ''); // يحذف كل شيء غير الأرقام
   }
 }

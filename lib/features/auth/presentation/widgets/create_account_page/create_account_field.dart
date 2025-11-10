@@ -7,26 +7,26 @@ import 'package:wedding_app/src/theme/app_text_style.dart';
 
 class CreataAccountField extends StatelessWidget {
   const CreataAccountField({
-    
     super.key,
-    required this.controller,
+    this.controller,
     required this.hint,
     required this.label,
     this.isReadOnly = false,
-     this.icon,
+    this.icon,
     required this.isRequired,
     this.onTap,
     this.withIcon = true,
     this.validator,
-    this.inputType = TextInputType.none, this.value,
+    this.inputType = TextInputType.text,
+    this.value,
   });
   final void Function()? onTap;
   final String? value;
   final String hint, label;
   final SvgGenImage? icon;
   final TextInputType? inputType;
-  final bool isRequired, isReadOnly,withIcon;
-  final TextEditingController controller;
+  final bool isRequired, isReadOnly, withIcon;
+  final TextEditingController? controller;
   final String? Function(String?)? validator;
 
   String? requiredVal(String? val, BuildContext context) {
@@ -80,6 +80,7 @@ class CreataAccountField extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            key: ValueKey(value),
             initialValue: value,
             onTap: onTap,
             keyboardType: inputType,

@@ -6,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:wedding_app/features/event/data/models/create_event_request/create_event_request.dart';
+import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:wedding_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:wedding_app/features/event/presentation/controller/add_event/add_event_state.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_state.dart';
 import 'package:wedding_app/features/event/presentation/widgets/add_contact_page/add_contact_page_tile.dart';
@@ -20,241 +23,107 @@ import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
 
 class AddContactScreen extends ConsumerStatefulWidget {
-  const AddContactScreen({super.key});
+  const AddContactScreen({super.key, required this.id});
+  final String? id;
 
   @override
   ConsumerState<AddContactScreen> createState() => _AddContactScreenState();
 }
 
 class _AddContactScreenState extends ConsumerState<AddContactScreen> {
-  late TextEditingController name, number;
-  final _key = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
     Future(() {
-      ref.read(homeControllerProvider.notifier).getContacts(null);
+      ref.read(addEventControllerProvider.notifier).getContacts(null);
     });
-
-    name = TextEditingController();
-    number = TextEditingController();
-  }
-
-  _openBottomSheet() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => Container(
-        height: 700.h,
-        padding: EdgeInsets.all(22.w),
-        child: Form(
-          key: _key,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  //? Title :
-                  Text(
-                    context.tr('addContact'),
-                    style: AppTextStyle.rubikSemiBold20.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  Spacer(),
-
-                  //? Close button :
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Assets.icons.closeIc.svg(),
-                  ),
-                ],
-              ),
-              33.verticalSpace,
-
-              //? name :
-              CreataAccountField(
-                controller: name,
-                hint: context.tr('enterName'),
-                icon: Assets.icons.contactNameIc,
-                label: context.tr('name'),
-                isRequired: false,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return context.tr('required');
-                  }
-                },
-              ),
-              20.verticalSpace,
-
-              //? number :
-              CreataAccountField(
-                controller: number,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return context.tr('required');
-                  }
-                },
-                inputType: TextInputType.number,
-                hint: context.tr('enterPhone'),
-                icon: Assets.icons.contactNumberIc,
-                label: context.tr('phone_number'),
-                isRequired: false,
-              ),
-              200.verticalSpace,
-              Consumer(
-                builder: (context, ref, child) {
-                  final isLoading = ref.read(homeControllerProvider);
-                  if (isLoading is AsyncLoading)
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primary,
-                      ),
-                    );
-                  return CustomButtonWidget(
-                    text: '',
-                    onTap: () {
-                      if (_key.currentState!.validate()) {
-                        ref
-                            .read(homeControllerProvider.notifier)
-                            .addNewContact(
-                              name: name.text,
-                              phoneNumber: number.text,
-                            );
-                      }
-                    },
-                    isFiled: true,
-                    boxDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      boxShadow: [
-                        BoxShadow(color: AppColors.primary, spreadRadius: 1),
-                        BoxShadow(
-                          color: AppColors.primary,
-                          offset: Offset(0, 1),
-                          blurRadius: 2,
-                        ),
-                      ],
-                    ),
-                    height: 44.h,
-                    width: double.infinity,
-                    backgroundColor: AppColors.primary,
-                    content: Text(
-                      context.tr('add'),
-                      style: AppTextStyle.rubikSemiBold18.copyWith(
-                        color: AppColors.white,
-                      ),
-                    ),
-                  );
-                },
-              ),
-
-              //? Add button:
-              31.verticalSpace,
-              CustomButtonWidget(
-                text: '',
-                onTap: () {
-                  context.pop();
-                },
-                isFiled: false,
-                boxDecoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: .25),
-                      blurRadius: 4,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                height: 44.h,
-                width: double.infinity,
-                backgroundColor: AppColors.white,
-                content: Text(
-                  context.tr('cancel'),
-                  style: AppTextStyle.rubikSemiBold18.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(homeControllerProvider);
+    final controller = ref.watch(addEventControllerProvider);
     late BuildContext ctx;
-    ref.listen(homeControllerProvider, (prev, next) {
-      //? This listener for create event from this screen :
-      if (next.value?.isCreatingEvent != null) {
-        //? Loading :
+
+    ref.listen(addEventControllerProvider, (prev, next) {
+      //? This listener for create event in this screen :
+      if (next.value!.isAddEvent != null) {
+        //? For loading :
         if (next is AsyncLoading) {
           AppAlert.showLoadingDialog(ctx);
         }
 
-        //? Loaded and the last will be loading - not error :
         if (next is AsyncData && prev is AsyncLoading) {
-          //? Close the loading
+          // if (context.canPop()) {
           ctx.pop();
+          AppToast.doneToast('Done');
 
-          //? Go to home
-          context.pushReplacement(Routes.main);
+          // context.pushReplacement(Routes.main);
+          // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-          //? Change the tab
-          ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
-          //? Cleare event details in create event screen
-          ref.read(homeControllerProvider.notifier).clearEventScreen();
-
-          //? Show message :
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('content added')));
+          context.pushReplacement(
+            Routes.eventDetails,
+            // extra: widget.id != null
+            //? next.value!.updatedEvent!.occasionId
+            extra: next.value!.createEventResponse?.eventId,
+          );
+          ref.read(addEventControllerProvider.notifier).clearEventScreen();
         }
+        // }
 
-        //? Error :
-        if (next is AsyncError) {
+        if (next is AsyncError && prev is AsyncLoading) {
           ctx.pop();
-          // ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+          AppToast.errorToast(next.error.toString());
         }
       }
 
-      //? This listener for add new contact :
-      if (next.value?.isAddContact ?? false) {
-        if (next is AsyncData) {
-          context.pop();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('content added')));
-        }
+      // if (next.value?.isGetContacts == null) {
+      //   //? Loading :
+      //   if (next is AsyncLoading && (next.value?.isGetContacts == false)) {
+      //     AppAlert.showLoadingDialog(ctx);
+      //   }
 
-        if (next is AsyncError) {
-          context.pop();
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text('error')));
-        }
-      }
+      //   //? Loaded and the last will be loading - not error :
+      //   if (next is AsyncData && prev is AsyncLoading) {
+      //     //? Close the loading
+      //     ctx.pop();
 
-      name.clear();
-      number.clear();
+      //     //? Go to home
+      //     // context.pushReplacement(Routes.main);
+      //     context.pushReplacement(
+      //       Routes.eventDetails,
+      //       extra: next.value!.createEventResponse?.eventId,
+      //     );
+
+      //     //? Change the tab
+      //     // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+
+      //     //? Cleare event details in create event screen
+      //     ref.read(addEventControllerProvider.notifier).clearEventScreen();
+
+      //     //? Show message :
+      //     AppToast.doneToast('Contact added!');
+      //   }
+
+      //   //? Error :
+      //   if (next is AsyncError) {
+      //     ctx.pop();
+      //     // ScaffoldMessenger.of(context).clearSnackBars();
+      //     AppToast.errorToast(next.error.toString());
+      //   }
+      // }
     });
+    // ref.listen(homeControllerProvider, (prev, next) {
+    //   //? This listener for create event from this screen :
+
+    // });
 
     return Scaffold(
       appBar: CustomAppbar(
         title: context.tr('selectContacts'),
         withBackButton: true,
-        actionButton: GestureDetector(
-          onTap: _openBottomSheet,
-
-          child: Assets.icons.addContactIc.svg(),
-        ),
       ),
       body: Builder(
         builder: (context) {
@@ -264,7 +133,9 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
               //? Search field
               HomePageSearchField(
                 onSubmit: (val) {
-                  ref.read(homeControllerProvider.notifier).getContacts(val);
+                  ref
+                      .read(addEventControllerProvider.notifier)
+                      .getContacts(val);
                 },
                 hint: context.tr('searchContactHere'),
               ).symmetricPadding(horizontal: 22.w, vertical: 20.h),
@@ -290,9 +161,9 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                   },
 
                   error: (e, st) {
-                    final state = ref.watch(homeControllerProvider);
+                    final state = ref.watch(addEventControllerProvider);
                     //? Error
-                    if (state.value!.contacts.isEmpty)
+                    if (state.value!.contacts.isEmpty) {
                       return Center(
                         child: Text(
                           context.tr('error_title'),
@@ -301,12 +172,16 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                           ),
                         ),
                       );
+                    }
                     return _buildList(state.value!);
                   },
                   loading: () {
-                    final state = ref.watch(homeControllerProvider);
-                    if (state.value!.contacts.isEmpty)
-                      return Center(child: CircularProgressIndicator());
+                    final state = ref.watch(addEventControllerProvider);
+                    if (state.value!.contacts.isEmpty) {
+                      return Center(
+                        child: Assets.images.animationLoading.image(),
+                      );
+                    }
                     return _buildList(state.value!);
                   },
                 ),
@@ -319,23 +194,16 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                       return AddEventPageBotton(
                         onTap: () {
                           ref
-                              .read(homeControllerProvider.notifier)
+                              .read(addEventControllerProvider.notifier)
                               .createEvent();
                         },
                         isSubmit: false,
-                        child:
-                            (ref
-                                    .watch(homeControllerProvider)
-                                    .value!
-                                    .isCreatingEvent ??
-                                false)
-                            ? CircularProgressIndicator()
-                            : Text(
-                                context.tr('saveDraft'),
-                                style: AppTextStyle.rubikSemiBold18.copyWith(
-                                  color: AppColors.primary,
-                                ),
-                              ),
+                        child: Text(
+                          context.tr('saveDraft'),
+                          style: AppTextStyle.rubikSemiBold18.copyWith(
+                            color: AppColors.primary,
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -343,27 +211,27 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                   AddEventPageBotton(
                     onTap:
                         ref
-                            .read(homeControllerProvider)
+                            .read(addEventControllerProvider)
                             .value!
-                            .selectedContacts
+                            .selectedContacts!
                             .isEmpty
                         ? null
                         : () {
-                            context.push(Routes.guestList);
+                            context.push(Routes.guestList, extra: widget.id);
                           },
                     isSubmit: ref
-                        .read(homeControllerProvider)
+                        .read(addEventControllerProvider)
                         .value!
-                        .selectedContacts
+                        .selectedContacts!
                         .isNotEmpty,
                     child: Text(
                       context.tr('continue'),
                       style: AppTextStyle.rubikSemiBold18.copyWith(
                         color:
                             ref
-                                .read(homeControllerProvider)
+                                .read(addEventControllerProvider)
                                 .value!
-                                .selectedContacts
+                                .selectedContacts!
                                 .isEmpty
                             ? AppColors.primary
                             : AppColors.white,
@@ -380,7 +248,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
     );
   }
 
-  Widget _buildList(HomeState data) {
+  Widget _buildList(AddEventState data) {
     return ListView.separated(
       padding: EdgeInsets.symmetric(horizontal: 7.w),
       itemBuilder: (context, index) {
@@ -388,13 +256,13 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
           contact: data.contacts[index],
 
           selectedContacts: ref
-              .read(homeControllerProvider)
+              .read(addEventControllerProvider)
               .value!
-              .selectedContacts,
+              .selectedContacts!,
           onChange: (val) {
-            ref.read(homeControllerProvider.notifier)
+            ref.read(addEventControllerProvider.notifier)
               ..selectContact(data.contacts[index])
-              ..updateEvent(CreateEventRequest());
+              ..updateEvent(EventModel());
           },
         );
       },

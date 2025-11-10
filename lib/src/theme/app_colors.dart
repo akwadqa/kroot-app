@@ -64,4 +64,6 @@ abstract class AppColors {
   static const Color lightBrown = Color(0xFFB26A00);
   static const Color redy = Color(0xFFD32F2F);
   static const Color deepGreen = Color(0xFF388E3C);
+  static const Color confirmGuest = Color(0xFF216703);
+  static const Color waitingGuest = Color(0xFF9F7A02);
 }

@@ -18,6 +18,12 @@ import 'package:wedding_app/features/event/presentation/screens/invite_template_
 import 'package:wedding_app/features/event/presentation/screens/main_screen.dart';
 import 'package:wedding_app/features/event/presentation/screens/qr_screen.dart';
 import 'package:wedding_app/features/event/presentation/screens/send_invite_screen.dart';
+import 'package:wedding_app/features/event/presentation/screens/update_contact_screen.dart';
+import 'package:wedding_app/features/event/presentation/screens/update_event_screen.dart';
+import 'package:wedding_app/features/guests/presentation/screens/guests_screen.dart';
+import 'package:wedding_app/features/profile/presentation/pages/pricing_screen.dart';
+import 'package:wedding_app/features/scan/presentation/pages/scan_qr_event_page.dart';
+import 'package:wedding_app/features/scan_qr_code/presentation/screens/scan_qr_code_screen.dart';
 import 'package:wedding_app/src/routing/routes.dart';
 
 part 'go_router_app.g.dart';
@@ -38,7 +44,7 @@ class GoRouterApp {
       //************ Auth *********** */
       //? Login :
       GoRoute(
-        path: Routes.login,
+        path: Routes.start,
         // builder: (context, state) => AddContactScreen(),
         // builder: (context, state) => Consumer(
         //   builder: (context, ref, _) {
@@ -54,8 +60,20 @@ class GoRouterApp {
               final token = ref.read(userDataProvider);
               if (token != null) return MainScreen();
               return LoginScreen();
+              // return MainScreen();
             },
           ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+      //? Login :
+      GoRoute(
+        path: Routes.login,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: LoginScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -116,13 +134,39 @@ class GoRouterApp {
         // builder: (context, state) => AddEventScreen(),
       ),
 
+      //? Update event :
+      GoRoute(
+        path: Routes.updateEvent,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: UpdateEventScreen(state.extra as String),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+        // builder: (context, state) => AddEventScreen(),
+      ),
+
       //? Add contacts
       GoRoute(
         path: Routes.addContact,
         // builder: (context, state) => AddContactScreen(),
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: AddContactScreen(),
+          child: AddContactScreen(id: state.extra as String?),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      //? Update contacts
+      GoRoute(
+        path: Routes.updateContact,
+        // builder: (context, state) => AddContactScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: UpdateContactScreen(id: state.extra as String?),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -133,7 +177,18 @@ class GoRouterApp {
         path: Routes.guestList,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: GeustListScreen(),
+          child: GeustListScreen(id: state.extra as String?),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+      //? Event Geust list :
+      GoRoute(
+        path: Routes.eventGuestList,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: GuestsScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -145,7 +200,7 @@ class GoRouterApp {
         path: Routes.inviteTemplate,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: InviteTemplateScreen(),
+          child: InviteTemplateScreen(id: state.extra as String?),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -157,7 +212,19 @@ class GoRouterApp {
         path: Routes.qrScreen,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: QrScreen(),
+          child: QrScreen(id: state.extra as String?),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      //? Scan Qr :
+      GoRoute(
+        path: Routes.scanCameraQR,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: ScanQrCodeScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -169,7 +236,7 @@ class GoRouterApp {
         path: Routes.sendInvite,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: SendInviteScreen(),
+          child: SendInviteScreen(id: state.extra as String?),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -181,7 +248,31 @@ class GoRouterApp {
         path: Routes.eventDetails,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: EventDetailsScreen(id: state.extra as String,),
+          child: EventDetailsScreen(id: state.extra as String),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      //? Scan QR  :
+      GoRoute(
+        path: Routes.scanQr,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: ScanQrEventPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      //? Pricing :
+      GoRoute(
+        path: Routes.pricing,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: PricingScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

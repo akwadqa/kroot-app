@@ -20,6 +20,7 @@ import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
 
 class CreateAccountScreen extends ConsumerStatefulWidget {
   const CreateAccountScreen({required this.number, super.key});
@@ -52,9 +53,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     ref.listen(authControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+        AppToast.errorToast(next.error.toString());
       }
 
       if (next is AsyncLoading) {
@@ -72,12 +71,10 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
     ref.listen(sendOtpControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+        AppToast.errorToast(next.error.toString());
       }
 
-      //? We don't need here a loading because we didn't pop last loading 
+      //? We don't need here a loading because we didn't pop last loading
 
       if (next is AsyncData) {
         context.pop();

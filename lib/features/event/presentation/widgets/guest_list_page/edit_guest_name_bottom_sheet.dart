@@ -4,16 +4,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
+import 'package:wedding_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_state.dart';
+import 'package:wedding_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
 class EditGuestNameBottomSheet extends ConsumerStatefulWidget {
-  const EditGuestNameBottomSheet({super.key, required this.contact});
+  const EditGuestNameBottomSheet({
+    super.key,
+
+    required this.contact,
+    required this.id,
+  });
   final SelectedContact contact;
+  final String? id;
 
   @override
   ConsumerState<EditGuestNameBottomSheet> createState() =>
@@ -107,8 +115,16 @@ class _EditGuestNameBottomSheetState
                   backgroundColor: AppColors.primary,
                   onTap: () {
                     if (_key.currentState!.validate()) {
+                   widget.id == null?
                       ref
-                          .read(homeControllerProvider.notifier)
+                          .read(addEventControllerProvider.notifier)
+                          .updateContactName(
+                            widget.contact.contact,
+                            _firstNameController.text,
+                            _lastNameController.text,
+                          ):
+                      ref
+                          .read(updateEventControllerProvider.notifier)
                           .updateContactName(
                             widget.contact.contact,
                             _firstNameController.text,

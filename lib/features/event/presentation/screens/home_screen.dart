@@ -1,12 +1,14 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/event/data/models/events_response/event_response.dart';
+import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
+import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:wedding_app/src/shared_widgets/bottom_navigation_bar_view.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
@@ -36,6 +38,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(homeControllerProvider, (pre, next) {
+      if (next.value!.isDeleteEvent == false ||
+          pre?.value!.isDeleteEvent == false) {
+        if (context.canPop()) context.pop();
+      }
+    });
     final controller = ref.watch(homeControllerProvider);
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarView(),
@@ -51,7 +59,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             12.verticalSpace,
 
             //? Search field :
-            HomePageSearchField(hint: context.tr('findEventHere')),
+            HomePageSearchField(
+              hint: context.tr('findEventHere'),
+              onSubmit: (val) {
+                ref
+                    .read(homeControllerProvider.notifier)
+                    .getUserEvents(page: 1, search: val);
+              },
+            ),
             20.verticalSpace,
 
             //? Title :
@@ -64,7 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             12.verticalSpace,
             controller.when(
               data: (data) {
-                if (data.eventResponse?.events.isEmpty ?? true) {
+                if (data.eventResponse?.events?.isEmpty ?? true) {
                   return Center(child: Text('Empty events'));
                 }
                 return Expanded(
@@ -77,25 +92,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
                       separatorBuilder: (context, index) => 12.verticalSpace,
-                      itemCount: data.eventResponse?.events.length ?? 0,
+                      itemCount: data.eventResponse?.events?.length ?? 0,
                       itemBuilder: (context, index) => HomePageEventItem(
-                        event: data.eventResponse!.events[index],
+                        event: data.eventResponse!.events![index],
                       ),
                     ),
                   ),
                 );
               },
               error: (e, st) {
-                return Center(
-                  child: Text(
-                    e.toString(),
-                    style: AppTextStyle.rubikRegular16.copyWith(
-                      color: AppColors.black,
-                    ),
+                return Expanded(
+                  child: Center(
+                    child: Assets.icons.emptyIc.svg(),
+                    // child: Text(
+                    //   e.toString(),
+                    //   style: AppTextStyle.rubikRegular16.copyWith(
+                    //     color: AppColors.black,
+                    //   ),
+                    // ),
                   ),
                 );
               },
-              loading: () => Center(child: CircularProgressIndicator()),
+              loading: () => Expanded(
+                child: Center(child: Assets.images.animationLoading.image()),
+              ),
             ),
           ],
         ),
@@ -107,10 +127,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 class HomePageEventItem extends StatelessWidget {
   const HomePageEventItem({super.key, required this.event});
 
-  final Event event;
+  final EventModel event;
 
   String? resolveImageUrl() {
-    final imagePath = event.imagePath;
+    final imagePath = event.imageUrl;
     final baseUrl = 'https://kroot.akwad.qa/';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
@@ -125,7 +145,8 @@ class HomePageEventItem extends StatelessWidget {
       builder: (context, ref, _) {
         return GestureDetector(
           onTap: () {
-            final token = ref.read(userDataProvider);
+            //TODO
+            context.push(Routes.eventDetails, extra: event.occasionId);
           },
           child: Container(
             width: double.infinity,
@@ -151,15 +172,15 @@ class HomePageEventItem extends StatelessWidget {
                         color: AppColors.black.withValues(alpha: .25),
                       ),
                     ],
-                    image: resolveImageUrl() == null
-                        ? DecorationImage(
-                            image: Assets.images.weddingImage.provider(),
-                            fit: BoxFit.cover,
-                          )
-                        : null,
+                    // image: resolveImageUrl() == null
+                    //     ? DecorationImage(
+                    //         image: Assets.images.weddingImage.provider(),
+                    //         fit: BoxFit.cover,
+                    //       )
+                    //     : null,
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: event.imagePath != null
+                  child: (event.imageUrl != null && resolveImageUrl() != null)
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(10.r),
                           child: CachedNetworkImage(
@@ -167,7 +188,10 @@ class HomePageEventItem extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         )
-                      : null,
+                      : Icon(
+                          Icons.card_giftcard_sharp,
+                          color: AppColors.primary,
+                        ),
                 ),
                 10.horizontalSpace,
                 //? Details :
@@ -183,7 +207,7 @@ class HomePageEventItem extends StatelessWidget {
 
 class HomePageEventItemDetails extends StatelessWidget {
   const HomePageEventItemDetails({super.key, required this.event});
-  final Event event;
+  final EventModel event;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +221,9 @@ class HomePageEventItemDetails extends StatelessWidget {
           width: 148.w,
           child: Text(
             // 'Wed, 1-10-2025 08:00PM',
-            DateFormat('EEE, d-M-yyyy hh:mma').format(event.date),
+            DateFormat(
+              'EEE, d-M-yyyy hh:mma',
+            ).format(DateTime.parse(event.date ?? '')),
             style: AppTextStyle.rubikRegular12.copyWith(
               color: AppColors.blackText,
             ),
@@ -215,7 +241,8 @@ class HomePageEventItemDetails extends StatelessWidget {
         //? Type :
         Text(
           // 'Wedding',
-          event.type,
+          // TODO
+          event.type ?? "type",
           style: AppTextStyle.rubikSemiBold16.copyWith(
             color: AppColors.primary,
           ),
@@ -224,6 +251,8 @@ class HomePageEventItemDetails extends StatelessWidget {
 
         //? Title :
         if (event.type == 'Wedding')
+          // TODO
+          // if (event == 'Wedding')
           Row(
             children: [
               Text(
@@ -243,10 +272,11 @@ class HomePageEventItemDetails extends StatelessWidget {
               ),
             ],
           ),
-
+        //TODO
         if (event.type == 'Birthday')
+          // if (event == 'Birthday')
           Text(
-            event.title,
+            event.title ?? 'title',
             style: AppTextStyle.rubikRegular14.copyWith(
               color: AppColors.blackText,
             ),
@@ -266,7 +296,7 @@ class HomePageEventItemDetails extends StatelessWidget {
                 softWrap: true,
                 overflow: TextOverflow.visible,
                 // 'Riffa Halls Hall No. 15',
-                event.locationName,
+                event.locationName ?? 'location',
                 style: AppTextStyle.rubikRegular12.copyWith(
                   color: AppColors.blackText,
                 ),
@@ -278,7 +308,7 @@ class HomePageEventItemDetails extends StatelessWidget {
         CustomButtonWidget(
           content: Text(
             // 'Confirmed',
-            event.status,
+            event.status ?? 'status',
             style: AppTextStyle.rubikRegular14.copyWith(color: AppColors.white),
           ),
           backgroundColor: event.status == 'Confirmed'

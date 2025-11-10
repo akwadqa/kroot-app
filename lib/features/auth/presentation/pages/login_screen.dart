@@ -19,6 +19,7 @@ import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -36,7 +37,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     Future(() {
       final token = ref.read(userDataProvider);
       if (token == null) {
-        context.pushReplacement(Routes.login);
+        context.pushReplacement(Routes.start);
       }
     });
 
@@ -51,9 +52,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         // if (!(next.value?.validation?.user_exist ?? true)) {
         // context.push(Routes.creataAccount , extra: _controller.text );
         // } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(next.error.toString())));
+        AppToast.errorToast(next.error.toString());
+
         // }
       }
 
@@ -136,53 +136,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               15.verticalSpace,
 
               //? Signup section :
-              Text.rich(
-                TextSpan(
-                  text: context.tr('don’tHaveAnAccountYet'),
-                  style: AppTextStyle.rubikRegular14.copyWith(
-                    color: AppColors.primary,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: context.tr('signUp'),
-                      style: AppTextStyle.rubikMedium15.copyWith(
-                        color: AppColors.primary,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              20.verticalSpace,
+              // Text.rich(
+              //   TextSpan(
+              //     text: context.tr('don’tHaveAnAccountYet'),
+              //     style: AppTextStyle.rubikRegular14.copyWith(
+              //       color: AppColors.primary,
+              //     ),
+              //     children: [
+              //       TextSpan(
+              //         text: context.tr('signUp'),
+              //         style: AppTextStyle.rubikMedium15.copyWith(
+              //           color: AppColors.primary,
+              //           decoration: TextDecoration.underline,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // 20.verticalSpace,
 
               //? Or section :
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(height: 1.h, color: AppColors.grayBorder),
-                  ),
-                  16.horizontalSpace,
-                  Text(
-                    context.tr('or'),
-                    style: AppTextStyle.bodyXsmallRegular.copyWith(
-                      color: AppColors.gray,
-                    ),
-                  ),
-                  16.horizontalSpace,
-                  Expanded(
-                    child: Container(height: 1.h, color: AppColors.grayBorder),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Container(height: 1.h, color: AppColors.grayBorder),
+              //     ),
+              //     16.horizontalSpace,
+              //     Text(
+              //       context.tr('or'),
+              //       style: AppTextStyle.bodyXsmallRegular.copyWith(
+              //         color: AppColors.gray,
+              //       ),
+              //     ),
+              //     16.horizontalSpace,
+              //     Expanded(
+              //       child: Container(height: 1.h, color: AppColors.grayBorder),
+              //     ),
+              //   ],
+              // ),
 
-              20.verticalSpace,
+              // 20.verticalSpace,
 
               //? Email auth
-              LoginPageEmailAuth(),
-              20.verticalSpace,
+              // LoginPageEmailAuth(),
+              // 20.verticalSpace,
 
               //? Google auth
-              LoginPageGoogleAuth(),
+              // LoginPageGoogleAuth(),
               20.verticalSpace,
 
               //? Privacy :

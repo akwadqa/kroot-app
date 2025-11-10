@@ -1,15 +1,14 @@
 // gates_screen.dart
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/features/scan_qr_code/domain/model/gates_info_model.dart';
 import 'package:wedding_app/features/scan_qr_code/presentation/controller/scan_qr_code_controller.dart';
+import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/shared_widgets/app_dialogs.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 
-@RoutePage()
 class GatesScreen extends ConsumerWidget {
   const GatesScreen({super.key});
 
@@ -23,7 +22,8 @@ class GatesScreen extends ConsumerWidget {
         child: CustomAppbar(title: tr('select_gate')), // ✅ translated
       ),
       body: asyncState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
+        loading: () =>
+             Center(child: Assets.images.animationLoading.image()),
         error: (e, _) => Center(
           child: Text(
             tr('something_went_wrong', args: [e.toString()]),
@@ -56,16 +56,21 @@ class GatesScreen extends ConsumerWidget {
     );
   }
 }
+
 Widget _kv(String k, String v) => Padding(
   padding: const EdgeInsets.only(top: 6),
   child: Row(
     children: [
-      Expanded(flex: 5, child: Text(k, style: const TextStyle(fontWeight: FontWeight.w600))),
+      Expanded(
+        flex: 5,
+        child: Text(k, style: const TextStyle(fontWeight: FontWeight.w600)),
+      ),
       const SizedBox(width: 8),
       Expanded(flex: 7, child: Text(v, textAlign: TextAlign.end)),
     ],
   ),
 );
+
 class _GateCard extends ConsumerWidget {
   final GatesInfoModel gate;
   const _GateCard({required this.gate});
@@ -74,55 +79,59 @@ class _GateCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
       borderRadius: BorderRadius.circular(16),
-      onTap: ()async{
-  final ctrl = ref.read(scanQrCodeControllerProvider.notifier);
-  AppDialogs.loading(context);
-  try {
-    
-    final res = await ctrl.verifyAtGate(gate.nameId ?? gate.gateName ?? 'gate');
-    AppDialogs.close(context);
-Navigator.of(context).pop();
-Navigator.of(context).pop();
+      onTap: () async {
+        final ctrl = ref.read(scanQrCodeControllerProvider.notifier);
+        AppDialogs.loading(context);
+        try {
+          final res = await ctrl.verifyAtGate(
+            gate.nameId ?? gate.gateName ?? 'gate',
+          );
+          AppDialogs.close(context);
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
 
-    final ok = res.status == 200 || res.hasSucceeded;
-    if (ok) {
-      final items = res.data?.items ?? const [];
-      final first = items.isNotEmpty ? items.first : null;
+          final ok = res.status == 200 || res.hasSucceeded;
+          if (ok) {
+            final items = res.data?.items ?? const [];
+            final first = items.isNotEmpty ? items.first : null;
 
-      await AppDialogs.success(
-        context,
-        title: tr('checkin_success_title'),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(res.message ?? tr('checkin_success_message')),
-            const SizedBox(height: 12),
-            _kv(tr('gate_label'), gate.gateName ?? '-'),
-            if (first?.invitee != null) _kv(tr('invitee_label'), first!.invitee!),
-            if (first?.occasion != null) _kv(tr('occasion_label'), first!.occasion!),
-            if (first?.partySize != null) _kv(tr('party_size_label'), '${first!.partySize}'),
-          ],
-        ),
-        okText: tr('ok'),
-      );
-    } else {
-      await AppDialogs.error(
-        context,
-        title: tr('checkin_denied_title'),
-        message: res.message ?? tr('checkin_denied_message'),
-        okText: tr('ok'),
-      );
-    }
-  } catch (e) {
-    // AppDialogs.close(context);
-    await AppDialogs.error(
-      context,
-      title: tr('checkin_denied_title'),
-      message: e.toString(),
-      okText: tr('ok'),
-    );
-  }
+            await AppDialogs.success(
+              context,
+              title: tr('checkin_success_title'),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(res.message ?? tr('checkin_success_message')),
+                  const SizedBox(height: 12),
+                  _kv(tr('gate_label'), gate.gateName ?? '-'),
+                  if (first?.invitee != null)
+                    _kv(tr('invitee_label'), first!.invitee!),
+                  if (first?.occasion != null)
+                    _kv(tr('occasion_label'), first!.occasion!),
+                  if (first?.partySize != null)
+                    _kv(tr('party_size_label'), '${first!.partySize}'),
+                ],
+              ),
+              okText: tr('ok'),
+            );
+          } else {
+            await AppDialogs.error(
+              context,
+              title: tr('checkin_denied_title'),
+              message: res.message ?? tr('checkin_denied_message'),
+              okText: tr('ok'),
+            );
+          }
+        } catch (e) {
+          // AppDialogs.close(context);
+          await AppDialogs.error(
+            context,
+            title: tr('checkin_denied_title'),
+            message: e.toString(),
+            okText: tr('ok'),
+          );
+        }
       },
       //  ref
       //     .read(scanQrCodeControllerProvider.notifier)
@@ -149,9 +158,9 @@ Navigator.of(context).pop();
               gate.gateName ?? tr('gate'), // ✅ fallback translation
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
             ),
           ],
         ),

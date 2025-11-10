@@ -16,7 +16,6 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   final container = await initializeProviders();
   await handleSplashScreen(container);
-
   runApp(
     DevicePreview(
       enabled: !kReleaseMode,

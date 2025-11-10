@@ -20,6 +20,7 @@ import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
 
 class VerificationScreen extends ConsumerStatefulWidget {
   const VerificationScreen(this.number, {super.key});
@@ -55,13 +56,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       if (next is AsyncError) {
         if (prev is AsyncLoading) context.pop();
         Future.delayed(const Duration(milliseconds: 100), () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              behavior: SnackBarBehavior.floating,
-              margin: const EdgeInsets.all(16),
-              content: Text(next.asError!.error.toString()),
-            ),
-          );
+          AppToast.errorToast(next.error.toString());
         });
       }
       if (next is AsyncData) {
@@ -71,7 +66,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
         //     context,
         //   ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
         // } else {
-        context.push(Routes.main);
+        context.pushReplacement(Routes.main);
         // }
       }
     });
@@ -84,13 +79,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       if (next is AsyncError) {
         if (prev is AsyncLoading) context.pop();
         Future.delayed(const Duration(milliseconds: 100), () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              behavior: SnackBarBehavior.floating,
-              margin: const EdgeInsets.all(16),
-              content: Text(next.asError!.error.toString()),
-            ),
-          );
+          AppToast.errorToast(next.error.toString());
         });
       }
       if (next is AsyncData) {
@@ -98,9 +87,8 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
         ref
             .read(authUiControllerProvider.notifier)
             .makeResendButtonVisibleOrNo(false);
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
+        AppToast.doneToast('Code resend!');
+
         // } else {
         // context.push(Routes.home);
         // }

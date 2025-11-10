@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -92,11 +91,12 @@ class AuthController extends _$AuthController {
       state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
-          // .verifyOtp(number: numberNull ?? number ?? '', otp: otp);
-          .verifyOtp(number: '97451365471' ?? number ?? '', otp: otp);
+          .verifyOtp(number: numberNull ?? number ?? '', otp: otp);
+      // .verifyOtp(number: '97451365471' ?? number ?? '', otp: otp);
 
       if (result.hasFailed) {
-        throw Exception(result.message);
+        // throw Exception(result.message);
+        state = AsyncError(result.message ?? '', StackTrace.current);
       }
       ref.read(userDataProvider.notifier).setData(result.data!.token!);
 
@@ -128,7 +128,8 @@ class AuthController extends _$AuthController {
           );
 
       if (result.hasFailed) {
-        throw Exception(result.message);
+        // throw Exception(result.message);
+        state = AsyncError(result.message ?? '', StackTrace.current);
       }
       state = AsyncData(
         state.value?.copyWith(createAccountResponse: result.data) ??

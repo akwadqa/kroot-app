@@ -44,12 +44,12 @@ class UserData extends _$UserData {
     ;
   }
 
-  // Future<void> removeData() async {
-  //   final sharedPrefs = ref.read(sharedPreferencesProvider).requireValue;
-  //   await sharedPrefs.remove(Keys.token);
-  //   await sharedPrefs.remove(Keys.userId);
-  //   state = null;
-  // }
+  Future<void> removeData() async {
+    final sharedPrefs = ref.read(sharedPreferencesProvider).requireValue;
+    await sharedPrefs.remove(Keys.token);
+    // await sharedPrefs.remove(Keys.userId);
+    state = null;
+  }
 }
 
 @riverpod

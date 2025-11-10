@@ -1,7 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toastification/toastification.dart';
 import 'package:wedding_app/src/routing/go_router_app.dart';
 
 import '../../src/localization/current_language.dart';
@@ -21,12 +21,8 @@ class _AppState extends ConsumerState<App> {
   void initState() {
     Future(() {
       ref.read(currentLanguageProvider.notifier).getLanguage(context);
-      ref
-          .read(currentLanguageProvider.notifier)
-          .changeLanguage(context, context.locale.languageCode);
-      print('=============================');
-      print(context.locale.languageCode);
-      print('=============================');
+
+      print(ref.read(currentLanguageProvider.notifier));
     });
 
     super.initState();
@@ -39,19 +35,22 @@ class _AppState extends ConsumerState<App> {
     final goRouter = ref.watch(goRouterProvider);
     return ScreenUtilInit(
       designSize: Size(375, 812),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        // routerConfig: GoRouterApp().routes,
-        routerConfig: goRouter.routes,
-        // routerDelegate: appRouter.delegate(
-        //   deepLinkBuilder: (deepLink) => DeepLink.defaultPath,
-        // ),
-        // routeInformationParser: appRouter.defaultRouteParser(),
-        theme: ref.watch(appThemeProvider),
-        onGenerateTitle: (context) => context.tr('appTitle'),
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: Locale(currentLanguage),
+      child: ToastificationWrapper(
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          // routerConfig: GoRouterApp().routes,
+          routerConfig: goRouter.routes,
+          // routerDelegate: appRouter.delegate(
+          //   deepLinkBuilder: (deepLink) => DeepLink.defaultPath,
+          // ),
+          // routeInformationParser: appRouter.defaultRouteParser(),
+          theme: ref.watch(appThemeProvider),
+          onGenerateTitle: (context) => context.tr('appTitle'),
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale, // ✅ الأفضل
+          // locale: Locale(currentLanguage),
+        ),
       ),
     );
   }

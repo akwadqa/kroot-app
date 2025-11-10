@@ -43,7 +43,7 @@ class CreateEventPageSelectLanguageField extends ConsumerWidget {
             ],
           ),
           child: DropdownButtonFormField<String>(
-            // value: value,
+            value: value,
             onChanged: (val) {
               onChanged!(val);
             },
@@ -53,14 +53,15 @@ class CreateEventPageSelectLanguageField extends ConsumerWidget {
                 Icons.arrow_drop_down_rounded,
                 color: AppColors.primary,
               ),
-              hint: Text(
-                // context.tr('arabic'),
-                items.first.value ?? '',
-                style: AppTextStyle.rubikRegular16.copyWith(
-                  color: AppColors.grayHint,
-                ),
-              ),
+              hint: items.first.child,
 
+              // hint: Text(
+              //   // context.tr('arabic'),
+              //   items.first.child ?? '',
+              //   style: AppTextStyle.rubikRegular16.copyWith(
+              //     color: AppColors.grayHint,
+              //   ),
+              // ),
               contentPadding: EdgeInsets.zero,
               prefixIcon: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 17.w),

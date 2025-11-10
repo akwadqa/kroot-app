@@ -31,9 +31,10 @@ class AuthRepository {
     return CheckNet<ApiResponse<SendOtpResponse>>().checkNetResponse(
       tryRight: () async {
         final result = await _remoteDataSource.sendOtp(number: number);
-        if (result.status != 200 && result.status != 404) {
-          throw Exception(result.message);
-        }
+        // final result = await _remoteDataSource.sendOtp(number: number);
+        // if (result.status != 200 && result.status != 404) {
+        //   throw Exception(result.message);
+        // }
         return result;
       },
     );
@@ -62,20 +63,32 @@ class AuthRepository {
     required String number,
     required String otp,
   }) async {
-    try {
-      final result = await _remoteDataSource.verifyOtp(
-        number: number,
-        otp: otp,
-      );
-      if (result.status != 200 || result.hasFailed) {
-        throw Exception(result.message);
-      }
-      return result;
-    } on DioException catch (e) {
-      throw DioExceptionHandler.handle(e);
-    } catch (e) {
-      throw Exception(e);
-    }
+    return CheckNet<ApiResponse<VerifyOtpResponse>>().checkNetResponse(
+      tryRight: () async {
+        final result = await _remoteDataSource.verifyOtp(
+          number: number,
+          otp: otp,
+        );
+        // if (result.status != 200 || result.hasFailed) {
+        //   throw Exception(result.message);
+        // }
+        return result;
+      },
+    );
+    // try {
+    //   final result = await _remoteDataSource.verifyOtp(
+    //     number: number,
+    //     otp: otp,
+    //   );
+    //   // if (result.status != 200 || result.hasFailed) {
+    //   //   throw Exception(result.message);
+    //   // }
+    //   return result;
+    // } on DioException catch (e) {
+    //   throw DioExceptionHandler.handle(e);
+    // } catch (e) {
+    //   throw Exception(e);
+    // }
     // return CheckNet<ApiResponse<VerifyOtpResponse>>().checkNetResponse(
     //   tryRight: () async {
     //     final result = await _remoteDataSource.verifyOtp(

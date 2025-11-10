@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,9 +25,7 @@ class AppDialogs {
       context: context,
       barrierDismissible: dismissible,
       useRootNavigator: true,
-      builder: (_) => const Center(
-        child: _LoadingIndicator(),
-      ),
+      builder: (_) => const Center(child: _LoadingIndicator()),
     );
   }
 
@@ -127,10 +124,10 @@ class _LoadingIndicator extends StatelessWidget {
             color: bg,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const SizedBox(
+          child: SizedBox(
             width: 48,
             height: 48,
-            child: CircularProgressIndicator(strokeWidth: 3),
+            child: Assets.images.animationLoading.image(),
           ),
         ),
       ),
@@ -402,7 +399,6 @@ Dialog showYesNowChoicesDialog(
     ).symmetricPadding(horizontal: 20, vertical: 25),
   );
 }
-
 
 void showLogoutDialog(BuildContext context) {
   showDialog(

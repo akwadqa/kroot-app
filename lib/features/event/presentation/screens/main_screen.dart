@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
 import 'package:wedding_app/features/event/presentation/screens/add_contact_screen.dart';
@@ -10,16 +10,20 @@ import 'package:wedding_app/features/event/presentation/screens/home_screen.dart
 import 'package:wedding_app/features/event/presentation/screens/invite_template_screen.dart';
 import 'package:wedding_app/features/event/presentation/screens/qr_screen.dart';
 import 'package:wedding_app/features/event/presentation/screens/send_invite_screen.dart';
-import 'package:wedding_app/features/profile/presentation/pages/profile_page.dart';
+import 'package:wedding_app/features/guests/presentation/screens/guests_screen.dart';
+import 'package:wedding_app/features/profile/presentation/pages/pricing_screen.dart';
+import 'package:wedding_app/features/profile/presentation/pages/profile_screen.dart';
+import 'package:wedding_app/features/scan/presentation/pages/scan_page.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/bottm_navigation_bar_provider.dart';
 import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/shared_widgets/bottom_navigation_bar_view.dart';
+import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 
 import '../widgets/bottom_navigation_bar.dart';
 
-// @RoutePage()
+//
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
@@ -59,10 +63,28 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     final List<Widget> _pages = [
       HomeScreen(),
-      SizedBox(),
+      // SizedBox(),
+      // GuestsScreen(),
+      // PricingScreen(),
+      ScanPage(),
       // EventDetailsScreen(),
       AddEventScreen(),
-      SizedBox(),
+      ProfileScreen(),
+      // SizedBox(),
+      // Center(
+      //   child: CustomButtonWidget(
+      //     text: 'Logout',
+      //     onTap: () {
+      //       ref.read(userDataProvider.notifier).removeData().whenComplete(() {
+      //         context.pushReplacement(Routes.login);
+      //       });
+      //     },
+      //     isFiled: false,
+      //     height: 44.h,
+      //     width: 330.w,
+      //     backgroundColor: AppColors.primary,
+      //   ),
+      // ),
       // AddContactScreen(),
       // InviteTemplateScreen(),
       // QrScreen(),

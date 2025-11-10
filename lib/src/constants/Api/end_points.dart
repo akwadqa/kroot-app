@@ -14,6 +14,13 @@ abstract class EndPoints {
   static String getEvents = '$_baseUrl/kroot.api.api.get_user_events';
   static String createEvent = '$_baseUrl/kroot.api.api.create_event';
   static String getEventDetails = '$_baseUrl/kroot.api.api.get_event';
+  static String deleteEvent = '$_baseUrl/kroot.api.api.delete_event';
+  static String addGuest = '$_baseUrl/kroot.api.api.add_guest';
+  static String updateEvent = '$_baseUrl/kroot.api.api.update_occasion';
+
+  //? Scan : 
+  static String scanQr = '$_baseUrl/frappe_whatsapp.api.check_in';
+
 
   // 🟩 CHECK
   static const String getGuests = '.get_invitees';

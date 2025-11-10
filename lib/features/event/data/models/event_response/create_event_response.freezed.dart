@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CreateEventResponse {
 
-@JsonKey(name: 'event_id') String get eventId; String get image;
+@JsonKey(name: 'event_id') String? get eventId;@JsonKey(name: 'occasion_id') String? get occasionId; String? get image;
 /// Create a copy of CreateEventResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $CreateEventResponseCopyWith<CreateEventResponse> get copyWith => _$CreateEventR
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateEventResponse&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.image, image) || other.image == image));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateEventResponse&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.occasionId, occasionId) || other.occasionId == occasionId)&&(identical(other.image, image) || other.image == image));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,eventId,image);
+int get hashCode => Object.hash(runtimeType,eventId,occasionId,image);
 
 @override
 String toString() {
-  return 'CreateEventResponse(eventId: $eventId, image: $image)';
+  return 'CreateEventResponse(eventId: $eventId, occasionId: $occasionId, image: $image)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $CreateEventResponseCopyWith<$Res>  {
   factory $CreateEventResponseCopyWith(CreateEventResponse value, $Res Function(CreateEventResponse) _then) = _$CreateEventResponseCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'event_id') String eventId, String image
+@JsonKey(name: 'event_id') String? eventId,@JsonKey(name: 'occasion_id') String? occasionId, String? image
 });
 
 
@@ -65,11 +65,12 @@ class _$CreateEventResponseCopyWithImpl<$Res>
 
 /// Create a copy of CreateEventResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? eventId = null,Object? image = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? eventId = freezed,Object? occasionId = freezed,Object? image = freezed,}) {
   return _then(_self.copyWith(
-eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
-as String,image: null == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
-as String,
+eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as String?,occasionId: freezed == occasionId ? _self.occasionId : occasionId // ignore: cast_nullable_to_non_nullable
+as String?,image: freezed == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -154,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'event_id')  String eventId,  String image)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'event_id')  String? eventId, @JsonKey(name: 'occasion_id')  String? occasionId,  String? image)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateEventResponse() when $default != null:
-return $default(_that.eventId,_that.image);case _:
+return $default(_that.eventId,_that.occasionId,_that.image);case _:
   return orElse();
 
 }
@@ -175,10 +176,10 @@ return $default(_that.eventId,_that.image);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'event_id')  String eventId,  String image)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'event_id')  String? eventId, @JsonKey(name: 'occasion_id')  String? occasionId,  String? image)  $default,) {final _that = this;
 switch (_that) {
 case _CreateEventResponse():
-return $default(_that.eventId,_that.image);case _:
+return $default(_that.eventId,_that.occasionId,_that.image);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +196,10 @@ return $default(_that.eventId,_that.image);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'event_id')  String eventId,  String image)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'event_id')  String? eventId, @JsonKey(name: 'occasion_id')  String? occasionId,  String? image)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateEventResponse() when $default != null:
-return $default(_that.eventId,_that.image);case _:
+return $default(_that.eventId,_that.occasionId,_that.image);case _:
   return null;
 
 }
@@ -210,11 +211,12 @@ return $default(_that.eventId,_that.image);case _:
 @JsonSerializable()
 
 class _CreateEventResponse implements CreateEventResponse {
-  const _CreateEventResponse({@JsonKey(name: 'event_id') required this.eventId, required this.image});
+  const _CreateEventResponse({@JsonKey(name: 'event_id') this.eventId, @JsonKey(name: 'occasion_id') this.occasionId, this.image});
   factory _CreateEventResponse.fromJson(Map<String, dynamic> json) => _$CreateEventResponseFromJson(json);
 
-@override@JsonKey(name: 'event_id') final  String eventId;
-@override final  String image;
+@override@JsonKey(name: 'event_id') final  String? eventId;
+@override@JsonKey(name: 'occasion_id') final  String? occasionId;
+@override final  String? image;
 
 /// Create a copy of CreateEventResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +231,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateEventResponse&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.image, image) || other.image == image));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateEventResponse&&(identical(other.eventId, eventId) || other.eventId == eventId)&&(identical(other.occasionId, occasionId) || other.occasionId == occasionId)&&(identical(other.image, image) || other.image == image));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,eventId,image);
+int get hashCode => Object.hash(runtimeType,eventId,occasionId,image);
 
 @override
 String toString() {
-  return 'CreateEventResponse(eventId: $eventId, image: $image)';
+  return 'CreateEventResponse(eventId: $eventId, occasionId: $occasionId, image: $image)';
 }
 
 
@@ -249,7 +251,7 @@ abstract mixin class _$CreateEventResponseCopyWith<$Res> implements $CreateEvent
   factory _$CreateEventResponseCopyWith(_CreateEventResponse value, $Res Function(_CreateEventResponse) _then) = __$CreateEventResponseCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'event_id') String eventId, String image
+@JsonKey(name: 'event_id') String? eventId,@JsonKey(name: 'occasion_id') String? occasionId, String? image
 });
 
 
@@ -266,11 +268,12 @@ class __$CreateEventResponseCopyWithImpl<$Res>
 
 /// Create a copy of CreateEventResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? eventId = null,Object? image = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? eventId = freezed,Object? occasionId = freezed,Object? image = freezed,}) {
   return _then(_CreateEventResponse(
-eventId: null == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
-as String,image: null == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
-as String,
+eventId: freezed == eventId ? _self.eventId : eventId // ignore: cast_nullable_to_non_nullable
+as String?,occasionId: freezed == occasionId ? _self.occasionId : occasionId // ignore: cast_nullable_to_non_nullable
+as String?,image: freezed == image ? _self.image : image // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
