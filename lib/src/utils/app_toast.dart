@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 class AppToast {
   static void errorToast(String message) {

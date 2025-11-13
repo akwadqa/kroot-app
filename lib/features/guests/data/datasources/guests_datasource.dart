@@ -1,8 +1,8 @@
-import 'package:wedding_app/features/guests/domain/model/guest_model.dart';
-import 'package:wedding_app/src/constants/Api/api_response.dart';
-import 'package:wedding_app/src/constants/Api/end_points.dart';
+import 'package:kroot_app/features/guests/domain/model/guest_model.dart';
+import 'package:kroot_app/src/constants/Api/api_response.dart';
+import 'package:kroot_app/src/constants/Api/end_points.dart';
 
-import 'package:wedding_app/src/network/services/network_service.dart';
+import 'package:kroot_app/src/network/services/network_service.dart';
 
 class GuestsDatasource {
   final NetworkService _networkService;

@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wedding_app/features/profile/presentation/controller/profile_controller.dart';
-import 'package:wedding_app/features/profile/presentation/widgets/profile_screen/change_language_bottom_sheet.dart';
-import 'package:wedding_app/features/profile/presentation/widgets/profile_screen/profile_page_user_section_item.dart';
-import 'package:wedding_app/gen/assets.gen.dart';
-import 'package:wedding_app/src/extenssions/int_extenssion.dart';
-import 'package:wedding_app/src/localization/current_language.dart';
-import 'package:wedding_app/src/routing/routes.dart';
-import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
-import 'package:wedding_app/src/theme/app_text_style.dart';
-import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:kroot_app/features/profile/presentation/controller/profile_controller.dart';
+import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/change_language_bottom_sheet.dart';
+import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/profile_page_user_section_item.dart';
+import 'package:kroot_app/gen/assets.gen.dart';
+import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/localization/current_language.dart';
+import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});

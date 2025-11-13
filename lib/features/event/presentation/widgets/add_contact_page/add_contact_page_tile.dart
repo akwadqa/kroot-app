@@ -3,9 +3,9 @@ import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
-import 'package:wedding_app/features/event/presentation/controller/home_state.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
-import 'package:wedding_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_text_style.dart';
 
 class AddContactScreenTile extends StatelessWidget {
   const AddContactScreenTile({

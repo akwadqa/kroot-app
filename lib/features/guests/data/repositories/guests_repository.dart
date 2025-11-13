@@ -1,8 +1,8 @@
-import 'package:wedding_app/features/guests/data/datasources/guests_datasource.dart';
-import 'package:wedding_app/features/guests/domain/model/guest_model.dart';
-import 'package:wedding_app/src/constants/Api/api_response.dart';
+import 'package:kroot_app/features/guests/data/datasources/guests_datasource.dart';
+import 'package:kroot_app/features/guests/domain/model/guest_model.dart';
+import 'package:kroot_app/src/constants/Api/api_response.dart';
 
-import 'package:wedding_app/src/network/services/dio_client.dart';
+import 'package:kroot_app/src/network/services/dio_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

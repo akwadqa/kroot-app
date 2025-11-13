@@ -3,16 +3,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wedding_app/features/auth/data/data_source/auth_remote_data_source.dart';
-import 'package:wedding_app/features/auth/data/models/create_account/create_account_response.dart';
-import 'package:wedding_app/features/auth/data/models/login_params.dart';
-import 'package:wedding_app/features/auth/data/models/login_response_model.dart';
-import 'package:wedding_app/features/auth/data/models/send_otp/send_otp_response.dart';
-import 'package:wedding_app/features/auth/data/models/verify_otp/verify_otp_response.dart';
-import 'package:wedding_app/src/constants/Api/api_response.dart';
-import 'package:wedding_app/src/network/check_net/check_net.dart';
-import 'package:wedding_app/src/network/exception/dio_exceptions.dart';
-import 'package:wedding_app/src/network/services/dio_client.dart';
+import 'package:kroot_app/features/auth/data/data_source/auth_remote_data_source.dart';
+import 'package:kroot_app/features/auth/data/models/create_account/create_account_response.dart';
+import 'package:kroot_app/features/auth/data/models/login_params.dart';
+import 'package:kroot_app/features/auth/data/models/login_response_model.dart';
+import 'package:kroot_app/features/auth/data/models/send_otp/send_otp_response.dart';
+import 'package:kroot_app/features/auth/data/models/verify_otp/verify_otp_response.dart';
+import 'package:kroot_app/src/constants/Api/api_response.dart';
+import 'package:kroot_app/src/network/check_net/check_net.dart';
+import 'package:kroot_app/src/network/exception/dio_exceptions.dart';
+import 'package:kroot_app/src/network/services/dio_client.dart';
 
 part 'auth_repository.g.dart';
 

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wedding_app/features/guests/data/repositories/guests_repository.dart';
-import 'package:wedding_app/features/guests/domain/model/guest_model.dart';
-import 'package:wedding_app/src/network/exception/dio_exceptions.dart';
+import 'package:kroot_app/features/guests/data/repositories/guests_repository.dart';
+import 'package:kroot_app/features/guests/domain/model/guest_model.dart';
+import 'package:kroot_app/src/network/exception/dio_exceptions.dart';
 
 part 'guest_details_controller.g.dart';
 @riverpod

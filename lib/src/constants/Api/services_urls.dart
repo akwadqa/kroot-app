@@ -7,10 +7,14 @@ class ServicesUrls {
   static String baseUrl = '';
   static String baseProductionUrl = '';
   static String imageUrl = '';
+  static String mapApiKey = '';
+
   static void init() {
     baseUrl = dotenv.get(DotenvKeys.baseUrl);
     baseProductionUrl = dotenv.get(DotenvKeys.productionBaseUrl);
     imageUrl = dotenv.get(DotenvKeys.imageUrl);
+    mapApiKey = dotenv.get(DotenvKeys.mapApiKey);
+
     debugPrint('mnor $baseProductionUrl');
     debugPrint('mnor $baseUrl');
   }

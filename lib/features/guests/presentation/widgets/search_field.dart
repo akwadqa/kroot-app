@@ -1,7 +1,7 @@
 // features/guests/presentation/widgets/guests_search_field.dart
 import 'package:flutter/material.dart';
-import 'package:wedding_app/src/extenssions/widget_extensions.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 class GuestsSearchField extends StatelessWidget {
   final String hint;

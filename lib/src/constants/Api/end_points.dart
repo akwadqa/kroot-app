@@ -1,5 +1,5 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:wedding_app/src/constants/dotenv_keys.dart';
+import 'package:kroot_app/src/constants/dotenv_keys.dart';
 
 abstract class EndPoints {
   static final String _baseUrl = dotenv.env['BASE_URL']??'';

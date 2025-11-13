@@ -2,12 +2,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wedding_app/features/scan_qr_code/domain/model/gates_info_model.dart';
-import 'package:wedding_app/features/scan_qr_code/presentation/controller/scan_qr_code_controller.dart';
-import 'package:wedding_app/gen/assets.gen.dart';
-import 'package:wedding_app/src/shared_widgets/app_dialogs.dart';
-import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/features/scan_qr_code/domain/model/gates_info_model.dart';
+import 'package:kroot_app/features/scan_qr_code/presentation/controller/scan_qr_code_controller.dart';
+import 'package:kroot_app/gen/assets.gen.dart';
+import 'package:kroot_app/src/shared_widgets/app_dialogs.dart';
+import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 class GatesScreen extends ConsumerWidget {
   const GatesScreen({super.key});

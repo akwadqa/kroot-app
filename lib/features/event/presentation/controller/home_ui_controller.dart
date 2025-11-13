@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wedding_app/features/event/presentation/controller/home_ui_state.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_ui_state.dart';
 
 part 'home_ui_controller.g.dart';
 

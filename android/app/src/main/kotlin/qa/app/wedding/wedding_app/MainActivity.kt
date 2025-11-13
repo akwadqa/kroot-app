@@ -1,4 +1,4 @@
-package qa.app.wedding.wedding_app
+package qa.app.kroot
 
 import io.flutter.embedding.android.FlutterActivity
 

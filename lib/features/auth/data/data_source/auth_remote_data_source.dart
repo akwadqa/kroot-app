@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:wedding_app/features/auth/data/models/create_account/create_account_response.dart';
-import 'package:wedding_app/features/auth/data/models/login_params.dart';
-import 'package:wedding_app/features/auth/data/models/login_response_model.dart';
-import 'package:wedding_app/features/auth/data/models/send_otp/send_otp_response.dart';
-import 'package:wedding_app/features/auth/data/models/verify_otp/verify_otp_response.dart';
-import 'package:wedding_app/src/constants/Api/api_response.dart';
-import 'package:wedding_app/src/constants/Api/end_points.dart';
-import 'package:wedding_app/src/network/exception/dio_exceptions.dart';
-import 'package:wedding_app/src/network/services/network_service.dart';
+import 'package:kroot_app/features/auth/data/models/create_account/create_account_response.dart';
+import 'package:kroot_app/features/auth/data/models/login_params.dart';
+import 'package:kroot_app/features/auth/data/models/login_response_model.dart';
+import 'package:kroot_app/features/auth/data/models/send_otp/send_otp_response.dart';
+import 'package:kroot_app/features/auth/data/models/verify_otp/verify_otp_response.dart';
+import 'package:kroot_app/src/constants/Api/api_response.dart';
+import 'package:kroot_app/src/constants/Api/end_points.dart';
+import 'package:kroot_app/src/network/exception/dio_exceptions.dart';
+import 'package:kroot_app/src/network/services/network_service.dart';
 
 class AuthRemoteDataSource {
   final NetworkService _networkService;

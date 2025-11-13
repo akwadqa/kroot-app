@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:wedding_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:wedding_app/features/event/presentation/controller/add_event/add_event_controller.dart';
-import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
-import 'package:wedding_app/features/event/presentation/controller/home_state.dart';
-import 'package:wedding_app/features/event/presentation/controller/update_event/update_event_controller.dart';
-import 'package:wedding_app/gen/assets.gen.dart';
-import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
-import 'package:wedding_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
+import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
+import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
+import 'package:kroot_app/gen/assets.gen.dart';
+import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_text_style.dart';
 
 class EditGuestNameBottomSheet extends ConsumerStatefulWidget {
   const EditGuestNameBottomSheet({
