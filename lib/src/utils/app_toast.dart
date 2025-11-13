@@ -10,7 +10,7 @@ class AppToast {
     message = message.replaceAll('Exception:', '').trim();
 
     if (message.contains('null')) message = 'Error , please try again later';
-    ;
+
     toastification.dismissAll();
     // TODO
     // toastification.showCustom(builder: );

@@ -1,23 +1,23 @@
-# flutter pub run flutter_launcher_icons
-flutter_launcher_icons:
-  image_path: "assets/images/im_wedding.png"
+# # flutter pub run flutter_launcher_icons
+# flutter_launcher_icons:   
+#   image_path: "assets/images/kroot_logo.png"
 
-  android: "launcher_icon"
-  # image_path_android: "assets/icon/icon.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  # adaptive_icon_background: "assets/icon/background.png"
-  # adaptive_icon_foreground: "assets/icon/foreground.png"
-  # adaptive_icon_foreground_inset: 16
-  # adaptive_icon_monochrome: "assets/icon/monochrome.png"
+#   android: "launcher_icon"
+#   # image_path_android: "assets/icon/icon.png"
+#   min_sdk_android: 21 # android min sdk min:16, default 21
+#   # adaptive_icon_background: "assets/icon/background.png"
+#   # adaptive_icon_foreground: "assets/icon/foreground.png"
+#   # adaptive_icon_foreground_inset: 16
+#   # adaptive_icon_monochrome: "assets/icon/monochrome.png"
 
-  ios: true
-  image_path_ios: "assets/images/im_wedding.png"
-  remove_alpha_ios: true
-  # image_path_ios_dark_transparent: "assets/icon/icon_dark.png"
-  # image_path_ios_tinted_grayscale: "assets/icon/icon_tinted.png"
-  # desaturate_tinted_to_grayscale_ios: true
-  background_color_ios: "#ffffff"
-  android_12:
-    color: "#1E2E4F"
-    image: assets/images/splash.png
-    fullscreen: true
+#   # ios: false
+#   # image_path_ios: "assets/images/kroot_logo.png"
+#   # remove_alpha_ios: true
+#   # image_path_ios_dark_transparent: "assets/icon/icon_dark.png"
+#   # image_path_ios_tinted_grayscale: "assets/icon/icon_tinted.png"
+#   # desaturate_tinted_to_grayscale_ios: true
+#   background_color_ios: "#1E2E4F"
+#   android_12:
+#     color: "#1E2E4F"
+#     image: assets/images/kroot_logo.png
+#     fullscreen: true

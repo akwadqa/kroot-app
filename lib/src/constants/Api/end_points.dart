@@ -20,6 +20,7 @@ abstract class EndPoints {
 
   //? Scan : 
   static String scanQr = '$_baseUrl/frappe_whatsapp.api.check_in';
+  static String getScaned = '$_baseUrl/kroot.api.api.get_scan_events';
 
 
   // 🟩 CHECK

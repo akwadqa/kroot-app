@@ -105,6 +105,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/delete_ic.svg
   SvgGenImage get deleteIc => const SvgGenImage('assets/icons/delete_ic.svg');
 
+  /// File path: assets/icons/delete_image_ic.svg
+  SvgGenImage get deleteImageIc =>
+      const SvgGenImage('assets/icons/delete_image_ic.svg');
+
   /// File path: assets/icons/delete_user_ic.svg
   SvgGenImage get deleteUserIc =>
       const SvgGenImage('assets/icons/delete_user_ic.svg');
@@ -279,6 +283,7 @@ class $AssetsIconsGen {
     deleteContactIc,
     deleteEventIc,
     deleteIc,
+    deleteImageIc,
     deleteUserIc,
     documentIc,
     editContactIc,
@@ -344,9 +349,17 @@ class $AssetsImagesGen {
   AssetGenImage get imWedding =>
       const AssetGenImage('assets/images/im_wedding.png');
 
+  /// File path: assets/images/kroot_icon.png
+  AssetGenImage get krootIcon =>
+      const AssetGenImage('assets/images/kroot_icon.png');
+
   /// File path: assets/images/kroot_invite_image.png
   AssetGenImage get krootInviteImage =>
       const AssetGenImage('assets/images/kroot_invite_image.png');
+
+  /// File path: assets/images/kroot_logo.png
+  AssetGenImage get krootLogo =>
+      const AssetGenImage('assets/images/kroot_logo.png');
 
   /// File path: assets/images/personal_image.png
   AssetGenImage get personalImage =>
@@ -371,6 +384,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/splash.png
   AssetGenImage get splash => const AssetGenImage('assets/images/splash.png');
 
+  /// File path: assets/images/splash_screen.png
+  AssetGenImage get splashScreen =>
+      const AssetGenImage('assets/images/splash_screen.png');
+
   /// File path: assets/images/wedding_image.png
   AssetGenImage get weddingImage =>
       const AssetGenImage('assets/images/wedding_image.png');
@@ -381,13 +398,16 @@ class $AssetsImagesGen {
     checkDoneImage,
     imErrorScreen,
     imWedding,
+    krootIcon,
     krootInviteImage,
+    krootLogo,
     personalImage,
     qatarCircl,
     qatarCountry,
     qrCodeImage,
     ringsImage,
     splash,
+    splashScreen,
     weddingImage,
   ];
 }

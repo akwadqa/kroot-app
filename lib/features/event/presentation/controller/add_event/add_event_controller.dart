@@ -27,9 +27,8 @@ class AddEventController extends _$AddEventController {
     final currentState = state.value!;
     final updatedList = currentState.selectedContacts?.map((sc) {
       if (sc.contact.name.first == contact.name.first &&
-          sc.contact.name.last == contact.name.last&&
-          sc.contact.phones.first == contact.phones.first
-          ) {
+          sc.contact.name.last == contact.name.last &&
+          sc.contact.phones.first == contact.phones.first) {
         final updatedContact = Contact(
           id: sc.contact.id,
           name: Name(first: firstName, last: lastName),
@@ -44,6 +43,37 @@ class AddEventController extends _$AddEventController {
     }).toList();
 
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+  }
+
+  void deleteImage() {
+    final current = state.value?.eventModel ?? EventModel();
+
+    final firstType = ref
+        .read(homeControllerProvider)
+        .value
+        ?.eventResponse
+        ?.eventTypes
+        ?.first;
+
+    state = AsyncData(
+      state.value!.copyWith(
+        eventModel: current.copyWith(
+          type: current.type ?? firstType,
+          title: current.title,
+          date: current.date,
+          language: current.language ?? 'Arabic',
+          mapLink: current.mapLink,
+          locationName: current.locationName,
+          showQr: current.showQr,
+          image: null,
+          // inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
+          inviteTemplate: 'Kroot Invite-',
+          confirmedTemplate: current.confirmedTemplate,
+          declinedTemplate: current.declinedTemplate,
+          guests: setGuestListFromContacts() ?? current.guests,
+        ),
+      ),
+    );
   }
 
   void updateEvent(EventModel newData) {

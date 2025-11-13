@@ -191,6 +191,12 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                               ),
                             );
                             return EventDetailsImage(
+                              deleteLink: null,
+                              deleteFile: () {
+                                ref
+                                    .read(addEventControllerProvider.notifier)
+                                    .deleteImage();
+                              },
                               onImageSelect: (image) {
                                 ref
                                     .read(addEventControllerProvider.notifier)

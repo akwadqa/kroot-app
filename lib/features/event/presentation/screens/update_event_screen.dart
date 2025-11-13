@@ -178,6 +178,14 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                             print(imageUrl);
                             return EventDetailsImage(
                               image: image,
+                              deleteFile: null,
+                              deleteLink: () {
+                                ref
+                                    .read(
+                                      updateEventControllerProvider.notifier,
+                                    )
+                                    .deleteImage(widget.id);
+                              },
                               imageUrl: imageUrl,
                               onImageSelect: (image) {
                                 ref

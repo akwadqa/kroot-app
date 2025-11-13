@@ -74,17 +74,21 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.4
 dependency_overrides:
   analyzer_plugin: ^0.13.1
-
-flutter_launcher_icons:  # <-- ضع هذا القسم هنا (على نفس مستوى dependencies)
+flutter_launcher_icons:
   android: true
-  ios: true
-  image_path: "assets/images/im_wedding.png" 
-  adaptive_icon_background: "#FFFFFF"
+  ios: false
+
+  image_path: "assets/images/kroot_icon.png"
+
+  # adaptive_icon_background: "#1E2E4F"   # الخلفية التي تريدها
+  adaptive_icon_foreground: "assets/images/kroot_icon.png"
+
+  android_12:
+    image: "assets/images/kroot_icon.png"
+    # color: "#1E2E4F"         # خلفية Android 12
+    fullscreen: true
+
   min_sdk_android: 21
-
-  remove_alpha_ios: true 
-# ---------------------
-
 
 flutter:
   uses-material-design: true

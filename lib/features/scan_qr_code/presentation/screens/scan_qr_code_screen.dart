@@ -1,3 +1,5 @@
+import 'package:go_router/go_router.dart';
+import 'package:wedding_app/features/scan/presentation/controller/scan_controller.dart';
 import 'package:wedding_app/features/scan_qr_code/presentation/controller/scan_qr_code_controller.dart';
 import 'package:wedding_app/features/scan_qr_code/presentation/screens/gates_screen.dart';
 import 'package:wedding_app/src/extenssions/widget_extensions.dart';
@@ -11,9 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:queen_validators/queen_validators.dart';
+import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
 
 class ScanQrCodeScreen extends ConsumerStatefulWidget {
   const ScanQrCodeScreen({super.key});
+
+  // final String inviteeId;
 
   @override
   ConsumerState<ScanQrCodeScreen> createState() => _ScanQrCodeScreenState();
@@ -63,6 +69,16 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
       await ref
           .read(scanQrCodeControllerProvider.notifier)
           .setScannedCode(code);
+
+      // TODO : here the scan api :
+      ref
+          .read(scanControllerProvider.notifier)
+          .scanQr(
+            qrCode: code,
+            checkinBy: 'Administrator',
+            // inviteeId: widget.inviteeId,
+            inviteeId: 'OINV-0185',
+          );
       // Navigator.of(
       //   context,
       // ).push(MaterialPageRoute(builder: (_) => const GatesScreen()));
@@ -102,6 +118,21 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(scanControllerProvider, (prev, next) {
+      if (next is AsyncLoading) {
+        AppAlert.showLoadingDialog(context);
+      }
+
+      if (next is AsyncData) {
+        context.pop();
+        AppToast.doneToast(next.value!.scanQrResponse!.invitee);
+      }
+      if (next is AsyncError) {
+        context.pop();
+        AppToast.errorToast(next.error!.toString());
+      }
+    });
+
     final scanDriverQrController = ref.watch(
       scanQrCodeControllerProvider.notifier,
     );

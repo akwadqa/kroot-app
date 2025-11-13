@@ -31,7 +31,7 @@ final class ScanQrCodeControllerProvider
 }
 
 String _$scanQrCodeControllerHash() =>
-    r'0035249a9ac79077bf7d285264f4aeabf0f58108';
+    r'90b2c1ffbe07c433539f4ca5285ec7ce5918ec5c';
 
 abstract class _$ScanQrCodeController
     extends $AsyncNotifier<ScanDriverQrState> {

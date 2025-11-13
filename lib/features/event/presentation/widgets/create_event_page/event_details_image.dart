@@ -14,11 +14,14 @@ class EventDetailsImage extends StatelessWidget {
   final String? imageUrl;
   final void Function(File image) onImageSelect;
   final File? image;
+  final void Function()? deleteFile, deleteLink;
   const EventDetailsImage({
     super.key,
     required this.image,
     required this.onImageSelect,
     required this.imageUrl,
+    required this.deleteFile,
+    required this.deleteLink,
   });
   String? resolveImageUrl() {
     final imagePath = imageUrl;
@@ -68,11 +71,40 @@ class EventDetailsImage extends StatelessWidget {
                     ],
                   ),
                   child: (imageUrl != null)
-                      ? CachedNetworkImage(imageUrl: resolveImageUrl()!)
+                      ? SizedBox(
+                          width: double.infinity,
+                          height: 182.h,
+                          child: Stack(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: resolveImageUrl()!,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                              Positioned(
+                                top: 11.h,
+                                width: 25.w,
+                                height: 25.w,
+                                right: 11.h,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    print('delete image');
+                                    if (deleteLink != null) {
+                                      deleteLink!();
+                                    }
+                                  },
+                                  child: Assets.icons.deleteImageIc.svg(
+                                    height: 22.w,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       : Row(
                           children: [
                             Assets.icons.uploadImageIc.svg(),
-
                             15.horizontalSpace,
                             Text(
                               context.tr('uploadImage'),
@@ -83,12 +115,46 @@ class EventDetailsImage extends StatelessWidget {
                           ],
                         ),
                 )
-              : Center(
-                  child: AnimatedSwitcher(
-                    duration: Duration(milliseconds: 300),
-                    switchInCurve: Curves.easeIn,
-                    switchOutCurve: Curves.easeOut,
-                    child: Image.file(image!, key: ValueKey(image!.path)),
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(7.r),
+                  child: Center(
+                    child: AnimatedSwitcher(
+                      duration: Duration(milliseconds: 300),
+                      switchInCurve: Curves.easeIn,
+                      switchOutCurve: Curves.easeOut,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 182.h,
+                        child: Stack(
+                          children: [
+                            Image.file(
+                              image!,
+                              width: double.infinity,
+                              height: double.infinity,
+                              key: ValueKey(image!.path),
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              top: 11.h,
+                              width: 25.w,
+                              height: 25.w,
+                              right: 11.h,
+                              child: GestureDetector(
+                                onTap: () {
+                                  print('delete image');
+                                  if (deleteFile != null) {
+                                      deleteFile!();
+                                    }
+                                },
+                                child: Assets.icons.deleteImageIc.svg(
+                                  height: 22.w,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
         ),

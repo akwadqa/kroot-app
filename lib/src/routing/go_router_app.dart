@@ -224,6 +224,7 @@ class GoRouterApp {
         path: Routes.scanCameraQR,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
+          // child: ScanQrCodeScreen(inviteeId: state.extra as String,),
           child: ScanQrCodeScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);

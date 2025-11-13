@@ -84,7 +84,42 @@ class UpdateEventController extends _$UpdateEventController {
     }
   }
 
-  
+  void deleteImage(String id) {
+    final current = state.value?.updatedEvent;
+    final currentEvent = ref.read(homeControllerProvider).value?.occasionModel;
+
+    state = AsyncData(
+      state.value!.copyWith(
+        // updatedEvent: current?.copyWith(
+        updatedEvent: EventModel(
+          occasionId: id,
+          type:  current?.type ?? currentEvent?.type,
+          title:  current?.title ?? currentEvent?.title,
+          date:  current?.date ?? currentEvent?.date,
+          language:
+              current?.language ?? currentEvent?.language,
+          mapLink:  current?.mapLink ?? currentEvent?.mapLink,
+          locationName:
+              current?.locationName ??
+              currentEvent?.locationName,
+          // image: newData.image ?? current?.image  ?? currentEvent?.image,
+          image: null,
+          imageUrl: null,
+          inviteTemplate:
+              current?.inviteTemplate ??
+              currentEvent?.inviteTemplate,
+          confirmedTemplate:
+              current?.confirmedTemplate ??
+              currentEvent?.confirmedTemplate,
+          declinedTemplate:
+              current?.declinedTemplate ??
+              currentEvent?.declinedTemplate,
+          guests: setGuestListFromContacts() ?? current?.guests,
+        ),
+      ),
+    );
+  }
+
   //? This for update contact name :
   void updateContactName(Contact contact, String firstName, String lastName) {
     final currentState = state.value!;
@@ -105,7 +140,7 @@ class UpdateEventController extends _$UpdateEventController {
 
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
-  
+
   //? This for unchecked contact :
   void deleteSelectedContact(Contact contact) {
     final currentState = state.value!;
@@ -116,7 +151,6 @@ class UpdateEventController extends _$UpdateEventController {
 
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
-
 
   Future<void> addNewContact({
     required String firstName,
@@ -154,7 +188,6 @@ class UpdateEventController extends _$UpdateEventController {
       state = AsyncError(e, st);
     }
   }
-
 
   //? This for add guest for party :
   void incrementCount(SelectedContact contact) {
