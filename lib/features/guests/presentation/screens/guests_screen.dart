@@ -1,23 +1,29 @@
 // features/guests/presentation/pages/guests_page.dart
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wedding_app/assets.gen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedding_app/features/event/presentation/controller/home_ui_controller.dart';
+import 'package:wedding_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
+import 'package:wedding_app/features/guests/presentation/controller/guest_ui_controller.dart';
+import 'package:wedding_app/features/guests/presentation/widgets/guests_list/guests_screen_tab_bar.dart';
+import 'package:wedding_app/features/guests/presentation/widgets/guests_list/guests_screen_tabs_item.dart';
 import 'package:wedding_app/features/guests/presentation/widgets/search_field.dart';
+import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
+import 'package:wedding_app/src/extenssions/widget_extensions.dart';
 import 'package:wedding_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
 import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:wedding_app/src/theme/app_text_style.dart';
+import 'package:wedding_app/src/utils/app_alert.dart';
 
 import '../controller/guests_controller.dart';
 import '../widgets/status_filter_bar.dart';
 import '../widgets/guest_tile.dart';
 import 'guest_details_page.dart';
 
-@RoutePage()
 class GuestsScreen extends ConsumerStatefulWidget {
   const GuestsScreen({super.key});
 
@@ -26,115 +32,218 @@ class GuestsScreen extends ConsumerStatefulWidget {
 }
 
 class _GuestsScreenState extends ConsumerState<GuestsScreen> {
-  final _scroll = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-    _scroll.addListener(() {
-      if (_scroll.position.pixels > _scroll.position.maxScrollExtent - 200) {
-        ref.read(guestsControllerProvider.notifier).loadNextPage();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scroll.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    final async = ref.watch(guestsControllerProvider);
-    final ctrl = ref.read(guestsControllerProvider.notifier);
-
     return Scaffold(
-     appBar:PreferredSize(preferredSize: Size(double.infinity, 65), child: 
-      CustomAppbar(title: tr("all_guests"))
-      
-      
-      ),
+      appBar: CustomAppbar(title: context.tr('all_guests')),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        // controller: _scroll,
         children: [
-               GuestsSearchField(
-                    hint: tr('guest_name'), // "اسم الضيف"
-                    onChanged: ctrl.setQuery,
-                  ),
-                  const SizedBox(height: 12),
-                  StatusFilterBar(onChanged: ctrl.setStatus),
-          async.when(
-            data: (items) =>
-            items.isEmpty?
-            Column(
-              children: [
-          Assets.images.imErrorScreen.image(),
-          25.verticalSpace,
-          Text(tr('no_results'))
+          //? Search field :
+          HomePageSearchField(
+            hint: context.tr('search'),
+          ).symmetricPadding(horizontal: 22.w, vertical: 23.h),
 
-              ],
-            )
-            :
-             Expanded(
-               child: AppPaginationWidget(
-                         enablePullDown: true,
-                         onRefresh: () async => await ctrl.refreshGuests(),
-                         onLoading: (page) async => await ctrl.loadNextPage(),
-                          child:    ListView.separated(
-                itemCount: items.length,
-                separatorBuilder: (_, c) => const Divider(
-                  height: 1,
-                  color: AppColors.lightGray,
-                  thickness: 1,
-                ),
-                itemBuilder: (_, i) {
-                  final g = items[i];
-                  return GuestTile(
-                    guest: g,
-                    onTap: () => {
-                      context.pushRoute(GuestDetailsRoute(guest: g))
-                      //   Navigator.of(context).push(
-                      //   MaterialPageRoute(
-                      //     builder: (_) => GuestDetailsPage(guestId: g.id),
-                      //   ),
-                      // ),
-                    },
-                  );
-                },
-                           ),
-                          
-                           ),
-             ),
-           loading: () => Padding(
-             padding: EdgeInsets.only(top: 250),
-             child: Center(child: FadeCircleLoadingIndicator()),
-           ),
-            error: (e, _) => Padding(
-              padding: EdgeInsets.only(bottom:300),
-              child: Center(child: Text(e.toString())),
+          //? Tabs :
+          GuestsScreenTabBar(),
+
+          //? Guests list
+          Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) =>
+                  Divider(color: AppColors.lightGray02.withValues(alpha: .4)),
+              itemBuilder: (context, index) =>
+                  GuestsScreenGuestItem(index: index),
+              itemCount: 8,
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(bottom: 300),
-          //   child: Center(
-          //     child: async.maybeWhen(
-          //       data: (d) => d.isEmpty
-          //           ? Text(tr('no_results'))
-          //           : const SizedBox.shrink(),
-          //       orElse: () => const SizedBox.shrink(),
-          //     ),
-          //   ),
-          // ),
-        
         ],
       ),
     );
   }
 }
-// 
-// @RoutePage()
+
+class GuestsScreenGuestItem extends ConsumerWidget {
+  const GuestsScreenGuestItem({super.key, required this.index});
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tabIndex = ref.watch(guestUiControllerProvider).index;
+
+    return ListTile(
+      leading: GestureDetector(
+        onTap: () {
+          AppAlert.showGlobalDialog(
+            context: context,
+            title: context.tr('deleteGuest'),
+            onSubmit: () {},
+            text: Text.rich(
+              textAlign: TextAlign.center,
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: context.tr('sureRemoveContact1'),
+                    style: AppTextStyle.rubikRegular14.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  TextSpan(
+                    text: 'Ahmed Al-Ahmed',
+                    style: AppTextStyle.rubikMedium14.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  TextSpan(
+                    text: context.tr('sureRemoveContact2'),
+                    style: AppTextStyle.rubikRegular14.copyWith(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+
+        child: Assets.icons.xGuestIc.svg(),
+      ),
+      title: Text(
+        'Ahemd Al-Ahmed',
+        style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
+      ),
+      trailing: tabIndex == 0
+          ? Container(
+              padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 4.h),
+              decoration: BoxDecoration(
+                color: index & 3 == 0
+                    ? AppColors.confirmGuest
+                    : index & 3 == 1
+                    ? AppColors.waitingGuest
+                    : AppColors.noticeRed,
+
+                borderRadius: BorderRadius.circular(32.r),
+              ),
+              child: Text(
+                index & 3 == 0
+                    ? context.tr('status_confirmed')
+                    : index & 3 == 1
+                    ? context.tr('waiting')
+                    : context.tr('rejected'),
+                style: AppTextStyle.rubikRegular14.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
+            )
+          : null,
+    );
+  }
+}
+
+  // final _scroll = ScrollController();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _scroll.addListener(() {
+  //     if (_scroll.position.pixels > _scroll.position.maxScrollExtent - 200) {
+  //       ref.read(guestsControllerProvider.notifier).loadNextPage();
+  //     }
+  //   });
+  // }
+
+  // @override
+  // void dispose() {
+  //   _scroll.dispose();
+  //   super.dispose();
+  // }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   final async = ref.watch(guestsControllerProvider);
+  //   final ctrl = ref.read(guestsControllerProvider.notifier);
+
+  //   return Scaffold(
+  //     appBar: PreferredSize(
+  //       preferredSize: Size(double.infinity, 65),
+  //       child: CustomAppbar(title: tr("all_guests")),
+  //     ),
+  //     body: Column(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       // controller: _scroll,
+  //       children: [
+  //         GuestsSearchField(
+  //           hint: tr('guest_name'), // "اسم الضيف"
+  //           onChanged: ctrl.setQuery,
+  //         ),
+  //         const SizedBox(height: 12),
+  //         StatusFilterBar(onChanged: ctrl.setStatus),
+  //         async.when(
+  //           data: (items) => items.isEmpty
+  //               ? Column(
+  //                   children: [
+  //                     Assets.images.imErrorScreen.image(),
+  //                     25.verticalSpace,
+  //                     Text(tr('no_results')),
+  //                   ],
+  //                 )
+  //               : Expanded(
+  //                   child: AppPaginationWidget(
+  //                     enablePullDown: true,
+  //                     onRefresh: () async => await ctrl.refreshGuests(),
+  //                     onLoading: (page) async => await ctrl.loadNextPage(),
+  //                     child: ListView.separated(
+  //                       itemCount: items.length,
+  //                       separatorBuilder: (_, c) => const Divider(
+  //                         height: 1,
+  //                         color: AppColors.lightGray,
+  //                         thickness: 1,
+  //                       ),
+  //                       itemBuilder: (_, i) {
+  //                         final g = items[i];
+  //                         return GuestTile(
+  //                           guest: g,
+  //                           onTap: () => {
+  //                             // context.pushRoute(GuestDetailsRoute(guest: g))
+  //                             //   Navigator.of(context).push(
+  //                             //   MaterialPageRoute(
+  //                             //     builder: (_) => GuestDetailsPage(guestId: g.id),
+  //                             //   ),
+  //                             // ),
+  //                           },
+  //                         );
+  //                       },
+  //                     ),
+  //                   ),
+  //                 ),
+  //           loading: () => Padding(
+  //             padding: EdgeInsets.only(top: 250),
+  //             child: Center(child: FadeCircleLoadingIndicator()),
+  //           ),
+  //           error: (e, _) => Padding(
+  //             padding: EdgeInsets.only(bottom: 300),
+  //             child: Center(child: Text(e.toString())),
+  //           ),
+  //         ),
+
+  //         // Padding(
+  //         //   padding: EdgeInsets.only(bottom: 300),
+  //         //   child: Center(
+  //         //     child: async.maybeWhen(
+  //         //       data: (d) => d.isEmpty
+  //         //           ? Text(tr('no_results'))
+  //         //           : const SizedBox.shrink(),
+  //         //       orElse: () => const SizedBox.shrink(),
+  //         //     ),
+  //         //   ),
+  //         // ),
+  //       ],
+  //     ),
+  //   );
+  
+
+//
+//
 // class GuestsScreen extends ConsumerStatefulWidget {
 //   const GuestsScreen({super.key});
 
@@ -159,7 +268,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
 //         title: Text(tr('all_guests')),
 //       ),
 //       body: async.when(
-//         loading: () => const Center(child: CircularProgressIndicator()),
+//         loading: () => const Center(child: Assets.images.animationLoading.image()),
 //         error: (e, _) => Center(child: Text(e.toString())),
 //         data: (items) {
 //           return

@@ -1,0 +1,221 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wedding_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
+import 'package:wedding_app/features/event/presentation/controller/update_event/update_event_controller.dart';
+import 'package:wedding_app/gen/assets.gen.dart';
+import 'package:wedding_app/src/bottm_navigation_bar_provider.dart';
+import 'package:wedding_app/src/extenssions/int_extenssion.dart';
+import 'package:wedding_app/src/extenssions/widget_extensions.dart';
+import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
+import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:wedding_app/src/theme/app_text_style.dart';
+import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
+
+import '../../../../src/routing/routes.dart';
+
+class QrScreen extends ConsumerWidget {
+  const QrScreen({super.key, required this.id});
+  final String? id;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    late BuildContext ctx;
+    if (id == null) {
+      //? Listener for add :
+      ref.listen(addEventControllerProvider, (prev, next) {
+        //? This listener for create event in this screen :
+        if (next.value!.isAddEvent != null) {
+          //? For loading :
+          if (next is AsyncLoading) {
+            AppAlert.showLoadingDialog(ctx);
+          }
+
+          if (next is AsyncData && prev is AsyncLoading) {
+            // if (context.canPop()) {
+            ctx.pop();
+            AppToast.doneToast('Done');
+
+            // context.pushReplacement(Routes.main);
+            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+
+            context.pushReplacement(
+              Routes.eventDetails,
+              // extra: widget.id != null
+              //? next.value!.updatedEvent!.occasionId
+              extra: next.value!.createEventResponse?.eventId,
+            );
+            ref.read(addEventControllerProvider.notifier).clearEventScreen();
+          }
+          // }
+
+          if (next is AsyncError && prev is AsyncLoading) {
+            ctx.pop();
+            AppToast.errorToast(next.error.toString());
+          }
+        }
+
+        //? This listener for add new contact :
+        if (next.value?.isAddContact ?? false) {
+          if (next is AsyncData) {
+            context.pop();
+            AppToast.doneToast('Contact added!');
+          }
+
+          if (next is AsyncError) {
+            context.pop();
+            AppToast.errorToast(next.error.toString());
+          }
+        }
+      });
+    } else {
+      ref.listen(updateEventControllerProvider, (prev, next) {
+        //? This listener for create event in this screen :
+        if (next.value!.isUpdateEvent != null) {
+          //? For loading :
+          if (next is AsyncLoading) {
+            AppAlert.showLoadingDialog(ctx);
+          }
+
+          if (next is AsyncData && prev is AsyncLoading) {
+            // if (context.canPop()) {
+            ctx.pop();
+            AppToast.doneToast('Done');
+
+            // context.pushReplacement(Routes.main);
+            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+
+            context.pushReplacement(
+              Routes.eventDetails,
+              // extra: widget.id != null
+              //? next.value!.updatedEvent!.occasionId
+              extra: next.value!.updatedEvent?.occasionId,
+            );
+            ref.read(addEventControllerProvider.notifier).clearEventScreen();
+          }
+          // }
+
+          if (next is AsyncError && prev is AsyncLoading) {
+            ctx.pop();
+            AppToast.errorToast(next.error.toString());
+          }
+        }
+      });
+    }
+
+    return Scaffold(
+      appBar: CustomAppbar(title: context.tr('qrPreview')),
+
+      body: Builder(
+        builder: (context) {
+          ctx = context;
+          return Column(
+            children: [
+              40.verticalSpace,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 39.w),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(0, 2),
+                      blurRadius: 4,
+                      color: AppColors.black.withValues(alpha: .25),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20.r),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        height: 44.h,
+                        color: AppColors.primary,
+                        child: Text(
+                          context.tr('personalAccessCard'),
+                          style: AppTextStyle.rubikSemiBold18.copyWith(
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                      30.verticalSpace,
+                      Text(
+                        context.tr('pleaseShowCode'),
+                        style: AppTextStyle.rubikMedium16.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      20.verticalSpace,
+                      Assets.images.qrCodeImage.image(),
+                      20.verticalSpace,
+                      Assets.images.krootInviteImage.image(),
+                      10.verticalSpace,
+                      Container(
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        height: 44.h,
+                        color: AppColors.primary,
+                        child: Row(
+                          children: [
+                            14.horizontalSpace,
+                            Text(
+                              context.tr('guests'),
+                              style: AppTextStyle.rubikSemiBold18.copyWith(
+                                color: AppColors.white,
+                              ),
+                            ),
+                            Text(
+                              ': 1 ',
+                              style: AppTextStyle.rubikSemiBold18.copyWith(
+                                color: AppColors.white,
+                              ),
+                            ),
+                            Spacer(),
+                            Text(
+                              'www.kroot.com',
+                              style: AppTextStyle.rubikRegular14.copyWith(
+                                color: AppColors.white,
+                              ),
+                            ),
+                            14.horizontalSpace,
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              Spacer(),
+              CustomButtonWidget(
+                text: '',
+                onTap: () {
+                  context.push(Routes.sendInvite , extra: id);
+                },
+                backgroundColor: AppColors.primary,
+                isFiled: true,
+                height: 44.h,
+                content: Text(
+                  context.tr('continue'),
+                  style: AppTextStyle.rubikSemiBold18.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
+                width: double.infinity,
+              ).symmetricPadding(horizontal: 22.w, vertical: 18.h),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}

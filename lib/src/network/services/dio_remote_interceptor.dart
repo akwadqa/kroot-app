@@ -7,6 +7,7 @@ import 'package:wedding_app/features/auth/application/auth_service.dart';
 
 import '../../constants/Api/api_response.dart';
 import '../../localization/current_language.dart';
+
 class RemoteInterceptor extends Interceptor {
   final Ref ref;
   RemoteInterceptor(this.ref);
@@ -16,8 +17,14 @@ class RemoteInterceptor extends Interceptor {
     final user = ref.read(userDataProvider);
     final language = ref.read(currentLanguageProvider);
 
-    if (user?.$1 != null) {
-      options.headers['Authorization'] =  user!.$1;
+    //? I removed the name and id here :
+    // if (user?.$1 != null) {
+    //   options.headers['Authorization'] =  user!.$1;
+    //   // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
+    // }
+    if (user != null) {
+      options.headers['Authorization'] = 'token $user';
+      // options.headers['Authorization'] =  'token 8076a272ef22208:0fc27caa720cc39';
       // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
     }
 
@@ -51,13 +58,15 @@ class RemoteInterceptor extends Interceptor {
     // debugPrint("🧵 Stack trace: ${err.error}");
 
     final apiResponse = _handleErrorResponse(err);
-  handler.resolve(
-    Response(
-      requestOptions: err.requestOptions,
-      data: apiResponse.toJson(),
-      statusCode: err.response?.statusCode ?? 500,
-    ),
-  );
+    handler.resolve(
+      Response(
+        requestOptions: err.requestOptions,
+        data: err.response?.data,
+        //? This :
+        // data: apiResponse.toJson(),
+        statusCode: err.response?.statusCode ?? 500,
+      ),
+    );
   }
 
   ApiResponse _handleErrorResponse(DioException err) {
@@ -70,7 +79,8 @@ class RemoteInterceptor extends Interceptor {
     if (data is Map && data['message'] != null) {
       message = data['message'].toString();
     } else {
-      message = _getDefaultMessageForStatusCode(statusCode) ??
+      message =
+          _getDefaultMessageForStatusCode(statusCode) ??
           err.message ??
           'Unexpected error occurred';
     }

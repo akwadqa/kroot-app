@@ -15,7 +15,7 @@ class ScanQrCodeController extends _$ScanQrCodeController {
 
   Future<bool> setScannedCode(String qr) async {
     state = AsyncData(state.value!.copyWith(scannedCode: qr));
-    await loadGates();
+    // await loadGates();
     return true;
   }
 

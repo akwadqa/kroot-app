@@ -1,15 +1,27 @@
 flutter_native_splash:
   android: true
-  ios: true
+  ios: false
+  background_image: "assets/images/splash_screen.png"
+  # color: "#1E2E4F"
 
-  color: "#FFFFFF"                   
+  android_12:
+    background_image: "assets/images/splash_screen.png"
+    # color: "#1E2E4F"
+    icon_background_color: "#1E2E4F"
+
+
+# flutter_native_splash:
+#   android: true
+#   ios: false
+
+#   color: "#1E2E4F"                   
 
  
-  image: assets/images/im_wedding.png
+#   image: assets/images/splash.png
 
   
-  android_12:
-    color: "#FFFFFF"
-    image: assets/images/im_wedding.png
+#   android_12:
+#     color: "#1E2E4F"
+#     image: assets/images/splash.png
     
-    fullscreen: true    
+#     # fullscreen: true    

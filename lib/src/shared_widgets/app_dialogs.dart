@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
 import 'package:wedding_app/src/extenssions/widget_extensions.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
 import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import '../../gen/assets.gen.dart';
 import '../theme/app_colors.dart';
@@ -27,9 +25,7 @@ class AppDialogs {
       context: context,
       barrierDismissible: dismissible,
       useRootNavigator: true,
-      builder: (_) => const Center(
-        child: _LoadingIndicator(),
-      ),
+      builder: (_) => const Center(child: _LoadingIndicator()),
     );
   }
 
@@ -128,10 +124,10 @@ class _LoadingIndicator extends StatelessWidget {
             color: bg,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const SizedBox(
+          child: SizedBox(
             width: 48,
             height: 48,
-            child: CircularProgressIndicator(strokeWidth: 3),
+            child: Assets.images.animationLoading.image(),
           ),
         ),
       ),
@@ -404,7 +400,6 @@ Dialog showYesNowChoicesDialog(
   );
 }
 
-
 void showLogoutDialog(BuildContext context) {
   showDialog(
     context: context,
@@ -419,8 +414,8 @@ void showLogoutDialog(BuildContext context) {
               dsc: "logout_confirmation".tr(),
               yesButton: () async {
                 Navigator.pop(context);
-                await userData.removeData();
-                context.router.replaceAll([const LoginRoute()]);
+                // await userData.removeData();
+                // context.router.replaceAll([const LoginRoute()]);
 
                 // Navigator.pop(context);
               },

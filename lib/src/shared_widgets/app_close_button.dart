@@ -1,16 +1,17 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../theme/app_colors.dart';
 
 class AppCloseButton extends StatelessWidget {
-  const AppCloseButton(
-      {super.key,
-      this.icon,
-      this.width,
-      this.height,
-      this.backgroundColor = Colors.white,
-      this.iconColor = AppColors.primary});
+  const AppCloseButton({
+    super.key,
+    this.icon,
+    this.width,
+    this.height,
+    this.backgroundColor = Colors.white,
+    this.iconColor = AppColors.primary,
+  });
   final Widget? icon;
   final double? width;
   final double? height;
@@ -33,7 +34,7 @@ class AppCloseButton extends StatelessWidget {
         ],
       ),
       child: IconButton(
-        onPressed: context.maybePop,
+        onPressed: context.pop,
         style: IconButton.styleFrom(foregroundColor: iconColor),
         icon: icon ?? Icon(Icons.close, color: iconColor),
       ),

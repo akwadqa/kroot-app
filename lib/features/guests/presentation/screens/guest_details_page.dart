@@ -1,5 +1,4 @@
 // features/guests/presentation/pages/guest_details_page.dart
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +15,6 @@ import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dar
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-@RoutePage()
 class GuestDetailsPage extends ConsumerWidget {
   final GuestModel guest;
   const GuestDetailsPage({super.key, required this.guest});
@@ -25,7 +23,9 @@ class GuestDetailsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final (statusLabel, statusColor) = _badge(guest.rsvpStatus);
     final ctrl = ref.watch(scanQrCodeControllerProvider);
-    final asyncInviteeDetails = ref.watch(guestDetailsControllerProvider(guest.name));
+    final asyncInviteeDetails = ref.watch(
+      guestDetailsControllerProvider(guest.name),
+    );
 
     return Scaffold(
       appBar: PreferredSize(
@@ -299,7 +299,9 @@ class _CheckInRow extends ConsumerWidget {
                 if (ok) {
                   final items = res.data?.items ?? const [];
                   final first = items.isNotEmpty ? items.first : null;
- ref.read(guestDetailsControllerProvider(guest.name).notifier).fetchGuestDetailsData(guest.name);
+                  ref
+                      .read(guestDetailsControllerProvider(guest.name).notifier)
+                      .fetchGuestDetailsData(guest.name);
                   await AppDialogs.success(
                     context,
                     title: tr('checkin_success_title'),
@@ -341,8 +343,6 @@ class _CheckInRow extends ConsumerWidget {
               radius: 12,
               width: 50,
             ).onlyPadding(bottom: 20),
-
-    
           ],
         ),
       ),

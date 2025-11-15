@@ -21,7 +21,8 @@ class ApiResponse<T> {
     try {
       final statusCode = json['status_code'] ?? json['status'];
       final hasError =
-          json['error'] == 1 || (statusCode != null && statusCode != 200);
+      //? I make the condition here for success on create to 201 :
+          json['error'] == 1 || (statusCode != null && statusCode > 201);
 
       if (hasError) {
         return ApiResponse<T>.error(
