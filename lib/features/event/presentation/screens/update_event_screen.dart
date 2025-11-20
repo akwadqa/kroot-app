@@ -82,7 +82,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-          context.pushReplacement(
+          context.go(
             Routes.eventDetails,
             // extra: widget.id != null
             //? next.value!.updatedEvent!.occasionId
@@ -138,7 +138,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                         20.verticalSpace,
 
                         //? Name :
-                        CreataAccountField(
+                        AppTextFormField(
                           controller: _title,
                           isReadOnly: false,
                           hint: context.tr('enterEventTitle'),
@@ -256,7 +256,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                         // //? Type :
                         if (ref.read(
                               homeControllerProvider.select((val) {
-                                return val.value!.eventResponse?.eventTypes;
+                                return val.value!.eventResponse?.value?.eventTypes;
                               }),
                             ) !=
                             null)

@@ -2,6 +2,7 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wedding_app/features/event/data/datasources/home_data_source.dart';
 import 'package:wedding_app/features/event/data/models/add_guests_response/add_guests_response.dart';
+import 'package:wedding_app/features/event/data/models/confirm_event_response/confirm_event_response.dart';
 import 'package:wedding_app/features/event/data/models/create_event_request/create_event_request.dart';
 import 'package:wedding_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:wedding_app/features/event/data/models/events_response/event_response.dart';
@@ -52,6 +53,17 @@ class HomeRepositories {
     return CheckNet<ApiResponse<AddGuestsResponse>>().checkNetResponse(
       tryRight: () async {
         final respone = await _dataSource.addGeusts(occasionId, gustsList);
+        return respone;
+      },
+    );
+  }
+
+  Future<ApiResponse<ConfirmEventResponse>> confirmEvent(
+    String occasionId,
+  ) async {
+    return CheckNet<ApiResponse<ConfirmEventResponse>>().checkNetResponse(
+      tryRight: () async {
+        final respone = await _dataSource.confirmEvent(occasionId);
         return respone;
       },
     );

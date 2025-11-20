@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:wedding_app/features/event/data/models/add_guests_response/add_guests_response.dart';
+import 'package:wedding_app/features/event/data/models/confirm_event_response/confirm_event_response.dart';
 import 'package:wedding_app/features/event/data/models/create_event_request/create_event_request.dart';
 import 'package:wedding_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:wedding_app/features/event/data/models/events_response/event_response.dart';
@@ -94,6 +95,24 @@ class HomeDataSource {
     }
   }
 
+  Future<ApiResponse<ConfirmEventResponse>> confirmEvent(
+    String occasionId,
+  ) async {
+    try {
+      final data = FormData.fromMap({'occasion_id': occasionId});
+      final response = await _networkService.post(
+        EndPoints.confirmEvent,
+        data: data,
+      );
+      return ApiResponse.fromJson(
+        response.data,
+        (json) => ConfirmEventResponse.fromJson(json as Map<String, dynamic>),
+      );
+    } catch (e) {
+      return ApiResponse.error(message: e.toString());
+    }
+  }
+
   Future<ApiResponse<EventModel>> getEventDetails(String id) async {
     try {
       final data = FormData.fromMap({'occasion_id': id});
@@ -117,10 +136,12 @@ class HomeDataSource {
     try {
       final data = FormData.fromMap({
         'occasion_id': id,
-        "guest_list": gustsList,
+        // "guest_list": gustsList,
+        //  if (event.guests != null && (event.guests?.isNotEmpty ?? false))
+        'guest_list': jsonEncode(gustsList.map((e) => e).toList()),
       });
-      final response = await _networkService.get(
-        EndPoints.addGuest,
+      final response = await _networkService.post(
+        EndPoints.addGuestToEvent,
         data: data,
       );
       return ApiResponse.fromJson(

@@ -226,5 +226,7 @@
     "defaultTemplate": "القالب الافتراضي",
     "template2": "القالب 2",
     "template3": "القالب 3",
-    "updateEvent": "تعديل الحدث"
+    "updateEvent": "تعديل الحدث",
+    "addGuest" : "اضافة ضيف يدويا",
+    "confirmEvent" : "تأكيد الحدث"
 }

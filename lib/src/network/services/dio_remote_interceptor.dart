@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
+import 'package:wedding_app/src/routing/go_router_app.dart';
+import 'package:wedding_app/src/routing/routes.dart';
 
 import '../../constants/Api/api_response.dart';
 import '../../localization/current_language.dart';
@@ -55,7 +57,29 @@ class RemoteInterceptor extends Interceptor {
     debugPrint("⛔️ ${err.type} for ${request.method} ${request.uri}");
     debugPrint("📥 Response data: ${_prettyJson(err.response)}");
     debugPrint("📥 Response data: ${err.response}");
+
+    final statusCode = err.response?.statusCode;
+    final responseData = err.response?.data;
+
     // debugPrint("🧵 Stack trace: ${err.error}");
+    final isUnauthorized =
+        statusCode == 401 ||
+        (responseData is Map &&
+            responseData['message']?.toString().toLowerCase().contains(
+                  "unauthorized",
+                ) ==
+                true);
+
+    if (isUnauthorized) {
+      debugPrint("🚪 Session expired → redirect to Login");
+
+      // 1. مسح بيانات المستخدم (التوكن)
+      ref.read(userDataProvider.notifier).removeData();
+
+      // 2. توجيه المستخدم لصفحة تسجيل الدخول
+      // لو تستخدم GoRouter:
+      ref.read(goRouterProvider).routes.go(Routes.login);
+    }
 
     final apiResponse = _handleErrorResponse(err);
     handler.resolve(

@@ -31,7 +31,7 @@ class ProfileScreen extends ConsumerWidget {
 
         if (next is AsyncData) {
           ctx.pop();
-          context.pushReplacement(Routes.login);
+          context.go(Routes.login);
         }
       }
     });

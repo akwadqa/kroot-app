@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:csv/csv.dart';
+import 'package:excel/excel.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -13,7 +18,51 @@ part 'update_event_controller.g.dart';
 class UpdateEventController extends _$UpdateEventController {
   @override
   FutureOr<UpdateEventState> build() {
-    return UpdateEventState.init();
+    state = AsyncData(UpdateEventState.init());
+    final list = ref.watch(homeControllerProvider).value!.occasionModel!.guests;
+
+    final selected = convertGuestModelsToSelectedContacts(list!);
+
+    return UpdateEventState.init().copyWith(selectedContacts: selected);
+  }
+
+  List<SelectedContact> convertGuestModelsToSelectedContacts(
+    List<GuestModel> guests,
+  ) {
+    final newList = guests.map((g) {
+      // استخراج الاسم
+      String? first = g.firstName;
+      String? last = g.lastName;
+
+      // في حال fullName موجود ولا يوجد first/last
+      if ((first == null || first.isEmpty) &&
+          (last == null || last.isEmpty) &&
+          g.fullName != null) {
+        final parts = g.fullName!.trim().split(" ");
+        first = parts.isNotEmpty ? parts.first : "";
+        last = parts.length > 1 ? parts.sublist(1).join(" ") : "";
+      }
+
+      final number = g.whatsappNumber ?? "";
+
+      // إنشاء Contact بالطريقة الصحيحة
+      final contact = Contact(
+        name: Name(first: first ?? "", last: last ?? ""),
+        phones: number.trim().isNotEmpty ? [Phone(number.trim())] : [],
+        displayName: "${first ?? ''} ${last ?? ''}".trim(),
+      );
+
+      // تحويله إلى SelectedContact
+      return SelectedContact(
+        contact: contact,
+        count: g.partySize ?? 0,
+        id: const Uuid().v4(),
+      );
+    }).toList();
+
+    state = AsyncData(state.value!.copyWith(selectedContacts: newList));
+
+    return newList;
   }
 
   String normalize(String s) {
@@ -93,27 +142,21 @@ class UpdateEventController extends _$UpdateEventController {
         // updatedEvent: current?.copyWith(
         updatedEvent: EventModel(
           occasionId: id,
-          type:  current?.type ?? currentEvent?.type,
-          title:  current?.title ?? currentEvent?.title,
-          date:  current?.date ?? currentEvent?.date,
-          language:
-              current?.language ?? currentEvent?.language,
-          mapLink:  current?.mapLink ?? currentEvent?.mapLink,
-          locationName:
-              current?.locationName ??
-              currentEvent?.locationName,
+          type: current?.type ?? currentEvent?.type,
+          title: current?.title ?? currentEvent?.title,
+          date: current?.date ?? currentEvent?.date,
+          language: current?.language ?? currentEvent?.language,
+          mapLink: current?.mapLink ?? currentEvent?.mapLink,
+          locationName: current?.locationName ?? currentEvent?.locationName,
           // image: newData.image ?? current?.image  ?? currentEvent?.image,
           image: null,
           imageUrl: null,
           inviteTemplate:
-              current?.inviteTemplate ??
-              currentEvent?.inviteTemplate,
+              current?.inviteTemplate ?? currentEvent?.inviteTemplate,
           confirmedTemplate:
-              current?.confirmedTemplate ??
-              currentEvent?.confirmedTemplate,
+              current?.confirmedTemplate ?? currentEvent?.confirmedTemplate,
           declinedTemplate:
-              current?.declinedTemplate ??
-              currentEvent?.declinedTemplate,
+              current?.declinedTemplate ?? currentEvent?.declinedTemplate,
           guests: setGuestListFromContacts() ?? current?.guests,
         ),
       ),
@@ -158,19 +201,14 @@ class UpdateEventController extends _$UpdateEventController {
     required String phoneNumber,
   }) async {
     try {
-      // ضع الحالة في وضع التحميل
       state = AsyncData(state.value!.copyWith(isAddContact: true));
 
-      // لا نحتاج AsyncLoading كامل لأننا نحافظ على بياناتنا
-      // state = AsyncLoading();
+      final newContact = Contact(
+        name: Name(first: firstName, last: lastName),
+        phones: [Phone(phoneNumber)],
+        displayName: "$firstName $lastName",
+      );
 
-      // إنشاء كائن Contact جديد محلي فقط
-      final newContact = Contact()
-        ..name.first = firstName
-        ..name.last = lastName
-        ..phones = [Phone(phoneNumber)];
-
-      // ✨ بدلاً من إضافته لجهات الاتصال في الهاتف، نضيفه للـ selectedContacts
       final currentSelected = state.value!.selectedContacts;
 
       final updatedSelected = [
@@ -305,5 +343,138 @@ class UpdateEventController extends _$UpdateEventController {
         partySize: s.count,
       );
     }).toList();
+  }
+
+  Future<void> importGuestsFromFile() async {
+    try {
+      //? Pick a file :
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['csv', 'xlsx'],
+      );
+
+      if (result == null) {
+        // state = AsyncError("لم يتم اختيار أي ملف", StackTrace.current);
+        return;
+      }
+
+      final file = result.files.single;
+      final path = file.path;
+      if (path == null) {
+        state = AsyncError("This file can't be readed", StackTrace.current);
+        return;
+      }
+
+      final extension = path.split('.').last.toLowerCase();
+      List<List<dynamic>> rows = [];
+      Map<String, int> colIndex = {};
+
+      //? Read Excel :
+      if (extension == 'xlsx') {
+        final bytes = File(path).readAsBytesSync();
+
+        Excel excel;
+        try {
+          excel = Excel.decodeBytes(bytes);
+        } catch (_) {
+          state = AsyncError(
+            "This Excel file isn't supported",
+            StackTrace.current,
+          );
+          return;
+        }
+
+        final sheet = excel.tables.values.first;
+        if (sheet == null || sheet.rows.isEmpty) {
+          state = AsyncError("This file is empty", StackTrace.current);
+          return;
+        }
+
+        for (var row in sheet.rows) {
+          rows.add(row.map((c) => c?.value).toList());
+        }
+      }
+      //? Read CSV :
+      else if (extension == 'csv') {
+        final content = File(path).readAsStringSync();
+        rows = const CsvToListConverter().convert(content);
+      } else {
+        state = AsyncError("The file isn't supported", StackTrace.current);
+        return;
+      }
+
+      if (rows.isEmpty) {
+        state = AsyncError('This file is empty', StackTrace.current);
+        return;
+      }
+      //? Cleaning the header and check :
+      final cleanHeader = rows.first.map((e) {
+        return e.toString().trim().toLowerCase().replaceAll(
+          RegExp(r'[\ufeff\s]'),
+          '',
+        );
+      }).toList();
+
+      const requiredCols = [
+        "first_name",
+        "last_name",
+        "whatsapp_number",
+        "party_size",
+      ];
+
+      for (var col in requiredCols) {
+        if (!cleanHeader.contains(col)) {
+          state = AsyncError(
+            // "العمود '$col' غير موجود في الملف",
+            "The column $col isn't exist in the file",
+            StackTrace.current,
+          );
+          return;
+        }
+        colIndex[col] = cleanHeader.indexOf(col);
+      }
+
+      //? Convert data to Selected Contact :
+      List<SelectedContact> imported = [];
+
+      for (int i = 1; i < rows.length; i++) {
+        final row = rows[i];
+
+        final firstName = row[colIndex["first_name"]!]?.toString() ?? "";
+        final lastName = row[colIndex["last_name"]!]?.toString() ?? "";
+        final number = row[colIndex["whatsapp_number"]!]?.toString() ?? "";
+        final partySizeRaw = row[colIndex["party_size"]!];
+
+        final partySize = int.tryParse(partySizeRaw.toString()) ?? 0;
+
+        final contact = Contact(
+          name: Name(first: firstName, last: lastName),
+          phones: [Phone(number)],
+          displayName: "$firstName $lastName",
+        );
+
+        imported.add(
+          SelectedContact(
+            contact: contact,
+            count: partySize,
+            id: const Uuid().v4(),
+          ),
+        );
+      }
+
+      //? Merge new with old :
+      final existing = state.value!.selectedContacts ?? [];
+      final updated = [...existing, ...imported];
+
+      state = AsyncData(state.value!.copyWith(selectedContacts: updated));
+
+      //? Update the event data :
+      updateDataForEvent(
+        state.value!.updatedEvent!,
+        state.value!.updatedEvent!.occasionId!,
+      );
+    } catch (e, st) {
+      state = AsyncError(e, st);
+    }
   }
 }

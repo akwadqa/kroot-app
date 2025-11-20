@@ -21,7 +21,7 @@ class EventDetailsType extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(
       homeControllerProvider.select((val) {
-        return val.value!.eventResponse?.eventTypes;
+        return val.value!.eventResponse?.value?.eventTypes;
       }),
     );
 

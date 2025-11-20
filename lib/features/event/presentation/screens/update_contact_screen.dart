@@ -65,7 +65,7 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-          context.pushReplacement(
+          context.go(
             Routes.eventDetails,
             // extra: widget.id != null
             //? next.value!.updatedEvent!.occasionId

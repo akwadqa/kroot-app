@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
+import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:wedding_app/src/utils/image_picker.dart';
@@ -70,13 +71,16 @@ class EventDetailsImage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: (imageUrl != null)
+                  child: (imageUrl != null && imageUrl!.isNotEmpty)
                       ? SizedBox(
                           width: double.infinity,
                           height: 182.h,
                           child: Stack(
                             children: [
                               CachedNetworkImage(
+                                fadeInCurve: Curves.linear,
+                                placeholder: (context, url) =>
+                                    FadeCircleLoadingIndicator(),
                                 imageUrl: resolveImageUrl()!,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
@@ -143,8 +147,8 @@ class EventDetailsImage extends StatelessWidget {
                                 onTap: () {
                                   print('delete image');
                                   if (deleteFile != null) {
-                                      deleteFile!();
-                                    }
+                                    deleteFile!();
+                                  }
                                 },
                                 child: Assets.icons.deleteImageIc.svg(
                                   height: 22.w,

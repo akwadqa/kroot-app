@@ -43,7 +43,7 @@ class SendInviteScreen extends ConsumerWidget {
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-            context.pushReplacement(
+            context.go(
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
@@ -89,7 +89,7 @@ class SendInviteScreen extends ConsumerWidget {
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-            context.pushReplacement(
+            context.go(
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
@@ -152,7 +152,7 @@ class SendInviteScreen extends ConsumerWidget {
 
                       itemBuilder: (context, index) => ListTile(
                         title: Text(
-                          contact[index].contact.displayName,
+                          '${contact[index].contact.name.first} ${contact[index].contact.name.last}',
                           // 'Hadeel',
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.black,

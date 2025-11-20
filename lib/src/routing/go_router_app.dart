@@ -21,6 +21,7 @@ import 'package:wedding_app/features/event/presentation/screens/send_invite_scre
 import 'package:wedding_app/features/event/presentation/screens/update_contact_screen.dart';
 import 'package:wedding_app/features/event/presentation/screens/update_event_screen.dart';
 import 'package:wedding_app/features/guests/presentation/screens/guests_screen.dart';
+import 'package:wedding_app/features/guests/presentation/screens/test.dart';
 import 'package:wedding_app/features/profile/presentation/pages/pricing_screen.dart';
 import 'package:wedding_app/features/scan/presentation/pages/scan_qr_event_page.dart';
 import 'package:wedding_app/features/scan_qr_code/presentation/screens/scan_qr_code_screen.dart';
@@ -60,7 +61,7 @@ class GoRouterApp {
               final token = ref.read(userDataProvider);
               if (token != null) return MainScreen();
               return LoginScreen();
-              // return MainScreen();
+              // return Test();
             },
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -92,7 +93,7 @@ class GoRouterApp {
         ),
       ),
 
-      //? Verification :
+      //? Create account :
       GoRoute(
         path: Routes.creataAccount,
         pageBuilder: (context, state) => CustomTransitionPage(

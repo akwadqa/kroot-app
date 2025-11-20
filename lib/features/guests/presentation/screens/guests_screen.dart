@@ -3,21 +3,31 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:wedding_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
+import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_ui_controller.dart';
 import 'package:wedding_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:wedding_app/features/guests/presentation/controller/guest_ui_controller.dart';
+import 'package:wedding_app/features/guests/presentation/widgets/guests_list/add_guest_manual_bottom_sheet.dart';
 import 'package:wedding_app/features/guests/presentation/widgets/guests_list/guests_screen_tab_bar.dart';
 import 'package:wedding_app/features/guests/presentation/widgets/guests_list/guests_screen_tabs_item.dart';
+import 'package:wedding_app/features/guests/presentation/widgets/guests_list/update_guest_bottom_sheet.dart';
 import 'package:wedding_app/features/guests/presentation/widgets/search_field.dart';
+import 'package:wedding_app/features/scan/presentation/controller/scan_controller.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
 import 'package:wedding_app/src/extenssions/widget_extensions.dart';
+import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
+import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
+import 'package:wedding_app/src/utils/app_toast.dart';
 
 import '../controller/guests_controller.dart';
 import '../widgets/status_filter_bar.dart';
@@ -32,10 +42,87 @@ class GuestsScreen extends ConsumerStatefulWidget {
 }
 
 class _GuestsScreenState extends ConsumerState<GuestsScreen> {
+  _openBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => AddGuestManuallBotomSheet(),
+    );
+  }
+
+  String rsvpStatusFromIndex(int index) {
+    switch (index) {
+      case 0:
+        return "all";
+      case 1:
+        return "Confirmed";
+      case 2:
+        return "Declined";
+      case 3:
+        return "Not Sent";
+      case 4:
+        return "Failed";
+      case 5:
+        return "Pending";
+      default:
+        return "all";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      guestsControllerProvider.select((val) => val.value!.deleteGuestResponse),
+      (prev, next) {
+        if (next is AsyncLoading) {
+          AppAlert.showLoadingDialog(context);
+        }
+
+        if (next is AsyncData) {
+          context.pop();
+          context.pop();
+          AppToast.doneToast('Done');
+        }
+        if (next is AsyncError) {
+          context.pop();
+          AppToast.errorToast(next!.error!.toString());
+        }
+      },
+    );
+
+    final gustsLists = ref.watch(guestsControllerProvider).value!.guestsList;
+    final index = ref.watch(guestUiControllerProvider).index;
+
+    final selectedStatus = rsvpStatusFromIndex(index);
+
+    final filteredGuests = selectedStatus == "all"
+        ? gustsLists
+        : gustsLists
+              ?.where(
+                (g) =>
+                    (g.rsvpStatus ?? "").toLowerCase() ==
+                    selectedStatus.toLowerCase(),
+              )
+              .toList();
     return Scaffold(
-      appBar: CustomAppbar(title: context.tr('all_guests')),
+      appBar: CustomAppbar(
+        title: context.tr('all_guests'),
+        actionButton: GestureDetector(
+          onTap: () {
+            // _openBottomSheet(context);
+            context.push(
+              Routes.guestList,
+              extra: ref
+                  .read(homeControllerProvider)
+                  .value!
+                  .occasionModel!
+                  .occasionId,
+            );
+          },
+
+          child: Assets.icons.addContactIc.svg(),
+        ),
+      ),
       body: Column(
         children: [
           //? Search field :
@@ -47,15 +134,20 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
           GuestsScreenTabBar(),
 
           //? Guests list
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) =>
-                  Divider(color: AppColors.lightGray02.withValues(alpha: .4)),
-              itemBuilder: (context, index) =>
-                  GuestsScreenGuestItem(index: index),
-              itemCount: 8,
-            ),
-          ),
+          filteredGuests!.isNotEmpty
+              ? Expanded(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => Divider(
+                      color: AppColors.lightGray02.withValues(alpha: .4),
+                    ),
+                    itemBuilder: (context, index) => GuestsScreenGuestItem(
+                      index: index,
+                      guest: filteredGuests?[index],
+                    ),
+                    itemCount: filteredGuests?.length ?? 0,
+                  ),
+                )
+              : Center(child: Assets.icons.emptyIc.svg()),
         ],
       ),
     );
@@ -63,21 +155,43 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
 }
 
 class GuestsScreenGuestItem extends ConsumerWidget {
-  const GuestsScreenGuestItem({super.key, required this.index});
+  const GuestsScreenGuestItem({
+    super.key,
+    required this.index,
+    required this.guest,
+  });
 
   final int index;
+  final GuestModel? guest;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tabIndex = ref.watch(guestUiControllerProvider).index;
 
     return ListTile(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => UpdateGuestNameBottomSheet(guestModel: guest!),
+        );
+      },
       leading: GestureDetector(
         onTap: () {
           AppAlert.showGlobalDialog(
             context: context,
             title: context.tr('deleteGuest'),
-            onSubmit: () {},
+            onSubmit: () {
+              ref
+                  .read(guestsControllerProvider.notifier)
+                  .deleteGuest(
+                    guests: [guest!],
+                    occasionId: ref
+                        .read(homeControllerProvider)
+                        .value!
+                        .occasionModel!
+                        .occasionId!,
+                  );
+            },
             text: Text.rich(
               textAlign: TextAlign.center,
               TextSpan(
@@ -89,7 +203,7 @@ class GuestsScreenGuestItem extends ConsumerWidget {
                     ),
                   ),
                   TextSpan(
-                    text: 'Ahmed Al-Ahmed',
+                    text: guest?.fullName,
                     style: AppTextStyle.rubikMedium14.copyWith(
                       color: AppColors.primary,
                     ),
@@ -105,31 +219,33 @@ class GuestsScreenGuestItem extends ConsumerWidget {
             ),
           );
         },
-
         child: Assets.icons.xGuestIc.svg(),
       ),
       title: Text(
-        'Ahemd Al-Ahmed',
+        guest?.fullName ?? '',
         style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
       ),
       trailing: tabIndex == 0
           ? Container(
               padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 4.h),
               decoration: BoxDecoration(
-                color: index & 3 == 0
+                color: guest!.rsvpStatus == 'Confirm'
                     ? AppColors.confirmGuest
-                    : index & 3 == 1
+                    : guest!.rsvpStatus == 'Waiting' ||
+                          guest!.rsvpStatus == 'Not Sent' ||
+                          guest!.rsvpStatus == null
                     ? AppColors.waitingGuest
                     : AppColors.noticeRed,
 
                 borderRadius: BorderRadius.circular(32.r),
               ),
               child: Text(
-                index & 3 == 0
-                    ? context.tr('status_confirmed')
-                    : index & 3 == 1
-                    ? context.tr('waiting')
-                    : context.tr('rejected'),
+                // index & 3 == 0
+                guest!.rsvpStatus ?? 'Not Sent',
+                // ? context.tr('status_confirmed')
+                // : index & 3 == 1
+                // ? context.tr('waiting')
+                // : context.tr('rejected'),
                 style: AppTextStyle.rubikRegular14.copyWith(
                   color: AppColors.white,
                 ),

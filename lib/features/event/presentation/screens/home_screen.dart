@@ -17,38 +17,34 @@ import 'package:wedding_app/features/event/presentation/widgets/home_page/home_p
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
 import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
+// class HomeScreen extends ConsumerStatefulWidget {
+//   const HomeScreen({super.key});
+
+//   @override
+//   ConsumerState<HomeScreen> createState() => _HomeScreenState();
+// }
+
+// class _HomeScreenState extends ConsumerState<HomeScreen> {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends ConsumerState<HomeScreen> {
-  @override
-  void initState() {
-    super.initState();
-    Future(() {
-      ref.read(homeControllerProvider.notifier).getUserEvents(page: 1);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(homeControllerProvider, (pre, next) {
-      if (next.value!.isDeleteEvent == false ||
-          pre?.value!.isDeleteEvent == false) {
+      if (next.value?.isDeleteEvent == false ||
+          pre?.value?.isDeleteEvent == false) {
         if (context.canPop()) context.pop();
       }
     });
-    final controller = ref.watch(homeControllerProvider);
+    final controller = ref.watch(homeControllerProvider.select((val)=>val.value!.eventResponse));
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarView(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 22.w),
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -77,9 +73,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             12.verticalSpace,
-            controller.when(
+            controller!.when(
               data: (data) {
-                if (data.eventResponse?.events?.isEmpty ?? true) {
+                if (data.events?.isEmpty ?? true) {
                   return Center(child: Text('Empty events'));
                 }
                 return Expanded(
@@ -92,9 +88,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
                       separatorBuilder: (context, index) => 12.verticalSpace,
-                      itemCount: data.eventResponse?.events?.length ?? 0,
+                      itemCount: data.events?.length ?? 0,
                       itemBuilder: (context, index) => HomePageEventItem(
-                        event: data.eventResponse!.events![index],
+                        event: data.events![index],
                       ),
                     ),
                   ),
@@ -184,6 +180,9 @@ class HomePageEventItem extends StatelessWidget {
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(10.r),
                           child: CachedNetworkImage(
+                            fadeInCurve: Curves.linear,
+                            placeholder: (context, url) =>
+                                FadeCircleLoadingIndicator(),
                             imageUrl: resolveImageUrl()!,
                             fit: BoxFit.cover,
                           ),

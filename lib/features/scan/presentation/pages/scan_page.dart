@@ -6,10 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
+import 'package:wedding_app/features/scan/presentation/controller/scan_controller.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/routing/routes.dart';
+import 'package:wedding_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
 import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
@@ -26,13 +29,13 @@ class _ScanPageState extends ConsumerState<ScanPage> {
     super.initState();
 
     Future(() {
-      ref.read(homeControllerProvider.notifier).getUserEvents(page: 1);
+      ref.read(scanControllerProvider.notifier).getUserScanEvent(page: 1);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(homeControllerProvider);
+    final controller = ref.watch(scanControllerProvider);
     return SafeArea(
       top: false,
       child: Scaffold(
@@ -41,19 +44,19 @@ class _ScanPageState extends ConsumerState<ScanPage> {
         // body: _buildBody(),
         body: controller.when(
           data: (data) {
-            return _buildBody(data.eventResponse?.events ?? []);
+            return _buildBody(
+              data.userScanEventResponse?.participantEvents ?? [],
+            );
           },
           error: (e, st) {
-            return Expanded(
-              child: Center(
-                child: Assets.icons.emptyIc.svg(),
-                // child: Text(
-                //   e.toString(),
-                //   style: AppTextStyle.rubikRegular16.copyWith(
-                //     color: AppColors.black,
-                //   ),
-                // ),
-              ),
+            return Center(
+              child: Assets.icons.emptyIc.svg(),
+              // child: Text(
+              //   e.toString(),
+              //   style: AppTextStyle.rubikRegular16.copyWith(
+              //     color: AppColors.black,
+              //   ),
+              // ),
             );
           },
           loading: () {
@@ -64,12 +67,16 @@ class _ScanPageState extends ConsumerState<ScanPage> {
     );
   }
 
-  ListView _buildBody(List<EventModel> events) {
-    return ListView.separated(
-      separatorBuilder: (context, index) => 20.verticalSpace,
-      padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 25.h),
-      itemBuilder: (context, index) => ScanScreenItem(event: events[index]),
-      itemCount: events.length,
+  Widget _buildBody(List<EventModel> events) {
+    return AppPaginationWidget(
+      onLoading: (_) =>
+          ref.read(scanControllerProvider.notifier).onLoadMoreEvents(),
+      child: ListView.separated(
+        separatorBuilder: (context, index) => 20.verticalSpace,
+        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 25.h),
+        itemBuilder: (context, index) => ScanScreenItem(event: events[index]),
+        itemCount: events.length,
+      ),
     );
   }
 }
@@ -117,6 +124,9 @@ class ScanScreenItem extends StatelessWidget {
                     //     fit: BoxFit.cover,
                     //   )
                     ? CachedNetworkImage(
+                        fadeInCurve: Curves.linear,
+                        placeholder: (context, url) =>
+                            FadeCircleLoadingIndicator(),
                         imageUrl: resolveImageUrl()!,
                         height: 129.h,
                         width: double.infinity,

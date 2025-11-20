@@ -174,10 +174,11 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
       // }
     });
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size(double.infinity, 55),
-        child: CustomAppbar(title: context.tr('scan_code')),
-      ),
+      appBar: CustomAppbar(title: context.tr('scanTheQrCode')),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size(double.infinity, 55),
+      //   child: CustomAppbar(title: context.tr('scan_code')),
+      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(

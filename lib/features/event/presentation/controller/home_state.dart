@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wedding_app/features/event/data/models/confirm_event_response/confirm_event_response.dart';
 import 'package:wedding_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:wedding_app/features/event/data/models/events_response/event_response.dart';
 import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
@@ -7,11 +9,11 @@ import 'package:wedding_app/features/event/data/models/occasion_response/occasio
 
 class HomeState {
   final List<SelectedContact> selectedContactsForUpdate;
-  final GetUserEventsModel? eventResponse;
+  final AsyncValue<GetUserEventsModel>? eventResponse;
   final EventModel? occasionModel;
   final EventModel? updatedEvent;
   final List<GuestModel>? gusetsList;
-
+  final AsyncValue<ConfirmEventResponse>? confirmEventResponse;
 
   //? This is for delete event :
   final bool? isDeleteEvent;
@@ -21,6 +23,7 @@ class HomeState {
 
   HomeState({
     required this.isUpdateEvent,
+    required this.confirmEventResponse,
     required this.selectedContactsForUpdate,
     required this.updatedEvent,
     required this.occasionModel,
@@ -33,9 +36,10 @@ class HomeState {
     updatedEvent: null,
     selectedContactsForUpdate: [],
     isDeleteEvent: false,
-    eventResponse: null,
+    eventResponse: AsyncLoading(),
     isUpdateEvent: false,
     occasionModel: null,
+    confirmEventResponse: null,
     gusetsList: [],
   );
 
@@ -43,7 +47,7 @@ class HomeState {
     List<Contact>? contacts,
     List<SelectedContact>? selectedContacts,
     List<SelectedContact>? selectedContactsForUpdate,
-    GetUserEventsModel? eventResponse,
+    AsyncValue<GetUserEventsModel>? eventResponse,
     EventModel? createEventRequest,
     EventModel? occasionModel,
     EventModel? updatedEvent,
@@ -53,6 +57,7 @@ class HomeState {
     bool? isAddContact,
     bool? isUpdateEvent,
     bool? isCreatingEvent,
+    AsyncValue<ConfirmEventResponse>? confirmEventResponse,
   }) {
     return HomeState(
       selectedContactsForUpdate:
@@ -63,6 +68,7 @@ class HomeState {
       gusetsList: gusetsList ?? this.gusetsList,
       isDeleteEvent: isDeleteEvent,
       isUpdateEvent: isUpdateEvent,
+      confirmEventResponse: confirmEventResponse ?? this.confirmEventResponse,
     );
   }
 }

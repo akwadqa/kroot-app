@@ -37,8 +37,16 @@ class $AssetsIconsGen {
   SvgGenImage get addContactIc =>
       const SvgGenImage('assets/icons/add_contact_ic.svg');
 
+  /// File path: assets/icons/add_from_contact_ic.svg
+  SvgGenImage get addFromContactIc =>
+      const SvgGenImage('assets/icons/add_from_contact_ic.svg');
+
   /// File path: assets/icons/add_ic.svg
   SvgGenImage get addIc => const SvgGenImage('assets/icons/add_ic.svg');
+
+  /// File path: assets/icons/add_manually_ic.svg
+  SvgGenImage get addManuallyIc =>
+      const SvgGenImage('assets/icons/add_manually_ic.svg');
 
   /// File path: assets/icons/agree_terms_correct_ic.svg
   SvgGenImage get agreeTermsCorrectIc =>
@@ -156,6 +164,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home_ic.svg
   SvgGenImage get homeIc => const SvgGenImage('assets/icons/home_ic.svg');
 
+  /// File path: assets/icons/import_csv_file_ic.svg
+  SvgGenImage get importCsvFileIc =>
+      const SvgGenImage('assets/icons/import_csv_file_ic.svg');
+
+  /// File path: assets/icons/invie_to_manage_guests_ic.svg
+  SvgGenImage get invieToManageGuestsIc =>
+      const SvgGenImage('assets/icons/invie_to_manage_guests_ic.svg');
+
   /// File path: assets/icons/invited_ic.svg
   SvgGenImage get invitedIc => const SvgGenImage('assets/icons/invited_ic.svg');
 
@@ -264,7 +280,9 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     addContactIc,
+    addFromContactIc,
     addIc,
+    addManuallyIc,
     agreeTermsCorrectIc,
     appleIc,
     arrowIc,
@@ -297,6 +315,8 @@ class $AssetsIconsGen {
     googleIc,
     home,
     homeIc,
+    importCsvFileIc,
+    invieToManageGuestsIc,
     invitedIc,
     languageIc,
     lastNamePersonIc,

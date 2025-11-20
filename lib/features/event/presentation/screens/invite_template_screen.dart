@@ -18,6 +18,7 @@ import 'package:wedding_app/src/extenssions/widget_extensions.dart';
 import 'package:wedding_app/src/routing/routes.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
 import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 import 'package:wedding_app/src/utils/app_alert.dart';
@@ -80,7 +81,7 @@ class InviteTemplateScreen extends ConsumerWidget {
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-            context.pushReplacement(
+            context.go(
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
@@ -126,7 +127,7 @@ class InviteTemplateScreen extends ConsumerWidget {
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-            context.pushReplacement(
+            context.go(
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
@@ -246,16 +247,35 @@ class InviteTemplateScreen extends ConsumerWidget {
                               ?
                                 //? if update image updated :
                                 resolveImageUrl() != null
-                                    ? Align(
-                                        alignment: Alignment.center,
-                                        child: CachedNetworkImage(
-                                          imageUrl: resolveImageUrl()!,
+                                    ? SizedBox(
+                                        width: double.infinity,
+                                        height: 182.h,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: CachedNetworkImage(
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            fit: BoxFit.cover,
+                                            fadeInCurve: Curves.linear,
+                                            placeholder: (context, url) =>
+                                                FadeCircleLoadingIndicator(),
+                                            imageUrl: resolveImageUrl()!,
+                                          ),
                                         ),
                                       )
                                     : image != null
-                                    ? Align(
-                                        alignment: Alignment.center,
-                                        child: Image.file(image),
+                                    ? SizedBox(
+                                        width: double.infinity,
+                                        height: 182.h,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Image.file(
+                                            image,
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                          ),
+                                        ),
                                       )
                                     // image != null
                                     //     ? Align(
@@ -268,9 +288,18 @@ class InviteTemplateScreen extends ConsumerWidget {
                                     : SizedBox.shrink()
                               //? In add event case :
                               : image != null
-                              ? Align(
-                                  alignment: Alignment.center,
-                                  child: Image.file(image),
+                              ? SizedBox(
+                                  width: double.infinity,
+                                  height: 182.h,
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Image.file(
+                                      image,
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
+                                  ),
                                 )
                               : SizedBox.shrink(),
 

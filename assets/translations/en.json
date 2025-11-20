@@ -47,7 +47,7 @@
     "send_a_message": "Send a message",
     "call_by": "call by {}",
     "with_currency": "{} QAR",
-    "cancel": "cancel",
+    "cancel": "Cancel",
     "canceled": "Canceled",
     "yes": "yes",
     "no": "no",
@@ -210,5 +210,11 @@
     "defaultTemplate": "Default Template",
     "template2": "Template 2",
     "template3": "Template 3",
-    "updateEvent": "Update Event"
+    "updateEvent": "Update Event",
+    "addGuest" : "Add Guest Manually",
+    "confirmEvent" : "Confirm Event",
+    "addFromContacts" : "Add from Contacts",
+    "addManually" : "Add Manually",
+    "importCSVGuestList" : "Import CSV Guest List",
+    "inviteSomeoneToManageGuests" : "Invite Someone to Manage Guests"
 }

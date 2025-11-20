@@ -63,7 +63,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-          context.pushReplacement(
+          context.go(
             Routes.eventDetails,
             // extra: widget.id != null
             //? next.value!.updatedEvent!.occasionId
@@ -186,60 +186,62 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                   },
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Consumer(
-                    builder: (context, ref, child) {
-                      return AddEventPageBotton(
-                        onTap: () {
-                          ref
-                              .read(addEventControllerProvider.notifier)
-                              .createEvent();
-                        },
-                        isSubmit: false,
-                        child: Text(
-                          context.tr('saveDraft'),
-                          style: AppTextStyle.rubikSemiBold18.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+              
+              //? This for continue and save as draft :
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     Consumer(
+              //       builder: (context, ref, child) {
+              //         return AddEventPageBotton(
+              //           onTap: () {
+              //             ref
+              //                 .read(addEventControllerProvider.notifier)
+              //                 .createEvent();
+              //           },
+              //           isSubmit: false,
+              //           child: Text(
+              //             context.tr('saveDraft'),
+              //             style: AppTextStyle.rubikSemiBold18.copyWith(
+              //               color: AppColors.primary,
+              //             ),
+              //           ),
+              //         );
+              //       },
+              //     ),
 
-                  AddEventPageBotton(
-                    onTap:
-                        ref
-                            .read(addEventControllerProvider)
-                            .value!
-                            .selectedContacts!
-                            .isEmpty
-                        ? null
-                        : () {
-                            context.push(Routes.guestList, extra: widget.id);
-                          },
-                    isSubmit: ref
-                        .read(addEventControllerProvider)
-                        .value!
-                        .selectedContacts!
-                        .isNotEmpty,
-                    child: Text(
-                      context.tr('continue'),
-                      style: AppTextStyle.rubikSemiBold18.copyWith(
-                        color:
-                            ref
-                                .read(addEventControllerProvider)
-                                .value!
-                                .selectedContacts!
-                                .isEmpty
-                            ? AppColors.primary
-                            : AppColors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              //     AddEventPageBotton(
+              //       onTap:
+              //           ref
+              //               .read(addEventControllerProvider)
+              //               .value!
+              //               .selectedContacts!
+              //               .isEmpty
+              //           ? null
+              //           : () {
+              //               context.push(Routes.guestList, extra: widget.id);
+              //             },
+              //       isSubmit: ref
+              //           .read(addEventControllerProvider)
+              //           .value!
+              //           .selectedContacts!
+              //           .isNotEmpty,
+              //       child: Text(
+              //         context.tr('continue'),
+              //         style: AppTextStyle.rubikSemiBold18.copyWith(
+              //           color:
+              //               ref
+              //                   .read(addEventControllerProvider)
+              //                   .value!
+              //                   .selectedContacts!
+              //                   .isEmpty
+              //               ? AppColors.primary
+              //               : AppColors.white,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               20.verticalSpace,
             ],
           );

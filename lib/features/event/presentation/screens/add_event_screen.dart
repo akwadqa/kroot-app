@@ -75,7 +75,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
 
-          context.pushReplacement(
+          context.go(
             Routes.eventDetails,
             // extra: widget.id != null
             //? next.value!.updatedEvent!.occasionId
@@ -159,7 +159,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                         20.verticalSpace,
 
                         //? Name :
-                        CreataAccountField(
+                        AppTextFormField(
                           controller: _title,
                           isReadOnly: false,
                           hint: context.tr('enterEventTitle'),
@@ -258,6 +258,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                                 .read(homeControllerProvider)
                                 .value
                                 ?.eventResponse
+                                ?.value
                                 ?.eventTypes !=
                             null)
                           // if (ref.read(
@@ -358,7 +359,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                                           locationName: 'qatar',
                                         ),
                                       );
-                                  context.push(Routes.addContact);
+                                  context.push(Routes.guestList);
                                 }
                               },
                               isSubmit: true,

@@ -5,8 +5,8 @@ import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 import 'package:wedding_app/src/theme/app_text_style.dart';
 
-class CreataAccountField extends StatelessWidget {
-  const CreataAccountField({
+class AppTextFormField extends StatelessWidget {
+  const AppTextFormField({
     super.key,
     this.controller,
     required this.hint,

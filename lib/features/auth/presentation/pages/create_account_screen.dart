@@ -106,7 +106,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               21.verticalSpace,
 
               //? First name :
-              CreataAccountField(
+              AppTextFormField(
                 controller: _firstNameController,
                 icon: Assets.icons.firstNamePersonIc,
                 hint: context.tr('enterFirstName'),
@@ -116,7 +116,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               20.verticalSpace,
 
               //? Last name :
-              CreataAccountField(
+              AppTextFormField(
                 controller: _lastNameController,
                 icon: Assets.icons.lastNamePersonIc,
                 hint: context.tr('enterLastName'),
@@ -126,7 +126,7 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               20.verticalSpace,
 
               //? Enter email :
-              CreataAccountField(
+              AppTextFormField(
                 controller: _emailController,
                 icon: Assets.icons.enterEmailIc,
                 hint: 'user@gmail.com',

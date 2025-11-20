@@ -27,7 +27,7 @@ class EventDetailsDate extends StatelessWidget {
     final dataFormatter = date != null
         ? DateFormat('EEE, d-M-yyyy hh:mma').format(DateTime.parse(date!))
         : '';
-    return CreataAccountField(
+    return AppTextFormField(
       // controller: controller,
       // controller: _date,
       // value: ,

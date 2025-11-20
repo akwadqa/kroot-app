@@ -2,6 +2,7 @@ import 'package:flutter_contacts/flutter_contacts.dart' as flutterContact;
 import 'package:uuid/uuid.dart';
 // import 'package:flutter_contacts/fluuter_contact.dart' as flutterContact;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wedding_app/features/event/data/models/confirm_event_response/confirm_event_response.dart';
 import 'package:wedding_app/features/event/data/models/create_event_request/create_event_request.dart';
 import 'package:wedding_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:wedding_app/features/event/data/models/events_response/event_response.dart';
@@ -11,10 +12,12 @@ import 'package:wedding_app/features/event/presentation/controller/home_state.da
 import 'package:wedding_app/src/utils/image_picker.dart';
 part 'home_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class HomeController extends _$HomeController {
   @override
-  FutureOr<HomeState> build() {
+  Future<HomeState> build() async {
+    state = AsyncData(HomeState.init());
+    Future(() => getUserEvents(page: 1));
     return HomeState.init();
   }
 
@@ -50,7 +53,10 @@ class HomeController extends _$HomeController {
     bool showLoading = true,
   }) async {
     try {
-      if (showLoading) state = AsyncLoading();
+      // if (showLoading) state = AsyncLoading();
+      if (showLoading) {
+        state = AsyncData(state.value!.copyWith(eventResponse: AsyncLoading()));
+      }
       final repo = ref.read(homeRepositoryProvider);
       final response = await repo.getEvents(page, search);
       _currentPage = response.pagination?.currentPage ?? _currentPage;
@@ -65,9 +71,13 @@ class HomeController extends _$HomeController {
       }
 
       if (response.hasFailed) {
-        state = AsyncError(
-          response.message ?? '',
-          StackTrace.fromString(response.message ?? ''),
+        state = AsyncData(
+          state.value!.copyWith(
+            eventResponse: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
         );
         throw Exception(response.message);
       }
@@ -76,10 +86,14 @@ class HomeController extends _$HomeController {
         eventTypes: response.data!.eventTypes,
       );
 
-      state = AsyncData(state.value!.copyWith(eventResponse: eventResponse));
+      state = AsyncData(
+        state.value!.copyWith(eventResponse: AsyncData(eventResponse)),
+      );
       return response.data;
     } catch (e, st) {
-      state = AsyncError(e, st);
+      state = AsyncData(
+        state.value!.copyWith(eventResponse: AsyncError(e.toString(), st)),
+      );
       return null;
     }
   }
@@ -105,6 +119,38 @@ class HomeController extends _$HomeController {
     } catch (e, st) {
       state = AsyncError(e, st);
       state = AsyncData(state.value!.copyWith(isDeleteEvent: true));
+    }
+  }
+
+  Future<ConfirmEventResponse?> confirmEvent(String occasionId) async {
+    try {
+      state = AsyncData(
+        state.value!.copyWith(confirmEventResponse: AsyncLoading()),
+      );
+      final repo = ref.read(homeRepositoryProvider);
+      final response = await repo.confirmEvent(occasionId);
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            confirmEventResponse: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+      }
+
+      // state = AsyncData(state.value!.copyWith(eventResponse: eventResponse));
+      state = AsyncData(
+        state.value!.copyWith(confirmEventResponse: AsyncData(response.data!)),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(
+        state.value!.copyWith(confirmEventResponse: AsyncError(e, st)),
+      );
+      return null;
     }
   }
 

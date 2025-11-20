@@ -17,7 +17,7 @@ final class HomeControllerProvider
         argument: null,
         retry: null,
         name: r'homeControllerProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -30,7 +30,7 @@ final class HomeControllerProvider
   HomeController create() => HomeController();
 }
 
-String _$homeControllerHash() => r'd5bc9f99a7dc020eaf499ce731c7cd7050f30277';
+String _$homeControllerHash() => r'b188e8c4ade2600a3afe51b9367097b345123c20';
 
 abstract class _$HomeController extends $AsyncNotifier<HomeState> {
   FutureOr<HomeState> build();

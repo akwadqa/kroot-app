@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:csv/csv.dart';
+import 'package:excel/excel.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -45,6 +52,7 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
 
+  //? This for delete image in add event screen :
   void deleteImage() {
     final current = state.value?.eventModel ?? EventModel();
 
@@ -52,6 +60,7 @@ class AddEventController extends _$AddEventController {
         .read(homeControllerProvider)
         .value
         ?.eventResponse
+        ?.value
         ?.eventTypes
         ?.first;
 
@@ -84,6 +93,7 @@ class AddEventController extends _$AddEventController {
         .read(homeControllerProvider)
         .value
         ?.eventResponse
+        ?.value
         ?.eventTypes
         ?.first;
 
@@ -226,19 +236,14 @@ class AddEventController extends _$AddEventController {
     required String phoneNumber,
   }) async {
     try {
-      // ضع الحالة في وضع التحميل
       state = AsyncData(state.value!.copyWith(isAddContact: true));
 
-      // لا نحتاج AsyncLoading كامل لأننا نحافظ على بياناتنا
-      // state = AsyncLoading();
+      final newContact = Contact(
+        name: Name(first: firstName, last: lastName),
+        phones: [Phone(phoneNumber)],
+        displayName: "$firstName $lastName",
+      );
 
-      // إنشاء كائن Contact جديد محلي فقط
-      final newContact = Contact()
-        ..name.first = firstName
-        ..name.last = lastName
-        ..phones = [Phone(phoneNumber)];
-
-      // ✨ بدلاً من إضافته لجهات الاتصال في الهاتف، نضيفه للـ selectedContacts
       final currentSelected = state.value!.selectedContacts;
 
       final updatedSelected = [
@@ -252,6 +257,7 @@ class AddEventController extends _$AddEventController {
           isAddContact: false,
         ),
       );
+      updateEvent(state.value!.eventModel!);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
@@ -288,6 +294,136 @@ class AddEventController extends _$AddEventController {
       state = AsyncError(e, st);
       state = AsyncData(state.value!.copyWith(isAddEvent: false));
       return null;
+    }
+  }
+
+  Future<void> importGuestsFromFile() async {
+    try {
+      //? Pick a file :
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['csv', 'xlsx'],
+      );
+
+      if (result == null) {
+        // state = AsyncError("لم يتم اختيار أي ملف", StackTrace.current);
+        return;
+      }
+
+      final file = result.files.single;
+      final path = file.path;
+      if (path == null) {
+        state = AsyncError("This file can't be readed", StackTrace.current);
+        return;
+      }
+
+      final extension = path.split('.').last.toLowerCase();
+      List<List<dynamic>> rows = [];
+      Map<String, int> colIndex = {};
+
+      //? Read Excel :
+      if (extension == 'xlsx') {
+        final bytes = File(path).readAsBytesSync();
+
+        Excel excel;
+        try {
+          excel = Excel.decodeBytes(bytes);
+        } catch (_) {
+          state = AsyncError(
+            "This Excel file isn't supported",
+            StackTrace.current,
+          );
+          return;
+        }
+
+        final sheet = excel.tables.values.first;
+        if (sheet == null || sheet.rows.isEmpty) {
+          state = AsyncError("This file is empty", StackTrace.current);
+          return;
+        }
+
+        for (var row in sheet.rows) {
+          rows.add(row.map((c) => c?.value).toList());
+        }
+      }
+      //? Read CSV :
+      else if (extension == 'csv') {
+        final content = File(path).readAsStringSync();
+        rows = const CsvToListConverter().convert(content);
+      } else {
+        state = AsyncError("The file isn't supported", StackTrace.current);
+        return;
+      }
+
+      if (rows.isEmpty) {
+        state = AsyncError('This file is empty', StackTrace.current);
+        return;
+      }
+      //? Cleaning the header and check :
+      final cleanHeader = rows.first.map((e) {
+        return e.toString().trim().toLowerCase().replaceAll(
+          RegExp(r'[\ufeff\s]'),
+          '',
+        );
+      }).toList();
+
+      const requiredCols = [
+        "first_name",
+        "last_name",
+        "whatsapp_number",
+        "party_size",
+      ];
+
+      for (var col in requiredCols) {
+        if (!cleanHeader.contains(col)) {
+          state = AsyncError(
+            // "العمود '$col' غير موجود في الملف",
+            "The column $col isn't exist in the file",
+            StackTrace.current,
+          );
+          return;
+        }
+        colIndex[col] = cleanHeader.indexOf(col);
+      }
+
+      //? Convert data to Selected Contact :
+      List<SelectedContact> imported = [];
+
+      for (int i = 1; i < rows.length; i++) {
+        final row = rows[i];
+
+        final firstName = row[colIndex["first_name"]!]?.toString() ?? "";
+        final lastName = row[colIndex["last_name"]!]?.toString() ?? "";
+        final number = row[colIndex["whatsapp_number"]!]?.toString() ?? "";
+        final partySizeRaw = row[colIndex["party_size"]!];
+
+        final partySize = int.tryParse(partySizeRaw.toString()) ?? 0;
+
+        final contact = Contact(
+          name: Name(first: firstName, last: lastName),
+          phones: [Phone(number)],
+          displayName: "$firstName $lastName",
+        );
+
+        imported.add(
+          SelectedContact(
+            contact: contact,
+            count: partySize,
+            id: const Uuid().v4(),
+          ),
+        );
+      }
+
+      //? Merge new with old :
+      final existing = state.value!.selectedContacts ?? [];
+      final updated = [...existing, ...imported];
+
+      state = AsyncData(state.value!.copyWith(selectedContacts: updated));
+
+      //? Update the event data :
+      updateEvent(state.value!.eventModel!);
+    } catch (e, st) {
+      state = AsyncError(e, st);
     }
   }
 }

@@ -80,7 +80,7 @@ class _EditGuestNameBottomSheetState
                   ],
                 ),
                 31.verticalSpace,
-                CreataAccountField(
+                AppTextFormField(
                   withIcon: false,
                   controller: _firstNameController,
                   hint: context.tr('firstName'),
@@ -93,7 +93,7 @@ class _EditGuestNameBottomSheetState
                   },
                 ),
                 18.verticalSpace,
-                CreataAccountField(
+                AppTextFormField(
                   withIcon: false,
                   controller: _lastNameController,
                   hint: context.tr('lastName'),
@@ -115,21 +115,21 @@ class _EditGuestNameBottomSheetState
                   backgroundColor: AppColors.primary,
                   onTap: () {
                     if (_key.currentState!.validate()) {
-                   widget.id == null?
-                      ref
-                          .read(addEventControllerProvider.notifier)
-                          .updateContactName(
-                            widget.contact.contact,
-                            _firstNameController.text,
-                            _lastNameController.text,
-                          ):
-                      ref
-                          .read(updateEventControllerProvider.notifier)
-                          .updateContactName(
-                            widget.contact.contact,
-                            _firstNameController.text,
-                            _lastNameController.text,
-                          );
+                      widget.id == null
+                          ? ref
+                                .read(addEventControllerProvider.notifier)
+                                .updateContactName(
+                                  widget.contact.contact,
+                                  _firstNameController.text,
+                                  _lastNameController.text,
+                                )
+                          : ref
+                                .read(updateEventControllerProvider.notifier)
+                                .updateContactName(
+                                  widget.contact.contact,
+                                  _firstNameController.text,
+                                  _lastNameController.text,
+                                );
                       context.pop();
                     }
                   },
