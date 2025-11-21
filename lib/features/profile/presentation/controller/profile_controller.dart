@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wedding_app/features/auth/application/auth_service.dart';
-import 'package:wedding_app/features/profile/presentation/controller/profile_state.dart';
+import 'package:kroot_app/features/auth/application/auth_service.dart';
+import 'package:kroot_app/features/profile/presentation/controller/profile_state.dart';
 
 part 'profile_controller.g.dart';
 

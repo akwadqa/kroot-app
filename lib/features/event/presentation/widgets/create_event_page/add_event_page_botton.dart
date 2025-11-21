@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 class AddEventPageBotton extends StatelessWidget {
   const AddEventPageBotton({

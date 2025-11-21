@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_contacts/contact.dart';
 
-import 'package:wedding_app/features/event/data/models/event_response/create_event_response.dart';
-import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:wedding_app/features/event/presentation/controller/home_state.dart';
+import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
+import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 
 class AddEventState {
   final EventModel? eventModel;

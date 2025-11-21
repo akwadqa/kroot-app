@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wedding_app/features/profile/presentation/controller/profile_controller.dart';
-import 'package:wedding_app/gen/assets.gen.dart';
-import 'package:wedding_app/src/extenssions/int_extenssion.dart';
-import 'package:wedding_app/src/extenssions/widget_extensions.dart';
-import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
-import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
-import 'package:wedding_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/features/profile/presentation/controller/profile_controller.dart';
+import 'package:kroot_app/gen/assets.gen.dart';
+import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
+import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_text_style.dart';
 
 class PricingScreen extends ConsumerWidget {
   const PricingScreen({super.key});

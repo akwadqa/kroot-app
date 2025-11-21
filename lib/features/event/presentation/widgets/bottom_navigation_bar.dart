@@ -2,10 +2,10 @@
 //  // import 'package:easy_localization/easy_localization.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:wedding_app/gen/assets.gen.dart';
-// import 'package:wedding_app/src/extenssions/int_extenssion.dart';
-// import 'package:wedding_app/src/extenssions/widget_extensions.dart';
-// import 'package:wedding_app/src/theme/app_colors.dart';
+// import 'package:kroot_app/gen/assets.gen.dart';
+// import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+// import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+// import 'package:kroot_app/src/theme/app_colors.dart';
 
 // class CustomBottomNavigationBar extends ConsumerWidget {
 //   final int selectedIndex;
@@ -108,8 +108,8 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wedding_app/gen/assets.gen.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/gen/assets.gen.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 class AppBottomNavigation extends StatelessWidget {
   final int selectedIndex;

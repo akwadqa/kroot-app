@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wedding_app/features/scan_qr_code/data/repositories/scan_driver_qr_repository.dart';
-import 'package:wedding_app/features/scan_qr_code/domain/model/gates_info_model.dart';
-import 'package:wedding_app/features/scan_qr_code/domain/model/checkin_models.dart';
-import 'package:wedding_app/src/constants/Api/api_response.dart';
-import 'package:wedding_app/src/network/exception/dio_exceptions.dart';
+import 'package:kroot_app/features/scan_qr_code/data/repositories/scan_driver_qr_repository.dart';
+import 'package:kroot_app/features/scan_qr_code/domain/model/gates_info_model.dart';
+import 'package:kroot_app/features/scan_qr_code/domain/model/checkin_models.dart';
+import 'package:kroot_app/src/constants/Api/api_response.dart';
+import 'package:kroot_app/src/network/exception/dio_exceptions.dart';
 
 part 'scan_qr_code_controller.g.dart';
 

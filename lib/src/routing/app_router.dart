@@ -1,7 +1,7 @@
 
 //  // import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:wedding_app/features/auth/application/auth_service.dart';
-// import 'package:wedding_app/src/routing/app_router.gr.dart';
+// import 'package:kroot_app/features/auth/application/auth_service.dart';
+// import 'package:kroot_app/src/routing/app_router.gr.dart';
 
 // @AutoRouterConfig()
 // class AppRouter extends RootStackRouter {

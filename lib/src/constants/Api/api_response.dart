@@ -1,6 +1,6 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:wedding_app/src/constants/Api/pagination.dart';
+import 'package:kroot_app/src/constants/Api/pagination.dart';
 // part 'api_response.g.dart';
 @JsonSerializable(genericArgumentFactories: true)
 class ApiResponse<T> {

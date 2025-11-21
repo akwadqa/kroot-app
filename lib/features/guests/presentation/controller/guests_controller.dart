@@ -2,18 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wedding_app/features/event/data/models/add_guests_response/add_guests_response.dart';
-import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:wedding_app/features/event/data/repositories/home_repositories.dart';
-import 'package:wedding_app/features/event/presentation/controller/home_controller.dart';
-import 'package:wedding_app/features/event/presentation/controller/update_event/update_event_controller.dart';
-import 'package:wedding_app/features/guests/data/repositories/guests_repository.dart';
-import 'package:wedding_app/features/guests/domain/model/update_guest_list_response.dart/update_guest_list_response.dart';
-import 'package:wedding_app/features/guests/domain/model/update_guest_response/update_guest_response.dart';
-import 'package:wedding_app/features/guests/presentation/controller/guests_state.dart';
-import 'package:wedding_app/features/scan_qr_code/data/repositories/scan_driver_qr_repository.dart';
-import 'package:wedding_app/features/scan_qr_code/domain/model/checkin_models.dart';
-import 'package:wedding_app/src/constants/Api/api_response.dart';
+import 'package:kroot_app/features/guests/data/repositories/guests_repository.dart';
+import 'package:kroot_app/features/guests/domain/model/guest_model.dart';
+import 'package:kroot_app/features/scan_qr_code/data/repositories/scan_driver_qr_repository.dart';
+import 'package:kroot_app/features/scan_qr_code/domain/model/checkin_models.dart';
+import 'package:kroot_app/src/constants/Api/api_response.dart';
 
 part 'guests_controller.g.dart';
 

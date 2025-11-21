@@ -1,7 +1,7 @@
 // import 'package:easy_localization/easy_localization.dart';
 // import 'package:flutter/material.dart';
-// import 'package:wedding_app/features/guests/domain/model/guest_model.dart';
-// import 'package:wedding_app/src/theme/app_colors.dart';
+// import 'package:kroot_app/features/guests/domain/model/guest_model.dart';
+// import 'package:kroot_app/src/theme/app_colors.dart';
 
 // class GuestCardWidget extends StatelessWidget {
 //   final GuestModel guest;

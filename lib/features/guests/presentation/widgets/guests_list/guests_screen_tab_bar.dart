@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wedding_app/features/guests/presentation/controller/guest_ui_controller.dart';
-import 'package:wedding_app/features/guests/presentation/widgets/guests_list/guests_screen_tabs_item.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/features/guests/presentation/controller/guest_ui_controller.dart';
+import 'package:kroot_app/features/guests/presentation/widgets/guests_list/guests_screen_tabs_item.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 class GuestsScreenTabBar extends StatelessWidget {
   const GuestsScreenTabBar({super.key});

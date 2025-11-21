@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:wedding_app/features/auth/presentation/controller/auth_ui_controller.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
-import 'package:wedding_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/features/auth/presentation/controller/auth_ui_controller.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_text_style.dart';
 
 class LoginPageNumberField extends ConsumerStatefulWidget {
   const LoginPageNumberField(

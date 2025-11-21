@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:wedding_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 
 import '../theme/app_colors.dart';
 

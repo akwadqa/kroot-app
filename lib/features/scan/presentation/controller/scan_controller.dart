@@ -1,10 +1,10 @@
+import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/scan/data/model/user_scan_event_response/user_scan_event_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:wedding_app/features/scan/data/model/scan_qr_response/scan_qr_response.dart';
-import 'package:wedding_app/features/scan/data/model/user_scan_event_response/user_scan_event_response.dart';
-import 'package:wedding_app/features/scan/data/repository/scan_respository.dart';
-import 'package:wedding_app/features/scan/presentation/controller/scan_state.dart';
-import 'package:wedding_app/features/scan_qr_code/data/repositories/scan_driver_qr_repository.dart';
+import 'package:kroot_app/features/scan/data/model/scan_qr_response/scan_qr_response.dart';
+import 'package:kroot_app/features/scan/data/repository/scan_respository.dart';
+import 'package:kroot_app/features/scan/presentation/controller/scan_state.dart';
+import 'package:kroot_app/features/scan_qr_code/data/repositories/scan_driver_qr_repository.dart';
 
 part 'scan_controller.g.dart';
 
