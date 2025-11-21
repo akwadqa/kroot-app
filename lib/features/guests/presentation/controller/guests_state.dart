@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:wedding_app/features/event/data/models/add_guests_response/add_guests_response.dart';
-import 'package:wedding_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:wedding_app/features/guests/domain/model/update_guest_list_response.dart/update_guest_list_response.dart';
-import 'package:wedding_app/features/guests/domain/model/update_guest_response/update_guest_response.dart';
+import 'package:kroot_app/features/event/data/models/add_guests_response/add_guests_response.dart';
+import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/guests/domain/model/update_guest_list_response.dart/update_guest_list_response.dart';
+import 'package:kroot_app/features/guests/domain/model/update_guest_response/update_guest_response.dart';
 
 class GuestsState {
   final AsyncValue<AddGuestsResponse>? addGuestsResponse;
@@ -39,7 +39,8 @@ class GuestsState {
     return GuestsState(
       addGuestsResponse: addGuestsResponse ?? this.addGuestsResponse,
       updateGuestResponse: updateGuestResponse ?? this.updateGuestResponse,
-      updateGuestListRespone: updateGuestListRespone ?? this.updateGuestListRespone,
+      updateGuestListRespone:
+          updateGuestListRespone ?? this.updateGuestListRespone,
       deleteGuestResponse: deleteGuestResponse ?? this.deleteGuestResponse,
       guestsList: guestsList ?? this.guestsList,
     );

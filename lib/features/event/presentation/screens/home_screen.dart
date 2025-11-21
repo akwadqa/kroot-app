@@ -17,6 +17,7 @@ import 'package:kroot_app/features/event/presentation/widgets/home_page/home_pag
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 

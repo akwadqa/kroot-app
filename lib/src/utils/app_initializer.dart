@@ -7,7 +7,8 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../features/auth/application/auth_service.dart';
-import '../../firebase_options.dart';
+//TODO
+// import '../../firebase_options.dart';
 import '../constants/Api/services_urls.dart';
 import '../riverpod_observer.dart';
 
@@ -16,9 +17,11 @@ abstract class AppInitializer {
     //-- Flutter init --
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+
+    //TODO:
+    // await Firebase.initializeApp(
+    //   options: DefaultFirebaseOptions.currentPlatform,
+    // );
     //-- ENV FILE LOAD  --
     await dotenv.load(fileName: '.env');
     //-- Hive initialize --

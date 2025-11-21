@@ -80,20 +80,17 @@ dev_dependencies:
 dependency_overrides:
   analyzer_plugin: ^0.13.1
   archive: ^3.4.10
+
 flutter_launcher_icons:
   android: true
   ios: false
-
   image_path: "assets/images/kroot_icon.png"
-
   # adaptive_icon_background: "#1E2E4F"   # الخلفية التي تريدها
-  adaptive_icon_foreground: "assets/images/kroot_icon.png"
-
+  # adaptive_icon_foreground: "assets/images/kroot_icon.png"
   android_12:
     image: "assets/images/kroot_icon.png"
     # color: "#1E2E4F"         # خلفية Android 12
     fullscreen: true
-
   min_sdk_android: 21
 
 flutter:

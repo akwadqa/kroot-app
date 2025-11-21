@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 class FadeCircleLoadingIndicator extends StatefulWidget {
   const FadeCircleLoadingIndicator({super.key, this.color});
