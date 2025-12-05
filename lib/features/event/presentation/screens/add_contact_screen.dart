@@ -11,6 +11,7 @@ import 'package:kroot_app/features/event/presentation/controller/add_event/add_e
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
+import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/add_contact_page/add_contact_page_tile.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
@@ -18,6 +19,7 @@ import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -164,14 +166,21 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                     final state = ref.watch(addEventControllerProvider);
                     //? Error
                     if (state.value!.contacts.isEmpty) {
-                      return Center(
-                        child: Text(
-                          context.tr('error_title'),
-                          style: AppTextStyle.rubikRegular16.copyWith(
-                            color: AppColors.black,
-                          ),
-                        ),
+                      return AppErrorWidget(
+                        onTap: () {
+                          ref
+                              .read(addEventControllerProvider.notifier)
+                              .getContacts(null);
+                        },
                       );
+                      // return Center(
+                      //   child: Text(
+                      //     context.tr('error_title'),
+                      //     style: AppTextStyle.rubikRegular16.copyWith(
+                      //       color: AppColors.black,
+                      //     ),
+                      //   ),
+                      // );
                     }
                     return _buildList(state.value!);
                   },
@@ -186,7 +195,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                   },
                 ),
               ),
-              
+
               //? This for continue and save as draft :
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -256,15 +265,20 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
       itemBuilder: (context, index) {
         return AddContactScreenTile(
           contact: data.contacts[index],
-
-          selectedContacts: ref
-              .read(addEventControllerProvider)
-              .value!
-              .selectedContacts!,
+          selectedContacts: widget.id == null
+              ? ref.watch(addEventControllerProvider).value!.selectedContacts!
+              : ref
+                    .watch(updateEventControllerProvider)
+                    .value!
+                    .selectedContacts!,
           onChange: (val) {
-            ref.read(addEventControllerProvider.notifier)
-              ..selectContact(data.contacts[index])
-              ..updateEvent(EventModel());
+            widget.id == null
+                ? (ref.read(addEventControllerProvider.notifier)
+                    ..selectContact(data.contacts[index])
+                    ..updateEvent(EventModel()))
+                : (ref.read(updateEventControllerProvider.notifier)
+                    ..selectContactForUpdatedEvent(data.contacts[index])
+                    ..updateDataForEvent(EventModel(), widget.id!));
           },
         );
       },

@@ -377,10 +377,6 @@ class $AssetsImagesGen {
   AssetGenImage get krootInviteImage =>
       const AssetGenImage('assets/images/kroot_invite_image.png');
 
-  /// File path: assets/images/kroot_logo.png
-  AssetGenImage get krootLogo =>
-      const AssetGenImage('assets/images/kroot_logo.png');
-
   /// File path: assets/images/personal_image.png
   AssetGenImage get personalImage =>
       const AssetGenImage('assets/images/personal_image.png');
@@ -420,7 +416,6 @@ class $AssetsImagesGen {
     imWedding,
     krootIcon,
     krootInviteImage,
-    krootLogo,
     personalImage,
     qatarCircl,
     qatarCountry,

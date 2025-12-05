@@ -137,12 +137,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (context) => AddContactManuallBottomSheet(
-        firstName: firstName,
-        lastName: lastName,
-        number: number,
-        id: widget.id,
-      ),
+      builder: (context) => AddContactManuallBottomSheet(id: widget.id),
     );
   }
 
@@ -162,6 +157,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
         if (next is AsyncData) {
           context.pop();
           context.pop();
+          ref.read(homeControllerProvider.notifier).getEventDetails(widget.id!);
           AppToast.doneToast('Your guests updated');
         }
         if (next is AsyncError) {
@@ -184,6 +180,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           if (next is AsyncData && prev is AsyncLoading) {
             // if (context.canPop()) {
             ctx.pop();
+
             AppToast.doneToast('Done');
 
             // context.pushReplacement(Routes.main);
@@ -193,7 +190,8 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.createEventResponse?.eventId,
+              // extra: next.value!.createEventResponse?.eventId,
+              extra: {'id': next.value!.createEventResponse?.eventId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
@@ -242,7 +240,8 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.updatedEvent?.occasionId,
+              // extra: next.value!.updatedEvent?.occasionId,
+              extra: {'id': next.value!.updatedEvent?.occasionId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
@@ -256,14 +255,14 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
       });
     }
 
-    final items = ref
-        .watch(updateEventControllerProvider)
-        .value!
-        .selectedContacts;
+    // final items = ref
+    //     .watch(updateEventControllerProvider)
+    //     .value!
+    //     .selectedContacts;
 
-    // final items = widget.id != null
-    //     ? ref.watch(updateEventControllerProvider).value!.selectedContacts
-    //     : ref.watch(addEventControllerProvider).value!.selectedContacts;
+    final items = widget.id != null
+        ? ref.watch(updateEventControllerProvider).value!.selectedContacts
+        : ref.watch(addEventControllerProvider).value!.selectedContacts;
     return Scaffold(
       appBar: CustomAppbar(
         title: context.tr('guestList'),
@@ -348,7 +347,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
 
               //? This for update Guest List :
               if (widget.id != null)
-                //? Confirm event :
+                //? Update guest :
                 CustomButtonWidget(
                   text: '',
                   onTap: () async {
@@ -478,23 +477,34 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
   }
 }
 
-class AddContactManuallBottomSheet extends StatelessWidget {
-  const AddContactManuallBottomSheet({
-    super.key,
-    required this.firstName,
-    required this.lastName,
-    required this.number,
-    required this.id,
-  });
+class AddContactManuallBottomSheet extends StatefulWidget {
+  AddContactManuallBottomSheet({super.key, required this.id});
 
-  final TextEditingController firstName;
-  final TextEditingController lastName;
-  final TextEditingController number;
   final String? id;
 
   @override
+  State<AddContactManuallBottomSheet> createState() =>
+      _AddContactManuallBottomSheetState();
+}
+
+class _AddContactManuallBottomSheetState
+    extends State<AddContactManuallBottomSheet> {
+  GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+  late TextEditingController firstName;
+  late TextEditingController lastName;
+  late TextEditingController number;
+
+  @override
+  void initState() {
+    super.initState();
+    firstName = TextEditingController();
+    lastName = TextEditingController();
+    number = TextEditingController();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    GlobalKey<FormState> _key = GlobalKey<FormState>();
     return Container(
       height: 700.h,
       padding: EdgeInsets.all(22.w),
@@ -583,7 +593,7 @@ class AddContactManuallBottomSheet extends StatelessWidget {
                     text: '',
                     onTap: () {
                       if (_key.currentState!.validate()) {
-                        if (id == null) {
+                        if (widget.id == null) {
                           ref
                               .read(addEventControllerProvider.notifier)
                               .addNewContact(

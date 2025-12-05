@@ -19,6 +19,7 @@ import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
@@ -28,8 +29,14 @@ import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
 
 class EventDetailsScreen extends ConsumerStatefulWidget {
-  const EventDetailsScreen({super.key, required this.id});
-  final String id;
+  const EventDetailsScreen({
+    super.key,
+
+    required this.eventModel,
+    required this.id,
+  });
+  final String? id;
+  final EventModel? eventModel;
 
   @override
   ConsumerState<EventDetailsScreen> createState() => _EventDetailsScreenState();
@@ -40,7 +47,9 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
   void initState() {
     super.initState();
     Future(() {
-      ref.read(homeControllerProvider.notifier).getEventDetails(widget.id);
+      if (widget.eventModel == null) {
+        ref.read(homeControllerProvider.notifier).getEventDetails(widget.id!);
+      }
     });
   }
 
@@ -48,27 +57,31 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(homeControllerProvider);
-
-    //? This listener for confirm event :
-    ref.listen(
-      homeControllerProvider.select((val) => val.value!.confirmEventResponse),
-      (prev, next) {
-        if (next is AsyncLoading) {
-          AppAlert.showLoadingDialog(context);
-        }
-
-        if (next is AsyncData) {
-          context.pop();
-          ref.read(homeControllerProvider.notifier).getEventDetails(widget.id);
-        }
-
-        if (next is AsyncError) {
-          context.pop();
-          AppToast.errorToast(next!.error.toString());
-        }
-      },
+    final controller = ref.watch(
+      homeControllerProvider.select((val) => val.value!.occasionModel),
     );
+
+    // //? This listener for confirm event :
+    // ref.listen(
+    //   homeControllerProvider.select((val) => val.value!.confirmEventResponse),
+    //   (prev, next) {
+    //     if (next is AsyncLoading) {
+    //       AppAlert.showLoadingDialog(context);
+    //     }
+
+    //     if (next is AsyncData) {
+    //       context.pop();
+    //       // ref
+    //       //     .read(homeControllerProvider.notifier)
+    //       //     .getEventDetails(widget.eventModel.occasionId!);
+    //     }
+
+    //     if (next is AsyncError) {
+    //       context.pop();
+    //       AppToast.errorToast(next!.error.toString());
+    //     }
+    //   },
+    // );
 
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent != null) {
@@ -109,54 +122,50 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
         appBar: CustomAppbar(
           title: 'Event Details',
           withBackButton: true,
-          actionButton: controller.maybeWhen(
-            orElse: () => SizedBox.shrink(),
-            data: (data) {
-              return GestureDetector(
-                onTap: () {
-                  _buildBottomSheet(context, data.occasionModel!);
-                },
+          actionButton: widget.eventModel != null
+              ? GestureDetector(
+                  onTap: () {
+                    _buildBottomSheet(context, widget.eventModel!);
+                  },
 
-                child: Assets.icons.optionsIc.svg(),
-              );
-            },
-          ),
+                  child: Assets.icons.optionsIc.svg(),
+                )
+              : controller?.maybeWhen(
+                  orElse: () => SizedBox.shrink(),
+                  data: (data) {
+                    return GestureDetector(
+                      onTap: () {
+                        _buildBottomSheet(context, widget.eventModel ?? data);
+                      },
+
+                      child: Assets.icons.optionsIc.svg(),
+                    );
+                  },
+                ),
         ),
-        body: Builder(
-          builder: (context) {
-            return controller.when(
-              data: (data) {
-                if (data.occasionModel != null) {
-                  return _buildBody(context, data.occasionModel!, ref);
-                }
-                return SizedBox();
-              },
-              error: (e, st) {
-                if (controller.value!.isDeleteEvent != null &&
-                    controller.value?.occasionModel != null) {
-                  return _buildBody(
-                    context,
-                    controller.value!.occasionModel!,
-                    ref,
+        body: widget.eventModel != null
+            ? _buildBody(context, widget.eventModel!, ref)
+            : controller?.when(
+                data: (data) {
+                  if (data != null) {
+                    return _buildBody(context, data, ref);
+                  }
+                  return SizedBox();
+                },
+                error: (e, st) {
+                  // return Text('error');
+                  return AppErrorWidget(
+                    onTap: () {
+                      ref
+                          .read(homeControllerProvider.notifier)
+                          .getEventDetails(widget.id!);
+                    },
                   );
-                }
-                return Text('error');
-              },
-              loading: () {
-                // Assets.images.animationLoading.image
-                if (controller.value!.isDeleteEvent != null &&
-                    controller.value?.occasionModel != null) {
-                  return _buildBody(
-                    context,
-                    controller.value!.occasionModel!,
-                    ref,
-                  );
-                }
-                return Center(child: Assets.images.animationLoading.image());
-              },
-            );
-          },
-        ),
+                },
+                loading: () {
+                  return Center(child: Assets.images.animationLoading.image());
+                },
+              ),
       ),
     );
   }
@@ -231,42 +240,48 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.invitedIc,
                     title: context.tr('invited'),
-                    number: 10.toString(),
+                    // number: 10.toString(),
+                    number: event.guestReport?.totalInvitees.toString() ?? '0',
                   ),
 
                   //? Waiting :
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.waitingIc,
                     title: context.tr('waiting'),
-                    number: 10.toString(),
+                    // number: 10.toString(),
+                    number: event.guestReport?.pending.toString() ?? '0',
                   ),
 
                   //? Messages :
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.messagesIc,
                     title: context.tr('messages'),
-                    number: 10.toString(),
+                    // number: 10.toString(),
+                    number: event.guestReport?.failed.toString() ?? '0',
                   ),
 
                   //? Confirmed :
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.confirmedIc,
                     title: context.tr('status_confirmed'),
-                    number: 10.toString(),
+                    // number: 10.toString(),
+                    number: event.guestReport?.confirmed.toString() ?? '0',
                   ),
 
                   //? Rejected :
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.rejectedIc,
                     title: context.tr('rejected'),
-                    number: 10.toString(),
+                    // number: 10.toString(),
+                    number: event.guestReport?.declined.toString() ?? '0',
                   ),
 
                   //? Scanned
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.scannedIc,
                     title: context.tr('scanned'),
-                    number: 10.toString(),
+                    // number: 10.toString(),
+                    number: event.guestReport?.scannedCount.toString() ?? '0',
                   ),
                 ],
               ).symmetricPadding(horizontal: 22.w),
@@ -274,54 +289,68 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
               20.verticalSpace,
 
               //? Confirm event :
-              CustomButtonWidget(
-                text: '',
-                onTap: () async {
-                  // context.push(Routes.eventGuestList);
-                  ref
-                      .read(homeControllerProvider.notifier)
-                      .confirmEvent(widget.id);
-                },
-                isFiled: true,
-                content: Text(
-                  context.tr('confirmEvent'),
-                  style: AppTextStyle.nunitoBold16.copyWith(
-                    color: AppColors.white,
+              if (widget.eventModel?.status == 'Draft' ||
+                  event.status == 'Draft')
+                CustomButtonWidget(
+                  text: '',
+                  onTap: () {
+                    context.push(
+                      Routes.sendInvite,
+                      extra: widget.eventModel ?? event,
+                    );
+                    // ref
+                    //     .read(homeControllerProvider.notifier)
+                    //     .confirmEvent(
+                    //       widget.eventModel?.occasionId ?? widget.id!,
+                    //     );
+                  },
+                  isFiled: true,
+                  content: Text(
+                    context.tr('confirmEvent'),
+                    style: AppTextStyle.nunitoBold16.copyWith(
+                      color: AppColors.white,
+                    ),
                   ),
-                ),
-                height: 44.h,
-                width: 330.w,
-                backgroundColor: AppColors.primary,
-              ).symmetricPadding(horizontal: 22.w),
+                  height: 44.h,
+                  width: 330.w,
+                  backgroundColor: AppColors.primary,
+                ).symmetricPadding(horizontal: 22.w),
 
-              20.verticalSpace,
+              if (widget.eventModel?.status == 'Draft' ||
+                  event.status == 'Draft')
+                20.verticalSpace,
 
               //? Edit guest list :
-              CustomButtonWidget(
-                text: '',
-                onTap: () {
-                  context.push(Routes.eventGuestList);
-                },
-                isFiled: true,
-                content: Text(
-                  context.tr('editGuestList'),
-                  style: AppTextStyle.nunitoBold16.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
-                boxDecoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 4,
-                      color: AppColors.primary.withValues(alpha: .25),
+              if (widget.eventModel?.status == 'Draft' ||
+                  event.status == 'Draft')
+                CustomButtonWidget(
+                  text: '',
+                  onTap: () {
+                    context.push(
+                      Routes.eventGuestList,
+                      extra: event.occasionId,
+                    );
+                  },
+                  isFiled: true,
+                  content: Text(
+                    context.tr('editGuestList'),
+                    style: AppTextStyle.nunitoBold16.copyWith(
+                      color: AppColors.primary,
                     ),
-                  ],
-                ),
-                height: 44.h,
-                width: 330.w,
-                backgroundColor: AppColors.white,
-              ).symmetricPadding(horizontal: 22.w),
+                  ),
+                  boxDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 4,
+                        color: AppColors.primary.withValues(alpha: .25),
+                      ),
+                    ],
+                  ),
+                  height: 44.h,
+                  width: 330.w,
+                  backgroundColor: AppColors.white,
+                ).symmetricPadding(horizontal: 22.w),
               40.verticalSpace,
             ],
           ),

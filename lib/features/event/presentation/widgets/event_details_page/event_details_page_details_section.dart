@@ -36,25 +36,42 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
               ),
               Spacer(),
 
-              CustomButtonWidget(
-                content: Text(
-                  'Active',
-                  // event.status,
+              // CustomButtonWidget(
+              //   content: Text(
+              //     // 'Active',
+              //     event.status!,
+              //     style: AppTextStyle.rubikRegular14.copyWith(
+              //       color: AppColors.white,
+              //     ),
+              //   ),
+              //   backgroundColor: event.status == 'Confirmed'
+              //       ? AppColors.primary
+              //       : AppColors.gray,
+              //   // backgroundColor: AppColors.primary,
+              //   text: '',
+              //   radius: 32.r,
+              //   onTap: () {},
+              //   isFiled: false,
+              //   height: 25.h,
+              //   width: 64.w,
+              //   topPading: 0,
+              // ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 11.w),
+                decoration: BoxDecoration(
+                  color: event.status == 'Confirmed'
+                      ? AppColors.primary
+                      : AppColors.gray,
+
+                  borderRadius: BorderRadius.circular(32.r),
+                ),
+                child: Text(
+                  // 'Draft',
+                  event.status ?? '',
                   style: AppTextStyle.rubikRegular14.copyWith(
                     color: AppColors.white,
                   ),
                 ),
-                backgroundColor: event.status == 'Confirmed'
-                    ? AppColors.primary
-                    : AppColors.gray,
-                // backgroundColor: AppColors.primary,
-                text: '',
-                radius: 32.r,
-                onTap: () {},
-                isFiled: false,
-                height: 25.h,
-                width: 64.w,
-                topPading: 0,
               ),
             ],
           ),
@@ -83,23 +100,6 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 11.w),
-                decoration: BoxDecoration(
-                  color: event.status == 'Confirmed'
-                      ? AppColors.primary
-                      : AppColors.gray,
-
-                  borderRadius: BorderRadius.circular(32.r),
-                ),
-                child: Text(
-                  // 'Draft',
-                  event.status ?? '',
-                  style: AppTextStyle.rubikRegular14.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
             ],
           ),
         ],

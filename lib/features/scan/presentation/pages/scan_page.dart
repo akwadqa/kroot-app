@@ -9,6 +9,7 @@ import 'package:kroot_app/features/event/presentation/controller/home_controller
 import 'package:kroot_app/features/scan/presentation/controller/scan_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -44,19 +45,21 @@ class _ScanPageState extends ConsumerState<ScanPage> {
         // body: _buildBody(),
         body: controller.when(
           data: (data) {
+            if (data.userScanEventResponse?.participantEvents.isEmpty ??
+                false) {
+              return Center(child: Assets.icons.emptyIc.svg());
+            }
             return _buildBody(
               data.userScanEventResponse?.participantEvents ?? [],
             );
           },
           error: (e, st) {
-            return Center(
-              child: Assets.icons.emptyIc.svg(),
-              // child: Text(
-              //   e.toString(),
-              //   style: AppTextStyle.rubikRegular16.copyWith(
-              //     color: AppColors.black,
-              //   ),
-              // ),
+            return AppErrorWidget(
+              onTap: () {
+                ref
+                    .read(scanControllerProvider.notifier)
+                    .getUserScanEvent(page: 1);
+              },
             );
           },
           loading: () {

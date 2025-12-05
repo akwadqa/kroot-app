@@ -48,7 +48,8 @@ class QrScreen extends ConsumerWidget {
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.createEventResponse?.eventId,
+              // extra: next.value!.createEventResponse?.eventId,
+              extra: {'id': next.value!.createEventResponse?.eventId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
@@ -94,7 +95,8 @@ class QrScreen extends ConsumerWidget {
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.updatedEvent?.occasionId,
+              // extra: next.value!.updatedEvent?.occasionId,
+              extra: {'id': next.value!.updatedEvent?.occasionId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
@@ -199,7 +201,8 @@ class QrScreen extends ConsumerWidget {
               CustomButtonWidget(
                 text: '',
                 onTap: () {
-                  context.push(Routes.sendInvite , extra: id);
+                  // context.push(Routes.sendInvite , extra: id);
+                  ref.read(addEventControllerProvider.notifier).createEvent();
                 },
                 backgroundColor: AppColors.primary,
                 isFiled: true,

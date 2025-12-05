@@ -11,6 +11,7 @@ abstract class EndPoints {
   static String createAccount = '$_baseUrl/kroot.api.auth.register';
 
   //? Home :
+  static String getUtils = '$_baseUrl/kroot.api.api.get_utility_data';
   static String getEvents = '$_baseUrl/kroot.api.api.get_user_events';
   static String createEvent = '$_baseUrl/kroot.api.api.create_event';
   static String getEventDetails = '$_baseUrl/kroot.api.api.get_event';
@@ -27,6 +28,10 @@ abstract class EndPoints {
   static String updateGuest = '$_baseUrl/kroot.api.api.update_invitee';
   static String deleteGuest = '$_baseUrl/kroot.api.api.delete_guest';
   static String updateGustsList = '$_baseUrl/kroot.api.api.update_guest_list';
+
+  //? Profile : 
+  static String getPaymentLink = '$_baseUrl/sadad.api.api.get_payment_url';
+
 
   // 🟩 CHECK
   static const String getGuests = '.get_invitees';

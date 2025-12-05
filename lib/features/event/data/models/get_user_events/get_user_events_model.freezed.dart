@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GetUserEventsModel {
 
- List<EventModel>? get events;@JsonKey(name: 'event_types') List<String>? get eventTypes;
+@JsonKey(name: 'events') List<EventModel>? get events;
 /// Create a copy of GetUserEventsModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $GetUserEventsModelCopyWith<GetUserEventsModel> get copyWith => _$GetUserEventsM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetUserEventsModel&&const DeepCollectionEquality().equals(other.events, events)&&const DeepCollectionEquality().equals(other.eventTypes, eventTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetUserEventsModel&&const DeepCollectionEquality().equals(other.events, events));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(events),const DeepCollectionEquality().hash(eventTypes));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(events));
 
 @override
 String toString() {
-  return 'GetUserEventsModel(events: $events, eventTypes: $eventTypes)';
+  return 'GetUserEventsModel(events: $events)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $GetUserEventsModelCopyWith<$Res>  {
   factory $GetUserEventsModelCopyWith(GetUserEventsModel value, $Res Function(GetUserEventsModel) _then) = _$GetUserEventsModelCopyWithImpl;
 @useResult
 $Res call({
- List<EventModel>? events,@JsonKey(name: 'event_types') List<String>? eventTypes
+@JsonKey(name: 'events') List<EventModel>? events
 });
 
 
@@ -65,11 +65,10 @@ class _$GetUserEventsModelCopyWithImpl<$Res>
 
 /// Create a copy of GetUserEventsModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? events = freezed,Object? eventTypes = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? events = freezed,}) {
   return _then(_self.copyWith(
 events: freezed == events ? _self.events : events // ignore: cast_nullable_to_non_nullable
-as List<EventModel>?,eventTypes: freezed == eventTypes ? _self.eventTypes : eventTypes // ignore: cast_nullable_to_non_nullable
-as List<String>?,
+as List<EventModel>?,
   ));
 }
 
@@ -154,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<EventModel>? events, @JsonKey(name: 'event_types')  List<String>? eventTypes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'events')  List<EventModel>? events)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GetUserEventsModel() when $default != null:
-return $default(_that.events,_that.eventTypes);case _:
+return $default(_that.events);case _:
   return orElse();
 
 }
@@ -175,10 +174,10 @@ return $default(_that.events,_that.eventTypes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<EventModel>? events, @JsonKey(name: 'event_types')  List<String>? eventTypes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'events')  List<EventModel>? events)  $default,) {final _that = this;
 switch (_that) {
 case _GetUserEventsModel():
-return $default(_that.events,_that.eventTypes);case _:
+return $default(_that.events);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +194,10 @@ return $default(_that.events,_that.eventTypes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<EventModel>? events, @JsonKey(name: 'event_types')  List<String>? eventTypes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'events')  List<EventModel>? events)?  $default,) {final _that = this;
 switch (_that) {
 case _GetUserEventsModel() when $default != null:
-return $default(_that.events,_that.eventTypes);case _:
+return $default(_that.events);case _:
   return null;
 
 }
@@ -210,23 +209,14 @@ return $default(_that.events,_that.eventTypes);case _:
 @JsonSerializable()
 
 class _GetUserEventsModel implements GetUserEventsModel {
-  const _GetUserEventsModel({final  List<EventModel>? events, @JsonKey(name: 'event_types') final  List<String>? eventTypes}): _events = events,_eventTypes = eventTypes;
+  const _GetUserEventsModel({@JsonKey(name: 'events') final  List<EventModel>? events}): _events = events;
   factory _GetUserEventsModel.fromJson(Map<String, dynamic> json) => _$GetUserEventsModelFromJson(json);
 
  final  List<EventModel>? _events;
-@override List<EventModel>? get events {
+@override@JsonKey(name: 'events') List<EventModel>? get events {
   final value = _events;
   if (value == null) return null;
   if (_events is EqualUnmodifiableListView) return _events;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(value);
-}
-
- final  List<String>? _eventTypes;
-@override@JsonKey(name: 'event_types') List<String>? get eventTypes {
-  final value = _eventTypes;
-  if (value == null) return null;
-  if (_eventTypes is EqualUnmodifiableListView) return _eventTypes;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -245,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetUserEventsModel&&const DeepCollectionEquality().equals(other._events, _events)&&const DeepCollectionEquality().equals(other._eventTypes, _eventTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GetUserEventsModel&&const DeepCollectionEquality().equals(other._events, _events));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_events),const DeepCollectionEquality().hash(_eventTypes));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_events));
 
 @override
 String toString() {
-  return 'GetUserEventsModel(events: $events, eventTypes: $eventTypes)';
+  return 'GetUserEventsModel(events: $events)';
 }
 
 
@@ -265,7 +255,7 @@ abstract mixin class _$GetUserEventsModelCopyWith<$Res> implements $GetUserEvent
   factory _$GetUserEventsModelCopyWith(_GetUserEventsModel value, $Res Function(_GetUserEventsModel) _then) = __$GetUserEventsModelCopyWithImpl;
 @override @useResult
 $Res call({
- List<EventModel>? events,@JsonKey(name: 'event_types') List<String>? eventTypes
+@JsonKey(name: 'events') List<EventModel>? events
 });
 
 
@@ -282,11 +272,10 @@ class __$GetUserEventsModelCopyWithImpl<$Res>
 
 /// Create a copy of GetUserEventsModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? events = freezed,Object? eventTypes = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? events = freezed,}) {
   return _then(_GetUserEventsModel(
 events: freezed == events ? _self._events : events // ignore: cast_nullable_to_non_nullable
-as List<EventModel>?,eventTypes: freezed == eventTypes ? _self._eventTypes : eventTypes // ignore: cast_nullable_to_non_nullable
-as List<String>?,
+as List<EventModel>?,
   ));
 }
 
@@ -297,7 +286,9 @@ as List<String>?,
 /// @nodoc
 mixin _$EventModel {
 
-@JsonKey(name: 'occasion_id') String? get occasionId; String? get title; String? get type; String? get date; String? get language;@JsonKey(name: 'map_link') String? get mapLink;@JsonKey(name: 'location_name') String? get locationName;@JsonKey(name: 'show_qr') int? get showQr;@JsonKey(name: 'image_url') String? get imageUrl;@JsonKey(includeFromJson: false) File? get image;@JsonKey(name: 'invite_template') String? get inviteTemplate;@JsonKey(name: 'confirmed_template') String? get confirmedTemplate;@JsonKey(name: 'declined_template') String? get declinedTemplate;@JsonKey(name: 'workflow_state') String? get workflowState; String? get status;@JsonKey(includeToJson: false) List<GuestModel>? get guests;
+@JsonKey(name: 'occasion_id') String? get occasionId; String? get title; String? get type; String? get date; String? get language;@JsonKey(name: 'map_longitude') String? get mapLongitude;@JsonKey(name: 'map_latitude') String? get mapLatitude;@JsonKey(name: 'location_name') String? get locationName;@JsonKey(name: 'show_qr') int? get showQr;@JsonKey(name: 'image_url') String? get imageUrl;@JsonKey(includeFromJson: false) File? get image;@JsonKey(name: 'invite_template') String? get inviteTemplate;@JsonKey(name: 'confirmed_template') String? get confirmedTemplate;@JsonKey(name: 'declined_template') String? get declinedTemplate;@JsonKey(name: 'workflow_state') String? get workflowState; String? get status;// guest_report object
+@JsonKey(name: 'guest_report') GuestReportModel? get guestReport;// قائمة guest
+@JsonKey(name: 'guests') List<GuestModel>? get guests;
 /// Create a copy of EventModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -310,16 +301,16 @@ $EventModelCopyWith<EventModel> get copyWith => _$EventModelCopyWithImpl<EventMo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is EventModel&&(identical(other.occasionId, occasionId) || other.occasionId == occasionId)&&(identical(other.title, title) || other.title == title)&&(identical(other.type, type) || other.type == type)&&(identical(other.date, date) || other.date == date)&&(identical(other.language, language) || other.language == language)&&(identical(other.mapLink, mapLink) || other.mapLink == mapLink)&&(identical(other.locationName, locationName) || other.locationName == locationName)&&(identical(other.showQr, showQr) || other.showQr == showQr)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.image, image) || other.image == image)&&(identical(other.inviteTemplate, inviteTemplate) || other.inviteTemplate == inviteTemplate)&&(identical(other.confirmedTemplate, confirmedTemplate) || other.confirmedTemplate == confirmedTemplate)&&(identical(other.declinedTemplate, declinedTemplate) || other.declinedTemplate == declinedTemplate)&&(identical(other.workflowState, workflowState) || other.workflowState == workflowState)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.guests, guests));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EventModel&&(identical(other.occasionId, occasionId) || other.occasionId == occasionId)&&(identical(other.title, title) || other.title == title)&&(identical(other.type, type) || other.type == type)&&(identical(other.date, date) || other.date == date)&&(identical(other.language, language) || other.language == language)&&(identical(other.mapLongitude, mapLongitude) || other.mapLongitude == mapLongitude)&&(identical(other.mapLatitude, mapLatitude) || other.mapLatitude == mapLatitude)&&(identical(other.locationName, locationName) || other.locationName == locationName)&&(identical(other.showQr, showQr) || other.showQr == showQr)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.image, image) || other.image == image)&&(identical(other.inviteTemplate, inviteTemplate) || other.inviteTemplate == inviteTemplate)&&(identical(other.confirmedTemplate, confirmedTemplate) || other.confirmedTemplate == confirmedTemplate)&&(identical(other.declinedTemplate, declinedTemplate) || other.declinedTemplate == declinedTemplate)&&(identical(other.workflowState, workflowState) || other.workflowState == workflowState)&&(identical(other.status, status) || other.status == status)&&(identical(other.guestReport, guestReport) || other.guestReport == guestReport)&&const DeepCollectionEquality().equals(other.guests, guests));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,occasionId,title,type,date,language,mapLink,locationName,showQr,imageUrl,image,inviteTemplate,confirmedTemplate,declinedTemplate,workflowState,status,const DeepCollectionEquality().hash(guests));
+int get hashCode => Object.hash(runtimeType,occasionId,title,type,date,language,mapLongitude,mapLatitude,locationName,showQr,imageUrl,image,inviteTemplate,confirmedTemplate,declinedTemplate,workflowState,status,guestReport,const DeepCollectionEquality().hash(guests));
 
 @override
 String toString() {
-  return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, mapLink: $mapLink, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guests: $guests)';
+  return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests)';
 }
 
 
@@ -330,11 +321,11 @@ abstract mixin class $EventModelCopyWith<$Res>  {
   factory $EventModelCopyWith(EventModel value, $Res Function(EventModel) _then) = _$EventModelCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'occasion_id') String? occasionId, String? title, String? type, String? date, String? language,@JsonKey(name: 'map_link') String? mapLink,@JsonKey(name: 'location_name') String? locationName,@JsonKey(name: 'show_qr') int? showQr,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(includeFromJson: false) File? image,@JsonKey(name: 'invite_template') String? inviteTemplate,@JsonKey(name: 'confirmed_template') String? confirmedTemplate,@JsonKey(name: 'declined_template') String? declinedTemplate,@JsonKey(name: 'workflow_state') String? workflowState, String? status,@JsonKey(includeToJson: false) List<GuestModel>? guests
+@JsonKey(name: 'occasion_id') String? occasionId, String? title, String? type, String? date, String? language,@JsonKey(name: 'map_longitude') String? mapLongitude,@JsonKey(name: 'map_latitude') String? mapLatitude,@JsonKey(name: 'location_name') String? locationName,@JsonKey(name: 'show_qr') int? showQr,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(includeFromJson: false) File? image,@JsonKey(name: 'invite_template') String? inviteTemplate,@JsonKey(name: 'confirmed_template') String? confirmedTemplate,@JsonKey(name: 'declined_template') String? declinedTemplate,@JsonKey(name: 'workflow_state') String? workflowState, String? status,@JsonKey(name: 'guest_report') GuestReportModel? guestReport,@JsonKey(name: 'guests') List<GuestModel>? guests
 });
 
 
-
+$GuestReportModelCopyWith<$Res>? get guestReport;
 
 }
 /// @nodoc
@@ -347,14 +338,15 @@ class _$EventModelCopyWithImpl<$Res>
 
 /// Create a copy of EventModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? occasionId = freezed,Object? title = freezed,Object? type = freezed,Object? date = freezed,Object? language = freezed,Object? mapLink = freezed,Object? locationName = freezed,Object? showQr = freezed,Object? imageUrl = freezed,Object? image = freezed,Object? inviteTemplate = freezed,Object? confirmedTemplate = freezed,Object? declinedTemplate = freezed,Object? workflowState = freezed,Object? status = freezed,Object? guests = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? occasionId = freezed,Object? title = freezed,Object? type = freezed,Object? date = freezed,Object? language = freezed,Object? mapLongitude = freezed,Object? mapLatitude = freezed,Object? locationName = freezed,Object? showQr = freezed,Object? imageUrl = freezed,Object? image = freezed,Object? inviteTemplate = freezed,Object? confirmedTemplate = freezed,Object? declinedTemplate = freezed,Object? workflowState = freezed,Object? status = freezed,Object? guestReport = freezed,Object? guests = freezed,}) {
   return _then(_self.copyWith(
 occasionId: freezed == occasionId ? _self.occasionId : occasionId // ignore: cast_nullable_to_non_nullable
 as String?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
-as String?,mapLink: freezed == mapLink ? _self.mapLink : mapLink // ignore: cast_nullable_to_non_nullable
+as String?,mapLongitude: freezed == mapLongitude ? _self.mapLongitude : mapLongitude // ignore: cast_nullable_to_non_nullable
+as String?,mapLatitude: freezed == mapLatitude ? _self.mapLatitude : mapLatitude // ignore: cast_nullable_to_non_nullable
 as String?,locationName: freezed == locationName ? _self.locationName : locationName // ignore: cast_nullable_to_non_nullable
 as String?,showQr: freezed == showQr ? _self.showQr : showQr // ignore: cast_nullable_to_non_nullable
 as int?,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -364,11 +356,24 @@ as String?,confirmedTemplate: freezed == confirmedTemplate ? _self.confirmedTemp
 as String?,declinedTemplate: freezed == declinedTemplate ? _self.declinedTemplate : declinedTemplate // ignore: cast_nullable_to_non_nullable
 as String?,workflowState: freezed == workflowState ? _self.workflowState : workflowState // ignore: cast_nullable_to_non_nullable
 as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String?,guests: freezed == guests ? _self.guests : guests // ignore: cast_nullable_to_non_nullable
+as String?,guestReport: freezed == guestReport ? _self.guestReport : guestReport // ignore: cast_nullable_to_non_nullable
+as GuestReportModel?,guests: freezed == guests ? _self.guests : guests // ignore: cast_nullable_to_non_nullable
 as List<GuestModel>?,
   ));
 }
+/// Create a copy of EventModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GuestReportModelCopyWith<$Res>? get guestReport {
+    if (_self.guestReport == null) {
+    return null;
+  }
 
+  return $GuestReportModelCopyWith<$Res>(_self.guestReport!, (value) {
+    return _then(_self.copyWith(guestReport: value));
+  });
+}
 }
 
 
@@ -450,10 +455,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'occasion_id')  String? occasionId,  String? title,  String? type,  String? date,  String? language, @JsonKey(name: 'map_link')  String? mapLink, @JsonKey(name: 'location_name')  String? locationName, @JsonKey(name: 'show_qr')  int? showQr, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(includeFromJson: false)  File? image, @JsonKey(name: 'invite_template')  String? inviteTemplate, @JsonKey(name: 'confirmed_template')  String? confirmedTemplate, @JsonKey(name: 'declined_template')  String? declinedTemplate, @JsonKey(name: 'workflow_state')  String? workflowState,  String? status, @JsonKey(includeToJson: false)  List<GuestModel>? guests)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'occasion_id')  String? occasionId,  String? title,  String? type,  String? date,  String? language, @JsonKey(name: 'map_longitude')  String? mapLongitude, @JsonKey(name: 'map_latitude')  String? mapLatitude, @JsonKey(name: 'location_name')  String? locationName, @JsonKey(name: 'show_qr')  int? showQr, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(includeFromJson: false)  File? image, @JsonKey(name: 'invite_template')  String? inviteTemplate, @JsonKey(name: 'confirmed_template')  String? confirmedTemplate, @JsonKey(name: 'declined_template')  String? declinedTemplate, @JsonKey(name: 'workflow_state')  String? workflowState,  String? status, @JsonKey(name: 'guest_report')  GuestReportModel? guestReport, @JsonKey(name: 'guests')  List<GuestModel>? guests)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _EventModel() when $default != null:
-return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.language,_that.mapLink,_that.locationName,_that.showQr,_that.imageUrl,_that.image,_that.inviteTemplate,_that.confirmedTemplate,_that.declinedTemplate,_that.workflowState,_that.status,_that.guests);case _:
+return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.language,_that.mapLongitude,_that.mapLatitude,_that.locationName,_that.showQr,_that.imageUrl,_that.image,_that.inviteTemplate,_that.confirmedTemplate,_that.declinedTemplate,_that.workflowState,_that.status,_that.guestReport,_that.guests);case _:
   return orElse();
 
 }
@@ -471,10 +476,10 @@ return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.languag
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'occasion_id')  String? occasionId,  String? title,  String? type,  String? date,  String? language, @JsonKey(name: 'map_link')  String? mapLink, @JsonKey(name: 'location_name')  String? locationName, @JsonKey(name: 'show_qr')  int? showQr, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(includeFromJson: false)  File? image, @JsonKey(name: 'invite_template')  String? inviteTemplate, @JsonKey(name: 'confirmed_template')  String? confirmedTemplate, @JsonKey(name: 'declined_template')  String? declinedTemplate, @JsonKey(name: 'workflow_state')  String? workflowState,  String? status, @JsonKey(includeToJson: false)  List<GuestModel>? guests)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'occasion_id')  String? occasionId,  String? title,  String? type,  String? date,  String? language, @JsonKey(name: 'map_longitude')  String? mapLongitude, @JsonKey(name: 'map_latitude')  String? mapLatitude, @JsonKey(name: 'location_name')  String? locationName, @JsonKey(name: 'show_qr')  int? showQr, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(includeFromJson: false)  File? image, @JsonKey(name: 'invite_template')  String? inviteTemplate, @JsonKey(name: 'confirmed_template')  String? confirmedTemplate, @JsonKey(name: 'declined_template')  String? declinedTemplate, @JsonKey(name: 'workflow_state')  String? workflowState,  String? status, @JsonKey(name: 'guest_report')  GuestReportModel? guestReport, @JsonKey(name: 'guests')  List<GuestModel>? guests)  $default,) {final _that = this;
 switch (_that) {
 case _EventModel():
-return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.language,_that.mapLink,_that.locationName,_that.showQr,_that.imageUrl,_that.image,_that.inviteTemplate,_that.confirmedTemplate,_that.declinedTemplate,_that.workflowState,_that.status,_that.guests);case _:
+return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.language,_that.mapLongitude,_that.mapLatitude,_that.locationName,_that.showQr,_that.imageUrl,_that.image,_that.inviteTemplate,_that.confirmedTemplate,_that.declinedTemplate,_that.workflowState,_that.status,_that.guestReport,_that.guests);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -491,10 +496,10 @@ return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.languag
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'occasion_id')  String? occasionId,  String? title,  String? type,  String? date,  String? language, @JsonKey(name: 'map_link')  String? mapLink, @JsonKey(name: 'location_name')  String? locationName, @JsonKey(name: 'show_qr')  int? showQr, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(includeFromJson: false)  File? image, @JsonKey(name: 'invite_template')  String? inviteTemplate, @JsonKey(name: 'confirmed_template')  String? confirmedTemplate, @JsonKey(name: 'declined_template')  String? declinedTemplate, @JsonKey(name: 'workflow_state')  String? workflowState,  String? status, @JsonKey(includeToJson: false)  List<GuestModel>? guests)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'occasion_id')  String? occasionId,  String? title,  String? type,  String? date,  String? language, @JsonKey(name: 'map_longitude')  String? mapLongitude, @JsonKey(name: 'map_latitude')  String? mapLatitude, @JsonKey(name: 'location_name')  String? locationName, @JsonKey(name: 'show_qr')  int? showQr, @JsonKey(name: 'image_url')  String? imageUrl, @JsonKey(includeFromJson: false)  File? image, @JsonKey(name: 'invite_template')  String? inviteTemplate, @JsonKey(name: 'confirmed_template')  String? confirmedTemplate, @JsonKey(name: 'declined_template')  String? declinedTemplate, @JsonKey(name: 'workflow_state')  String? workflowState,  String? status, @JsonKey(name: 'guest_report')  GuestReportModel? guestReport, @JsonKey(name: 'guests')  List<GuestModel>? guests)?  $default,) {final _that = this;
 switch (_that) {
 case _EventModel() when $default != null:
-return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.language,_that.mapLink,_that.locationName,_that.showQr,_that.imageUrl,_that.image,_that.inviteTemplate,_that.confirmedTemplate,_that.declinedTemplate,_that.workflowState,_that.status,_that.guests);case _:
+return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.language,_that.mapLongitude,_that.mapLatitude,_that.locationName,_that.showQr,_that.imageUrl,_that.image,_that.inviteTemplate,_that.confirmedTemplate,_that.declinedTemplate,_that.workflowState,_that.status,_that.guestReport,_that.guests);case _:
   return null;
 
 }
@@ -506,7 +511,7 @@ return $default(_that.occasionId,_that.title,_that.type,_that.date,_that.languag
 @JsonSerializable()
 
 class _EventModel implements EventModel {
-  const _EventModel({@JsonKey(name: 'occasion_id') this.occasionId, this.title, this.type, this.date, this.language, @JsonKey(name: 'map_link') this.mapLink, @JsonKey(name: 'location_name') this.locationName, @JsonKey(name: 'show_qr') this.showQr, @JsonKey(name: 'image_url') this.imageUrl, @JsonKey(includeFromJson: false) this.image, @JsonKey(name: 'invite_template') this.inviteTemplate, @JsonKey(name: 'confirmed_template') this.confirmedTemplate, @JsonKey(name: 'declined_template') this.declinedTemplate, @JsonKey(name: 'workflow_state') this.workflowState, this.status, @JsonKey(includeToJson: false) final  List<GuestModel>? guests}): _guests = guests;
+  const _EventModel({@JsonKey(name: 'occasion_id') this.occasionId, this.title, this.type, this.date, this.language, @JsonKey(name: 'map_longitude') this.mapLongitude, @JsonKey(name: 'map_latitude') this.mapLatitude, @JsonKey(name: 'location_name') this.locationName, @JsonKey(name: 'show_qr') this.showQr, @JsonKey(name: 'image_url') this.imageUrl, @JsonKey(includeFromJson: false) this.image, @JsonKey(name: 'invite_template') this.inviteTemplate, @JsonKey(name: 'confirmed_template') this.confirmedTemplate, @JsonKey(name: 'declined_template') this.declinedTemplate, @JsonKey(name: 'workflow_state') this.workflowState, this.status, @JsonKey(name: 'guest_report') this.guestReport, @JsonKey(name: 'guests') final  List<GuestModel>? guests}): _guests = guests;
   factory _EventModel.fromJson(Map<String, dynamic> json) => _$EventModelFromJson(json);
 
 @override@JsonKey(name: 'occasion_id') final  String? occasionId;
@@ -514,7 +519,8 @@ class _EventModel implements EventModel {
 @override final  String? type;
 @override final  String? date;
 @override final  String? language;
-@override@JsonKey(name: 'map_link') final  String? mapLink;
+@override@JsonKey(name: 'map_longitude') final  String? mapLongitude;
+@override@JsonKey(name: 'map_latitude') final  String? mapLatitude;
 @override@JsonKey(name: 'location_name') final  String? locationName;
 @override@JsonKey(name: 'show_qr') final  int? showQr;
 @override@JsonKey(name: 'image_url') final  String? imageUrl;
@@ -524,8 +530,12 @@ class _EventModel implements EventModel {
 @override@JsonKey(name: 'declined_template') final  String? declinedTemplate;
 @override@JsonKey(name: 'workflow_state') final  String? workflowState;
 @override final  String? status;
+// guest_report object
+@override@JsonKey(name: 'guest_report') final  GuestReportModel? guestReport;
+// قائمة guest
  final  List<GuestModel>? _guests;
-@override@JsonKey(includeToJson: false) List<GuestModel>? get guests {
+// قائمة guest
+@override@JsonKey(name: 'guests') List<GuestModel>? get guests {
   final value = _guests;
   if (value == null) return null;
   if (_guests is EqualUnmodifiableListView) return _guests;
@@ -547,16 +557,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventModel&&(identical(other.occasionId, occasionId) || other.occasionId == occasionId)&&(identical(other.title, title) || other.title == title)&&(identical(other.type, type) || other.type == type)&&(identical(other.date, date) || other.date == date)&&(identical(other.language, language) || other.language == language)&&(identical(other.mapLink, mapLink) || other.mapLink == mapLink)&&(identical(other.locationName, locationName) || other.locationName == locationName)&&(identical(other.showQr, showQr) || other.showQr == showQr)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.image, image) || other.image == image)&&(identical(other.inviteTemplate, inviteTemplate) || other.inviteTemplate == inviteTemplate)&&(identical(other.confirmedTemplate, confirmedTemplate) || other.confirmedTemplate == confirmedTemplate)&&(identical(other.declinedTemplate, declinedTemplate) || other.declinedTemplate == declinedTemplate)&&(identical(other.workflowState, workflowState) || other.workflowState == workflowState)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._guests, _guests));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EventModel&&(identical(other.occasionId, occasionId) || other.occasionId == occasionId)&&(identical(other.title, title) || other.title == title)&&(identical(other.type, type) || other.type == type)&&(identical(other.date, date) || other.date == date)&&(identical(other.language, language) || other.language == language)&&(identical(other.mapLongitude, mapLongitude) || other.mapLongitude == mapLongitude)&&(identical(other.mapLatitude, mapLatitude) || other.mapLatitude == mapLatitude)&&(identical(other.locationName, locationName) || other.locationName == locationName)&&(identical(other.showQr, showQr) || other.showQr == showQr)&&(identical(other.imageUrl, imageUrl) || other.imageUrl == imageUrl)&&(identical(other.image, image) || other.image == image)&&(identical(other.inviteTemplate, inviteTemplate) || other.inviteTemplate == inviteTemplate)&&(identical(other.confirmedTemplate, confirmedTemplate) || other.confirmedTemplate == confirmedTemplate)&&(identical(other.declinedTemplate, declinedTemplate) || other.declinedTemplate == declinedTemplate)&&(identical(other.workflowState, workflowState) || other.workflowState == workflowState)&&(identical(other.status, status) || other.status == status)&&(identical(other.guestReport, guestReport) || other.guestReport == guestReport)&&const DeepCollectionEquality().equals(other._guests, _guests));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,occasionId,title,type,date,language,mapLink,locationName,showQr,imageUrl,image,inviteTemplate,confirmedTemplate,declinedTemplate,workflowState,status,const DeepCollectionEquality().hash(_guests));
+int get hashCode => Object.hash(runtimeType,occasionId,title,type,date,language,mapLongitude,mapLatitude,locationName,showQr,imageUrl,image,inviteTemplate,confirmedTemplate,declinedTemplate,workflowState,status,guestReport,const DeepCollectionEquality().hash(_guests));
 
 @override
 String toString() {
-  return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, mapLink: $mapLink, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guests: $guests)';
+  return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests)';
 }
 
 
@@ -567,11 +577,11 @@ abstract mixin class _$EventModelCopyWith<$Res> implements $EventModelCopyWith<$
   factory _$EventModelCopyWith(_EventModel value, $Res Function(_EventModel) _then) = __$EventModelCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'occasion_id') String? occasionId, String? title, String? type, String? date, String? language,@JsonKey(name: 'map_link') String? mapLink,@JsonKey(name: 'location_name') String? locationName,@JsonKey(name: 'show_qr') int? showQr,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(includeFromJson: false) File? image,@JsonKey(name: 'invite_template') String? inviteTemplate,@JsonKey(name: 'confirmed_template') String? confirmedTemplate,@JsonKey(name: 'declined_template') String? declinedTemplate,@JsonKey(name: 'workflow_state') String? workflowState, String? status,@JsonKey(includeToJson: false) List<GuestModel>? guests
+@JsonKey(name: 'occasion_id') String? occasionId, String? title, String? type, String? date, String? language,@JsonKey(name: 'map_longitude') String? mapLongitude,@JsonKey(name: 'map_latitude') String? mapLatitude,@JsonKey(name: 'location_name') String? locationName,@JsonKey(name: 'show_qr') int? showQr,@JsonKey(name: 'image_url') String? imageUrl,@JsonKey(includeFromJson: false) File? image,@JsonKey(name: 'invite_template') String? inviteTemplate,@JsonKey(name: 'confirmed_template') String? confirmedTemplate,@JsonKey(name: 'declined_template') String? declinedTemplate,@JsonKey(name: 'workflow_state') String? workflowState, String? status,@JsonKey(name: 'guest_report') GuestReportModel? guestReport,@JsonKey(name: 'guests') List<GuestModel>? guests
 });
 
 
-
+@override $GuestReportModelCopyWith<$Res>? get guestReport;
 
 }
 /// @nodoc
@@ -584,14 +594,15 @@ class __$EventModelCopyWithImpl<$Res>
 
 /// Create a copy of EventModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? occasionId = freezed,Object? title = freezed,Object? type = freezed,Object? date = freezed,Object? language = freezed,Object? mapLink = freezed,Object? locationName = freezed,Object? showQr = freezed,Object? imageUrl = freezed,Object? image = freezed,Object? inviteTemplate = freezed,Object? confirmedTemplate = freezed,Object? declinedTemplate = freezed,Object? workflowState = freezed,Object? status = freezed,Object? guests = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? occasionId = freezed,Object? title = freezed,Object? type = freezed,Object? date = freezed,Object? language = freezed,Object? mapLongitude = freezed,Object? mapLatitude = freezed,Object? locationName = freezed,Object? showQr = freezed,Object? imageUrl = freezed,Object? image = freezed,Object? inviteTemplate = freezed,Object? confirmedTemplate = freezed,Object? declinedTemplate = freezed,Object? workflowState = freezed,Object? status = freezed,Object? guestReport = freezed,Object? guests = freezed,}) {
   return _then(_EventModel(
 occasionId: freezed == occasionId ? _self.occasionId : occasionId // ignore: cast_nullable_to_non_nullable
 as String?,title: freezed == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String?,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
-as String?,mapLink: freezed == mapLink ? _self.mapLink : mapLink // ignore: cast_nullable_to_non_nullable
+as String?,mapLongitude: freezed == mapLongitude ? _self.mapLongitude : mapLongitude // ignore: cast_nullable_to_non_nullable
+as String?,mapLatitude: freezed == mapLatitude ? _self.mapLatitude : mapLatitude // ignore: cast_nullable_to_non_nullable
 as String?,locationName: freezed == locationName ? _self.locationName : locationName // ignore: cast_nullable_to_non_nullable
 as String?,showQr: freezed == showQr ? _self.showQr : showQr // ignore: cast_nullable_to_non_nullable
 as int?,imageUrl: freezed == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -601,8 +612,302 @@ as String?,confirmedTemplate: freezed == confirmedTemplate ? _self.confirmedTemp
 as String?,declinedTemplate: freezed == declinedTemplate ? _self.declinedTemplate : declinedTemplate // ignore: cast_nullable_to_non_nullable
 as String?,workflowState: freezed == workflowState ? _self.workflowState : workflowState // ignore: cast_nullable_to_non_nullable
 as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String?,guests: freezed == guests ? _self._guests : guests // ignore: cast_nullable_to_non_nullable
+as String?,guestReport: freezed == guestReport ? _self.guestReport : guestReport // ignore: cast_nullable_to_non_nullable
+as GuestReportModel?,guests: freezed == guests ? _self._guests : guests // ignore: cast_nullable_to_non_nullable
 as List<GuestModel>?,
+  ));
+}
+
+/// Create a copy of EventModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$GuestReportModelCopyWith<$Res>? get guestReport {
+    if (_self.guestReport == null) {
+    return null;
+  }
+
+  return $GuestReportModelCopyWith<$Res>(_self.guestReport!, (value) {
+    return _then(_self.copyWith(guestReport: value));
+  });
+}
+}
+
+
+/// @nodoc
+mixin _$GuestReportModel {
+
+@JsonKey(name: 'total_invitees') int? get totalInvitees;@JsonKey(name: 'not_sent') int? get notSent;@JsonKey(name: 'pending') int? get pending;@JsonKey(name: 'confirmed') int? get confirmed;@JsonKey(name: 'declined') int? get declined;@JsonKey(name: 'failed') int? get failed;@JsonKey(name: 'scanned_count') int? get scannedCount;
+/// Create a copy of GuestReportModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GuestReportModelCopyWith<GuestReportModel> get copyWith => _$GuestReportModelCopyWithImpl<GuestReportModel>(this as GuestReportModel, _$identity);
+
+  /// Serializes this GuestReportModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GuestReportModel&&(identical(other.totalInvitees, totalInvitees) || other.totalInvitees == totalInvitees)&&(identical(other.notSent, notSent) || other.notSent == notSent)&&(identical(other.pending, pending) || other.pending == pending)&&(identical(other.confirmed, confirmed) || other.confirmed == confirmed)&&(identical(other.declined, declined) || other.declined == declined)&&(identical(other.failed, failed) || other.failed == failed)&&(identical(other.scannedCount, scannedCount) || other.scannedCount == scannedCount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,totalInvitees,notSent,pending,confirmed,declined,failed,scannedCount);
+
+@override
+String toString() {
+  return 'GuestReportModel(totalInvitees: $totalInvitees, notSent: $notSent, pending: $pending, confirmed: $confirmed, declined: $declined, failed: $failed, scannedCount: $scannedCount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GuestReportModelCopyWith<$Res>  {
+  factory $GuestReportModelCopyWith(GuestReportModel value, $Res Function(GuestReportModel) _then) = _$GuestReportModelCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'total_invitees') int? totalInvitees,@JsonKey(name: 'not_sent') int? notSent,@JsonKey(name: 'pending') int? pending,@JsonKey(name: 'confirmed') int? confirmed,@JsonKey(name: 'declined') int? declined,@JsonKey(name: 'failed') int? failed,@JsonKey(name: 'scanned_count') int? scannedCount
+});
+
+
+
+
+}
+/// @nodoc
+class _$GuestReportModelCopyWithImpl<$Res>
+    implements $GuestReportModelCopyWith<$Res> {
+  _$GuestReportModelCopyWithImpl(this._self, this._then);
+
+  final GuestReportModel _self;
+  final $Res Function(GuestReportModel) _then;
+
+/// Create a copy of GuestReportModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? totalInvitees = freezed,Object? notSent = freezed,Object? pending = freezed,Object? confirmed = freezed,Object? declined = freezed,Object? failed = freezed,Object? scannedCount = freezed,}) {
+  return _then(_self.copyWith(
+totalInvitees: freezed == totalInvitees ? _self.totalInvitees : totalInvitees // ignore: cast_nullable_to_non_nullable
+as int?,notSent: freezed == notSent ? _self.notSent : notSent // ignore: cast_nullable_to_non_nullable
+as int?,pending: freezed == pending ? _self.pending : pending // ignore: cast_nullable_to_non_nullable
+as int?,confirmed: freezed == confirmed ? _self.confirmed : confirmed // ignore: cast_nullable_to_non_nullable
+as int?,declined: freezed == declined ? _self.declined : declined // ignore: cast_nullable_to_non_nullable
+as int?,failed: freezed == failed ? _self.failed : failed // ignore: cast_nullable_to_non_nullable
+as int?,scannedCount: freezed == scannedCount ? _self.scannedCount : scannedCount // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [GuestReportModel].
+extension GuestReportModelPatterns on GuestReportModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _GuestReportModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _GuestReportModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _GuestReportModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _GuestReportModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _GuestReportModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _GuestReportModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_invitees')  int? totalInvitees, @JsonKey(name: 'not_sent')  int? notSent, @JsonKey(name: 'pending')  int? pending, @JsonKey(name: 'confirmed')  int? confirmed, @JsonKey(name: 'declined')  int? declined, @JsonKey(name: 'failed')  int? failed, @JsonKey(name: 'scanned_count')  int? scannedCount)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _GuestReportModel() when $default != null:
+return $default(_that.totalInvitees,_that.notSent,_that.pending,_that.confirmed,_that.declined,_that.failed,_that.scannedCount);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'total_invitees')  int? totalInvitees, @JsonKey(name: 'not_sent')  int? notSent, @JsonKey(name: 'pending')  int? pending, @JsonKey(name: 'confirmed')  int? confirmed, @JsonKey(name: 'declined')  int? declined, @JsonKey(name: 'failed')  int? failed, @JsonKey(name: 'scanned_count')  int? scannedCount)  $default,) {final _that = this;
+switch (_that) {
+case _GuestReportModel():
+return $default(_that.totalInvitees,_that.notSent,_that.pending,_that.confirmed,_that.declined,_that.failed,_that.scannedCount);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'total_invitees')  int? totalInvitees, @JsonKey(name: 'not_sent')  int? notSent, @JsonKey(name: 'pending')  int? pending, @JsonKey(name: 'confirmed')  int? confirmed, @JsonKey(name: 'declined')  int? declined, @JsonKey(name: 'failed')  int? failed, @JsonKey(name: 'scanned_count')  int? scannedCount)?  $default,) {final _that = this;
+switch (_that) {
+case _GuestReportModel() when $default != null:
+return $default(_that.totalInvitees,_that.notSent,_that.pending,_that.confirmed,_that.declined,_that.failed,_that.scannedCount);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _GuestReportModel implements GuestReportModel {
+  const _GuestReportModel({@JsonKey(name: 'total_invitees') this.totalInvitees, @JsonKey(name: 'not_sent') this.notSent, @JsonKey(name: 'pending') this.pending, @JsonKey(name: 'confirmed') this.confirmed, @JsonKey(name: 'declined') this.declined, @JsonKey(name: 'failed') this.failed, @JsonKey(name: 'scanned_count') this.scannedCount});
+  factory _GuestReportModel.fromJson(Map<String, dynamic> json) => _$GuestReportModelFromJson(json);
+
+@override@JsonKey(name: 'total_invitees') final  int? totalInvitees;
+@override@JsonKey(name: 'not_sent') final  int? notSent;
+@override@JsonKey(name: 'pending') final  int? pending;
+@override@JsonKey(name: 'confirmed') final  int? confirmed;
+@override@JsonKey(name: 'declined') final  int? declined;
+@override@JsonKey(name: 'failed') final  int? failed;
+@override@JsonKey(name: 'scanned_count') final  int? scannedCount;
+
+/// Create a copy of GuestReportModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GuestReportModelCopyWith<_GuestReportModel> get copyWith => __$GuestReportModelCopyWithImpl<_GuestReportModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$GuestReportModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GuestReportModel&&(identical(other.totalInvitees, totalInvitees) || other.totalInvitees == totalInvitees)&&(identical(other.notSent, notSent) || other.notSent == notSent)&&(identical(other.pending, pending) || other.pending == pending)&&(identical(other.confirmed, confirmed) || other.confirmed == confirmed)&&(identical(other.declined, declined) || other.declined == declined)&&(identical(other.failed, failed) || other.failed == failed)&&(identical(other.scannedCount, scannedCount) || other.scannedCount == scannedCount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,totalInvitees,notSent,pending,confirmed,declined,failed,scannedCount);
+
+@override
+String toString() {
+  return 'GuestReportModel(totalInvitees: $totalInvitees, notSent: $notSent, pending: $pending, confirmed: $confirmed, declined: $declined, failed: $failed, scannedCount: $scannedCount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GuestReportModelCopyWith<$Res> implements $GuestReportModelCopyWith<$Res> {
+  factory _$GuestReportModelCopyWith(_GuestReportModel value, $Res Function(_GuestReportModel) _then) = __$GuestReportModelCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'total_invitees') int? totalInvitees,@JsonKey(name: 'not_sent') int? notSent,@JsonKey(name: 'pending') int? pending,@JsonKey(name: 'confirmed') int? confirmed,@JsonKey(name: 'declined') int? declined,@JsonKey(name: 'failed') int? failed,@JsonKey(name: 'scanned_count') int? scannedCount
+});
+
+
+
+
+}
+/// @nodoc
+class __$GuestReportModelCopyWithImpl<$Res>
+    implements _$GuestReportModelCopyWith<$Res> {
+  __$GuestReportModelCopyWithImpl(this._self, this._then);
+
+  final _GuestReportModel _self;
+  final $Res Function(_GuestReportModel) _then;
+
+/// Create a copy of GuestReportModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? totalInvitees = freezed,Object? notSent = freezed,Object? pending = freezed,Object? confirmed = freezed,Object? declined = freezed,Object? failed = freezed,Object? scannedCount = freezed,}) {
+  return _then(_GuestReportModel(
+totalInvitees: freezed == totalInvitees ? _self.totalInvitees : totalInvitees // ignore: cast_nullable_to_non_nullable
+as int?,notSent: freezed == notSent ? _self.notSent : notSent // ignore: cast_nullable_to_non_nullable
+as int?,pending: freezed == pending ? _self.pending : pending // ignore: cast_nullable_to_non_nullable
+as int?,confirmed: freezed == confirmed ? _self.confirmed : confirmed // ignore: cast_nullable_to_non_nullable
+as int?,declined: freezed == declined ? _self.declined : declined // ignore: cast_nullable_to_non_nullable
+as int?,failed: freezed == failed ? _self.failed : failed // ignore: cast_nullable_to_non_nullable
+as int?,scannedCount: freezed == scannedCount ? _self.scannedCount : scannedCount // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

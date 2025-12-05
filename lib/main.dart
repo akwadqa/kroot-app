@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/app/app.dart';
 import 'package:device_preview/device_preview.dart';
-
 import 'src/utils/app_initializer.dart';
 
 Future<void> main() async {

@@ -59,6 +59,9 @@ dependencies:
   file_picker: ^10.3.6
   csv: ^6.0.0
   excel: ^4.0.6
+  google_maps_flutter: ^2.14.0
+  google_places_flutter: ^2.1.1
+  flutter_google_places_sdk: ^0.4.2+1
 
 
 

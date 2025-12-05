@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_back_arrow_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
@@ -17,7 +18,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({
     super.key,
     required this.title,
-    this.withBackButton,
+    this.withBackButton = true,
     this.actionButton,
   });
 
@@ -34,10 +35,14 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              (withBackButton ?? true)
+              (withBackButton ?? false)
                   ? GestureDetector(
                       onTap: () {
-                        context.pop();
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go(Routes.main);
+                        }
                       },
                       child: Assets.icons.verificationArrowBackIc.svg(),
                     )

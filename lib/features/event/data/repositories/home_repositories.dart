@@ -1,5 +1,6 @@
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:kroot_app/features/event/data/models/confirm_event_response/confirm_event_response.dart';
+import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/event/data/datasources/home_data_source.dart';
 import 'package:kroot_app/features/event/data/models/add_guests_response/add_guests_response.dart';
@@ -32,6 +33,8 @@ class HomeRepositories {
     return CheckNet<ApiResponse<GetUserEventsModel>>().checkNetResponse(
       tryRight: () async {
         final respone = await _dataSource.getUserEvents(page, search);
+        print('**********************');
+        print(respone.toJson());
         return respone;
       },
     );
@@ -58,10 +61,10 @@ class HomeRepositories {
     );
   }
 
-  Future<ApiResponse<ConfirmEventResponse>> confirmEvent(
+  Future<ApiResponse<EventModel>> confirmEvent(
     String occasionId,
   ) async {
-    return CheckNet<ApiResponse<ConfirmEventResponse>>().checkNetResponse(
+    return CheckNet<ApiResponse<EventModel>>().checkNetResponse(
       tryRight: () async {
         final respone = await _dataSource.confirmEvent(occasionId);
         return respone;
@@ -69,9 +72,16 @@ class HomeRepositories {
     );
   }
 
-  Future<ApiResponse<CreateEventResponse>> createEvent(
-    EventModel event,
-  ) async {
+  Future<ApiResponse<UtilsResponse>> getUtils() async {
+    return CheckNet<ApiResponse<UtilsResponse>>().checkNetResponse(
+      tryRight: () async {
+        final respone = await _dataSource.getUtils();
+        return respone;
+      },
+    );
+  }
+
+  Future<ApiResponse<CreateEventResponse>> createEvent(EventModel event) async {
     return CheckNet<ApiResponse<CreateEventResponse>>().checkNetResponse(
       tryRight: () async {
         final respone = await _dataSource.createEvent(event);
@@ -86,7 +96,7 @@ class HomeRepositories {
   ) async {
     return CheckNet<ApiResponse<CreateEventResponse>>().checkNetResponse(
       tryRight: () async {
-        final respone = await _dataSource.updateEvent(event,id);
+        final respone = await _dataSource.updateEvent(event, id);
         return respone;
       },
     );

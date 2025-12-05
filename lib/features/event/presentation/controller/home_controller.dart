@@ -1,5 +1,6 @@
 import 'package:flutter_contacts/flutter_contacts.dart' as flutterContact;
 import 'package:kroot_app/features/event/data/models/confirm_event_response/confirm_event_response.dart';
+import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:uuid/uuid.dart';
 // import 'package:flutter_contacts/fluuter_contact.dart' as flutterContact;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,7 +18,10 @@ class HomeController extends _$HomeController {
   @override
   Future<HomeState> build() async {
     state = AsyncData(HomeState.init());
-    Future(() => getUserEvents(page: 1));
+    Future(() async {
+      getUserEvents(page: 1);
+      getUtils();
+    });
     return HomeState.init();
   }
 
@@ -25,24 +29,62 @@ class HomeController extends _$HomeController {
   int _totalPages = 1;
   List<EventModel> _eventsList = [];
 
-  Future<EventModel?> getEventDetails(String id) async {
+  Future<UtilsResponse?> getUtils() async {
     try {
-      state = AsyncLoading();
+      state = AsyncData(state.value!.copyWith(utilsResponse: AsyncLoading()));
       final repo = ref.read(homeRepositoryProvider);
-      final response = await repo.getEventDetails(id);
+      final response = await repo.getUtils();
 
       if (response.hasFailed) {
-        state = AsyncError(
-          response.message ?? '',
-          StackTrace.fromString(response.message ?? ''),
+        state = AsyncData(
+          state.value!.copyWith(
+            utilsResponse: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
         );
         throw Exception(response.message);
       }
 
-      state = AsyncData(state.value!.copyWith(occasionModel: response.data));
+      state = AsyncData(
+        state.value!.copyWith(utilsResponse: AsyncData(response.data!)),
+      );
       return response.data;
     } catch (e, st) {
-      state = AsyncError(e, st);
+      state = AsyncData(
+        state.value!.copyWith(utilsResponse: AsyncError(e, st)),
+      );
+      return null;
+    }
+  }
+
+  Future<EventModel?> getEventDetails(String id) async {
+    try {
+      state = AsyncData(state.value!.copyWith(occasionModel: AsyncLoading()));
+      final repo = ref.read(homeRepositoryProvider);
+      final response = await repo.getEventDetails(id);
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            occasionModel: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+        throw Exception(response.message);
+      }
+
+      state = AsyncData(
+        state.value!.copyWith(occasionModel: AsyncData(response.data!)),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(
+        state.value!.copyWith(occasionModel: AsyncError(e, st)),
+      );
       return null;
     }
   }
@@ -59,6 +101,7 @@ class HomeController extends _$HomeController {
       }
       final repo = ref.read(homeRepositoryProvider);
       final response = await repo.getEvents(page, search);
+
       _currentPage = response.pagination?.currentPage ?? _currentPage;
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
@@ -70,7 +113,7 @@ class HomeController extends _$HomeController {
         );
       }
 
-      if (response.hasFailed) {
+      if (response.hasFailed || response.data == null) {
         state = AsyncData(
           state.value!.copyWith(
             eventResponse: AsyncError(
@@ -79,11 +122,12 @@ class HomeController extends _$HomeController {
             ),
           ),
         );
-        throw Exception(response.message);
+        // throw Exception(response.message);
+        return null;
       }
       final eventResponse = GetUserEventsModel(
         events: _eventsList,
-        eventTypes: response.data!.eventTypes,
+        // eventTypes: response.data!.eventTypes,
       );
 
       state = AsyncData(
@@ -122,7 +166,7 @@ class HomeController extends _$HomeController {
     }
   }
 
-  Future<ConfirmEventResponse?> confirmEvent(String occasionId) async {
+  Future<EventModel?> confirmEvent(String occasionId) async {
     try {
       state = AsyncData(
         state.value!.copyWith(confirmEventResponse: AsyncLoading()),
@@ -139,6 +183,7 @@ class HomeController extends _$HomeController {
             ),
           ),
         );
+        return null;
       }
 
       // state = AsyncData(state.value!.copyWith(eventResponse: eventResponse));
@@ -159,5 +204,11 @@ class HomeController extends _$HomeController {
     final nextPage = _currentPage + 1;
     final result = await getUserEvents(showLoading: false, page: nextPage);
     return result?.events?.isNotEmpty ?? false;
+  }
+
+  void updateOccasionModel(EventModel eventModel) {
+    state = AsyncData(
+      state.value!.copyWith(occasionModel: AsyncData(eventModel)),
+    );
   }
 }

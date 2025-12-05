@@ -79,7 +79,7 @@ class GuestsDatasource {
     }
   }
 
-  Future<ApiResponse<UpdateGuestResponse>> deleteGuest({
+  Future<ApiResponse<void>> deleteGuest({
     required String occasionId,
     required List<GuestModel> guests,
   }) async {
@@ -89,12 +89,13 @@ class GuestsDatasource {
         // queryParameters: {'invitee_id': inviteeId},
         queryParameters: {
           // 'occasion_id': occasionId,
-          'guest_list': jsonEncode(guests.map((e) => e.toJson()).toList()),
+          // 'invitees_list': jsonEncode(guests.map((e) => e.toJson()).toList()),
+          'invitees_list': jsonEncode(guests.map((e) => e.inviteeId).toList()),
         },
       );
       return ApiResponse.fromJson(
         response.data,
-        (json) => UpdateGuestResponse.fromJson(json as Map<String, dynamic>),
+        (json) {},
       );
     } catch (e) {
       return ApiResponse.error(message: e.toString());

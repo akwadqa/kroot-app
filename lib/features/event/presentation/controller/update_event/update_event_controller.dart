@@ -1,9 +1,14 @@
 import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:dio/dio.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
@@ -19,11 +24,19 @@ class UpdateEventController extends _$UpdateEventController {
   @override
   FutureOr<UpdateEventState> build() {
     state = AsyncData(UpdateEventState.init());
-    final list = ref.watch(homeControllerProvider).value!.occasionModel!.guests;
+    final list = ref
+        .watch(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value
+        ?.guests;
+    if (list != null) {
+      final selected = convertGuestModelsToSelectedContacts(list);
 
-    final selected = convertGuestModelsToSelectedContacts(list!);
-
-    return UpdateEventState.init().copyWith(selectedContacts: selected);
+      return UpdateEventState.init().copyWith(selectedContacts: selected);
+    } else {
+      return UpdateEventState.init();
+    }
   }
 
   List<SelectedContact> convertGuestModelsToSelectedContacts(
@@ -135,7 +148,11 @@ class UpdateEventController extends _$UpdateEventController {
 
   void deleteImage(String id) {
     final current = state.value?.updatedEvent;
-    final currentEvent = ref.read(homeControllerProvider).value?.occasionModel;
+    final currentEvent = ref
+        .read(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value;
 
     state = AsyncData(
       state.value!.copyWith(
@@ -146,8 +163,8 @@ class UpdateEventController extends _$UpdateEventController {
           title: current?.title ?? currentEvent?.title,
           date: current?.date ?? currentEvent?.date,
           language: current?.language ?? currentEvent?.language,
-          mapLink: current?.mapLink ?? currentEvent?.mapLink,
-          locationName: current?.locationName ?? currentEvent?.locationName,
+          // mapLink: current?.mapLink ?? currentEvent?.mapLink,
+          // locationName: current?.locationName ?? currentEvent?.locationName,
           // image: newData.image ?? current?.image  ?? currentEvent?.image,
           image: null,
           imageUrl: null,
@@ -257,38 +274,47 @@ class UpdateEventController extends _$UpdateEventController {
 
   void updateDataForEvent(EventModel newData, String id) {
     final current = state.value?.updatedEvent;
-    final currentEvent = ref.read(homeControllerProvider).value?.occasionModel;
+    // final currentEvent = ref
+    //     .read(homeControllerProvider)
+    //     .value
+    //     ?.utilsResponse
+    //     ?.value
+    //     ?.eventTypes
+    //     ?.first;
 
     state = AsyncData(
       state.value!.copyWith(
+        // latLng: LatLng(
+        //   lat: double.parse(
+        //     newData.mapLatitude ?? current?.mapLatitude ?? '0.0',
+        //   ),
+        //   lng: double.parse(
+        //     newData.mapLongitude ?? current?.mapLongitude ?? '0.0',
+        //   ),
+        // ),
         // updatedEvent: current?.copyWith(
         updatedEvent: EventModel(
           occasionId: id,
-          type: newData.type ?? current?.type ?? currentEvent?.type,
-          title: newData.title ?? current?.title ?? currentEvent?.title,
-          date: newData.date ?? current?.date ?? currentEvent?.date,
-          language:
-              newData.language ?? current?.language ?? currentEvent?.language,
-          mapLink: newData.mapLink ?? current?.mapLink ?? currentEvent?.mapLink,
-          locationName:
-              newData.locationName ??
-              current?.locationName ??
-              currentEvent?.locationName,
+          type: newData.type ?? current?.type,
+          title: newData.title ?? current?.title,
+          mapLatitude: newData.mapLatitude ?? current!.mapLatitude,
+          mapLongitude: newData.mapLongitude ?? current!.mapLongitude,
+          locationName: newData.locationName ?? current!.locationName,
+          date: newData.date ?? current?.date,
+          language: newData.language ?? current?.language,
+          // mapLink: newData.mapLink ?? current?.mapLink ?? currentEvent?.mapLink,
+          // locationName:
+          //     newData.locationName ??
+          //     current?.locationName ??
+          //     currentEvent?.locationName,
           // image: newData.image ?? current?.image  ?? currentEvent?.image,
           image: newData.image ?? current?.image,
           imageUrl: newData.imageUrl ?? current?.imageUrl,
-          inviteTemplate:
-              newData.inviteTemplate ??
-              current?.inviteTemplate ??
-              currentEvent?.inviteTemplate,
+          inviteTemplate: newData.inviteTemplate ?? current?.inviteTemplate,
           confirmedTemplate:
-              newData.confirmedTemplate ??
-              current?.confirmedTemplate ??
-              currentEvent?.confirmedTemplate,
+              newData.confirmedTemplate ?? current?.confirmedTemplate,
           declinedTemplate:
-              newData.declinedTemplate ??
-              current?.declinedTemplate ??
-              currentEvent?.declinedTemplate,
+              newData.declinedTemplate ?? current?.declinedTemplate,
           guests: setGuestListFromContacts() ?? current?.guests,
         ),
       ),
@@ -476,5 +502,107 @@ class UpdateEventController extends _$UpdateEventController {
     } catch (e, st) {
       state = AsyncError(e, st);
     }
+  }
+
+  Future<LatLng?> getPlaceLocation(String placeId) async {
+    final sdk = ref.read(placesSdkProvider);
+    final result = await sdk.fetchPlace(placeId, fields: [PlaceField.Location]);
+
+    final loc = result.place?.latLng;
+    if (loc == null) return null;
+
+    return LatLng(lat: loc.lat, lng: loc.lng);
+  }
+
+  void changeLatlng(double lat, double lng) {
+    updateDataForEvent(
+      EventModel(mapLatitude: lat.toString(), mapLongitude: lng.toString()),
+      state.value!.updatedEvent!.occasionId!,
+    );
+    // state = AsyncData(
+    //   state.value!.copyWith(
+    //     updatedEvent: EventModel(
+    //       mapLatitude: lat.toString(),
+    //       mapLongitude: lng.toString(),
+    //     ),
+    //     // latLng: LatLng(lat: lat, lng: lng),
+    //   ),
+    // );
+  }
+
+  Future<void> getPlaceInfoFromLatLng(String id) async {
+    final lat =
+        state.value!.updatedEvent?.mapLatitude ??
+        // state.value!.latLng.lat ??
+        25.2854473;
+    final lng =
+        state.value!.updatedEvent?.mapLongitude ??
+        // state.value!.latLng.lng ??
+        51.53103979999999;
+    try {
+      state = AsyncData(state.value!.copyWith(selectedPlace: AsyncLoading()));
+      final apiKey = dotenv.env['MAPS_API_KEY'];
+      if (apiKey == null) return;
+
+      final url =
+          "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey";
+
+      final response = await Dio().get(url);
+
+      if (response.statusCode != 200) return;
+
+      final data = response.data;
+
+      if (data["status"] != "OK") return;
+
+      final result = data["results"][0];
+
+      final locationName = cleanName(result["formatted_address"] ?? "");
+      final placeId = result["place_id"] ?? "";
+
+      final mapLink =
+          "https://www.google.com/maps/search/?api=1&query=$lat,$lng";
+
+      updateDataForEvent(
+        EventModel(
+          locationName: locationName,
+          mapLatitude: lat.toString(),
+          mapLongitude: lng.toString(),
+        ),
+        // state.value!.updatedEvent!.occasionId!,
+        id,
+      );
+      print('--------$lat --------$lng');
+
+      state = AsyncData(
+        state.value!.copyWith(
+          // latLng: LatLng(
+          //   lat: double.parse(lat.toString()),
+          //   lng: double.parse(lng.toString()),
+          // ),
+          selectedPlace: AsyncData(
+            SelectedPlace(
+              placeId: placeId,
+              mapLink: mapLink,
+              locationName: locationName,
+            ),
+          ),
+        ),
+      );
+    } catch (e, st) {
+      print("Reverse Geocoding Error: $e");
+      state = AsyncData(
+        state.value!.copyWith(selectedPlace: AsyncError(e, st)),
+      );
+    }
+  }
+
+  //? This for get only the location name with out the address before :
+  String cleanName(String address) {
+    final parts = address.split(',');
+    if (parts.length > 1) {
+      return parts.sublist(1).join(',').trim();
+    }
+    return address;
   }
 }

@@ -85,7 +85,10 @@ class InviteTemplateScreen extends ConsumerWidget {
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.createEventResponse?.eventId,
+              // extra: next.value!.createEventResponse?.eventId,
+               extra: {
+                'id' :next.value!.createEventResponse?.eventId
+              },
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
@@ -131,7 +134,10 @@ class InviteTemplateScreen extends ConsumerWidget {
               Routes.eventDetails,
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.updatedEvent?.occasionId,
+              // extra: next.value!.updatedEvent?.occasionId,
+               extra: {
+                'id' :next.value!.updatedEvent?.occasionId
+              },
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }

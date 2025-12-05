@@ -5,10 +5,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/data/data.dart';
+import 'package:kroot_app/features/event/data/datasources/home_data_source.dart';
 import 'package:kroot_app/features/event/data/models/events_response/event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
+import 'package:kroot_app/src/network/services/dio_client.dart';
+import 'package:kroot_app/src/routing/go_router_app.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:kroot_app/src/shared_widgets/bottom_navigation_bar_view.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
@@ -21,26 +26,36 @@ import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart'
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 
-// class HomeScreen extends ConsumerStatefulWidget {
-//   const HomeScreen({super.key});
-
-//   @override
-//   ConsumerState<HomeScreen> createState() => _HomeScreenState();
-// }
-
-// class _HomeScreenState extends ConsumerState<HomeScreen> {
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  // class HomeScreen extends ConsumerWidget {
+
+  @override
+  void initState() {
+    Future(() {
+      ref.read(homeControllerProvider);
+    });
+    super.initState();
+  }
+  //   const HomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent == false ||
           pre?.value?.isDeleteEvent == false) {
         if (context.canPop()) context.pop();
       }
     });
-    final controller = ref.watch(homeControllerProvider.select((val)=>val.value!.eventResponse));
+    final controller = ref.watch(
+      homeControllerProvider.select((val) => val.value!.eventResponse),
+    );
     return Scaffold(
       bottomNavigationBar: BottomNavigationBarView(),
       body: Padding(
@@ -75,11 +90,30 @@ class HomeScreen extends ConsumerWidget {
             12.verticalSpace,
             controller!.when(
               data: (data) {
-                if (data.events?.isEmpty ?? true) {
-                  return Center(child: Text('Empty events'));
+                if (data.events!.isEmpty) {
+                  return Expanded(
+                    child: RefreshIndicator(
+                      onRefresh: () async {},
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [Center(child: Assets.icons.emptyIc.svg())],
+                        ),
+                      ),
+                    ),
+                  );
                 }
                 return Expanded(
                   child: AppPaginationWidget(
+                    enableLoadingOnScrollStart: true,
+                    enablePullDown: true,
+                    onRefresh: () {
+                      ref
+                          .read(homeControllerProvider.notifier)
+                          .getUserEvents(page: 1);
+                      ref.read(homeControllerProvider.notifier).getUtils();
+                      return Future.value(true);
+                    },
                     onLoading: (page) {
                       return ref
                           .read(homeControllerProvider.notifier)
@@ -89,25 +123,25 @@ class HomeScreen extends ConsumerWidget {
                       padding: EdgeInsets.zero,
                       separatorBuilder: (context, index) => 12.verticalSpace,
                       itemCount: data.events?.length ?? 0,
-                      itemBuilder: (context, index) => HomePageEventItem(
-                        event: data.events![index],
-                      ),
+                      itemBuilder: (context, index) =>
+                          HomePageEventItem(event: data.events![index]),
                     ),
                   ),
                 );
               },
               error: (e, st) {
-                return Expanded(
-                  child: Center(
-                    child: Assets.icons.emptyIc.svg(),
-                    // child: Text(
-                    //   e.toString(),
-                    //   style: AppTextStyle.rubikRegular16.copyWith(
-                    //     color: AppColors.black,
-                    //   ),
-                    // ),
-                  ),
+                return AppErrorWidget(
+                  onTap: () {
+                    ref.read(homeControllerProvider.notifier)
+                      ..getUserEvents(page: 1)
+                      ..getUtils();
+                  },
                 );
+                // return Expanded(
+                //   child: Center(
+                //     child: Assets.icons.emptyIc.svg(),
+                //   ),
+                // );
               },
               loading: () => Expanded(
                 child: Center(child: Assets.images.animationLoading.image()),
@@ -141,8 +175,14 @@ class HomePageEventItem extends StatelessWidget {
       builder: (context, ref, _) {
         return GestureDetector(
           onTap: () {
-            //TODO
-            context.push(Routes.eventDetails, extra: event.occasionId);
+            ref
+                .read(goRouterProvider)
+                .push(Routes.eventDetails, extra: {'model': event});
+            // context.push(Routes.eventDetails, extra: {'model': event});
+            // ref
+            //     .read(homeControllerProvider.notifier)
+            //     .updateOccasionModel(event);
+            // ref.read(homeRepositoryProvider).getUtils();
           },
           child: Container(
             width: double.infinity,
@@ -294,8 +334,8 @@ class HomePageEventItemDetails extends StatelessWidget {
               child: Text(
                 softWrap: true,
                 overflow: TextOverflow.visible,
-                // 'Riffa Halls Hall No. 15',
                 event.locationName ?? 'location',
+                // 'location',
                 style: AppTextStyle.rubikRegular12.copyWith(
                   color: AppColors.blackText,
                 ),

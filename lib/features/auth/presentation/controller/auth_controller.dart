@@ -91,7 +91,13 @@ class AuthController extends _$AuthController {
       state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
-          .verifyOtp(number: numberNull ?? number ?? '', otp: otp);
+          .verifyOtp(
+            number:
+                numberNull?.replaceAll('+', '') ??
+                number?.replaceAll('+', '') ??
+                '',
+            otp: otp,
+          );
       // .verifyOtp(number: '97451365471' ?? number ?? '', otp: otp);
 
       if (result.hasFailed) {
@@ -123,7 +129,7 @@ class AuthController extends _$AuthController {
           .createAccount(
             firstName: firstName,
             lastName: lastName,
-            mobile: number ?? '',
+            mobile: number.replaceAll('+', ''),
             email: email,
           );
 

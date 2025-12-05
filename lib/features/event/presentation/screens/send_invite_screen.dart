@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
@@ -20,95 +21,34 @@ import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
 
 class SendInviteScreen extends ConsumerWidget {
-  const SendInviteScreen({super.key, required this.id});
-  final String? id;
+  const SendInviteScreen({super.key, required this.eventModel});
+  final EventModel eventModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late BuildContext ctx;
-    if (id == null) {
-      //? Listener for add :
-      ref.listen(addEventControllerProvider, (prev, next) {
-        //? This listener for create event in this screen :
-        if (next.value!.isAddEvent != null) {
-          //? For loading :
-          if (next is AsyncLoading) {
-            AppAlert.showLoadingDialog(ctx);
-          }
 
-          if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
-            ctx.pop();
-            AppToast.doneToast('Done');
-
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
-            context.go(
-              Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.createEventResponse?.eventId,
-            );
-            ref.read(addEventControllerProvider.notifier).clearEventScreen();
-          }
-          // }
-
-          if (next is AsyncError && prev is AsyncLoading) {
-            ctx.pop();
-            AppToast.errorToast(next.error.toString());
-          }
+    ref.listen(
+      homeControllerProvider.select((val) => val.value!.confirmEventResponse),
+      (prev, next) {
+        if (next is AsyncLoading) {
+          AppAlert.showLoadingDialog(ctx);
         }
 
-        //? This listener for add new contact :
-        if (next.value?.isAddContact ?? false) {
-          if (next is AsyncData) {
-            context.pop();
-            AppToast.doneToast('Contact added!');
-          }
-
-          if (next is AsyncError) {
-            context.pop();
-            AppToast.errorToast(next.error.toString());
-          }
+        if (next is AsyncData) {
+          ctx.pop();
+          AppToast.doneToast('Event confirmed succesfuly');
+          // context.go(Routes.eventDetails, extra: {'model': eventModel});
+          context.go(Routes.eventDetails, extra: {'model': next!.value});
         }
-      });
-    } else {
-      ref.listen(updateEventControllerProvider, (prev, next) {
-        //? This listener for create event in this screen :
-        if (next.value!.isUpdateEvent != null) {
-          //? For loading :
-          if (next is AsyncLoading) {
-            AppAlert.showLoadingDialog(ctx);
-          }
-
-          if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
-            ctx.pop();
-            AppToast.doneToast('Done');
-
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
-            context.go(
-              Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              extra: next.value!.updatedEvent?.occasionId,
-            );
-            ref.read(addEventControllerProvider.notifier).clearEventScreen();
-          }
-          // }
-
-          if (next is AsyncError && prev is AsyncLoading) {
-            ctx.pop();
-            AppToast.errorToast(next.error.toString());
-          }
+        if (next is AsyncError) {
+          ctx.pop();
+          AppToast.errorToast(next!.error.toString());
         }
-      });
-    }
+      },
+    );
 
     return Scaffold(
-      appBar: CustomAppbar(title: context.tr('send')),
+      appBar: CustomAppbar(title: context.tr('send'), withBackButton: true),
       body: Builder(
         builder: (context) {
           ctx = context;
@@ -134,26 +74,27 @@ class SendInviteScreen extends ConsumerWidget {
 
               Consumer(
                 builder: (context, ref, child) {
-                  final contact = id != null
-                      ? ref
-                            .read(updateEventControllerProvider)
-                            .value!
-                            .selectedContacts
-                      : ref
-                            .read(addEventControllerProvider)
-                            .value!
-                            .selectedContacts;
+                  // final contact = eventModel.occasionId != null
+                  //     ? ref
+                  //           .read(updateEventControllerProvider)
+                  //           .value!
+                  //           .selectedContacts
+                  //     : ref
+                  //           .read(addEventControllerProvider)
+                  //           .value!
+                  //           .selectedContacts;
                   return Expanded(
                     child: ListView.separated(
                       separatorBuilder: (context, index) =>
                           Divider(color: AppColors.grayBorder),
                       padding: EdgeInsets.zero,
-                      itemCount: contact!.length,
+                      itemCount: eventModel.guests!.length,
 
                       itemBuilder: (context, index) => ListTile(
                         title: Text(
-                          '${contact[index].contact.name.first} ${contact[index].contact.name.last}',
-                          // 'Hadeel',
+                          // '${contact[index].contact.name.first} ${contact[index].contact.name.last}',
+                          // '${eventModel.guests![index].firstName} ${eventModel.guests![index].lastName}',
+                          eventModel.guests![index].fullName!,
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.black,
                           ),
@@ -166,8 +107,12 @@ class SendInviteScreen extends ConsumerWidget {
                                 : Alignment.centerLeft,
                             child: Text(
                               // contact[index].contact.phones.first.number,
-                              contact[index].contact.phones.isNotEmpty
-                                  ? contact[index].contact.phones.first.number
+                              eventModel
+                                          .guests![index]
+                                          .whatsappNumber
+                                          ?.isNotEmpty ??
+                                      false
+                                  ? eventModel.guests![index].whatsappNumber!
                                   : context.tr('no_phone'),
                               // '+974999999999',
                               style: AppTextStyle.rubikRegular16.copyWith(
@@ -186,14 +131,17 @@ class SendInviteScreen extends ConsumerWidget {
                 text: '',
                 onTap: () {
                   // context.pushReplacement(Routes.eventDetails, extra: id);
+                  ref
+                      .read(homeControllerProvider.notifier)
+                      .confirmEvent(eventModel.occasionId!);
 
-                  id != null
-                      ? ref
-                            .read(updateEventControllerProvider.notifier)
-                            .updateEventToServer(id!)
-                      : ref
-                            .read(addEventControllerProvider.notifier)
-                            .createEvent();
+                  // eventModel.occasionId != null
+                  //     ? ref
+                  //           .read(updateEventControllerProvider.notifier)
+                  //           .updateEventToServer(eventModel.occasionId!)
+                  //     : ref
+                  //           .read(addEventControllerProvider.notifier)
+                  //           .createEvent();
                 },
                 backgroundColor: AppColors.primary,
                 isFiled: true,

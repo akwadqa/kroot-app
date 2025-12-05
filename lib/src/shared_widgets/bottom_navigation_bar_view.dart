@@ -2,16 +2,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart' show Assets, SvgGenImage;
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/src/utils/app_toast.dart';
 
 class BottomNavigationBarView extends ConsumerWidget {
   const BottomNavigationBarView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(
+      homeControllerProvider.select((val) => val.value!.utilsResponse),
+    );
     final index = ref.watch(bottomNavIndexProvider);
     return Container(
       decoration: BoxDecoration(
@@ -35,9 +40,31 @@ class BottomNavigationBarView extends ConsumerWidget {
         currentIndex: index,
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
-          ref.read(bottomNavIndexProvider.notifier).setIndex(index);
+          if (index == 2) {
+            if (controller?.error != null) {
+              AppToast.errorToast(controller!.error.toString());
+            }
+            if (controller?.isLoading ?? false) {
+              AppToast.errorToast('Please wait');
+            }
+            if (controller?.value != null) {
+              final data = controller!.value;
+
+              if ((data?.subscriber?.remainingKroots ?? 0) == 0) {
+                //   ref.read(bottomNavIndexProvider.notifier).setIndex(index);
+                // } else {
+                AppToast.errorToast(
+                  'There is no kroot remaining in your account',
+                );
+              } else {
+                ref.read(bottomNavIndexProvider.notifier).setIndex(index);
+              }
+            }
+          } else {
+            ref.read(bottomNavIndexProvider.notifier).setIndex(index);
+          }
           // index
-          //? TODO 
+          //? TODO
         },
         items: [
           _buildBottomNavBarItem(
@@ -55,7 +82,6 @@ class BottomNavigationBarView extends ConsumerWidget {
             1,
             index,
             context.tr('scan'),
-
             Assets.icons.scanIc.svg(
               colorFilter: ColorFilter.mode(
                 index == 1 ? AppColors.primary : AppColors.black400,

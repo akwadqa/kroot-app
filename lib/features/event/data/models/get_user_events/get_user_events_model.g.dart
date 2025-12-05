@@ -11,16 +11,10 @@ _GetUserEventsModel _$GetUserEventsModelFromJson(Map<String, dynamic> json) =>
       events: (json['events'] as List<dynamic>?)
           ?.map((e) => EventModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      eventTypes: (json['event_types'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
     );
 
 Map<String, dynamic> _$GetUserEventsModelToJson(_GetUserEventsModel instance) =>
-    <String, dynamic>{
-      'events': instance.events,
-      'event_types': instance.eventTypes,
-    };
+    <String, dynamic>{'events': instance.events};
 
 _EventModel _$EventModelFromJson(Map<String, dynamic> json) => _EventModel(
   occasionId: json['occasion_id'] as String?,
@@ -28,7 +22,8 @@ _EventModel _$EventModelFromJson(Map<String, dynamic> json) => _EventModel(
   type: json['type'] as String?,
   date: json['date'] as String?,
   language: json['language'] as String?,
-  mapLink: json['map_link'] as String?,
+  mapLongitude: json['map_longitude'] as String?,
+  mapLatitude: json['map_latitude'] as String?,
   locationName: json['location_name'] as String?,
   showQr: (json['show_qr'] as num?)?.toInt(),
   imageUrl: json['image_url'] as String?,
@@ -37,6 +32,9 @@ _EventModel _$EventModelFromJson(Map<String, dynamic> json) => _EventModel(
   declinedTemplate: json['declined_template'] as String?,
   workflowState: json['workflow_state'] as String?,
   status: json['status'] as String?,
+  guestReport: json['guest_report'] == null
+      ? null
+      : GuestReportModel.fromJson(json['guest_report'] as Map<String, dynamic>),
   guests: (json['guests'] as List<dynamic>?)
       ?.map((e) => GuestModel.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -49,7 +47,8 @@ Map<String, dynamic> _$EventModelToJson(_EventModel instance) =>
       'type': instance.type,
       'date': instance.date,
       'language': instance.language,
-      'map_link': instance.mapLink,
+      'map_longitude': instance.mapLongitude,
+      'map_latitude': instance.mapLatitude,
       'location_name': instance.locationName,
       'show_qr': instance.showQr,
       'image_url': instance.imageUrl,
@@ -58,6 +57,30 @@ Map<String, dynamic> _$EventModelToJson(_EventModel instance) =>
       'declined_template': instance.declinedTemplate,
       'workflow_state': instance.workflowState,
       'status': instance.status,
+      'guest_report': instance.guestReport,
+      'guests': instance.guests,
+    };
+
+_GuestReportModel _$GuestReportModelFromJson(Map<String, dynamic> json) =>
+    _GuestReportModel(
+      totalInvitees: (json['total_invitees'] as num?)?.toInt(),
+      notSent: (json['not_sent'] as num?)?.toInt(),
+      pending: (json['pending'] as num?)?.toInt(),
+      confirmed: (json['confirmed'] as num?)?.toInt(),
+      declined: (json['declined'] as num?)?.toInt(),
+      failed: (json['failed'] as num?)?.toInt(),
+      scannedCount: (json['scanned_count'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$GuestReportModelToJson(_GuestReportModel instance) =>
+    <String, dynamic>{
+      'total_invitees': instance.totalInvitees,
+      'not_sent': instance.notSent,
+      'pending': instance.pending,
+      'confirmed': instance.confirmed,
+      'declined': instance.declined,
+      'failed': instance.failed,
+      'scanned_count': instance.scannedCount,
     };
 
 _GuestModel _$GuestModelFromJson(Map<String, dynamic> json) => _GuestModel(

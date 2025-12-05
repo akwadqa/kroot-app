@@ -26,8 +26,13 @@ class GuestsController extends _$GuestsController {
     Future(() {
       state = AsyncData(
         state.value!.copyWith(
-          guestsList: state.value!.guestsList!.isEmpty
-              ? ref.read(homeControllerProvider).value!.occasionModel!.guests
+          guestsList: state.value?.guestsList?.isEmpty ?? false
+              ? ref
+                    .read(homeControllerProvider)
+                    .value
+                    ?.occasionModel
+                    ?.value
+                    ?.guests
               : state.value!.guestsList,
         ),
       );
@@ -198,7 +203,7 @@ class GuestsController extends _$GuestsController {
     }
   }
 
-  Future<UpdateGuestResponse?> deleteGuest({
+  Future<void> deleteGuest({
     required String occasionId,
     required List<GuestModel> guests,
   }) async {
@@ -223,20 +228,20 @@ class GuestsController extends _$GuestsController {
           ),
         );
 
-        return null;
+        return;
       }
 
-      state = AsyncData(
-        state.value!.copyWith(deleteGuestResponse: AsyncData(response.data!)),
-      );
-      return response.data;
+      state = AsyncData(state.value!.copyWith(
+        deleteGuestResponse : AsyncData(state.value)
+      ));
+      return ;
     } catch (e, st) {
       state = AsyncData(
         state.value!.copyWith(
           deleteGuestResponse: AsyncError(e.toString(), st),
         ),
       );
-      return null;
+      return;
     }
   }
 }

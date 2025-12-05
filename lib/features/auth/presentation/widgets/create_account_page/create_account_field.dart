@@ -80,8 +80,8 @@ class AppTextFormField extends StatelessWidget {
             ],
           ),
           child: TextFormField(
-            key: ValueKey(value),
-            initialValue: value,
+            // key: ValueKey(value),
+            // initialValue: value,
             onTap: onTap,
             keyboardType: inputType,
             readOnly: isReadOnly,

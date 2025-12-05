@@ -145,6 +145,7 @@
     "selectContacts": "Select Contacts",
     "searchContactHere": "Search Contact Here",
     "emptyContacts": "There is no contacts",
+    "emptyOperators": "There is no operators",
     "addContact": "Add Contact Manually",
     "guestList": "Guest List",
     "additionalGuest": "Additional Guest",
@@ -216,5 +217,6 @@
     "addFromContacts" : "Add from Contacts",
     "addManually" : "Add Manually",
     "importCSVGuestList" : "Import CSV Guest List",
-    "inviteSomeoneToManageGuests" : "Invite Someone to Manage Guests"
+    "inviteSomeoneToManageGuests" : "Invite Someone to Manage Guests",
+    "addOperators" : "Add Operators"
 }

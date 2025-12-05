@@ -19,6 +19,7 @@ import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -165,23 +166,32 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
                   error: (e, st) {
                     final state = ref.watch(addEventControllerProvider);
                     //? Error
-                    if (state.value!.contacts.isEmpty)
-                      return Center(
-                        child: Text(
-                          context.tr('error_title'),
-                          style: AppTextStyle.rubikRegular16.copyWith(
-                            color: AppColors.black,
-                          ),
-                        ),
+                    if (state.value!.contacts.isEmpty) {
+                      return AppErrorWidget(
+                        onTap: () {
+                          ref
+                              .read(addEventControllerProvider.notifier)
+                              .getContacts(null);
+                        },
                       );
+                    }
+                    // return Center(
+                    //   child: Text(
+                    //     context.tr('error_title'),
+                    //     style: AppTextStyle.rubikRegular16.copyWith(
+                    //       color: AppColors.black,
+                    //     ),
+                    //   ),
+                    // );
                     return _buildList(state.value!.contacts);
                   },
                   loading: () {
                     final state = ref.watch(addEventControllerProvider);
-                    if (state.value!.contacts.isEmpty)
+                    if (state.value!.contacts.isEmpty) {
                       return Center(
                         child: Assets.images.animationLoading.image(),
                       );
+                    }
                     return _buildList(state.value!.contacts);
                   },
                 ),

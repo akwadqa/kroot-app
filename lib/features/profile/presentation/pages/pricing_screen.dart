@@ -2,14 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
+import 'package:kroot_app/src/utils/app_toast.dart';
 
 class PricingScreen extends ConsumerWidget {
   const PricingScreen({super.key});
@@ -17,6 +21,24 @@ class PricingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final index = ref.watch(profileControllerProvider).value?.index ?? 0;
+
+    ref.listen(
+      profileControllerProvider.select((val) => val.value!.paymentLink),
+      (pre, next) {
+        if (next is AsyncLoading) {
+          AppAlert.showLoadingDialog(context);
+        }
+
+        if (next is AsyncData) {
+          context.pop();
+          context.push(Routes.payment, extra: next!.value);
+        }
+        if (next is AsyncError) {
+          context.pop();
+          AppToast.errorToast(next!.error.toString());
+        }
+      },
+    );
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('pricingServices')),
 
@@ -105,19 +127,28 @@ class PricingPageBasicSection extends StatelessWidget {
         PricingPageTermsItem(title: context.tr('eventLocation')),
         PricingPageTermsItem(title: context.tr('scannerApp')),
         Spacer(),
-        CustomButtonWidget(
-          text: '',
-          onTap: () {},
-          isFiled: false,
-          height: 44.h,
-          width: double.infinity,
-          content: Text(
-            context.tr('tryForFree'),
-            style: AppTextStyle.rubikSemiBold16.copyWith(
-              color: AppColors.white,
-            ),
-          ),
-          backgroundColor: AppColors.primary,
+        Consumer(
+          builder: (context, ref, child) {
+            return CustomButtonWidget(
+              text: '',
+              onTap: () {
+                // context.push(Routes.payment);
+                ref
+                    .read(profileControllerProvider.notifier)
+                    .getPaymentUrl('Basic', context.locale.languageCode);
+              },
+              isFiled: false,
+              height: 44.h,
+              width: double.infinity,
+              content: Text(
+                context.tr('tryForFree'),
+                style: AppTextStyle.rubikSemiBold16.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
+              backgroundColor: AppColors.primary,
+            );
+          },
         ),
         120.verticalSpace,
       ],
@@ -152,19 +183,28 @@ class PricingPageSpecialSection extends StatelessWidget {
         PricingPageTermsItem(title: context.tr('replaceDeclineForFree')),
         PricingPageTermsItem(title: context.tr('scanningManagementAtTheEvent')),
         Spacer(),
-        CustomButtonWidget(
-          text: '',
-          onTap: () {},
-          isFiled: false,
-          height: 44.h,
-          width: double.infinity,
-          content: Text(
-            context.tr('orderNow'),
-            style: AppTextStyle.rubikSemiBold16.copyWith(
-              color: AppColors.white,
-            ),
-          ),
-          backgroundColor: AppColors.primary,
+
+        Consumer(
+          builder: (context, ref, child) {
+            return CustomButtonWidget(
+              text: '',
+              onTap: () {
+                ref
+                    .read(profileControllerProvider.notifier)
+                    .getPaymentUrl('Special', context.locale.languageCode);
+              },
+              isFiled: false,
+              height: 44.h,
+              width: double.infinity,
+              content: Text(
+                context.tr('orderNow'),
+                style: AppTextStyle.rubikSemiBold16.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
+              backgroundColor: AppColors.primary,
+            );
+          },
         ),
         120.verticalSpace,
       ],
@@ -200,19 +240,27 @@ class PricingPagePremiumSection extends StatelessWidget {
           title: context.tr('invitationCustomizationOptions'),
         ),
         Spacer(),
-        CustomButtonWidget(
-          text: '',
-          onTap: () {},
-          isFiled: false,
-          height: 44.h,
-          width: double.infinity,
-          content: Text(
-            context.tr('connectWithUs'),
-            style: AppTextStyle.rubikSemiBold16.copyWith(
-              color: AppColors.white,
-            ),
-          ),
-          backgroundColor: AppColors.primary,
+        Consumer(
+          builder: (context, ref, child) {
+            return CustomButtonWidget(
+              text: '',
+              onTap: () {
+                ref
+                    .read(profileControllerProvider.notifier)
+                    .getPaymentUrl('Premium', context.locale.languageCode);
+              },
+              isFiled: false,
+              height: 44.h,
+              width: double.infinity,
+              content: Text(
+                context.tr('connectWithUs'),
+                style: AppTextStyle.rubikSemiBold16.copyWith(
+                  color: AppColors.white,
+                ),
+              ),
+              backgroundColor: AppColors.primary,
+            );
+          },
         ),
         120.verticalSpace,
       ],

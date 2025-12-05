@@ -6,14 +6,17 @@ import 'package:kroot_app/features/event/data/models/event_response/create_event
 import 'package:kroot_app/features/event/data/models/events_response/event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/models/occasion_response/occasion_response.dart';
+import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 
 class HomeState {
   final List<SelectedContact> selectedContactsForUpdate;
   final AsyncValue<GetUserEventsModel>? eventResponse;
-  final EventModel? occasionModel;
+  final AsyncValue<EventModel>? occasionModel;
   final EventModel? updatedEvent;
   final List<GuestModel>? gusetsList;
-  final AsyncValue<ConfirmEventResponse>? confirmEventResponse;
+  final AsyncValue<EventModel>? confirmEventResponse;
+  // final AsyncValue<ConfirmEventResponse >? confirmEventResponse;
+  final AsyncValue<UtilsResponse>? utilsResponse;
 
   //? This is for delete event :
   final bool? isDeleteEvent;
@@ -29,12 +32,14 @@ class HomeState {
     required this.occasionModel,
     required this.isDeleteEvent,
     required this.eventResponse,
+    required this.utilsResponse,
     required this.gusetsList,
   });
 
   factory HomeState.init() => HomeState(
     updatedEvent: null,
     selectedContactsForUpdate: [],
+    utilsResponse: null,
     isDeleteEvent: false,
     eventResponse: AsyncLoading(),
     isUpdateEvent: false,
@@ -49,7 +54,7 @@ class HomeState {
     List<SelectedContact>? selectedContactsForUpdate,
     AsyncValue<GetUserEventsModel>? eventResponse,
     EventModel? createEventRequest,
-    EventModel? occasionModel,
+    AsyncValue<EventModel>? occasionModel,
     EventModel? updatedEvent,
     CreateEventResponse? createEventResponse,
     bool? isDeleteEvent,
@@ -57,9 +62,11 @@ class HomeState {
     bool? isAddContact,
     bool? isUpdateEvent,
     bool? isCreatingEvent,
-    AsyncValue<ConfirmEventResponse>? confirmEventResponse,
+    AsyncValue<EventModel>? confirmEventResponse,
+    AsyncValue<UtilsResponse>? utilsResponse,
   }) {
     return HomeState(
+      utilsResponse : utilsResponse ?? this.utilsResponse,
       selectedContactsForUpdate:
           selectedContactsForUpdate ?? this.selectedContactsForUpdate,
       eventResponse: eventResponse ?? this.eventResponse,

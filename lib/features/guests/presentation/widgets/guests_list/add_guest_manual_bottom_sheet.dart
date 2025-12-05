@@ -160,6 +160,7 @@ class _AddGuestManuallBotomSheetState
                                       .read(homeControllerProvider)
                                       .value!
                                       .occasionModel
+                                      ?.value
                                       ?.occasionId ??
                                   '',
                             );

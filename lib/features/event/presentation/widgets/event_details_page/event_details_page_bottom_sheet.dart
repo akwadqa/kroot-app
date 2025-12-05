@@ -57,22 +57,23 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
           Divider(color: AppColors.lightGray02, height: 0),
 
           //? Edit event :
-          ListTile(
-            onTap: () {
-              context.push(Routes.updateEvent, extra: event.occasionId);
-              // ref
-              //     .read(homeControllerProvider.notifier)
-              //     .updateEvent(CreateEventRequest());
-            },
-            contentPadding: EdgeInsets.zero,
-            leading: Assets.icons.editEventIc.svg(),
-            title: Text(
-              context.tr('editEvent'),
-              style: AppTextStyle.rubikMedium16.copyWith(
-                color: AppColors.primary,
+          if (event.status == 'Draft')
+            ListTile(
+              onTap: () {
+                context.push(Routes.updateEvent, extra: {'model': event});
+                // ref
+                //     .read(homeControllerProvider.notifier)
+                //     .updateEvent(CreateEventRequest());
+              },
+              contentPadding: EdgeInsets.zero,
+              leading: Assets.icons.editEventIc.svg(),
+              title: Text(
+                context.tr('editEvent'),
+                style: AppTextStyle.rubikMedium16.copyWith(
+                  color: AppColors.primary,
+                ),
               ),
             ),
-          ),
           Divider(color: AppColors.lightGray02, height: 0),
 
           //? Delete event :

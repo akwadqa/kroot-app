@@ -10,7 +10,7 @@ class GuestsState {
   final AsyncValue<AddGuestsResponse>? addGuestsResponse;
   final AsyncValue<UpdateGuestResponse>? updateGuestResponse;
   final AsyncValue<UpdateGuestListRespone>? updateGuestListRespone;
-  final AsyncValue<UpdateGuestResponse>? deleteGuestResponse;
+  final AsyncValue? deleteGuestResponse;
   final List<GuestModel>? guestsList;
 
   GuestsState({
@@ -33,7 +33,7 @@ class GuestsState {
     AsyncValue<AddGuestsResponse>? addGuestsResponse,
     AsyncValue<UpdateGuestResponse>? updateGuestResponse,
     AsyncValue<UpdateGuestListRespone>? updateGuestListRespone,
-    AsyncValue<UpdateGuestResponse>? deleteGuestResponse,
+    AsyncValue? deleteGuestResponse,
     List<GuestModel>? guestsList,
   }) {
     return GuestsState(

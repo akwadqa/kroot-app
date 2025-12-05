@@ -3,9 +3,13 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
+import 'package:dio/dio.dart';
 import 'package:excel/excel.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
@@ -16,6 +20,10 @@ import 'package:kroot_app/features/event/presentation/controller/home_controller
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 
 part 'add_event_controller.g.dart';
+
+final placesSdkProvider = Provider<FlutterGooglePlacesSdk>((ref) {
+  return FlutterGooglePlacesSdk(dotenv.env['MAPS_API_KEY']!);
+});
 
 @riverpod
 class AddEventController extends _$AddEventController {
@@ -59,20 +67,20 @@ class AddEventController extends _$AddEventController {
     final firstType = ref
         .read(homeControllerProvider)
         .value
-        ?.eventResponse
+        ?.utilsResponse
         ?.value
         ?.eventTypes
         ?.first;
-
     state = AsyncData(
       state.value!.copyWith(
         eventModel: current.copyWith(
           type: current.type ?? firstType,
+          // type: current.type ?? firstType,
           title: current.title,
           date: current.date,
           language: current.language ?? 'Arabic',
-          mapLink: current.mapLink,
-          locationName: current.locationName,
+          // mapLink: current.mapLink,
+          // locationName: current.locationName,
           showQr: current.showQr,
           image: null,
           // inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
@@ -92,7 +100,7 @@ class AddEventController extends _$AddEventController {
     final firstType = ref
         .read(homeControllerProvider)
         .value
-        ?.eventResponse
+        ?.utilsResponse
         ?.value
         ?.eventTypes
         ?.first;
@@ -100,14 +108,18 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(
       state.value!.copyWith(
         eventModel: current.copyWith(
-          type: newData.type ?? current.type ?? firstType,
+          //TODO
+          // type: newData.type ?? current.type ?? firstType,
+          type: newData.type ?? firstType,
           title: newData.title ?? current.title,
           date: newData.date ?? current.date,
           language: newData.language ?? current.language ?? 'Arabic',
-          mapLink: newData.mapLink ?? current.mapLink,
+          // mapLink: newData.mapLink ?? current.mapLink,
           locationName: newData.locationName ?? current.locationName,
           showQr: newData.showQr ?? current.showQr,
           image: newData.image ?? current.image,
+          mapLatitude: newData.mapLatitude ?? current.mapLatitude,
+          mapLongitude: newData.mapLongitude ?? current.mapLongitude,
           // inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
           inviteTemplate: 'Kroot Invite-',
           confirmedTemplate:
@@ -187,7 +199,6 @@ class AddEventController extends _$AddEventController {
   void selectContact(Contact contact) {
     final currentState = state.value!;
     List<SelectedContact> selectedList = currentState.selectedContacts!;
-
     final exists = selectedList.any((c) => c.contact.id == contact.id);
 
     if (exists) {
@@ -425,5 +436,115 @@ class AddEventController extends _$AddEventController {
     } catch (e, st) {
       state = AsyncError(e, st);
     }
+  }
+
+  //***************** For lcation ******* */
+  Future<void> searchForLocation(String query) async {
+    final sdk = ref.read(placesSdkProvider);
+    if (query.isEmpty) {
+      // state = state.copyWith(predictions: []);
+      state = AsyncData(state.value!.copyWith(predictions: AsyncData([])));
+      return;
+    }
+
+    // state = state.copyWith(loading: true);
+    state = AsyncData(state.value!.copyWith(predictions: AsyncLoading()));
+
+    final result = await sdk.findAutocompletePredictions(query);
+
+    state = AsyncData(
+      state.value!.copyWith(predictions: AsyncData(result.predictions)),
+    );
+  }
+
+  void clearSearchSuggestions() {
+    state = AsyncData(state.value!.copyWith(predictions: AsyncData([])));
+  }
+
+  Future<LatLng?> getPlaceLocation(String placeId) async {
+    final sdk = ref.read(placesSdkProvider);
+    final result = await sdk.fetchPlace(placeId, fields: [PlaceField.Location]);
+
+    final loc = result.place?.latLng;
+    if (loc == null) return null;
+
+    return LatLng(lat: loc.lat, lng: loc.lng);
+  }
+
+  void changeLatlng(double lat, double lng) {
+    state = AsyncData(
+      state.value!.copyWith(
+        latLng: LatLng(lat: lat, lng: lng),
+      ),
+    );
+  }
+
+  Future<void> getPlaceInfoFromLatLng() async {
+    final lat =
+        state.value!.eventModel?.mapLatitude ??
+        state.value!.latLng.lat ??
+        25.2854473;
+    final lng =
+        state.value!.eventModel?.mapLatitude ??
+        state.value!.latLng.lng ??
+        51.53103979999999;
+    try {
+      state = AsyncData(state.value!.copyWith(selectedPlace: AsyncLoading()));
+      final apiKey = dotenv.env['MAPS_API_KEY'];
+      if (apiKey == null) return;
+
+      final url =
+          "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey";
+
+      final response = await Dio().get(url);
+
+      if (response.statusCode != 200) return;
+
+      final data = response.data;
+
+      if (data["status"] != "OK") return;
+
+      final result = data["results"][0];
+
+      final locationName = cleanName(result["formatted_address"] ?? "");
+      final placeId = result["place_id"] ?? "";
+
+      final mapLink =
+          "https://www.google.com/maps/search/?api=1&query=$lat,$lng";
+
+      updateEvent(
+        EventModel(
+          locationName: locationName,
+          mapLatitude: lat.toString(),
+          mapLongitude: lng.toString(),
+        ),
+      );
+
+      state = AsyncData(
+        state.value!.copyWith(
+          selectedPlace: AsyncData(
+            SelectedPlace(
+              placeId: placeId,
+              mapLink: mapLink,
+              locationName: locationName,
+            ),
+          ),
+        ),
+      );
+    } catch (e, st) {
+      print("Reverse Geocoding Error: $e");
+      state = AsyncData(
+        state.value!.copyWith(selectedPlace: AsyncError(e, st)),
+      );
+    }
+  }
+
+  //? This for get only the location name with out the address before :
+  String cleanName(String address) {
+    final parts = address.split(',');
+    if (parts.length > 1) {
+      return parts.sublist(1).join(',').trim();
+    }
+    return address;
   }
 }

@@ -73,12 +73,15 @@ class RemoteInterceptor extends Interceptor {
     if (isUnauthorized) {
       debugPrint("🚪 Session expired → redirect to Login");
 
-      // 1. مسح بيانات المستخدم (التوكن)
+      //? Clear the token : 
       ref.read(userDataProvider.notifier).removeData();
 
-      // 2. توجيه المستخدم لصفحة تسجيل الدخول
-      // لو تستخدم GoRouter:
-      ref.read(goRouterProvider).routes.go(Routes.login);
+      //? Navigate to login screen : 
+      ref.read(goRouterProvider).go(Routes.login);
+      Future.delayed(Duration.zero, () {
+        final router = ref.read(goRouterProvider);
+        router.go(Routes.login);
+      });
     }
 
     final apiResponse = _handleErrorResponse(err);

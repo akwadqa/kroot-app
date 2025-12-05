@@ -12,6 +12,7 @@ import 'package:kroot_app/features/auth/presentation/widgets/verification_page/v
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_expired_timer.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_input_button.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_pin.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
@@ -61,13 +62,10 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       }
       if (next is AsyncData) {
         context.pop();
-        // if (ref.read(authUiControllerProvider).isResendVisible) {
-        //   ScaffoldMessenger.of(
-        //     context,
-        //   ).showSnackBar(SnackBar(content: Text(context.tr('resendCode'))));
-        // } else {
-        context.pushReplacement(Routes.main);
-        // }
+        ref.read(homeControllerProvider.notifier)
+          ..getUserEvents(page: 1)
+          ..getUtils();
+        context.go(Routes.main);
       }
     });
 

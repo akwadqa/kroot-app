@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/change_language_bottom_sheet.dart';
 import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/profile_page_user_section_item.dart';
@@ -24,13 +25,14 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     late BuildContext ctx;
     ref.listen(profileControllerProvider, (pre, next) {
-      if (next.value!.isLogout!) {
+      if (next.value!.isLogout ?? false) {
         if (next is AsyncLoading) {
           AppAlert.showLoadingDialog(ctx);
         }
 
         if (next is AsyncData) {
           ctx.pop();
+          ref.invalidate(homeControllerProvider);
           context.go(Routes.login);
         }
       }

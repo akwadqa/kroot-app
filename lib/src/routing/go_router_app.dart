@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/presentation/screens/add_operators_screen.dart';
+import 'package:kroot_app/features/profile/presentation/pages/payment_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:kroot_app/features/auth/application/auth_service.dart';
@@ -21,7 +24,7 @@ import 'package:kroot_app/features/event/presentation/screens/send_invite_screen
 import 'package:kroot_app/features/event/presentation/screens/update_contact_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/update_event_screen.dart';
 import 'package:kroot_app/features/guests/presentation/screens/guests_screen.dart';
-import 'package:kroot_app/features/guests/presentation/screens/test.dart';
+import 'package:kroot_app/features/event/presentation/screens/select_location_screen.dart';
 import 'package:kroot_app/features/profile/presentation/pages/pricing_screen.dart';
 import 'package:kroot_app/features/scan/presentation/pages/scan_qr_event_page.dart';
 import 'package:kroot_app/features/scan_qr_code/presentation/screens/scan_qr_code_screen.dart';
@@ -30,9 +33,9 @@ import 'package:kroot_app/src/routing/routes.dart';
 part 'go_router_app.g.dart';
 
 @Riverpod(keepAlive: true)
-GoRouterApp goRouter(Ref ref) {
+GoRouter goRouter(Ref ref) {
   // final token = ref.watch(userDataProvider);
-  return GoRouterApp();
+  return GoRouterApp().routes;
 }
 
 class GoRouterApp {
@@ -61,7 +64,7 @@ class GoRouterApp {
               final token = ref.read(userDataProvider);
               if (token != null) return MainScreen();
               return LoginScreen();
-              // return Test();
+              // return AddOperatorsScreen();
             },
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -135,16 +138,36 @@ class GoRouterApp {
         // builder: (context, state) => AddEventScreen(),
       ),
 
-      //? Update event :
+      //? Select Location :
       GoRoute(
-        path: Routes.updateEvent,
+        path: Routes.selectLocation,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: UpdateEventScreen(state.extra as String),
+          child: SelectLocationPage(id: state.extra as String?,),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
         ),
+        // builder: (context, state) => AddEventScreen(),
+      ),
+
+      //? Update event :
+      GoRoute(
+        path: Routes.updateEvent,
+        pageBuilder: (context, state) {
+          final params = state.extra as Map;
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: UpdateEventScreen(
+              eventModel: params['model'],
+              id: params['id'],
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+          );
+        },
         // builder: (context, state) => AddEventScreen(),
       ),
 
@@ -189,7 +212,7 @@ class GoRouterApp {
         path: Routes.eventGuestList,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: GuestsScreen(),
+          child: GuestsScreen(id: state.extra as String),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -238,7 +261,7 @@ class GoRouterApp {
         path: Routes.sendInvite,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: SendInviteScreen(id: state.extra as String?),
+          child: SendInviteScreen(eventModel: state.extra as EventModel),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -248,13 +271,21 @@ class GoRouterApp {
       //? Event details :
       GoRoute(
         path: Routes.eventDetails,
-        pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-          child: EventDetailsScreen(id: state.extra as String),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        ),
+        pageBuilder: (context, state) {
+          final params = state.extra as Map;
+          return CustomTransitionPage(
+            key: state.pageKey,
+            // child: EventDetailsScreen(id: state.extra as String),
+            child: EventDetailsScreen(
+              eventModel: params['model'],
+              id: params['id'],
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+          );
+        },
       ),
 
       //? Scan QR  :
@@ -275,6 +306,18 @@ class GoRouterApp {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: PricingScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
+      //? Payment :
+      GoRoute(
+        path: Routes.payment,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: PaymentScreen(paymentUrl: state.extra as String,),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

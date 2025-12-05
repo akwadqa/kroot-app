@@ -12,6 +12,7 @@ class Routes {
   static String main = '/main-page';
   static String home = '/home-page';
   static String createEvent = '/create-event-page';
+  static String selectLocation = '/select-location-page';
   static String updateEvent = '/update-event-page';
   static String updateContact = '/update-contact-page';
   static String addContact = '/add-contact-page';
@@ -24,6 +25,7 @@ class Routes {
 
   //************* profile */
   static String pricing = '/pricing-page';
+  static String payment = '/paynemt-page';
 
   //************* scan  */
   static String scanQr = '/scan-qr-page';

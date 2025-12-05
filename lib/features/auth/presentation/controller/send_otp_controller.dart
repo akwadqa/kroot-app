@@ -23,7 +23,7 @@ class SendOtpController extends _$SendOtpController {
           // .sendOtp(number: number);
           // todo :
           // .sendOtp(number: '97451365471');
-          .sendOtp(number: number);
+          .sendOtp(number: number.replaceAll('+', ''));
 
       if (result.status != 200 && result.status != 404) {
         // throw Exception(result.message);

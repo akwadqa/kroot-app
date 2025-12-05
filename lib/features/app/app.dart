@@ -39,7 +39,7 @@ class _AppState extends ConsumerState<App> {
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           // routerConfig: GoRouterApp().routes,
-          routerConfig: goRouter.routes,
+          routerConfig: goRouter,
           // routerDelegate: appRouter.delegate(
           //   deepLinkBuilder: (deepLink) => DeepLink.defaultPath,
           // ),
@@ -48,7 +48,7 @@ class _AppState extends ConsumerState<App> {
           onGenerateTitle: (context) => context.tr('appTitle'),
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
-          locale: context.locale, // ✅ الأفضل
+          locale: context.locale,
           // locale: Locale(currentLanguage),
         ),
       ),

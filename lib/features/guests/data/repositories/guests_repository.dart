@@ -94,11 +94,11 @@ class GuestsRepository {
     }
   }
 
-  Future<ApiResponse<UpdateGuestResponse>> deleteGuest({
+  Future<ApiResponse<void>> deleteGuest({
     required String occasionId,
     required List<GuestModel> guests,
   }) async {
-    return CheckNet<ApiResponse<UpdateGuestResponse>>().checkNetResponse(
+    return CheckNet<ApiResponse<void>>().checkNetResponse(
       tryRight: () async {
         final respone = await _remoteDataSource.deleteGuest(
           occasionId: occasionId,

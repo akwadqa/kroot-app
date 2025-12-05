@@ -50,13 +50,22 @@ import '../widgets/guest_tile.dart';
 import 'guest_details_page.dart';
 
 class GuestsScreen extends ConsumerStatefulWidget {
-  const GuestsScreen({super.key});
+  final String id;
+  const GuestsScreen({super.key, required this.id});
 
   @override
   ConsumerState<GuestsScreen> createState() => _GuestsScreenState();
 }
 
 class _GuestsScreenState extends ConsumerState<GuestsScreen> {
+  @override
+  void initState() {
+    Future(() {
+      ref.read(homeControllerProvider.notifier).getEventDetails(widget.id);
+    });
+    super.initState();
+  }
+
   _openBottomSheet(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -86,6 +95,11 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = ref.watch(
+      homeControllerProvider.select(
+        (val) => val.value!.occasionModel ?? AsyncLoading(),
+      ),
+    );
     ref.listen(
       guestsControllerProvider.select((val) => val.value!.deleteGuestResponse),
       (prev, next) {
@@ -96,6 +110,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
         if (next is AsyncData) {
           context.pop();
           context.pop();
+          ref.read(homeControllerProvider.notifier).getEventDetails(widget.id);
           AppToast.doneToast('Done');
         }
         if (next is AsyncError) {
@@ -105,20 +120,8 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
       },
     );
 
-    final gustsLists = ref.watch(guestsControllerProvider).value!.guestsList;
-    final index = ref.watch(guestUiControllerProvider).index;
+    // final gustsLists = ref.watch(guestsControllerProvider).value!.guestsList;
 
-    final selectedStatus = rsvpStatusFromIndex(index);
-
-    final filteredGuests = selectedStatus == "all"
-        ? gustsLists
-        : gustsLists
-              ?.where(
-                (g) =>
-                    (g.rsvpStatus ?? "").toLowerCase() ==
-                    selectedStatus.toLowerCase(),
-              )
-              .toList();
     return Scaffold(
       appBar: CustomAppbar(
         title: context.tr('all_guests'),
@@ -131,6 +134,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
                   .read(homeControllerProvider)
                   .value!
                   .occasionModel!
+                  .value!
                   .occasionId,
             );
           },
@@ -147,25 +151,59 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
 
           //? Tabs :
           GuestsScreenTabBar(),
-
           //? Guests list
-          filteredGuests!.isNotEmpty
-              ? Expanded(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => Divider(
-                      color: AppColors.lightGray02.withValues(alpha: .4),
-                    ),
-                    itemBuilder: (context, index) => GuestsScreenGuestItem(
-                      index: index,
-                      guest: filteredGuests?[index],
-                    ),
-                    itemCount: filteredGuests?.length ?? 0,
-                  ),
-                )
-              : Center(child: Assets.icons.emptyIc.svg()),
+          // (filteredGuests ?? []).isNotEmpty
+          // ? _buildBody(filteredGuests)
+          controller.when(
+            data: (data) {
+              print('---------------------------');
+              print(data.guests?.length);
+              return _buildBody(data);
+            },
+            error: (e, st) => SizedBox(),
+            loading: () =>
+                Center(child: Assets.images.animationLoading.image()),
+          ),
+          // : Center(child: Assets.icons.emptyIc.svg()),
         ],
       ),
     );
+  }
+
+  Widget _buildBody(EventModel event) {
+    // final gustsLists = ref.watch(
+    //   homeControllerProvider.select(
+    //     (val) => val.value?.occasionModel?.value?.guests,
+    //   ),
+    // );
+    final index = ref.watch(guestUiControllerProvider).index;
+    print('---------------------------');
+    print(event.guests?.length);
+
+    final selectedStatus = rsvpStatusFromIndex(index);
+    final filteredGuests = selectedStatus == "all"
+        ? event.guests
+        : event.guests
+              ?.where(
+                (g) =>
+                    (g.rsvpStatus ?? "").toLowerCase() ==
+                    selectedStatus.toLowerCase(),
+              )
+              .toList();
+
+    return filteredGuests?.isNotEmpty ?? false
+        ? Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) =>
+                  Divider(color: AppColors.lightGray02.withValues(alpha: .4)),
+              itemBuilder: (context, index) => GuestsScreenGuestItem(
+                index: index,
+                guest: filteredGuests?[index],
+              ),
+              itemCount: filteredGuests?.length ?? 0,
+            ),
+          )
+        : Center(child: Assets.icons.emptyIc.svg());
   }
 }
 
@@ -204,6 +242,7 @@ class GuestsScreenGuestItem extends ConsumerWidget {
                         .read(homeControllerProvider)
                         .value!
                         .occasionModel!
+                        .value!
                         .occasionId!,
                   );
             },
