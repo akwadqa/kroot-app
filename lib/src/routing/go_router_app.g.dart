@@ -45,7 +45,7 @@ final class GoRouterProvider
   }
 }
 
-String _$goRouterHash() => r'3b551ea229dcafd41769fcb02da0b6af2be08f24';
+String _$goRouterHash() => r'eda199ce410f80b200fc17e30b01d9d94f6b5750';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

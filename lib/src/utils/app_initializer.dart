@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kroot_app/src/notifications/notifications/services/notification_service.dart';
 
 import '../../features/auth/application/auth_service.dart';
 //TODO
@@ -40,6 +41,7 @@ abstract class AppInitializer {
 Future<ProviderContainer> initializeProviders() async {
   final container = ProviderContainer(observers: [RiverpodObserver()]);
   await container.read(sharedPreferencesProvider.future);
+  await container.read(notificationServiceProvider).initialize();
   return container;
 }
 
