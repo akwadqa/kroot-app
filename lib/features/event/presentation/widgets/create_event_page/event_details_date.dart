@@ -1,11 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:kroot_app/features/event/data/models/create_event_request/create_event_request.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 
 class EventDetailsDate extends StatelessWidget {
@@ -38,6 +33,7 @@ class EventDetailsDate extends StatelessWidget {
         if (val == null || val.isEmpty) {
           return context.tr('required');
         }
+        return null;
       },
       hint: context.tr('selectDate'),
       isRequired: false,

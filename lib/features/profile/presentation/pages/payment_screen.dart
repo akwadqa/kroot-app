@@ -2,22 +2,26 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
+import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
+import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentScreen extends StatefulWidget {
+class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen({super.key, required this.paymentUrl});
   final String paymentUrl;
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState();
+  ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
 // 'https://kroot.akwad.qa/payment_form?order_id=al6ci2t52a&subscription_type=Basic&language=ENG',
 
-class _PaymentScreenState extends State<PaymentScreen> {
+class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   late final WebViewController controller;
   @override
   void initState() {
@@ -79,7 +83,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
       if (parsed['message'] == 'Txn Success') {
         // if (parsed['message'] == 'Txn Success') {
         // widget.onResult?.call(true);
-        context.pop(); // ✅ Return to success screen
+        // context.pop(); // ✅ Return to success screen
+        ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+        ref.read(homeControllerProvider.notifier).getUtils();
+        context.go(Routes.main);
         AppToast.doneToast('Payment succeeded');
       } else {
         debugPrint("⚠️ Payment failed or unknown response: $parsed");

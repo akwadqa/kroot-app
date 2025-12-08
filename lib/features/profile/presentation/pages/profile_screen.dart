@@ -1,4 +1,3 @@
-import 'dart:ui' as ui;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/c
 import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/profile_page_user_section_item.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
-import 'package:kroot_app/src/localization/current_language.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';

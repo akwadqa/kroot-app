@@ -1,5 +1,4 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/features/auth/data/models/send_otp/send_otp_response.dart';
 import 'package:kroot_app/features/auth/data/repo/auth_repository.dart';
 

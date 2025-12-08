@@ -5,10 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -114,6 +110,7 @@ class _UpdateGuestNameBottomSheetState
                     if (val == null || val.isEmpty) {
                       return context.tr('required');
                     }
+                    return null;
                   },
                 ),
                 // Spacer(),

@@ -108,7 +108,7 @@ class AppTextFormField extends StatelessWidget {
               ),
 
               contentPadding: EdgeInsets.zero,
-              prefixIcon: withIcon!
+              prefixIcon: withIcon
                   ? Padding(
                       padding: EdgeInsets.symmetric(horizontal: 17.w),
                       child: icon!.svg(),

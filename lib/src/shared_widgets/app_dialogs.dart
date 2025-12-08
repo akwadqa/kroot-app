@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import '../../gen/assets.gen.dart';
 import '../theme/app_colors.dart';
 // app_dialogs.dart
-import 'package:flutter/material.dart';
 
 class AppDialogs {
   AppDialogs._();
@@ -52,8 +50,8 @@ class AppDialogs {
         icon: const Icon(Icons.check_circle, color: Colors.green, size: 24),
         title: title,
         message: message,
-        child: child,
         okText: okText,
+        child: child,
       ),
     );
   }
@@ -74,8 +72,8 @@ class AppDialogs {
         icon: const Icon(Icons.cancel, color: Colors.red, size: 24),
         title: title,
         message: message,
-        child: child,
         okText: okText,
+        child: child,
       ),
     );
   }
@@ -97,10 +95,10 @@ class AppDialogs {
       builder: (_) => _ConfirmDialog(
         title: title,
         message: message,
-        child: child,
         cancelText: cancelText,
         confirmText: confirmText,
         destructive: destructive,
+        child: child,
       ),
     );
     return result ?? false;
@@ -427,7 +425,7 @@ void showLogoutDialog(BuildContext context) {
   );
 }
 
-showErrorDialog(BuildContext context, String message) {
+Future<void> showErrorDialog(BuildContext context, String message) {
   return showCustomDialog(
     context: context,
     title: Text(message),
@@ -435,7 +433,7 @@ showErrorDialog(BuildContext context, String message) {
   );
 }
 
-showAboutInfoDialog(
+Future<void> showAboutInfoDialog(
   BuildContext context,
   String message, {
   IconData? icon,

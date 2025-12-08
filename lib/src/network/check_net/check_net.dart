@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 
 import 'network_info.dart';
 
@@ -9,29 +8,29 @@ class CheckNet<T> {
     InternetConnectionChecker.instance,
   );
 
-  Future<T> checkNetResponse({
-    required Function() tryRight,
-    Future<T> Function()? tryRightCach,
-  }) async {
-    if (await networkInformation.isConnected) {
-      try {
-        return await tryRight();
-      } on DioException { 
-        rethrow;
-      } catch (e) {
-        rethrow;
-      }
-    } else {
-      //   if (tryRightCach == null) {
-      //     print('---------------------------------------------ofline!');
-      //     throw Exception('You are offline');
-      //   } else {
-      //     try {
-      //       return await tryRightCach();
-      //     } catch (e) {
-      throw Exception('You are offline');
-      //     }
-      //   }
-    }
-  }
+  // Future<T> checkNetResponse({
+  //   required Function() tryRight,
+  //   Future<T> Function()? tryRightCach,
+  // }) async {
+  //   if (await networkInformation.isConnected) {
+  //     try {
+  //       return await tryRight();
+  //     } on DioException { 
+  //       rethrow;
+  //     } catch (e) {
+  //       rethrow;
+  //     }
+  //   } else {
+  //     //   if (tryRightCach == null) {
+  //     //     print('---------------------------------------------ofline!');
+  //     //     throw Exception('You are offline');
+  //     //   } else {
+  //     //     try {
+  //     //       return await tryRightCach();
+  //     //     } catch (e) {
+  //     throw Exception('You are offline');
+  //     //     }
+  //     //   }
+  //   }
+  // }
 }

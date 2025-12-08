@@ -411,7 +411,7 @@ class UpdateEventController extends _$UpdateEventController {
         }
 
         final sheet = excel.tables.values.first;
-        if (sheet == null || sheet.rows.isEmpty) {
+        if (sheet.rows.isEmpty) {
           state = AsyncError("This file is empty", StackTrace.current);
           return;
         }

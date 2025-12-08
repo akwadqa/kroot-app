@@ -4,15 +4,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_ui_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/edit_guest_bottom_sheet.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/edit_guest_name_bottom_sheet.dart';
-import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 

@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
@@ -348,7 +346,7 @@ class AddEventController extends _$AddEventController {
         }
 
         final sheet = excel.tables.values.first;
-        if (sheet == null || sheet.rows.isEmpty) {
+        if (sheet.rows.isEmpty) {
           state = AsyncError("This file is empty", StackTrace.current);
           return;
         }

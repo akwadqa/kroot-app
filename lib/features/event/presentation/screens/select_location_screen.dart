@@ -1,23 +1,13 @@
 import 'dart:async';
 
-import 'package:csv/csv.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_google_places_sdk_platform_interface/src/types/lat_lng.dart'
-    hide LatLng;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:excel/excel.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:kroot_app/features/event/presentation/widgets/select_location_page/location_search_box.dart';
 import 'package:kroot_app/features/event/presentation/widgets/select_location_page/select_location_google_map.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';

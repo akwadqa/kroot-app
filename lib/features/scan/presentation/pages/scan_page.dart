@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/scan/presentation/controller/scan_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/routing/routes.dart';
@@ -45,13 +44,10 @@ class _ScanPageState extends ConsumerState<ScanPage> {
         // body: _buildBody(),
         body: controller.when(
           data: (data) {
-            if (data.userScanEventResponse?.participantEvents.isEmpty ??
-                false) {
+            if (data.userScanEventResponse?.ownedEvents.isEmpty ?? false) {
               return Center(child: Assets.icons.emptyIc.svg());
             }
-            return _buildBody(
-              data.userScanEventResponse?.participantEvents ?? [],
-            );
+            return _buildBody(data.userScanEventResponse?.ownedEvents ?? []);
           },
           error: (e, st) {
             return AppErrorWidget(

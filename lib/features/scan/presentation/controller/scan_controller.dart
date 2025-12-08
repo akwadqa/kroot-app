@@ -4,7 +4,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/scan/data/model/scan_qr_response/scan_qr_response.dart';
 import 'package:kroot_app/features/scan/data/repository/scan_respository.dart';
 import 'package:kroot_app/features/scan/presentation/controller/scan_state.dart';
-import 'package:kroot_app/features/scan_qr_code/data/repositories/scan_driver_qr_repository.dart';
 
 part 'scan_controller.g.dart';
 
@@ -61,10 +60,10 @@ class ScanController extends _$ScanController {
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
       if (page == 1) {
-        _eventsList = List.from(response.data?.participantEvents ?? []);
+        _eventsList = List.from(response.data!.ownedEvents ?? []);
       } else {
         _eventsList.addAll(
-          (response.data?.participantEvents ?? []) as Iterable<EventModel>,
+          (response.data?.ownedEvents ?? []) as Iterable<EventModel>,
         );
       }
 
@@ -76,8 +75,8 @@ class ScanController extends _$ScanController {
         throw Exception(response.message);
       }
       final eventResponse = UserScanEventResponse(
-        participantEvents: _eventsList,
-        ownedEvents: [],
+        participantEvents: [],
+        ownedEvents: _eventsList,
       );
 
       state = AsyncData(
@@ -89,11 +88,11 @@ class ScanController extends _$ScanController {
       return null;
     }
   }
-  
+
   Future<bool> onLoadMoreEvents() async {
     if (_currentPage >= _totalPages) return false;
     final nextPage = _currentPage + 1;
     final result = await getUserScanEvent(showLoading: false, page: nextPage);
-    return result?.participantEvents.isNotEmpty ?? false;
+    return result?.ownedEvents.isNotEmpty ?? false;
   }
 }

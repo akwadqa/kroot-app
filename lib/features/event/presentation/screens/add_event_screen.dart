@@ -1,7 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places_sdk_platform_interface/src/types/lat_lng.dart'
-    hide LatLng;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
@@ -49,7 +46,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _key = GlobalKey<FormState>();
+    final key = GlobalKey<FormState>();
     late BuildContext ctx;
 
     ref.listen(addEventControllerProvider, (prev, next) {
@@ -93,7 +90,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
           builder: (context) {
             ctx = context;
             return Form(
-              key: _key,
+              key: key,
               child: Column(
                 children: [
                   CustomAppbar(
@@ -133,6 +130,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                             if (val == null || val.isEmpty) {
                               return context.tr('required');
                             }
+                            return null;
                           },
 
                           label: context.tr('eventName'),
@@ -291,7 +289,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                           children: [
                             AddEventPageBotton(
                               onTap: () {
-                                if (_key.currentState!.validate()) {
+                                if (key.currentState!.validate()) {
                                   // if (image != null) {
 
                                   ref.read(addEventControllerProvider.notifier)
@@ -320,7 +318,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
 
                             AddEventPageBotton(
                               onTap: () {
-                                if (_key.currentState!.validate()) {
+                                if (key.currentState!.validate()) {
                                   // if (image != null) {
                                   ref
                                       .read(addEventControllerProvider.notifier)

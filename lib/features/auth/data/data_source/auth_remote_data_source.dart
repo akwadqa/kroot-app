@@ -6,7 +6,6 @@ import 'package:kroot_app/features/auth/data/models/send_otp/send_otp_response.d
 import 'package:kroot_app/features/auth/data/models/verify_otp/verify_otp_response.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/constants/Api/end_points.dart';
-import 'package:kroot_app/src/network/exception/dio_exceptions.dart';
 import 'package:kroot_app/src/network/services/network_service.dart';
 
 class AuthRemoteDataSource {
@@ -30,8 +29,9 @@ class AuthRemoteDataSource {
         return ApiResponse.success(
           data: SendOtpResponse.fromJson(e.response?.data['data']),
         );
-      } else
+      } else {
         return ApiResponse.error(message: e.toString());
+      }
     } catch (e) {
       return ApiResponse.error(error: e);
     }

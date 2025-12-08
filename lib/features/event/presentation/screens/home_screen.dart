@@ -1,30 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/data/data.dart';
-import 'package:kroot_app/features/event/data/datasources/home_data_source.dart';
-import 'package:kroot_app/features/event/data/models/events_response/event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/src/network/services/dio_client.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:kroot_app/src/shared_widgets/bottom_navigation_bar_view.dart';
-import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_app_bar.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/src/utils/app_toast.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -47,6 +41,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(homeControllerProvider.select((val) => val.value!.utilsResponse), (
+      prev,
+      next,
+    ) {
+      if (next is AsyncData) {
+        AppToast.doneToast(
+          'Your subscription is ${next!.value!.subscriber!.subscriptionType}\n Your Kroot remeaning is :${next.value!.subscriber!.remainingKroots}',
+        );
+      }
+    });
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent == false ||
           pre?.value?.isDeleteEvent == false) {

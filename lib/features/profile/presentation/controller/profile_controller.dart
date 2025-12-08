@@ -16,11 +16,11 @@ class ProfileController extends _$ProfileController {
     state = AsyncData(state.value!.copyWith(index: index));
   }
 
-  Future<String?> getPaymentUrl(String subscription_type,String local) async {
+  Future<String?> getPaymentUrl(String subscriptionType,String local) async {
     try {
       state = AsyncData(state.value!.copyWith(paymentLink: AsyncLoading()));
       final repo = ref.read(profileRespositoryProvider);
-      final response = await repo.getPaymentUrl(subscription_type,local);
+      final response = await repo.getPaymentUrl(subscriptionType,local);
 
       if (response.hasFailed) {
         state = AsyncData(

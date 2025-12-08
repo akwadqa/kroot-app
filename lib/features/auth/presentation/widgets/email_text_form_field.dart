@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:queen_validators/queen_validators.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 
 

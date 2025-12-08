@@ -4,50 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_ui_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guest_ui_controller.dart';
 import 'package:kroot_app/features/guests/presentation/widgets/guests_list/add_guest_manual_bottom_sheet.dart';
 import 'package:kroot_app/features/guests/presentation/widgets/guests_list/guests_screen_tab_bar.dart';
-import 'package:kroot_app/features/guests/presentation/widgets/guests_list/guests_screen_tabs_item.dart';
 import 'package:kroot_app/features/guests/presentation/widgets/guests_list/update_guest_bottom_sheet.dart';
-import 'package:kroot_app/features/guests/presentation/widgets/search_field.dart';
-import 'package:kroot_app/features/scan/presentation/controller/scan_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
-import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
-import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
-import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_ui_controller.dart';
-import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
-import 'package:kroot_app/features/guests/presentation/controller/guest_ui_controller.dart';
-import 'package:kroot_app/features/guests/presentation/widgets/guests_list/guests_screen_tab_bar.dart';
-import 'package:kroot_app/features/guests/presentation/widgets/guests_list/guests_screen_tabs_item.dart';
-import 'package:kroot_app/features/guests/presentation/widgets/search_field.dart';
-import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
-import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
-import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
-import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
-import 'package:kroot_app/src/theme/app_colors.dart';
-import 'package:kroot_app/src/theme/app_text_style.dart';
-import 'package:kroot_app/src/utils/app_alert.dart';
 
 import '../controller/guests_controller.dart';
-import '../widgets/status_filter_bar.dart';
-import '../widgets/guest_tile.dart';
-import 'guest_details_page.dart';
 
 class GuestsScreen extends ConsumerStatefulWidget {
   final String id;
@@ -66,7 +39,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
     super.initState();
   }
 
-  _openBottomSheet(BuildContext context) {
+  void _openBottomSheet(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -115,7 +88,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
         }
         if (next is AsyncError) {
           context.pop();
-          AppToast.errorToast(next!.error!.toString());
+          AppToast.errorToast(next.error.toString());
         }
       },
     );

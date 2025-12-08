@@ -7,13 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_language.dart';
-import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_type.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_location_widget.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
@@ -46,10 +43,8 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
     Future(() {
       ref.read(updateEventControllerProvider.notifier)
         ..updateDataForEvent(
-          widget.eventModel != null
-              ? widget.eventModel!
-              : ref.read(homeControllerProvider).value!.occasionModel!.value!,
-          widget.eventModel?.occasionId ?? widget.id!,
+          widget.eventModel,
+          widget.eventModel.occasionId ?? widget.id!,
         )
         ..setSelectedContactsFromGuests(
           // ref.read(homeControllerProvider).value!.occasionModel!.value!.guests!,
@@ -65,7 +60,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final _key = GlobalKey<FormState>();
+    final key = GlobalKey<FormState>();
     //? Event image :
     // final image = ref
     //     .watch(homeControllerProvider)
@@ -123,7 +118,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
           builder: (context) {
             ctx = context;
             return Form(
-              key: _key,
+              key: key,
               child: Column(
                 children: [
                   20.verticalSpace,
@@ -158,6 +153,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                             if (val == null || val.isEmpty) {
                               return context.tr('required');
                             }
+                            return null;
                           },
 
                           label: context.tr('eventName'),
@@ -196,7 +192,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                                       updateEventControllerProvider.notifier,
                                     )
                                     .deleteImage(
-                                      widget.eventModel?.occasionId ??
+                                      widget.eventModel.occasionId ??
                                           widget.id!,
                                     );
                               },
@@ -208,7 +204,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                                     )
                                     .updateDataForEvent(
                                       EventModel(image: image),
-                                      widget.eventModel?.occasionId ??
+                                      widget.eventModel.occasionId ??
                                           widget.id!,
                                     );
                               },
@@ -235,7 +231,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                                     )
                                     .updateDataForEvent(
                                       EventModel(date: date.toString()),
-                                      widget.eventModel?.occasionId ??
+                                      widget.eventModel.occasionId ??
                                           widget.id!,
                                     );
                               },
@@ -261,7 +257,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                                     )
                                     .updateDataForEvent(
                                       EventModel(language: val),
-                                      widget.eventModel?.occasionId ??
+                                      widget.eventModel.occasionId ??
                                           widget.id!,
                                     );
                               },
@@ -366,7 +362,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                           text: '',
                           onTap: () async {
                             // context.push(Routes.eventGuestList);
-                            if (_key.currentState!.validate()) {
+                            if (key.currentState!.validate()) {
                               ref.read(updateEventControllerProvider.notifier)
                                 ..updateDataForEvent(
                                   EventModel(title: _title.text),

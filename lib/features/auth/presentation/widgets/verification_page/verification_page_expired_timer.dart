@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';

@@ -91,8 +91,8 @@ class _ChangeLanguageBottomSheetState
                         .read(currentLanguageProvider.notifier)
                         .changeLanguage(context, 'en');
                   },
-                  fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                    if (states.contains(MaterialState.selected)) {
+                  fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                    if (states.contains(WidgetState.selected)) {
                       return AppColors.primary;
                     }
                     return AppColors.white;
@@ -137,8 +137,8 @@ class _ChangeLanguageBottomSheetState
                         .read(currentLanguageProvider.notifier)
                         .changeLanguage(context, 'ar');
                   },
-                  fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-                    if (states.contains(MaterialState.selected)) {
+                  fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+                    if (states.contains(WidgetState.selected)) {
                       return AppColors.primary;
                     }
                     return AppColors.white;

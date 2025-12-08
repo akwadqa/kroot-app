@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/constants/Api/end_points.dart';
-import 'package:kroot_app/src/network/check_net/network_info.dart';
 import 'package:kroot_app/src/network/services/network_service.dart';
 
 class ProfileRemoteDataSource {

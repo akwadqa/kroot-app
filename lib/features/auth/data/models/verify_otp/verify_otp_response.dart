@@ -1,4 +1,6 @@
 // lib/models/user_model.dart
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'verify_otp_response.freezed.dart';

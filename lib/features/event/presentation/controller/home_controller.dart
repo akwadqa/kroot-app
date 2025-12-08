@@ -1,16 +1,9 @@
-import 'package:flutter_contacts/flutter_contacts.dart' as flutterContact;
-import 'package:kroot_app/features/event/data/models/confirm_event_response/confirm_event_response.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
-import 'package:uuid/uuid.dart';
 // import 'package:flutter_contacts/fluuter_contact.dart' as flutterContact;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:kroot_app/features/event/data/models/create_event_request/create_event_request.dart';
-import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
-import 'package:kroot_app/features/event/data/models/events_response/event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/repositories/home_repositories.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
-import 'package:kroot_app/src/utils/image_picker.dart';
 part 'home_controller.g.dart';
 
 @Riverpod(keepAlive: true)

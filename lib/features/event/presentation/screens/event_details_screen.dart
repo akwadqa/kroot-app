@@ -5,17 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/data/models/create_event_request/create_event_request.dart';
-import 'package:kroot_app/features/event/data/models/events_response/event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/data/models/occasion_response/occasion_response.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_bottom_sheet.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_details_section.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_item_details.dart';
 
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
@@ -147,10 +143,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             ? _buildBody(context, widget.eventModel!, ref)
             : controller?.when(
                 data: (data) {
-                  if (data != null) {
-                    return _buildBody(context, data, ref);
-                  }
-                  return SizedBox();
+                  return _buildBody(context, data, ref);
+                                  return SizedBox();
                 },
                 error: (e, st) {
                   // return Text('error');

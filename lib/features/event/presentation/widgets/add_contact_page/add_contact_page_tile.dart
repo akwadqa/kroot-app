@@ -41,8 +41,8 @@ class AddContactScreenTile extends StatelessWidget {
         ),
       ),
       trailing: Checkbox(
-        fillColor: MaterialStateProperty.resolveWith<Color>((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith<Color>((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primary;
           }
           return AppColors.white;

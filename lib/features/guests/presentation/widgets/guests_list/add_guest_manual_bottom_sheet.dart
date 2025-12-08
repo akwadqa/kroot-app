@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/guests/presentation/controller/guest_ui_controller.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -96,6 +95,7 @@ class _AddGuestManuallBotomSheetState
                   if (val == null || val.isEmpty) {
                     return context.tr('required');
                   }
+                  return null;
                 },
               ),
               20.verticalSpace,
@@ -108,6 +108,8 @@ class _AddGuestManuallBotomSheetState
                 label: context.tr('lastName'),
                 isRequired: false,
                 validator: (val) {
+                  return null;
+                
                   //TODO
                   // if (val == null || val.isEmpty) {
                   //   return context.tr('required');
@@ -123,6 +125,7 @@ class _AddGuestManuallBotomSheetState
                   if (val == null || val.isEmpty) {
                     return context.tr('required');
                   }
+                  return null;
                 },
                 inputType: TextInputType.number,
                 hint: context.tr('enterPhone'),

@@ -5,7 +5,6 @@ import 'package:toastification/toastification.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 
 import '../../src/localization/current_language.dart';
-import '../../src/routing/app_router_provider.dart';
 import '../../src/theme/app_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

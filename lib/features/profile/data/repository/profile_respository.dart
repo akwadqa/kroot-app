@@ -18,12 +18,12 @@ class ProfileRespository {
   ProfileRespository(this._remoteDataSource);
 
   Future<ApiResponse<String>> getPaymentUrl(
-    String subscription_type,
+    String subscriptionType,
     String local,
   ) async {
     try {
       final response = await _remoteDataSource.getPaymentLink(
-        subscription_type,
+        subscriptionType,
         local,
       );
       return response;

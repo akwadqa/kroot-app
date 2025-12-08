@@ -1,10 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../constants/Api/services_urls.dart';
-import '../exception/dio_exceptions.dart';
 import 'dio_remote_interceptor.dart';
 import 'network_service.dart';
 

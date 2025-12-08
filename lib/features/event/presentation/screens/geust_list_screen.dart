@@ -11,7 +11,6 @@ import 'package:kroot_app/features/event/presentation/widgets/create_event_page/
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/guest_list_item.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
@@ -47,10 +46,10 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
     number = TextEditingController();
   }
 
-  _openSheetForSelectAdd(BuildContext context) {
+  void _openSheetForSelectAdd(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => Container(
+      builder: (context) => SizedBox(
         width: double.infinity,
         height: 375.h,
         child: Column(
@@ -133,7 +132,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
     );
   }
 
-  _openSheetForAddMan(BuildContext context) {
+  void _openSheetForAddMan(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -478,7 +477,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
 }
 
 class AddContactManuallBottomSheet extends StatefulWidget {
-  AddContactManuallBottomSheet({super.key, required this.id});
+  const AddContactManuallBottomSheet({super.key, required this.id});
 
   final String? id;
 
@@ -489,7 +488,7 @@ class AddContactManuallBottomSheet extends StatefulWidget {
 
 class _AddContactManuallBottomSheetState
     extends State<AddContactManuallBottomSheet> {
-  GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
   late TextEditingController firstName;
   late TextEditingController lastName;
@@ -544,6 +543,7 @@ class _AddContactManuallBottomSheetState
                   if (val == null || val.isEmpty) {
                     return context.tr('required');
                   }
+                  return null;
                 },
               ),
               20.verticalSpace,
@@ -556,6 +556,8 @@ class _AddContactManuallBottomSheetState
                 label: context.tr('lastName'),
                 isRequired: false,
                 validator: (val) {
+                  return null;
+                
                   //TODO
                   // if (val == null || val.isEmpty) {
                   //   return context.tr('required');
@@ -571,6 +573,7 @@ class _AddContactManuallBottomSheetState
                   if (val == null || val.isEmpty) {
                     return context.tr('required');
                   }
+                  return null;
                 },
                 inputType: TextInputType.number,
                 hint: context.tr('enterPhone'),

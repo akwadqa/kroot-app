@@ -1,8 +1,4 @@
 // features/guests/presentation/widgets/guest_tile.dart
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:kroot_app/features/guests/domain/model/guest_model.dart';
-import 'package:kroot_app/src/theme/app_colors.dart';
 
 
 // class GuestTile extends StatelessWidget {

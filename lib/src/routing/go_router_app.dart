@@ -1,10 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/presentation/screens/add_operators_screen.dart';
 import 'package:kroot_app/features/profile/presentation/pages/payment_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -16,7 +14,6 @@ import 'package:kroot_app/features/event/presentation/screens/add_contact_screen
 import 'package:kroot_app/features/event/presentation/screens/add_event_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/event_details_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/geust_list_screen.dart';
-import 'package:kroot_app/features/event/presentation/screens/home_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/invite_template_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/main_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/qr_screen.dart';

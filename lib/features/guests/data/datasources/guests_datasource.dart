@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/guests/domain/model/guest_model.dart';
 import 'package:kroot_app/features/guests/domain/model/update_guest_list_response.dart/update_guest_list_response.dart';
 import 'package:kroot_app/features/guests/domain/model/update_guest_response/update_guest_response.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';

@@ -85,7 +85,7 @@ class PricingScreen extends ConsumerWidget {
     );
   }
 
-  _buildTabContent(int index) {
+  Widget _buildTabContent(int index) {
     switch (index) {
       case 0:
         return const PricingPageBasicSection(key: ValueKey(0));
