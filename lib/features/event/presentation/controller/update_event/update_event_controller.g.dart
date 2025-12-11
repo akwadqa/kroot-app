@@ -31,7 +31,7 @@ final class UpdateEventControllerProvider
 }
 
 String _$updateEventControllerHash() =>
-    r'0d1a3644a632f9d8e892e32ed663f5d13dbc86bd';
+    r'58281b4b444baeb41788afe5bf0682fbcf2ee79f';
 
 abstract class _$UpdateEventController
     extends $AsyncNotifier<UpdateEventState> {

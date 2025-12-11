@@ -65,6 +65,7 @@ dependencies:
   firebase_messaging: ^15.2.10
   flutter_local_notifications: ^19.5.0
   geolocator: ^14.0.2
+  fcm_config: ^3.6.5
 
 
 
@@ -89,7 +90,9 @@ dependency_overrides:
 
 flutter_launcher_icons:
   android: true
-  ios: false
+  ios: true
+  remove_alpha_ios: true 
+
   image_path: "assets/images/kroot_icon.png"
   # adaptive_icon_background: "#1E2E4F"   # الخلفية التي تريدها
   # adaptive_icon_foreground: "assets/images/kroot_icon.png"

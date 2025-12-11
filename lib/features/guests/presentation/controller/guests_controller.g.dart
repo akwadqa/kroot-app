@@ -30,7 +30,7 @@ final class GuestsControllerProvider
   GuestsController create() => GuestsController();
 }
 
-String _$guestsControllerHash() => r'fdf74038494e00d712fa6e54fa4f2ca9ff3c13ae';
+String _$guestsControllerHash() => r'6937ddb579cf66ba2551f3d99d3d447ff1c3fd6d';
 
 abstract class _$GuestsController extends $AsyncNotifier<GuestsState> {
   FutureOr<GuestsState> build();

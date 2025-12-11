@@ -6,53 +6,105 @@ part of 'notification_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(notificationService)
-const notificationServiceProvider = NotificationServiceProvider._();
+/// Riverpod provider for NotificationsService
+@ProviderFor(notificationsService)
+const notificationsServiceProvider = NotificationsServiceProvider._();
 
-final class NotificationServiceProvider
+/// Riverpod provider for NotificationsService
+final class NotificationsServiceProvider
     extends
         $FunctionalProvider<
-          NotificationService,
-          NotificationService,
-          NotificationService
+          NotificationsService,
+          NotificationsService,
+          NotificationsService
         >
-    with $Provider<NotificationService> {
-  const NotificationServiceProvider._()
+    with $Provider<NotificationsService> {
+  /// Riverpod provider for NotificationsService
+  const NotificationsServiceProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'notificationServiceProvider',
+        name: r'notificationsServiceProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$notificationsServiceHash();
+
+  @$internal
+  @override
+  $ProviderElement<NotificationsService> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  NotificationsService create(Ref ref) {
+    return notificationsService(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(NotificationsService value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<NotificationsService>(value),
+    );
+  }
+}
+
+String _$notificationsServiceHash() =>
+    r'1210ccb08dd4d5c8d2554af87f4ed41ee14ed8e5';
+
+/// Controller to send device token to backend
+@ProviderFor(DeviceTokenController)
+const deviceTokenControllerProvider = DeviceTokenControllerProvider._();
+
+/// Controller to send device token to backend
+final class DeviceTokenControllerProvider
+    extends $AsyncNotifierProvider<DeviceTokenController, void> {
+  /// Controller to send device token to backend
+  const DeviceTokenControllerProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'deviceTokenControllerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$notificationServiceHash();
+  String debugGetCreateSourceHash() => _$deviceTokenControllerHash();
 
   @$internal
   @override
-  $ProviderElement<NotificationService> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  NotificationService create(Ref ref) {
-    return notificationService(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(NotificationService value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<NotificationService>(value),
-    );
-  }
+  DeviceTokenController create() => DeviceTokenController();
 }
 
-String _$notificationServiceHash() =>
-    r'8fdcaf2ff0f7476258e1ef6abb682a1b6e1087b8';
+String _$deviceTokenControllerHash() =>
+    r'248339f0b48dae2382cd1e27e3ebbbbe1c95e6db';
+
+abstract class _$DeviceTokenController extends $AsyncNotifier<void> {
+  FutureOr<void> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    build();
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
+    element.handleValue(ref, null);
+  }
+}
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

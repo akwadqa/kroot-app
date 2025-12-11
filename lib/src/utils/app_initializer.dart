@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/src/notifications/notifications/services/notification_service.dart';
 
 import '../../features/auth/application/auth_service.dart';
-//TODO
+
 import '../../firebase_options.dart';
 import '../constants/Api/services_urls.dart';
 import '../riverpod_observer.dart';
@@ -18,7 +18,6 @@ abstract class AppInitializer {
     //-- Flutter init --
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-    //TODO:
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -41,7 +40,7 @@ abstract class AppInitializer {
 Future<ProviderContainer> initializeProviders() async {
   final container = ProviderContainer(observers: [RiverpodObserver()]);
   await container.read(sharedPreferencesProvider.future);
-  await container.read(notificationServiceProvider).initialize();
+  await container.read(notificationsServiceProvider).init();
   return container;
 }
 

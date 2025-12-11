@@ -37,4 +37,6 @@ abstract class EndPoints {
   static const String getActiveGates = '.get_active_gates';
   static const String getGuestDetails = '.get_invitee_details';
   static const String qrCheck = '.check_in';
+    // ! FCM TOKEN
+  static const String sendFcmToken = 'fcm_frappe.api.device_token';
 }
