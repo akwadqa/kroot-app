@@ -11,69 +11,6 @@ class AuthController extends _$AuthController {
   @override
   FutureOr<AuthControllerState?> build() => null;
 
-  // Future<void> login(LoginParams params) async {
-  //   state = const AsyncLoading();
-  //   // try {
-  //   //  final authRepo = ref.watch(authRepositoryProvider);
-  //   //       final data = await authRepo.login(params);
-
-  //   //       if (data.hasSucceeded) {
-  //   //         // update guest status in memory to confirmed
-  //   //         // final updated = _guests.map((g) {
-  //   //         //   if (g.name == inviteeId) {
-  //   //         //     return g.copyWith(rsvpStatus: RsvpStatus.confirmed);
-  //   //         //   }
-  //   //         //   return g;
-  //   //         // }).toList();
-  //   //  await ref
-  //   //           .read(userDataProvider.notifier)
-  //   //           .setData(
-  //   //             data.data?.token??"",
-  //   //             data.data?.fullName ?? '',
-  //   //             data.data?.email ?? '',
-  //   //           );
-  //   //         // _guests = updated;
-  //   //         // return data;
-  //   //         state = AsyncData(null);
-  //   //       } else {
-  //   //         debugPrint("kjgfghhjlk.mnb");
-  //   //         state = AsyncError(
-  //   //           data.message ?? "Check-in failed",
-  //   //           StackTrace.current,
-  //   //         );
-  //   //         // return data;
-  //   //       }
-
-  //   //     } catch (e, st) {
-  //   //       state = AsyncError(e, st);
-  //   //       throw AppException("message");
-  //   //     }
-  //   state = await AsyncValue.guard(() async {
-  //     final authRepo = ref.watch(authRepositoryProvider);
-  //     final data = await authRepo.login(params);
-  //     if (data.hasSucceeded) {
-  //       await ref
-  //           .read(userDataProvider.notifier)
-  //           .setData(
-  //             data.data!.token,
-  //             data.data?.fullName ?? '',
-  //             data.data?.email ?? '',
-  //           );
-  //     }
-  //     (err) => AsyncError(
-  //       data.message ?? "Error occured wrong pasword or email",
-  //       StackTrace.current,
-  //     );
-  //   });
-  // }
-
-  // Future<void> logout() async {
-  //   state = const AsyncLoading();
-  //   state = await AsyncValue.guard(() async {
-  //     ref.read(userDataProvider.notifier).removeData();
-  //   });
-  // }
-
   Future<void> verifyOtp(String otp, String? numberNull) async {
     try {
       final number = ref
@@ -97,8 +34,9 @@ class AuthController extends _$AuthController {
       if (result.hasFailed) {
         // throw Exception(result.message);
         state = AsyncError(result.message ?? '', StackTrace.current);
+        return;
       }
-      ref.read(userDataProvider.notifier).setData(result.data!.token!);
+      await ref.read(userDataProvider.notifier).setData(result.data!.token!);
 
       state = AsyncData(
         state.value?.copyWith(verifyOtpResponse: result.data) ??
@@ -130,6 +68,7 @@ class AuthController extends _$AuthController {
       if (result.hasFailed) {
         // throw Exception(result.message);
         state = AsyncError(result.message ?? '', StackTrace.current);
+        return;
       }
       state = AsyncData(
         state.value?.copyWith(createAccountResponse: result.data) ??
@@ -139,12 +78,4 @@ class AuthController extends _$AuthController {
       state = AsyncError(e, st);
     }
   }
-
-  // Future<void> forgotPassword(String email) async {
-  //   state = const AsyncLoading();
-  //   state = await AsyncValue.guard(() async {
-  //     final authRepo = ref.watch(authRepositoryProvider);
-  //     await authRepo.forgotPassword(email);
-  //   });
-  // }
 }

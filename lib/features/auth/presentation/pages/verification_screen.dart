@@ -60,10 +60,10 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       }
       if (next is AsyncData) {
         context.pop();
+        context.go(Routes.main);
         ref.read(homeControllerProvider.notifier)
           ..getUserEvents(page: 1)
           ..getUtils();
-        context.go(Routes.main);
       }
     });
 
