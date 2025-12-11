@@ -31,6 +31,7 @@ class _EditGuestNameBottomSheetState
     extends ConsumerState<EditGuestNameBottomSheet> {
   late TextEditingController _firstNameController;
   late TextEditingController _lastNameController;
+  late TextEditingController _codeController;
   final _key = GlobalKey<FormState>();
 
   @override
@@ -42,6 +43,7 @@ class _EditGuestNameBottomSheetState
     _lastNameController = TextEditingController(
       text: widget.contact.contact.name.last,
     );
+    _codeController = TextEditingController(text: widget.contact.code);
   }
 
   @override
@@ -101,6 +103,21 @@ class _EditGuestNameBottomSheetState
                   isRequired: false,
                   validator: (val) => null,
                 ),
+
+                18.verticalSpace,
+                AppTextFormField(
+                  withIcon: false,
+                  controller: _codeController,
+                  hint: context.tr('countryCode'),
+                  label: context.tr('countryCode'),
+                  isRequired: false,
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return context.tr('required');
+                    }
+                    return null;
+                  },
+                ),
                 // Spacer(),
                 20.verticalSpace,
                 CustomButtonWidget(
@@ -122,6 +139,8 @@ class _EditGuestNameBottomSheetState
                                   widget.contact.contact,
                                   _firstNameController.text,
                                   _lastNameController.text,
+                                  _codeController.text,
+                                  widget.contact.count,
                                 )
                           : ref
                                 .read(updateEventControllerProvider.notifier)
@@ -129,6 +148,8 @@ class _EditGuestNameBottomSheetState
                                   widget.contact.contact,
                                   _firstNameController.text,
                                   _lastNameController.text,
+                                  _codeController.text,
+                                  widget.contact.count
                                 );
                       context.pop();
                     }

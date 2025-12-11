@@ -14,6 +14,7 @@ import 'package:kroot_app/features/guests/presentation/widgets/guests_list/updat
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
@@ -56,11 +57,9 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
       case 2:
         return "Declined";
       case 3:
-        return "Not Sent";
+        return "Pending";
       case 4:
         return "Failed";
-      case 5:
-        return "Pending";
       default:
         return "all";
     }
@@ -68,6 +67,8 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final index = ref.watch(guestUiControllerProvider).index;
+
     final controller = ref.watch(
       homeControllerProvider.select(
         (val) => val.value!.occasionModel ?? AsyncLoading(),
@@ -125,33 +126,31 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
           //? Tabs :
           GuestsScreenTabBar(),
           //? Guests list
-          // (filteredGuests ?? []).isNotEmpty
-          // ? _buildBody(filteredGuests)
           controller.when(
             data: (data) {
-              print('---------------------------');
-              print(data.guests?.length);
-              return _buildBody(data);
+              return _buildBody(data, index);
             },
-            error: (e, st) => SizedBox(),
+            error: (e, st) => AppErrorWidget(
+              onTap: () {
+                ref
+                    .read(homeControllerProvider.notifier)
+                    .getEventDetails(widget.id);
+              },
+            ),
             loading: () =>
                 Center(child: Assets.images.animationLoading.image()),
           ),
-          // : Center(child: Assets.icons.emptyIc.svg()),
         ],
       ),
     );
   }
 
-  Widget _buildBody(EventModel event) {
-    // final gustsLists = ref.watch(
-    //   homeControllerProvider.select(
-    //     (val) => val.value?.occasionModel?.value?.guests,
-    //   ),
-    // );
-    final index = ref.watch(guestUiControllerProvider).index;
+  Widget _buildBody(EventModel event, int index) {
     print('---------------------------');
-    print(event.guests?.length);
+    print(index);
+    print(
+      "Controller in page: ${ref.read(guestUiControllerProvider.notifier).hashCode}",
+    );
 
     final selectedStatus = rsvpStatusFromIndex(index);
     final filteredGuests = selectedStatus == "all"
@@ -172,6 +171,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
               itemBuilder: (context, index) => GuestsScreenGuestItem(
                 index: index,
                 guest: filteredGuests?[index],
+                isConfirmed: event.status == 'Confirmed',
               ),
               itemCount: filteredGuests?.length ?? 0,
             ),
@@ -185,9 +185,11 @@ class GuestsScreenGuestItem extends ConsumerWidget {
     super.key,
     required this.index,
     required this.guest,
+    required this.isConfirmed,
   });
 
   final int index;
+  final bool isConfirmed;
   final GuestModel? guest;
 
   @override
@@ -195,59 +197,64 @@ class GuestsScreenGuestItem extends ConsumerWidget {
     final tabIndex = ref.watch(guestUiControllerProvider).index;
 
     return ListTile(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) => UpdateGuestNameBottomSheet(guestModel: guest!),
-        );
-      },
-      leading: GestureDetector(
-        onTap: () {
-          AppAlert.showGlobalDialog(
-            context: context,
-            title: context.tr('deleteGuest'),
-            onSubmit: () {
-              ref
-                  .read(guestsControllerProvider.notifier)
-                  .deleteGuest(
-                    guests: [guest!],
-                    occasionId: ref
-                        .read(homeControllerProvider)
-                        .value!
-                        .occasionModel!
-                        .value!
-                        .occasionId!,
-                  );
-            },
-            text: Text.rich(
-              textAlign: TextAlign.center,
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: context.tr('sureRemoveContact1'),
-                    style: AppTextStyle.rubikRegular14.copyWith(
-                      color: AppColors.primary,
+      onTap: !isConfirmed
+          ? () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) =>
+                    UpdateGuestNameBottomSheet(guestModel: guest!),
+              );
+            }
+          : null,
+      leading: !isConfirmed
+          ? GestureDetector(
+              onTap: () {
+                AppAlert.showGlobalDialog(
+                  context: context,
+                  title: context.tr('deleteGuest'),
+                  onSubmit: () {
+                    ref
+                        .read(guestsControllerProvider.notifier)
+                        .deleteGuest(
+                          guests: [guest!],
+                          occasionId: ref
+                              .read(homeControllerProvider)
+                              .value!
+                              .occasionModel!
+                              .value!
+                              .occasionId!,
+                        );
+                  },
+                  text: Text.rich(
+                    textAlign: TextAlign.center,
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: context.tr('sureRemoveContact1'),
+                          style: AppTextStyle.rubikRegular14.copyWith(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: guest?.fullName,
+                          style: AppTextStyle.rubikMedium14.copyWith(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        TextSpan(
+                          text: context.tr('sureRemoveContact2'),
+                          style: AppTextStyle.rubikRegular14.copyWith(
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  TextSpan(
-                    text: guest?.fullName,
-                    style: AppTextStyle.rubikMedium14.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  TextSpan(
-                    text: context.tr('sureRemoveContact2'),
-                    style: AppTextStyle.rubikRegular14.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-        child: Assets.icons.xGuestIc.svg(),
-      ),
+                );
+              },
+              child: Assets.icons.xGuestIc.svg(),
+            )
+          : null,
       title: Text(
         guest?.fullName ?? '',
         style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
@@ -256,23 +263,20 @@ class GuestsScreenGuestItem extends ConsumerWidget {
           ? Container(
               padding: EdgeInsets.symmetric(horizontal: 19.w, vertical: 4.h),
               decoration: BoxDecoration(
-                color: guest!.rsvpStatus == 'Confirm'
+                color: guest!.rsvpStatus == 'Confirmed'
                     ? AppColors.confirmGuest
-                    : guest!.rsvpStatus == 'Waiting' ||
+                    : guest!.rsvpStatus == 'Pending' ||
                           guest!.rsvpStatus == 'Not Sent' ||
                           guest!.rsvpStatus == null
                     ? AppColors.waitingGuest
+                    : guest!.rsvpStatus == 'Failed'
+                    ? AppColors.black400
                     : AppColors.noticeRed,
 
                 borderRadius: BorderRadius.circular(32.r),
               ),
               child: Text(
-                // index & 3 == 0
                 guest!.rsvpStatus ?? 'Not Sent',
-                // ? context.tr('status_confirmed')
-                // : index & 3 == 1
-                // ? context.tr('waiting')
-                // : context.tr('rejected'),
                 style: AppTextStyle.rubikRegular14.copyWith(
                   color: AppColors.white,
                 ),

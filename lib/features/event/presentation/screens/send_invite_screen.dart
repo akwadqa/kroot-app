@@ -71,6 +71,7 @@ class SendInviteScreen extends ConsumerWidget {
 
               Consumer(
                 builder: (context, ref, child) {
+                  print(eventModel.toJson());
                   // final contact = eventModel.occasionId != null
                   //     ? ref
                   //           .read(updateEventControllerProvider)
@@ -85,7 +86,7 @@ class SendInviteScreen extends ConsumerWidget {
                       separatorBuilder: (context, index) =>
                           Divider(color: AppColors.grayBorder),
                       padding: EdgeInsets.zero,
-                      itemCount: eventModel.guests!.length,
+                      itemCount: eventModel.guests?.length ?? 0,
 
                       itemBuilder: (context, index) => ListTile(
                         title: Text(

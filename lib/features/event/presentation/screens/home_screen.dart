@@ -97,12 +97,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 if (data.events!.isEmpty) {
                   return Expanded(
                     child: RefreshIndicator(
-                      onRefresh: () async {},
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [Center(child: Assets.icons.emptyIc.svg())],
-                        ),
+                      onRefresh: () async {
+                        ref
+                            .read(homeControllerProvider.notifier)
+                            .getUserEvents(page: 1);
+                      },
+                      child: ListView(
+                        // mainAxisSize: MainAxisSize.max,
+                        children: [Center(child: Assets.icons.emptyIc.svg())],
                       ),
                     ),
                   );
@@ -337,7 +339,7 @@ class HomePageEventItemDetails extends StatelessWidget {
               width: 123.w,
               child: Text(
                 softWrap: true,
-                overflow: TextOverflow.visible,
+                overflow: TextOverflow.ellipsis,
                 event.locationName ?? 'location',
                 // 'location',
                 style: AppTextStyle.rubikRegular12.copyWith(

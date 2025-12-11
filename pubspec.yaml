@@ -64,6 +64,7 @@ dependencies:
   flutter_google_places_sdk: ^0.4.2+1
   firebase_messaging: ^15.2.10
   flutter_local_notifications: ^19.5.0
+  geolocator: ^14.0.2
 
 
 

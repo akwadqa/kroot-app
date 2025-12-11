@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/guest_list_item.dart';
@@ -132,6 +134,22 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
     );
   }
 
+  Contact deepCopyContact(Contact original) {
+    return Contact(
+      id: original.id,
+      displayName: original.displayName,
+      name: original.name,
+      phones: original.phones
+          .map((p) => Phone(p.number, label: p.label))
+          .toList(),
+      emails: original.emails
+          .map((e) => Email(e.address, label: e.label))
+          .toList(),
+    );
+  }
+
+ 
+
   void _openSheetForAddMan(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
@@ -254,14 +272,58 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
       });
     }
 
-    // final items = ref
-    //     .watch(updateEventControllerProvider)
-    //     .value!
-    //     .selectedContacts;
 
     final items = widget.id != null
         ? ref.watch(updateEventControllerProvider).value!.selectedContacts
         : ref.watch(addEventControllerProvider).value!.selectedContacts;
+
+    // final newItems = items?.map((contact) {
+    //   //? if number start with + or has code it owns :
+    //   if (contact.contact.phones.first.number.contains('+') ||
+    //       contact.contact.phones.first.number.length > 11) {
+    //     final newContact = SelectedContact(
+    //       contact: Contact(
+    //         name: contact.contact.name,
+    //         phones: [Phone(contact.contact.phones.first.number.substring(4))],
+    //       ),
+    //       code: contact.code,
+    //       id: contact.id,
+    //     );
+    //     return newContact;
+    //   } else {
+    //     final newContact = SelectedContact(
+    //       contact: Contact(
+    //         name: contact.contact.name,
+    //         phones: [Phone(contact.contact.phones.first.number.substring(1))],
+    //       ),
+    //       code: contact.code,
+    //       id: contact.id,
+    //     );
+    //     return newContact;
+    //   }
+    // }).toList();
+    // final newItems = items?.map((contact) {
+    //   final copied = deepCopySelected(contact);
+
+    //   final number = copied.contact.phones.first.number;
+
+    //   String normalized;
+    //   if (number.startsWith('+') || number.length > 11) {
+    //     normalized = number.substring(4); // مثال فقط كما كنت تفعل
+    //   } else {
+    //     normalized = number.substring(1);
+    //   }
+
+    //   copied.contact.phones = [Phone(normalized)];
+
+    //   return SelectedContact(
+    //     contact: copied.contact,
+    //     code: copied.code,
+    //     id: copied.id,
+    //     count: copied.count,
+    //   );
+    // }).toList();
+
     return Scaffold(
       appBar: CustomAppbar(
         title: context.tr('guestList'),
@@ -493,12 +555,14 @@ class _AddContactManuallBottomSheetState
   late TextEditingController firstName;
   late TextEditingController lastName;
   late TextEditingController number;
+  late TextEditingController code;
 
   @override
   void initState() {
     super.initState();
     firstName = TextEditingController();
     lastName = TextEditingController();
+    code = TextEditingController();
     number = TextEditingController();
   }
 
@@ -557,7 +621,7 @@ class _AddContactManuallBottomSheetState
                 isRequired: false,
                 validator: (val) {
                   return null;
-                
+
                   //TODO
                   // if (val == null || val.isEmpty) {
                   //   return context.tr('required');
@@ -579,6 +643,23 @@ class _AddContactManuallBottomSheetState
                 hint: context.tr('enterPhone'),
                 icon: Assets.icons.contactNumberIc,
                 label: context.tr('phone_number'),
+                isRequired: false,
+              ),
+              20.verticalSpace,
+
+              //? code :
+              AppTextFormField(
+                controller: code,
+                validator: (val) {
+                  if (val == null || val.isEmpty) {
+                    return context.tr('required');
+                  }
+                  return null;
+                },
+                inputType: TextInputType.number,
+                hint: context.tr('enterQuntryCode'),
+                icon: Assets.icons.contactNumberIc,
+                label: context.tr('countryCode'),
                 isRequired: false,
               ),
               150.verticalSpace,
@@ -603,6 +684,7 @@ class _AddContactManuallBottomSheetState
                                 firstName: firstName.text,
                                 lastName: lastName.text,
                                 phoneNumber: number.text,
+                                code: code.text,
                               );
                         } else {
                           ref
@@ -611,6 +693,7 @@ class _AddContactManuallBottomSheetState
                                 firstName: firstName.text,
                                 lastName: lastName.text,
                                 phoneNumber: number.text,
+                                code: code.text,
                               );
                         }
                         context.pop();

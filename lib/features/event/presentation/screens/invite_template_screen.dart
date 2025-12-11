@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/create_event_page_select_language_field.dart';
@@ -81,9 +82,7 @@ class InviteTemplateScreen extends ConsumerWidget {
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
               // extra: next.value!.createEventResponse?.eventId,
-               extra: {
-                'id' :next.value!.createEventResponse?.eventId
-              },
+              extra: {'id': next.value!.createEventResponse?.eventId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
@@ -130,9 +129,7 @@ class InviteTemplateScreen extends ConsumerWidget {
               // extra: widget.id != null
               //? next.value!.updatedEvent!.occasionId
               // extra: next.value!.updatedEvent?.occasionId,
-               extra: {
-                'id' :next.value!.updatedEvent?.occasionId
-              },
+              extra: {'id': next.value!.updatedEvent?.occasionId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
@@ -145,6 +142,14 @@ class InviteTemplateScreen extends ConsumerWidget {
         }
       });
     }
+
+    final name = ref
+        .read(homeControllerProvider)
+        .value!
+        .utilsResponse!
+        .value!
+        .subscriber!
+        .name!;
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('createEvent')),
@@ -306,7 +311,8 @@ class InviteTemplateScreen extends ConsumerWidget {
 
                           18.verticalSpace,
                           Text(
-                            'Hadeel',
+                            // 'Hadeel',
+                            name,
                             style: AppTextStyle.rubikMedium16.copyWith(
                               color: AppColors.black,
                             ),

@@ -48,14 +48,7 @@ class AddContactScreenTile extends StatelessWidget {
           return AppColors.white;
         }),
         value: selectedContacts.any((c) {
-          final cNum = c.contact.phones.isNotEmpty
-              ? c.contact.phones.first.number
-              : '';
-          final tNum = contact.phones.isNotEmpty
-              ? contact.phones.first.number
-              : '';
-
-          return normalize(cNum) == normalize(tNum);
+          return c.contact.id == contact.id;
         }),
         // value: selectedContacts.any((c) => c.contact.id == contact.id),
         onChanged: (val) {

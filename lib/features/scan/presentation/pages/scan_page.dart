@@ -147,6 +147,34 @@ class ScanScreenItem extends StatelessWidget {
                       // 'Wedding',
                       // TODO
                       // "Wedding",
+                      event.title ?? '',
+                      style: AppTextStyle.rubikRegular14.copyWith(
+                        color: AppColors.primary,
+                      ),
+                    ),
+
+                    Spacer(),
+                    // Text(
+                    //   // 'Wed, 1-10-2025 08:00PM',
+                    //   // DateFormat('EEE, d-M-yyyy hh:mma').format(DateTime.now()),
+                    //   DateFormat(
+                    //     'EEE, d-M-yyyy hh:mma',
+                    //   ).format(DateTime.parse(event.date ?? '')),
+                    //   style: AppTextStyle.rubikRegular12.copyWith(
+                    //     color: AppColors.blackText,
+                    //   ),
+                    // ),
+                    // 19.horizontalSpace,
+                  ],
+                ),
+                5.verticalSpace,
+                Row(
+                  children: [
+                    19.horizontalSpace,
+                    Text(
+                      // 'Wedding',
+                      // TODO
+                      // "Wedding",
                       event.type ?? '',
                       style: AppTextStyle.rubikSemiBold16.copyWith(
                         color: AppColors.primary,

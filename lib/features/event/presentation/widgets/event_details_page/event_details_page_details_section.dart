@@ -89,13 +89,16 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
             children: [
               Assets.icons.locationIc.svg(),
               5.horizontalSpace,
-              Text(
-                softWrap: true,
-                overflow: TextOverflow.visible,
-                // 'Riffa Halls Hall No. 15',
-                event.locationName ?? '',
-                style: AppTextStyle.rubikRegular12.copyWith(
-                  color: AppColors.blackText,
+              SizedBox(
+                width: 300.w,
+                child: Text(
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  // 'Riffa Halls Hall No. 15',
+                  event.locationName ?? '',
+                  style: AppTextStyle.rubikRegular12.copyWith(
+                    color: AppColors.blackText,
+                  ),
                 ),
               ),
               Spacer(),

@@ -42,7 +42,9 @@ class BottomNavigationBarView extends ConsumerWidget {
         onTap: (index) {
           if (index == 2) {
             if (controller?.error != null) {
-              AppToast.errorToast(controller!.error.toString());
+              // AppToast.errorToast(controller!.error.toString());
+              AppToast.errorToast('Please wait');
+              ref.read(homeControllerProvider.notifier).getUtils();
             }
             if (controller?.isLoading ?? false) {
               AppToast.errorToast('Please wait');

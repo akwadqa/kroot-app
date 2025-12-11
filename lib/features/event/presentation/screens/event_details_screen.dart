@@ -10,6 +10,7 @@ import 'package:kroot_app/features/event/presentation/controller/home_controller
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_bottom_sheet.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_details_section.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_item_details.dart';
+import 'package:kroot_app/features/guests/presentation/controller/guest_ui_controller.dart';
 
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
@@ -82,7 +83,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent != null) {
         if (next is AsyncLoading) {
-          Future.delayed(Duration(seconds: 1), () {
+          Future.delayed(Duration(milliseconds: 300), () {
             AppAlert.showLoadingDialog(
               Navigator.of(context, rootNavigator: true).context,
             );
@@ -94,6 +95,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
 
           AppToast.doneToast('Your event deleted successfuly!');
           context.pushReplacement(Routes.main);
+          ref.read(homeControllerProvider.notifier).getUserEvents(page: 1);
         }
 
         if (next is AsyncError) {
@@ -143,8 +145,12 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             ? _buildBody(context, widget.eventModel!, ref)
             : controller?.when(
                 data: (data) {
+                  // Future(() {
+                  //   ref
+                  //       .read(homeControllerProvider.notifier)
+                  //       .getUserEvents(page: 1);
+                  // });
                   return _buildBody(context, data, ref);
-                                  return SizedBox();
                 },
                 error: (e, st) {
                   // return Text('error');
@@ -234,6 +240,17 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.invitedIc,
                     title: context.tr('invited'),
+                    onTap: () {
+                      context.push(
+                        Routes.eventGuestList,
+                        extra: event.occasionId,
+                      );
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ref
+                            .read(guestUiControllerProvider.notifier)
+                            .changIndex(0);
+                      });
+                    },
                     // number: 10.toString(),
                     number: event.guestReport?.totalInvitees.toString() ?? '0',
                   ),
@@ -242,6 +259,17 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.waitingIc,
                     title: context.tr('waiting'),
+                    onTap: () {
+                      context.push(
+                        Routes.eventGuestList,
+                        extra: event.occasionId,
+                      );
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ref
+                            .read(guestUiControllerProvider.notifier)
+                            .changIndex(3);
+                      });
+                    },
                     // number: 10.toString(),
                     number: event.guestReport?.pending.toString() ?? '0',
                   ),
@@ -249,7 +277,18 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   //? Messages :
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.messagesIc,
-                    title: context.tr('messages'),
+                    title: context.tr('failed'),
+                    onTap: () {
+                      context.push(
+                        Routes.eventGuestList,
+                        extra: event.occasionId,
+                      );
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ref
+                            .read(guestUiControllerProvider.notifier)
+                            .changIndex(4);
+                      });
+                    },
                     // number: 10.toString(),
                     number: event.guestReport?.failed.toString() ?? '0',
                   ),
@@ -258,6 +297,17 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.confirmedIc,
                     title: context.tr('status_confirmed'),
+                    onTap: () {
+                      context.push(
+                        Routes.eventGuestList,
+                        extra: event.occasionId,
+                      );
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ref
+                            .read(guestUiControllerProvider.notifier)
+                            .changIndex(1);
+                      });
+                    },
                     // number: 10.toString(),
                     number: event.guestReport?.confirmed.toString() ?? '0',
                   ),
@@ -266,6 +316,17 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   EventDetailsPageItemDetails(
                     icon: Assets.icons.rejectedIc,
                     title: context.tr('rejected'),
+                    onTap: () {
+                      context.push(
+                        Routes.eventGuestList,
+                        extra: event.occasionId,
+                      );
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ref
+                            .read(guestUiControllerProvider.notifier)
+                            .changIndex(2);
+                      });
+                    },
                     // number: 10.toString(),
                     number: event.guestReport?.declined.toString() ?? '0',
                   ),
@@ -290,7 +351,9 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   onTap: () {
                     context.push(
                       Routes.sendInvite,
-                      extra: widget.eventModel ?? event,
+                      extra: widget.eventModel != null
+                          ? widget.eventModel
+                          : event,
                     );
                     // ref
                     //     .read(homeControllerProvider.notifier)

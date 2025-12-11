@@ -14,6 +14,7 @@ import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
+import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
@@ -187,6 +188,22 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                   },
                 ),
               ),
+              CustomButtonWidget(
+                text: '',
+                onTap: () {
+                  context.pop();
+                },
+                isFiled: true,
+                content: Text(
+                  context.tr('confirm'),
+                  style: AppTextStyle.nunitoBold16.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
+                height: 44.h,
+                width: 330.w,
+                backgroundColor: AppColors.primary,
+              ).symmetricPadding(horizontal: 22.w),
 
               //? This for continue and save as draft :
               // Row(

@@ -141,7 +141,12 @@ class GuestsController extends _$GuestsController {
           : null;
 
       final number = (s.contact.phones.isNotEmpty)
-          ? s.contact.phones.first.number
+          // ? '${s.code}${s.contact.phones.first.number}'
+          ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
+                ? '${s.contact.phones.first.number.replaceAll(' ', '')}'
+                // ? '${s.contact.phones.first.number.replaceAll(' ', '').substring(1)}'
+                // : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '').substring(4)}'
+                : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
           : null;
       // return {};
 
@@ -226,10 +231,10 @@ class GuestsController extends _$GuestsController {
         return;
       }
 
-      state = AsyncData(state.value!.copyWith(
-        deleteGuestResponse : AsyncData(state.value)
-      ));
-      return ;
+      state = AsyncData(
+        state.value!.copyWith(deleteGuestResponse: AsyncData(state.value)),
+      );
+      return;
     } catch (e, st) {
       state = AsyncData(
         state.value!.copyWith(

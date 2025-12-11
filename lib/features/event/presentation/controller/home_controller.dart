@@ -82,11 +82,15 @@ class HomeController extends _$HomeController {
     }
   }
 
+  // List<EventModel> _updatedList = [];
+
   Future<GetUserEventsModel?> getUserEvents({
     required int page,
     String? search,
     bool showLoading = true,
   }) async {
+    print("Fetching page: $page");
+
     try {
       // if (showLoading) state = AsyncLoading();
       if (showLoading) {
@@ -99,11 +103,13 @@ class HomeController extends _$HomeController {
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
       if (page == 1) {
-        _eventsList = List.from(response.data?.events ?? []);
+        // _updatedList = [..._eventsList, ...List.from(response.data!.events!)];
+        _eventsList = List.from(response.data!.events!);
       } else {
-        _eventsList.addAll(
-          (response.data?.events ?? []) as Iterable<EventModel>,
-        );
+        // _updatedList = [..._eventsList, ...List.from(response.data!.events!)];
+
+        // _eventsList.addAll((response.data?.events) as Iterable<EventModel>);
+        _eventsList = [..._eventsList, ...List.from(response.data!.events!)];
       }
 
       if (response.hasFailed || response.data == null) {
@@ -120,6 +126,7 @@ class HomeController extends _$HomeController {
       }
       final eventResponse = GetUserEventsModel(
         events: _eventsList,
+        // events: _updatedList,
         // eventTypes: response.data!.eventTypes,
       );
 
@@ -193,6 +200,7 @@ class HomeController extends _$HomeController {
   }
 
   Future<bool> onLoadMoreEvents() async {
+    print("Load More Called: $_currentPage / $_totalPages");
     if (_currentPage >= _totalPages) return false;
     final nextPage = _currentPage + 1;
     final result = await getUserEvents(showLoading: false, page: nextPage);

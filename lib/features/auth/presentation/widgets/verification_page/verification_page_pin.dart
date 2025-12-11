@@ -21,31 +21,34 @@ class VerificationPagePin extends StatelessWidget {
       ),
     );
 
-    return Pinput(
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter code';
-        }
-        if (value.length != 6) {
-          return 'The code must be 6 numbers';
-        }
-        return null;
-      },
-      readOnly: true,
-      controller: controller,
-      showCursor: false,
-      preFilledWidget: Text(
-        '-',
-        style: AppTextStyle.rubikRegular20.copyWith(color: AppColors.primary),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Pinput(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please enter code';
+          }
+          if (value.length != 6) {
+            return 'The code must be 6 numbers';
+          }
+          return null;
+        },
+        readOnly: true,
+        controller: controller,
+        showCursor: false,
+        preFilledWidget: Text(
+          '-',
+          style: AppTextStyle.rubikRegular20.copyWith(color: AppColors.primary),
+        ),
+        focusedPinTheme: pinTheme.copyBorderWith(
+          border: Border.all(color: AppColors.primary),
+        ),
+        errorPinTheme: pinTheme.copyBorderWith(
+          border: Border.all(color: AppColors.darkRed),
+        ),
+        length: 6,
+        defaultPinTheme: pinTheme,
       ),
-      focusedPinTheme: pinTheme.copyBorderWith(
-        border: Border.all(color: AppColors.primary),
-      ),
-      errorPinTheme: pinTheme.copyBorderWith(
-        border: Border.all(color: AppColors.darkRed),
-      ),
-      length: 6,
-      defaultPinTheme: pinTheme,
     );
   }
 }

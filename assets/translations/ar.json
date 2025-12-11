@@ -229,6 +229,12 @@
     "updateEvent": "تعديل الحدث",
     "addGuest": "اضافة ضيف يدويا",
     "confirmEvent": "تأكيد الحدث",
+    "addFromContacts" : "إضافة من جهات الاتصال",
+    "addManually" : "إضافة يدويا",
+    "importCSVGuestList" : "استيراد قائمة الضيوف بتنسيق CSV",
+    "inviteSomeoneToManageGuests" : "دعوة شخص ما لإدارة الضيوف",
     "addOperators": "اضافة مشغلين",
-    "emptyOperators": ""
+    "emptyOperators": "",
+    "enterQuntryCode" : "ادخل رمز الدولة",
+    "countryCode" : "رمز الدولة"
 }

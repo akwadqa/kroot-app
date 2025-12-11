@@ -52,6 +52,11 @@ class GuestsScreenTabBar extends StatelessWidget {
                   tabIndex: 3,
                   title: context.tr('waiting'),
                 ),
+                GuestsScreenTabsItem(
+                  index: index,
+                  tabIndex: 4,
+                  title: context.tr('failed'),
+                ),
               ],
             ),
           );

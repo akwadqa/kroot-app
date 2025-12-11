@@ -61,7 +61,7 @@ class GuestListItem extends StatelessWidget {
           child: Text(
             // contact.contact.phones.first.number,
             contact.contact.phones.isNotEmpty
-                ? contact.contact.phones.first.number
+                ? '${contact.code} ${contact.contact.phones.first.number}'
                 : context.tr('no_phone'),
             style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
           ),

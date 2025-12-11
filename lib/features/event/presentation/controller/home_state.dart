@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
@@ -63,7 +65,7 @@ class HomeState {
     AsyncValue<UtilsResponse>? utilsResponse,
   }) {
     return HomeState(
-      utilsResponse : utilsResponse ?? this.utilsResponse,
+      utilsResponse: utilsResponse ?? this.utilsResponse,
       selectedContactsForUpdate:
           selectedContactsForUpdate ?? this.selectedContactsForUpdate,
       eventResponse: eventResponse ?? this.eventResponse,
@@ -77,18 +79,35 @@ class HomeState {
   }
 }
 
-class SelectedContact {
+class SelectedContact extends Equatable {
   final Contact contact;
   final int count;
-  final String id; // معرف فريد
+  final String id;
+  final String code;
 
-  SelectedContact({required this.contact, this.count = 0, required this.id});
+  SelectedContact({
+    required this.contact,
 
-  SelectedContact copyWith({Contact? contact, int? count, String? id}) {
+    this.count = 0,
+    required this.code,
+
+    required this.id,
+  });
+
+  SelectedContact copyWith({
+    Contact? contact,
+    int? count,
+    String? id,
+    String? code,
+  }) {
     return SelectedContact(
       contact: contact ?? this.contact,
       count: count ?? this.count,
       id: id ?? this.id,
+      code: code ?? this.code,
     );
   }
+
+  @override
+  List<Object?> get props => [id, contact, code, count];
 }

@@ -8,6 +8,7 @@ import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
@@ -32,30 +33,58 @@ class AddEventController extends _$AddEventController {
 
   //? This for clear all data when create event :
   void clearEventScreen() {
-    state = AsyncData(state.value!.copyWith(eventModel: EventModel()));
+    state = AsyncData(
+      state.value!.copyWith(eventModel: EventModel(), selectedContacts: []),
+    );
   }
 
   //? This for update contact name :
-  void updateContactName(Contact contact, String firstName, String lastName) {
+  void updateContactName(
+    Contact contact,
+    String firstName,
+    String lastName,
+    String code,
+    int count,
+  ) {
+    print('update started');
     final currentState = state.value!;
+
     final updatedList = currentState.selectedContacts?.map((sc) {
-      if (sc.contact.name.first == contact.name.first &&
-          sc.contact.name.last == contact.name.last &&
-          sc.contact.phones.first == contact.phones.first) {
+      // استخدام الـ id للمطابقة
+      if (sc.contact.id == contact.id) {
         final updatedContact = Contact(
           id: sc.contact.id,
           name: Name(first: firstName, last: lastName),
-          phones: sc.contact.phones,
-          emails: sc.contact.emails,
+          phones: sc.contact.phones
+              .map((p) => Phone(p.number, label: p.label))
+              .toList(),
+          emails: sc.contact.emails
+              .map((e) => Email(e.address, label: e.label))
+              .toList(),
           displayName: "$firstName $lastName",
         );
 
-        return sc.copyWith(contact: updatedContact);
+        print('updated contact last name: ${updatedContact.name.last}');
+        print('updated code: code $code');
+
+        // return sc.copyWith(contact: updatedContact, code: code);
+        return SelectedContact(
+          contact: updatedContact,
+          code: code,
+          id: sc.id,
+          count: count,
+        );
       }
+      print('we dont update');
+
       return sc;
     }).toList();
 
-    state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+    print(updatedList?.first.code);
+
+    state = AsyncData(
+      currentState.copyWith(selectedContacts: List.from(updatedList!)),
+    );
   }
 
   //? This for delete image in add event screen :
@@ -119,11 +148,11 @@ class AddEventController extends _$AddEventController {
           mapLatitude: newData.mapLatitude ?? current.mapLatitude,
           mapLongitude: newData.mapLongitude ?? current.mapLongitude,
           // inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
-          inviteTemplate: 'Kroot Invite-',
-          confirmedTemplate:
-              newData.confirmedTemplate ?? current.confirmedTemplate,
-          declinedTemplate:
-              newData.declinedTemplate ?? current.declinedTemplate,
+          inviteTemplate: 'Kroot 2 -',
+          confirmedTemplate: 'Kroot Confirm-',
+          // newData.confirmedTemplate ?? current.confirmedTemplate,
+          declinedTemplate: 'Kroot Decline-',
+          // newData.declinedTemplate ?? current.declinedTemplate,
           guests: setGuestListFromContacts() ?? current.guests,
         ),
       ),
@@ -141,7 +170,12 @@ class AddEventController extends _$AddEventController {
           : null;
 
       final number = (s.contact.phones.isNotEmpty)
-          ? s.contact.phones.first.number
+          // ? '${s.code}${s.contact.phones.first.number}'
+          ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
+                ? '${s.contact.phones.first.number.replaceAll(' ', '')}'
+                // ? '${s.contact.phones.first.number.replaceAll(' ', '').substring(1)}'
+                // : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '').substring(4)}'
+                : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
           : null;
       // return {};
 
@@ -204,9 +238,54 @@ class AddEventController extends _$AddEventController {
           .where((c) => c.contact.id != contact.id)
           .toList();
     } else {
+      //? The code :
+      final code =
+          contact.phones.first.number.startsWith('+') ||
+              contact.phones.first.number.replaceAll(' ', '').length > 11
+          ? contact.phones.first.number.replaceAll(' ', '').substring(1, 4)
+          : '974';
+
+      //? Number without 0 or + :
+      final number =
+          contact.phones.first.number.startsWith('+') ||
+              contact.phones.first.number.replaceAll(' ', '').length > 11
+          ? contact.phones.first.number.replaceAll(' ', '').substring(4)
+          : contact.phones.first.number.replaceAll(' ', '').substring(1);
+
+      //? New contact :
+      final newContact = Contact(
+        id: contact.id,
+        displayName: contact.displayName,
+        name: contact.name,
+        phones: [Phone(number)],
+        emails: contact.emails
+            .map((e) => Email(e.address, label: e.label))
+            .toList(),
+      );
+
+      print('''
+
+        number is : ${contact.phones.first.number}
+        number after edit : $number
+
+        code : $code
+
+        new Contact number after edit : ${newContact.phones.first.number}
+
+
+
+
+
+''');
+
       selectedList = [
         ...selectedList,
-        SelectedContact(contact: contact, count: 0, id: const Uuid().v4()),
+        SelectedContact(
+          contact: newContact,
+          count: 0,
+          id: const Uuid().v4(),
+          code: code,
+        ),
       ];
     }
 
@@ -243,13 +322,14 @@ class AddEventController extends _$AddEventController {
     required String firstName,
     required String lastName,
     required String phoneNumber,
+    required String code,
   }) async {
     try {
       state = AsyncData(state.value!.copyWith(isAddContact: true));
 
       final newContact = Contact(
         name: Name(first: firstName, last: lastName),
-        phones: [Phone(phoneNumber)],
+        phones: [Phone(phoneNumber.substring(1))],
         displayName: "$firstName $lastName",
       );
 
@@ -257,7 +337,7 @@ class AddEventController extends _$AddEventController {
 
       final updatedSelected = [
         ...?currentSelected,
-        SelectedContact(contact: newContact, id: const Uuid().v4()),
+        SelectedContact(contact: newContact, id: const Uuid().v4(), code: code),
       ];
 
       state = AsyncData(
@@ -409,6 +489,7 @@ class AddEventController extends _$AddEventController {
         final partySize = int.tryParse(partySizeRaw.toString()) ?? 0;
 
         final contact = Contact(
+          id: Uuid().v4(),
           name: Name(first: firstName, last: lastName),
           phones: [Phone(number)],
           displayName: "$firstName $lastName",
@@ -419,6 +500,7 @@ class AddEventController extends _$AddEventController {
             contact: contact,
             count: partySize,
             id: const Uuid().v4(),
+            code: '974',
           ),
         );
       }
@@ -544,5 +626,115 @@ class AddEventController extends _$AddEventController {
       return parts.sublist(1).join(',').trim();
     }
     return address;
+  }
+
+  Future<void> initLocation() async {
+    // ضع الـ state في وضع التحميل
+    state = AsyncData(state.value!.copyWith(selectedPlace: AsyncLoading()));
+
+    try {
+      // طلب صلاحيات الموقع
+      final permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        // في حال الرفض – استخدم القيم الافتراضية
+        _setDefaultLocationWithAsync();
+        return;
+      }
+
+      // الحصول على موقع المستخدم الحالي
+      final pos = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      final lat = pos.latitude.toString();
+      final lng = pos.longitude.toString();
+
+      // استعلام Google Geocoding للحصول على اسم المكان
+      final response = await Dio().get(
+        "https://maps.googleapis.com/maps/api/geocode/json"
+        "?latlng=$lat,$lng&key=${dotenv.env['MAPS_API_KEY']}",
+      );
+
+      String locationName = "Current Location";
+      if (response.statusCode == 200 && response.data["status"] == "OK") {
+        locationName = response.data["results"][0]["formatted_address"];
+      }
+      print('''
+
+    lat : $lat
+    lng : $lng
+    name : $locationName
+
+
+''');
+
+      // تحديث بيانات الـ Event
+      updateEvent(
+        EventModel(
+          mapLatitude: lat,
+          mapLongitude: lng,
+          locationName: locationName,
+        ),
+      );
+
+      // وضع الحالة النهائية
+      state = AsyncData(
+        state.value!.copyWith(
+          latLng: LatLng(lat: double.parse(lat), lng: double.parse(lng)),
+          selectedPlace: AsyncData(
+            SelectedPlace(
+              placeId: "",
+              mapLink:
+                  "https://www.google.com/maps/search/?api=1&query=$lat,$lng",
+              locationName: locationName,
+            ),
+          ),
+        ),
+      );
+    } catch (e, st) {
+      // خطأ أثناء الحصول على الموقع → استخدم القيم الافتراضية
+      _setDefaultLocationWithAsync(error: e, stack: st);
+    }
+  }
+
+  void _setDefaultLocationWithAsync({dynamic error, StackTrace? stack}) {
+    const lat = "25.2854473";
+    const lng = "51.53103979999999";
+    const locationName = "Doha, Qatar";
+
+    print('here default');
+
+    // تحديث الحدث بالقيم الافتراضية
+    updateEvent(
+      EventModel(
+        mapLatitude: lat,
+        mapLongitude: lng,
+        locationName: locationName,
+      ),
+    );
+
+    // تخزين الحالة سواء كانت خطأ أو بيانات جاهزة
+    if (error != null) {
+      state = AsyncData(
+        state.value!.copyWith(
+          selectedPlace: AsyncError(error, stack ?? StackTrace.current),
+        ),
+      );
+    } else {
+      state = AsyncData(
+        state.value!.copyWith(
+          latLng: LatLng(lat: double.parse(lat), lng: double.parse(lng)),
+          selectedPlace: AsyncData(
+            SelectedPlace(
+              placeId: "",
+              mapLink:
+                  "https://www.google.com/maps/search/?api=1&query=$lat,$lng",
+              locationName: locationName,
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

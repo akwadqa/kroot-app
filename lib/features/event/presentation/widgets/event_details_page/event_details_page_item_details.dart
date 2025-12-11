@@ -10,48 +10,54 @@ class EventDetailsPageItemDetails extends StatelessWidget {
     super.key,
     required this.title,
     required this.number,
+    this.onTap,
     required this.icon,
   });
   final String number, title;
   final SvgGenImage icon;
 
+  final GestureTapCallback? onTap;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150.w,
-      height: 156.h,
-      padding: EdgeInsets.all(18.w),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 4,
-            color: AppColors.black.withValues(alpha: .25),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 150.w,
+        height: 156.h,
+        padding: EdgeInsets.all(18.w),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(10.r),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 4,
+              color: AppColors.black.withValues(alpha: .25),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
 
-        children: [
-          // Assets.icons.invitedIc.svg(),
-          icon.svg(),
-          15.verticalSpace,
-          Text(
-            title,
-            style: AppTextStyle.nunitoSemibold14.copyWith(
-              color: AppColors.primary,
+          children: [
+            // Assets.icons.invitedIc.svg(),
+            icon.svg(),
+            15.verticalSpace,
+            Text(
+              title,
+              style: AppTextStyle.nunitoSemibold14.copyWith(
+                color: AppColors.primary,
+              ),
             ),
-          ),
-          10.verticalSpace,
-          Text(
-            number,
-            style: AppTextStyle.nunitoSemibold16.copyWith(
-              color: AppColors.black,
+            10.verticalSpace,
+            Text(
+              number,
+              style: AppTextStyle.nunitoSemibold16.copyWith(
+                color: AppColors.black,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

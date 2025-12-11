@@ -218,5 +218,7 @@
     "addManually" : "Add Manually",
     "importCSVGuestList" : "Import CSV Guest List",
     "inviteSomeoneToManageGuests" : "Invite Someone to Manage Guests",
-    "addOperators" : "Add Operators"
+    "addOperators" : "Add Operators",
+    "enterQuntryCode" : "Enter country code",
+    "countryCode" : "Country code"
 }

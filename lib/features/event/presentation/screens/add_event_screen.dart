@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
@@ -35,6 +36,9 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
   void initState() {
     super.initState();
     _title = TextEditingController(text: '');
+    Future(() {
+      ref.read(addEventControllerProvider.notifier).initLocation();
+    });
   }
 
   @override
@@ -49,6 +53,21 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
     final key = GlobalKey<FormState>();
     late BuildContext ctx;
 
+    ref.listen(
+      addEventControllerProvider.select((val) => val.value!.selectedPlace),
+      (prev, next) {
+        if (next is AsyncLoading) {
+          AppAlert.showLoadingDialog(context);
+        }
+
+        if (next is AsyncData || next is AsyncError) {
+          context.pop();
+          setState(() {});
+        }
+      },
+    );
+
+    //? This listener for create event :
     ref.listen(addEventControllerProvider, (prev, next) {
       if (next.value!.isAddEvent != null) {
         //? For loading :
@@ -276,8 +295,14 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                                 (val) => val.value!.latLng,
                               ),
                             );
+                            // final event = ref.watch(
+                            //   addEventControllerProvider.select(
+                            //     (val) => val.value!.eventModel,
+                            //   ),
+                            // );
                             return EventLocationWidget(
                               latlng: LatLng(latlng.lat, latlng.lng),
+                              // latlng: LatLng(double.parse(event?.mapLatitude ??'0'), double.parse(event?.mapLongitude ?? '0')),
                             );
                           },
                         ),

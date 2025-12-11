@@ -60,8 +60,10 @@ class UpdateEventController extends _$UpdateEventController {
 
       // إنشاء Contact بالطريقة الصحيحة
       final contact = Contact(
+        id: const Uuid().v4(),
         name: Name(first: first ?? "", last: last ?? ""),
-        phones: number.trim().isNotEmpty ? [Phone(number.trim())] : [],
+        phones: [Phone(number.substring(3))],
+        // phones: number.trim().isNotEmpty ? [Phone(number.trim())] : [],
         displayName: "${first ?? ''} ${last ?? ''}".trim(),
       );
 
@@ -69,7 +71,8 @@ class UpdateEventController extends _$UpdateEventController {
       return SelectedContact(
         contact: contact,
         count: g.partySize ?? 0,
-        id: const Uuid().v4(),
+        id:contact.id ,
+        code: g.whatsappNumber!.substring(0, 3),
       );
     }).toList();
 
@@ -86,25 +89,61 @@ class UpdateEventController extends _$UpdateEventController {
   void selectContactForUpdatedEvent(Contact contact) {
     final currentState = state.value!;
     List<SelectedContact> selectedList = currentState.selectedContacts!;
-
-    final exists = selectedList.any((c) {
-      final cNum = c.contact.phones.isNotEmpty
-          ? c.contact.phones.first.number
-          : '';
-      final tNum = contact.phones.isNotEmpty ? contact.phones.first.number : '';
-
-      return normalize(cNum) == normalize(tNum);
-    });
-    // final exists = selectedList.any((c) => c.contact.id == contact.id);
+    final exists = selectedList.any((c) => c.contact.id == contact.id);
 
     if (exists) {
       selectedList = selectedList
           .where((c) => c.contact.id != contact.id)
           .toList();
     } else {
+      //? The code :
+      final code =
+          contact.phones.first.number.startsWith('+') ||
+              contact.phones.first.number.replaceAll(' ', '').length > 11
+          ? contact.phones.first.number.replaceAll(' ', '').substring(1, 4)
+          : '974';
+
+      //? Number without 0 or + :
+      final number =
+          contact.phones.first.number.startsWith('+') ||
+              contact.phones.first.number.replaceAll(' ', '').length > 11
+          ? contact.phones.first.number.replaceAll(' ', '').substring(4)
+          : contact.phones.first.number.replaceAll(' ', '').substring(1);
+
+      //? New contact :
+      final newContact = Contact(
+        id: contact.id,
+        displayName: contact.displayName,
+        name: contact.name,
+        phones: [Phone(number)],
+        emails: contact.emails
+            .map((e) => Email(e.address, label: e.label))
+            .toList(),
+      );
+
+      print('''
+
+        number is : ${contact.phones.first.number}
+        number after edit : $number
+
+        code : $code
+
+        new Contact number after edit : ${newContact.phones.first.number}
+
+
+
+
+
+''');
+
       selectedList = [
         ...selectedList,
-        SelectedContact(contact: contact, count: 0, id: const Uuid().v4()),
+        SelectedContact(
+          contact: newContact,
+          count: 0,
+          id: const Uuid().v4(),
+          code: code,
+        ),
       ];
     }
 
@@ -181,24 +220,52 @@ class UpdateEventController extends _$UpdateEventController {
   }
 
   //? This for update contact name :
-  void updateContactName(Contact contact, String firstName, String lastName) {
+  void updateContactName(
+    Contact contact,
+    String firstName,
+    String lastName,
+    String code,
+    int count,
+  ) {
+    print('update started');
     final currentState = state.value!;
+
     final updatedList = currentState.selectedContacts?.map((sc) {
+      // استخدام الـ id للمطابقة
       if (sc.contact.id == contact.id) {
         final updatedContact = Contact(
           id: sc.contact.id,
           name: Name(first: firstName, last: lastName),
-          phones: sc.contact.phones,
-          emails: sc.contact.emails,
+          phones: sc.contact.phones
+              .map((p) => Phone(p.number, label: p.label))
+              .toList(),
+          emails: sc.contact.emails
+              .map((e) => Email(e.address, label: e.label))
+              .toList(),
           displayName: "$firstName $lastName",
         );
 
-        return sc.copyWith(contact: updatedContact);
+        print('updated contact last name: ${updatedContact.name.last}');
+        print('updated code: code $code');
+
+        // return sc.copyWith(contact: updatedContact, code: code);
+        return SelectedContact(
+          contact: updatedContact,
+          code: code,
+          id: sc.id,
+          count: count,
+        );
       }
+      print('we dont update');
+
       return sc;
     }).toList();
 
-    state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+    print(updatedList?.first.code);
+
+    state = AsyncData(
+      currentState.copyWith(selectedContacts: List.from(updatedList!)),
+    );
   }
 
   //? This for unchecked contact :
@@ -216,13 +283,14 @@ class UpdateEventController extends _$UpdateEventController {
     required String firstName,
     required String lastName,
     required String phoneNumber,
+    required String code,
   }) async {
     try {
       state = AsyncData(state.value!.copyWith(isAddContact: true));
 
       final newContact = Contact(
         name: Name(first: firstName, last: lastName),
-        phones: [Phone(phoneNumber)],
+        phones: [Phone(phoneNumber.substring(1))],
         displayName: "$firstName $lastName",
       );
 
@@ -230,7 +298,7 @@ class UpdateEventController extends _$UpdateEventController {
 
       final updatedSelected = [
         ...?currentSelected,
-        SelectedContact(contact: newContact, id: const Uuid().v4()),
+        SelectedContact(contact: newContact, id: const Uuid().v4(), code: code),
       ];
 
       state = AsyncData(
@@ -334,13 +402,21 @@ class UpdateEventController extends _$UpdateEventController {
       final contact = Contact()
         ..displayName = fullName
         ..name = Name(first: first, last: last)
-        ..phones = [if (g.whatsappNumber != null) Phone(g.whatsappNumber!)];
+        ..phones = [Phone(g.whatsappNumber!.substring(4))];
+
+      print('''
+
+        the number is : ${contact.phones.first.number}
+
+''');
 
       // بناء SelectedContact
       return SelectedContact(
         id: const Uuid().v4(),
         contact: contact,
         count: g.partySize ?? 0,
+        // code: g.whatsappNumber!.substring(0, 4),
+        code: '9',
       );
     }).toList();
 
@@ -358,13 +434,18 @@ class UpdateEventController extends _$UpdateEventController {
           : null;
 
       final number = (s.contact.phones.isNotEmpty)
-          ? s.contact.phones.first.number
+          // ? '${s.code}${s.contact.phones.first.number}'
+          ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
+                ? '${s.contact.phones.first.number.replaceAll(' ', '')}'
+                // ? '${s.contact.phones.first.number.replaceAll(' ', '').substring(1)}'
+                // : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '').substring(4)}'
+                : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
           : null;
       // return {};
 
       return GuestModel(
-        // first_name: firstName,
-        // last_name: lastName,
+        firstName: firstName,
+        lastName: lastName,
         whatsappNumber: number,
         partySize: s.count,
       );
@@ -474,6 +555,7 @@ class UpdateEventController extends _$UpdateEventController {
         final partySize = int.tryParse(partySizeRaw.toString()) ?? 0;
 
         final contact = Contact(
+          id: Uuid().v4(),
           name: Name(first: firstName, last: lastName),
           phones: [Phone(number)],
           displayName: "$firstName $lastName",
@@ -484,6 +566,7 @@ class UpdateEventController extends _$UpdateEventController {
             contact: contact,
             count: partySize,
             id: const Uuid().v4(),
+            code: '974',
           ),
         );
       }
