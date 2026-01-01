@@ -44,20 +44,22 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
           33.verticalSpace,
 
           //? Manage access :
-          ListTile(
-            onTap: () {
-              context.push(Routes.manageAccess , extra: event.occasionId);
-            },
-            contentPadding: EdgeInsets.zero,
-            leading: Assets.icons.manageAccessIc.svg(),
-            title: Text(
-              context.tr('manageAccess'),
-              style: AppTextStyle.rubikMedium16.copyWith(
-                color: AppColors.primary,
+          if (event.role == 'owner')
+            ListTile(
+              onTap: () {
+                context.push(Routes.manageAccess, extra: event.occasionId);
+              },
+              contentPadding: EdgeInsets.zero,
+              leading: Assets.icons.manageAccessIc.svg(),
+              title: Text(
+                context.tr('manageAccess'),
+                style: AppTextStyle.rubikMedium16.copyWith(
+                  color: AppColors.primary,
+                ),
               ),
             ),
-          ),
-          Divider(color: AppColors.lightGray02, height: 0),
+          if (event.role == 'owner')
+            Divider(color: AppColors.lightGray02, height: 0),
 
           //? Edit event :
           if (event.status == 'Draft')
@@ -80,35 +82,36 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
           Divider(color: AppColors.lightGray02, height: 0),
 
           //? Delete event :
-          ListTile(
-            onTap: () {
-              AppAlert.showGlobalDialog(
-                context: context,
-                title: context.tr('deleteEvent'),
-                text: Text(
-                  context.tr('deleteEventAlert'),
-                  style: AppTextStyle.rubikRegular14.copyWith(
-                    color: AppColors.primary,
+          if (event.role == 'owner')
+            ListTile(
+              onTap: () {
+                AppAlert.showGlobalDialog(
+                  context: context,
+                  title: context.tr('deleteEvent'),
+                  text: Text(
+                    context.tr('deleteEventAlert'),
+                    style: AppTextStyle.rubikRegular14.copyWith(
+                      color: AppColors.primary,
+                    ),
                   ),
+                  onSubmit: () {
+                    context.pop();
+                    context.pop();
+                    ref
+                        .read(homeControllerProvider.notifier)
+                        .deleteEvent(event.occasionId ?? '');
+                  },
+                );
+              },
+              contentPadding: EdgeInsets.zero,
+              leading: Assets.icons.deleteEventIc.svg(),
+              title: Text(
+                context.tr('deleteEvent'),
+                style: AppTextStyle.rubikMedium16.copyWith(
+                  color: AppColors.noticeRed,
                 ),
-                onSubmit: () {
-                  context.pop();
-                  context.pop();
-                  ref
-                      .read(homeControllerProvider.notifier)
-                      .deleteEvent(event.occasionId ?? '');
-                },
-              );
-            },
-            contentPadding: EdgeInsets.zero,
-            leading: Assets.icons.deleteEventIc.svg(),
-            title: Text(
-              context.tr('deleteEvent'),
-              style: AppTextStyle.rubikMedium16.copyWith(
-                color: AppColors.noticeRed,
               ),
             ),
-          ),
         ],
       ),
     );

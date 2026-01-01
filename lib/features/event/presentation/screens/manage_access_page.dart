@@ -208,40 +208,46 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                     text: '',
                     backgroundColor: AppColors.primary,
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
+                      if (handlers.length >= 5) {
+                        AppToast.errorToast('You can\'t add more than 5');
+                      } else {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
 
-                        builder: (context) => AddOperatorHandlerBotomSheet(
-                          title: context.tr('addAuthorizeds'),
-                          onFinish: (number) {
-                            context.pop();
-                            if (widget.id == null) {
-                              ref
-                                  .read(addEventControllerProvider.notifier)
-                                  .addHandler(
-                                    HandlerModel(
-                                      whatsappNumber: number,
-                                      editEventAccess: 0,
-                                      guestListAccess: 1,
-                                      scanAccess: 0,
-                                    ),
-                                  );
-                            } else {
-                              ref
-                                  .read(updateEventControllerProvider.notifier)
-                                  .addHandler(
-                                    HandlerModel(
-                                      whatsappNumber: number,
-                                      editEventAccess: 0,
-                                      guestListAccess: 1,
-                                      scanAccess: 0,
-                                    ),
-                                  );
-                            }
-                          },
-                        ),
-                      );
+                          builder: (context) => AddOperatorHandlerBotomSheet(
+                            title: context.tr('addAuthorizeds'),
+                            onFinish: (number) {
+                              context.pop();
+                              if (widget.id == null) {
+                                ref
+                                    .read(addEventControllerProvider.notifier)
+                                    .addHandler(
+                                      HandlerModel(
+                                        whatsappNumber: number,
+                                        editEventAccess: 0,
+                                        guestListAccess: 1,
+                                        scanAccess: 0,
+                                      ),
+                                    );
+                              } else {
+                                ref
+                                    .read(
+                                      updateEventControllerProvider.notifier,
+                                    )
+                                    .addHandler(
+                                      HandlerModel(
+                                        whatsappNumber: number,
+                                        editEventAccess: 0,
+                                        guestListAccess: 1,
+                                        scanAccess: 0,
+                                      ),
+                                    );
+                              }
+                            },
+                          ),
+                        );
+                      }
                     },
                     isFiled: false,
                     height: 50.h,
@@ -361,40 +367,44 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
               text: '',
               backgroundColor: AppColors.primary,
               onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
+                if (operator.length >= 5) {
+                  AppToast.errorToast('You can\'t add more than 5');
+                } else {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
 
-                  builder: (context) => AddOperatorHandlerBotomSheet(
-                    title: context.tr('addOperators'),
-                    onFinish: (number) {
-                      context.pop();
-                      if (widget.id == null) {
-                        ref
-                            .read(addEventControllerProvider.notifier)
-                            .addOperator(
-                              HandlerModel(
-                                whatsappNumber: number,
-                                scanAccess: 1,
-                                editEventAccess: 0,
-                                guestListAccess: 0,
-                              ),
-                            );
-                      } else {
-                        ref
-                            .read(updateEventControllerProvider.notifier)
-                            .addOperator(
-                              HandlerModel(
-                                whatsappNumber: number,
-                                scanAccess: 1,
-                                editEventAccess: 0,
-                                guestListAccess: 0,
-                              ),
-                            );
-                      }
-                    },
-                  ),
-                );
+                    builder: (context) => AddOperatorHandlerBotomSheet(
+                      title: context.tr('addOperators'),
+                      onFinish: (number) {
+                        context.pop();
+                        if (widget.id == null) {
+                          ref
+                              .read(addEventControllerProvider.notifier)
+                              .addOperator(
+                                HandlerModel(
+                                  whatsappNumber: number,
+                                  scanAccess: 1,
+                                  editEventAccess: 0,
+                                  guestListAccess: 0,
+                                ),
+                              );
+                        } else {
+                          ref
+                              .read(updateEventControllerProvider.notifier)
+                              .addOperator(
+                                HandlerModel(
+                                  whatsappNumber: number,
+                                  scanAccess: 1,
+                                  editEventAccess: 0,
+                                  guestListAccess: 0,
+                                ),
+                              );
+                        }
+                      },
+                    ),
+                  );
+                }
               },
               isFiled: false,
               height: 50.h,

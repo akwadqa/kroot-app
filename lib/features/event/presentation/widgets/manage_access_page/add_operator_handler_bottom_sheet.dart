@@ -116,7 +116,18 @@ class _AddGuestManuallBotomSheetState
                     text: '',
                     onTap: () {
                       if (_key.currentState!.validate()) {
-                        widget.onFinish(number.text);
+                        final userNumber = ref
+                            .read(homeControllerProvider)
+                            .value!
+                            .utilsResponse!
+                            .value!
+                            .subscriber!
+                            .mobile;
+                        if (number.text.contains(userNumber!)) {
+                          AppToast.errorToast('You can\'t add your number');
+                        } else {
+                          widget.onFinish(number.text);
+                        }
                       }
                     },
                     isFiled: true,

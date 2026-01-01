@@ -194,6 +194,16 @@ class AddEventController extends _$AddEventController {
         ?.eventTypes
         ?.first;
 
+    final lang = state.value?.eventModel?.language ?? 'Arabic';
+
+    final firsTemplate = ref
+        .read(homeControllerProvider)
+        .value
+        ?.utilsResponse
+        ?.value
+        ?.templates
+        ?.firstWhere((e) => lang.toLowerCase().contains(e.language??'ar'));
+
     state = AsyncData(
       state.value!.copyWith(
         eventModel: current.copyWith(
@@ -212,7 +222,10 @@ class AddEventController extends _$AddEventController {
           operators: newData.operators ?? state.value!.operators,
           handlers: newData.handlers ?? state.value!.handlers,
 
-          inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
+          inviteTemplate:
+              newData.inviteTemplate ??
+              current.inviteTemplate ??
+              firsTemplate?.name,
           // inviteTemplate: 'Kroot 2 -',
           // confirmedTemplate: 'Kroot Confirm-',
           // newData.confirmedTemplate ?? current.confirmedTemplate,

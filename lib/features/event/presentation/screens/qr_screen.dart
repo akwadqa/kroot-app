@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
@@ -41,6 +42,9 @@ class QrScreen extends ConsumerWidget {
 
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+            ref.read(homeControllerProvider.notifier)
+            ..getUserEvents(page: 1)
+            ..getUtils();
 
             context.go(
               Routes.eventDetails,
@@ -88,6 +92,9 @@ class QrScreen extends ConsumerWidget {
 
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+            ref.read(homeControllerProvider.notifier)
+            ..getUserEvents(page: 1)
+            ..getUtils();
 
             context.go(
               Routes.eventDetails,

@@ -89,7 +89,9 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
 
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
+ref.read(homeControllerProvider.notifier)
+            ..getUserEvents(page: 1)
+            ..getUtils();
           context.go(
             Routes.eventDetails,
             // extra: widget.id != null

@@ -46,7 +46,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
           if (data.userScanEventResponse?.events.isEmpty ?? false) {
             return Center(child: Assets.icons.emptyIc.svg());
           }
-          return _buildBody(data.userScanEventResponse?.ownedEvents ?? []);
+          return _buildBody(data.userScanEventResponse?.events ?? []);
         },
         error: (e, st) {
           return AppErrorWidget(
@@ -200,7 +200,7 @@ class ScanScreenItem extends StatelessWidget {
                       CustomButtonWidget(
                         content: Text(
                           // 'Handler',
-                                            context.tr('authorized'),
+                          context.tr('authorized'),
 
                           // event.status ?? 'status',
                           style: AppTextStyle.rubikRegular14.copyWith(
@@ -244,7 +244,7 @@ class ScanScreenItem extends StatelessWidget {
                 CustomButtonWidget(
                   text: '',
                   onTap: () {
-                    context.push(Routes.scanQr , extra: event.occasionId);
+                    context.push(Routes.scanQr, extra: event.occasionId);
                   },
                   content: Text(
                     context.tr('scan'),

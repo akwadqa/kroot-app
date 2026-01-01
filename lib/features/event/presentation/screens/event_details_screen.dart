@@ -482,7 +482,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
         20.verticalSpace,
 
         //? Confirm event :
-        if (widget.eventModel?.status == 'Draft' || event.status == 'Draft')
+        if ((widget.eventModel?.status == 'Draft' || event.status == 'Draft') &&
+            event.role == 'owner')
           CustomButtonWidget(
             text: '',
             onTap: () {
@@ -510,7 +511,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
           20.verticalSpace,
 
         //? Edit guest list :
-        if (widget.eventModel?.status == 'Draft' || event.status == 'Draft')
+        if ((widget.eventModel?.status == 'Draft' || event.status == 'Draft') &&
+            event.role != 'operator')
           CustomButtonWidget(
             text: '',
             onTap: () {

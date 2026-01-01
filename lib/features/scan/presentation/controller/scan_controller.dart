@@ -38,6 +38,7 @@ class ScanController extends _$ScanController {
           StackTrace.fromString(response.message ?? ''),
         );
         // throw Exception(response.message);
+        return null;
       }
 
       state = AsyncData(state.value!.copyWith(scanQrResponse: response.data));
@@ -74,9 +75,7 @@ class ScanController extends _$ScanController {
         );
         throw Exception(response.message);
       }
-      final eventResponse = UserScanEventResponse(
-        events: _eventsList
-      );
+      final eventResponse = UserScanEventResponse(events: _eventsList);
 
       state = AsyncData(
         state.value!.copyWith(userScanEventResponse: eventResponse),
@@ -94,8 +93,8 @@ class ScanController extends _$ScanController {
     final result = await getUserScanEvent(showLoading: false, page: nextPage);
     return result?.events.isNotEmpty ?? false;
   }
-  
-    Future<bool> refreshEvents() async {
+
+  Future<bool> refreshEvents() async {
     _eventsList.clear();
     _currentPage = 1;
     _totalPages = 1;

@@ -525,24 +525,26 @@ class HomePageEventItemDetails extends StatelessWidget {
           Spacer(),
           Row(
             children: [
-              CustomButtonWidget(
-                content: Text(
-                  // 'Confirmed',
-                  event.status ?? 'status',
-                  style: AppTextStyle.rubikRegular14.copyWith(
-                    color: AppColors.white,
+              Expanded(
+                child: CustomButtonWidget(
+                  content: Text(
+                    // 'Confirmed',
+                    event.status ?? 'status',
+                    style: AppTextStyle.rubikRegular14.copyWith(
+                      color: AppColors.white,
+                    ),
                   ),
+                  backgroundColor: event.status == 'Confirmed'
+                      ? AppColors.primary
+                      : AppColors.gray,
+                  text: '',
+                  radius: 32.r,
+                  onTap: () {},
+                  isFiled: false,
+                  height: 25.h,
+                  width: 82.w,
+                  topPading: 0,
                 ),
-                backgroundColor: event.status == 'Confirmed'
-                    ? AppColors.primary
-                    : AppColors.gray,
-                text: '',
-                radius: 32.r,
-                onTap: () {},
-                isFiled: false,
-                height: 25.h,
-                width: 82.w,
-                topPading: 0,
               ),
               10.horizontalSpace,
 
@@ -590,6 +592,9 @@ class HomePageEventItemDetails extends StatelessWidget {
                     topPading: 0,
                   ),
                 ),
+
+              //? This for make a space :
+              if (event.role == 'owner') Expanded(child: SizedBox()),
             ],
           ),
         ],

@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 
@@ -19,8 +20,32 @@ class CreateEventPageSelectLanguageField extends ConsumerWidget {
     required this.onChanged,
   });
 
+  T? effectiveSelection<T>({
+    required T? selected,
+    required List<T> items,
+    T? fallback,
+  }) {
+    if (selected != null && items.contains(selected)) return selected;
+    return fallback ?? (items.isNotEmpty ? items.first : null);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final first = ref
+    //     .read(homeControllerProvider)
+    //     .value!
+    //     .utilsResponse!
+    //     .value!
+    //     .templates!
+    //     .first
+    //     .name;
+
+    // final safeValue = effectiveSelection<String>(
+    //   selected: value,
+    //   items: items.map((e) => e.value!).toList(),
+    //   fallback: first,
+    // );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,

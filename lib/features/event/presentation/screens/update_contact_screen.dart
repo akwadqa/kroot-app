@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/add_contact_page/add_contact_page_tile.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
@@ -58,6 +59,9 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
 
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+          ref.read(homeControllerProvider.notifier)
+            ..getUserEvents(page: 1)
+            ..getUtils();
 
           context.go(
             Routes.eventDetails,

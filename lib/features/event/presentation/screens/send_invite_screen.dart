@@ -34,11 +34,22 @@ class SendInviteScreen extends ConsumerWidget {
         if (next is AsyncData) {
           ctx.pop();
           AppToast.doneToast('Event confirmed succesfuly');
+          context.pop();
+          ref
+              .read(homeControllerProvider.notifier)
+              .getEventDetails(next!.value!.occasionId!);
+          // context.go(
+          //   Routes.eventDetails,
+          //   extra: {'id': next!.value!.occasionId},
+          // );
           ref.read(homeControllerProvider.notifier)
             ..getUserEvents(page: 1)
             ..getUtils();
           // context.go(Routes.eventDetails, extra: {'model': eventModel});
-          context.go(Routes.eventDetails, extra: {'model': next!.value});
+          context.go(
+            Routes.eventDetails,
+            extra: {'id': next!.value!.occasionId},
+          );
         }
         if (next is AsyncError) {
           ctx.pop();

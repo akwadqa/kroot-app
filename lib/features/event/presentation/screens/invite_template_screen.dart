@@ -71,6 +71,9 @@ class InviteTemplateScreen extends ConsumerWidget {
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
             AppToast.doneToast('Done');
+            ref.read(homeControllerProvider.notifier)
+            ..getUserEvents(page: 1)
+            ..getUtils();
 
             context.go(
               Routes.eventDetails,
@@ -110,6 +113,9 @@ class InviteTemplateScreen extends ConsumerWidget {
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
             AppToast.doneToast('Done');
+            ref.read(homeControllerProvider.notifier)
+            ..getUserEvents(page: 1)
+            ..getUtils();
 
             context.go(
               Routes.eventDetails,
@@ -134,16 +140,26 @@ class InviteTemplateScreen extends ConsumerWidget {
         .value!
         .subscriber!
         .name!;
+    //? This for current lang :
+    final deviceLocale = Localizations.localeOf(context).toString();
+
+    final eventLang = ref
+        .watch(addEventControllerProvider)
+        .value!
+        .eventModel!
+        .language;
 
     //? This for all tamplates from backend :
-    final templates =
-        ref
-            .read(homeControllerProvider)
-            .value!
-            .utilsResponse!
-            .value!
-            .templates ??
-        [];
+    final templates = ref
+        .watch(homeControllerProvider)
+        .value!
+        .utilsResponse!
+        .value!
+        .templates!;
+    // .where(
+    //   (e) => eventLang!.toLowerCase().contains(e.language!.toLowerCase()),
+    // )
+    // .toList();
 
     //? This for selected template :
     final selectedTemplate = id == null
@@ -155,12 +171,9 @@ class InviteTemplateScreen extends ConsumerWidget {
         : ref.watch(
             updateEventControllerProvider.select((val) {
               return val.value!.updatedEvent?.inviteTemplate ??
-                  'Kroot Invite 3-';
+                  templates.first.name;
             }),
           );
-
-    //? This for current lang :
-    final deviceLocale = Localizations.localeOf(context).toString();
 
     final lang =
         templates
@@ -332,7 +345,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                               // context.tr('weddingInvite'),
                               getTemplateMessage(
                                 templates,
-                                selectedTemplate,
+                                selectedTemplate!,
                                 ref,
                                 id,
                               ),
