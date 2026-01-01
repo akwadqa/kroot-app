@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
@@ -55,9 +57,6 @@ class InviteTemplateScreen extends ConsumerWidget {
       return '$base$path';
     }
 
-    // final image = id != null
-    //     ? ref.read(homeControllerProvider).value!.updatedEvent?.image
-    //     : ref.read(homeControllerProvider).value!.createEventRequest?.image;
     late BuildContext ctx;
     if (id == null) {
       //? Listener for add :
@@ -70,23 +69,15 @@ class InviteTemplateScreen extends ConsumerWidget {
           }
 
           if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
             ctx.pop();
             AppToast.doneToast('Done');
 
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
             context.go(
               Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              // extra: next.value!.createEventResponse?.eventId,
               extra: {'id': next.value!.createEventResponse?.eventId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
-          // }
 
           if (next is AsyncError && prev is AsyncLoading) {
             ctx.pop();
@@ -117,23 +108,15 @@ class InviteTemplateScreen extends ConsumerWidget {
           }
 
           if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
             ctx.pop();
             AppToast.doneToast('Done');
 
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
             context.go(
               Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              // extra: next.value!.updatedEvent?.occasionId,
               extra: {'id': next.value!.updatedEvent?.occasionId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
-          // }
 
           if (next is AsyncError && prev is AsyncLoading) {
             ctx.pop();
@@ -143,6 +126,7 @@ class InviteTemplateScreen extends ConsumerWidget {
       });
     }
 
+    //? This for app user name :
     final name = ref
         .read(homeControllerProvider)
         .value!
@@ -150,6 +134,39 @@ class InviteTemplateScreen extends ConsumerWidget {
         .value!
         .subscriber!
         .name!;
+
+    //? This for all tamplates from backend :
+    final templates =
+        ref
+            .read(homeControllerProvider)
+            .value!
+            .utilsResponse!
+            .value!
+            .templates ??
+        [];
+
+    //? This for selected template :
+    final selectedTemplate = id == null
+        ? ref.watch(
+            addEventControllerProvider.select((val) {
+              return val.value!.eventModel?.inviteTemplate ?? 'Kroot Invite 3-';
+            }),
+          )
+        : ref.watch(
+            updateEventControllerProvider.select((val) {
+              return val.value!.updatedEvent?.inviteTemplate ??
+                  'Kroot Invite 3-';
+            }),
+          );
+
+    //? This for current lang :
+    final deviceLocale = Localizations.localeOf(context).toString();
+
+    final lang =
+        templates
+            .firstWhere((template) => template.name == selectedTemplate)
+            .language ??
+        deviceLocale;
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('createEvent')),
@@ -162,50 +179,39 @@ class InviteTemplateScreen extends ConsumerWidget {
             children: [
               30.verticalSpace,
               CreateEventPageSelectLanguageField(
-                value: ref.watch(
-                  addEventControllerProvider.select((val) {
-                    return val.value!.eventModel?.inviteTemplate ??
-                        'Kroot Invite-';
-                  }),
-                ),
+                value: selectedTemplate,
                 onChanged: (val) {
-                  // ref
-                  //     .read(homeControllerProvider.notifier)
-                  //     .updateEvent(CreateEventRequest(invite_template: val));
+                  print(selectedTemplate);
+                  print(val);
+                  if (id == null) {
+                    ref
+                        .read(addEventControllerProvider.notifier)
+                        .updateEvent(EventModel(inviteTemplate: val));
+                  } else {
+                    ref
+                        .read(updateEventControllerProvider.notifier)
+                        .updateDataForEvent(
+                          EventModel(inviteTemplate: val),
+                          id!,
+                        );
+                  }
                 },
                 title: context.tr('eventTemplate'),
-                items: [
-                  DropdownMenuItem(
-                    value: 'Kroot Invite-',
-                    child: Text(
-                      context.tr('defaultTemplate'),
-                      // 'Arabic',
-                      style: AppTextStyle.rubikRegular16.copyWith(
-                        color: AppColors.grayHint,
+                items: templates
+                    .map(
+                      (e) => DropdownMenuItem(
+                        value: e.name,
+                        child: Text(
+                          // context.tr('defaultTemplate'),
+                          // e.name ?? '',
+                          '${e.name}  ${e.language}',
+                          style: AppTextStyle.rubikRegular16.copyWith(
+                            color: AppColors.grayHint,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: '2',
-                    child: Text(
-                      context.tr('template2'),
-                      // 'English',
-                      style: AppTextStyle.rubikRegular16.copyWith(
-                        color: AppColors.grayHint,
-                      ),
-                    ),
-                  ),
-                  DropdownMenuItem(
-                    value: '3',
-                    child: Text(
-                      context.tr('template3'),
-                      // 'English',
-                      style: AppTextStyle.rubikRegular16.copyWith(
-                        color: AppColors.grayHint,
-                      ),
-                    ),
-                  ),
-                ],
+                    )
+                    .toList(),
               ),
 
               10.verticalSpace,
@@ -229,195 +235,211 @@ class InviteTemplateScreen extends ConsumerWidget {
                 child: SingleChildScrollView(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20.r),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        border: Border.all(color: AppColors.grayBorder),
-                        borderRadius: BorderRadius.circular(20.r),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0, 2),
-                            blurRadius: 4,
-                            color: AppColors.primary.withValues(alpha: .25),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Assets.images.weddingImage.image(),
-
-                          //? in update case :
-                          id != null
-                              ?
-                                //? if update image updated :
-                                resolveImageUrl() != null
-                                    ? SizedBox(
-                                        width: double.infinity,
-                                        height: 182.h,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: CachedNetworkImage(
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                            fit: BoxFit.cover,
-                                            fadeInCurve: Curves.linear,
-                                            placeholder: (context, url) =>
-                                                FadeCircleLoadingIndicator(),
-                                            imageUrl: resolveImageUrl()!,
-                                          ),
-                                        ),
-                                      )
-                                    : image != null
-                                    ? SizedBox(
-                                        width: double.infinity,
-                                        height: 182.h,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Image.file(
-                                            image,
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                          ),
-                                        ),
-                                      )
-                                    // image != null
-                                    //     ? Align(
-                                    //         alignment: Alignment.center,
-                                    //         child: Image.file(image),
-                                    //       )
-                                    //     //? if there is a link image :
-                                    //     : (imageUrl != null && imageUrl.isNotEmpty)
-                                    //     ? CachedNetworkImage(imageUrl: imageUrl)
-                                    : SizedBox.shrink()
-                              //? In add event case :
-                              : image != null
-                              ? SizedBox(
-                                  width: double.infinity,
-                                  height: 182.h,
-                                  child: Align(
-                                    alignment: Alignment.center,
-                                    child: Image.file(
-                                      image,
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                    ),
-                                  ),
-                                )
-                              : SizedBox.shrink(),
-
-                          18.verticalSpace,
-                          Text(
-                            // 'Hadeel',
-                            name,
-                            style: AppTextStyle.rubikMedium16.copyWith(
-                              color: AppColors.black,
+                    child: Localizations.override(
+                      context: context,
+                      locale: Locale(lang),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          border: Border.all(color: AppColors.grayBorder),
+                          borderRadius: BorderRadius.circular(20.r),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(0, 2),
+                              blurRadius: 4,
+                              color: AppColors.primary.withValues(alpha: .25),
                             ),
-                          ).onlyPadding(start: 18.w),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Assets.images.weddingImage.image(),
 
-                          10.verticalSpace,
-                          Text(
-                            context.tr('weddingInvite'),
-                            style: AppTextStyle.rubikRegular14.copyWith(
-                              color: AppColors.black,
-                            ),
-                          ).onlyPadding(start: 18.w),
-
-                          18.verticalSpace,
-
-                          //? Buttons :
-                          Row(
-                            children: [
-                              Spacer(),
-                              CustomButtonWidget(
-                                text: '',
-                                backgroundColor: AppColors.white,
-                                content: Text(
-                                  context.tr('confirm'),
-                                  style: AppTextStyle.rubikRegular18.copyWith(
-                                    color: AppColors.black,
-                                  ),
-                                ),
-                                boxDecoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: Offset(0, 2),
-                                      blurRadius: 4,
-                                      color: AppColors.primary.withValues(
-                                        alpha: .25,
+                            //? in update case :
+                            id != null
+                                ?
+                                  //? if update image updated :
+                                  resolveImageUrl() != null
+                                      ? SizedBox(
+                                          width: double.infinity,
+                                          height: 182.h,
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: CachedNetworkImage(
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                              fit: BoxFit.cover,
+                                              fadeInCurve: Curves.linear,
+                                              placeholder: (context, url) =>
+                                                  FadeCircleLoadingIndicator(),
+                                              imageUrl: resolveImageUrl()!,
+                                            ),
+                                          ),
+                                        )
+                                      : image != null
+                                      ? SizedBox(
+                                          width: double.infinity,
+                                          height: 182.h,
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Image.file(
+                                              image,
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
+                                          ),
+                                        )
+                                      // image != null
+                                      //     ? Align(
+                                      //         alignment: Alignment.center,
+                                      //         child: Image.file(image),
+                                      //       )
+                                      //     //? if there is a link image :
+                                      //     : (imageUrl != null && imageUrl.isNotEmpty)
+                                      //     ? CachedNetworkImage(imageUrl: imageUrl)
+                                      : SizedBox.shrink()
+                                //? In add event case :
+                                : image != null
+                                ? SizedBox(
+                                    width: double.infinity,
+                                    height: 182.h,
+                                    child: Align(
+                                      alignment: Alignment.center,
+                                      child: Image.file(
+                                        image,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                onTap: () {},
-                                isFiled: true,
-                                height: 44.h,
-                                width: 138.w,
-                              ),
-                              Spacer(),
-                              CustomButtonWidget(
-                                text: '',
-                                backgroundColor: AppColors.white,
-                                content: Text(
-                                  context.tr('declined'),
-                                  style: AppTextStyle.rubikRegular18.copyWith(
-                                    color: AppColors.black,
-                                  ),
-                                ),
-                                boxDecoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      offset: Offset(0, 2),
-                                      blurRadius: 4,
-                                      color: AppColors.primary.withValues(
-                                        alpha: .25,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {},
-                                isFiled: true,
-                                height: 44.h,
-                                width: 125.w,
-                              ),
+                                  )
+                                : SizedBox.shrink(),
 
-                              Spacer(),
-                            ],
-                          ),
-                          18.verticalSpace,
-                          CustomButtonWidget(
-                            text: '',
-                            backgroundColor: AppColors.white,
-                            content: Text(
-                              context.tr('eventLocation'),
-                              style: AppTextStyle.rubikRegular18.copyWith(
+                            18.verticalSpace,
+
+                            // Text(
+                            //   // 'Hadeel',
+                            //   name,
+                            //   style: AppTextStyle.rubikMedium16.copyWith(
+                            //     color: AppColors.black,
+                            //   ),
+                            // ).onlyPadding(start: 18.w),
+                            // 10.verticalSpace,
+                            Text(
+                              // context.tr('weddingInvite'),
+                              getTemplateMessage(
+                                templates,
+                                selectedTemplate,
+                                ref,
+                                id,
+                              ),
+                              style: AppTextStyle.rubikRegular14.copyWith(
                                 color: AppColors.black,
                               ),
-                            ),
-                            boxDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: Offset(0, 2),
-                                  blurRadius: 4,
-                                  color: AppColors.primary.withValues(
-                                    alpha: .25,
+                            ).onlyPadding(start: 18.w),
+
+                            18.verticalSpace,
+
+                            //? Buttons :
+                            Localizations.override(
+                              context: context,
+                              locale: Locale(lang),
+                              child: Row(
+                                children: [
+                                  Spacer(),
+                                  CustomButtonWidget(
+                                    text: '',
+                                    backgroundColor: AppColors.white,
+                                    content: Text(
+                                      // ctx.tr('confirm'),
+                                      lang == 'en' ? 'Confirm' : 'تأكيد',
+                                      style: AppTextStyle.rubikRegular18
+                                          .copyWith(color: AppColors.black),
+                                    ),
+                                    boxDecoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset(0, 2),
+                                          blurRadius: 4,
+                                          color: AppColors.primary.withValues(
+                                            alpha: .25,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () {},
+                                    isFiled: true,
+                                    height: 44.h,
+                                    width: 138.w,
                                   ),
-                                ),
-                              ],
+                                  Spacer(),
+                                  CustomButtonWidget(
+                                    text: '',
+                                    backgroundColor: AppColors.white,
+                                    content: Text(
+                                      // context.tr('declined'),
+                                      lang == 'en' ? 'Declined' : 'رفض',
+
+                                      style: AppTextStyle.rubikRegular18
+                                          .copyWith(color: AppColors.black),
+                                    ),
+                                    boxDecoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          offset: Offset(0, 2),
+                                          blurRadius: 4,
+                                          color: AppColors.primary.withValues(
+                                            alpha: .25,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    onTap: () {},
+                                    isFiled: true,
+                                    height: 44.h,
+                                    width: 125.w,
+                                  ),
+
+                                  Spacer(),
+                                ],
+                              ),
                             ),
-                            onTap: () {},
-                            isFiled: true,
-                            height: 44.h,
-                            width: double.infinity,
-                          ).symmetricPadding(horizontal: 22.w),
-                          18.verticalSpace,
-                        ],
+                            18.verticalSpace,
+                            CustomButtonWidget(
+                              text: '',
+                              backgroundColor: AppColors.white,
+                              content: Text(
+                                // context.tr('eventLocation'),
+                                lang == 'en' ? 'Event Location' : 'موقع الحدث',
+                                style: AppTextStyle.rubikRegular18.copyWith(
+                                  color: AppColors.black,
+                                ),
+                              ),
+                              boxDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                boxShadow: [
+                                  BoxShadow(
+                                    offset: Offset(0, 2),
+                                    blurRadius: 4,
+                                    color: AppColors.primary.withValues(
+                                      alpha: .25,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              onTap: () {},
+                              isFiled: true,
+                              height: 44.h,
+                              width: double.infinity,
+                            ).symmetricPadding(horizontal: 22.w),
+                            18.verticalSpace,
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -427,52 +449,104 @@ class InviteTemplateScreen extends ConsumerWidget {
               // Spacer(),
               //? TODO :
               // if (image == null) 250.verticalSpace,
-              Align(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    AddEventPageBotton(
-                      onTap: () {
-                        id != null
-                            //? Update case :
-                            ? ref
-                                  .read(updateEventControllerProvider.notifier)
-                                  .updateEventToServer(id!)
-                            //? Add case :
-                            : ref
-                                  .read(addEventControllerProvider.notifier)
-                                  .createEvent();
-                      },
-                      isSubmit: false,
-                      child: Text(
-                        context.tr('saveDraft'),
-                        style: AppTextStyle.rubikSemiBold18.copyWith(
-                          color: AppColors.primary,
-                        ),
-                      ),
+              if (id != null)
+                //? This for update Guest List :
+                //? Update guest :
+                CustomButtonWidget(
+                  text: '',
+                  onTap: () async {
+                    ref
+                        .read(updateEventControllerProvider.notifier)
+                        .updateEventToServer(id!);
+                  },
+                  isFiled: true,
+                  content: Text(
+                    context.tr('done'),
+                    style: AppTextStyle.nunitoBold16.copyWith(
+                      color: AppColors.white,
                     ),
+                  ),
+                  height: 60.h,
+                  width: 330.w,
+                  backgroundColor: AppColors.primary,
+                ).symmetricPadding(horizontal: 22.w),
 
-                    AddEventPageBotton(
-                      onTap: () {
-                        context.push(Routes.qrScreen, extra: id);
-                      },
-                      isSubmit: true,
-                      child: Text(
-                        context.tr('continue'),
-                        style: AppTextStyle.rubikSemiBold18.copyWith(
-                          color: AppColors.white,
+              //? This for save and continues :
+              if (id == null)
+                Align(
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      AddEventPageBotton(
+                        onTap: () {
+                          id != null
+                              //? Update case :
+                              ? ref
+                                    .read(
+                                      updateEventControllerProvider.notifier,
+                                    )
+                                    .updateEventToServer(id!)
+                              //? Add case :
+                              : ref
+                                    .read(addEventControllerProvider.notifier)
+                                    .createEvent();
+                        },
+                        isSubmit: false,
+                        child: Text(
+                          context.tr('saveDraft'),
+                          style: AppTextStyle.rubikSemiBold18.copyWith(
+                            color: AppColors.primary,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+
+                      AddEventPageBotton(
+                        onTap: () {
+                          context.push(Routes.qrScreen, extra: id);
+                        },
+                        isSubmit: true,
+                        child: Text(
+                          context.tr('continue'),
+                          style: AppTextStyle.rubikSemiBold18.copyWith(
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
               18.verticalSpace,
             ],
           ).symmetricPadding(horizontal: 18.w);
         },
       ),
     );
+  }
+
+  String getTemplateMessage(
+    List<TemplateModel> templates,
+    String selectedTemplate,
+    WidgetRef ref,
+    String? id,
+  ) {
+    final title =
+        templates
+            .firstWhere((template) => template.name == selectedTemplate)
+            .template ??
+        '';
+    print(title);
+    if (title.contains('{{1}}')) {
+      final eventTitle = id == null
+          ? ref.read(addEventControllerProvider).value!.eventModel!.title
+          : ref.read(updateEventControllerProvider).value!.updatedEvent!.title;
+      final newTitle = title.replaceAll('{{1}}', eventTitle!);
+      print('new title:');
+      print(newTitle);
+      return newTitle;
+    }
+    print('title:');
+
+    return title;
   }
 }

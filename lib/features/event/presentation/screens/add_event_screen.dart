@@ -36,7 +36,13 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
   void initState() {
     super.initState();
     _title = TextEditingController(text: '');
+    //TODO :
     Future(() {
+      // final currentLocation = ref
+      //     .read(addEventControllerProvider)
+      //     .value
+      //     ?.initialLatLng;
+      // if (currentLocation == null)
       ref.read(addEventControllerProvider.notifier).initLocation();
     });
   }
@@ -60,7 +66,8 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
           AppAlert.showLoadingDialog(context);
         }
 
-        if (next is AsyncData || next is AsyncError) {
+        if ((next is AsyncData && prev is AsyncLoading) ||
+            (next is AsyncError && prev is AsyncLoading)) {
           context.pop();
           setState(() {});
         }
@@ -101,281 +108,277 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
       }
     });
 
-    return SafeArea(
-      bottom: true,
-      top: false,
-      child: Scaffold(
-        body: Builder(
-          builder: (context) {
-            ctx = context;
-            return Form(
-              key: key,
-              child: Column(
-                children: [
-                  CustomAppbar(
-                    title: context.tr('createEvent'),
-                    withBackButton: false,
-                  ),
-
-                  20.verticalSpace,
-
-                  Expanded(
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      children: [
-                        //? Event details :
-                        Text(
-                          context.tr('eventDetails'),
-                          style: AppTextStyle.rubikSemiBold18.copyWith(
-                            color: AppColors.primary,
-                          ),
+    return Scaffold(
+      appBar: CustomAppbar(
+        title: context.tr('createEvent'),
+        withBackButton: true,
+      ),
+      body: Builder(
+        builder: (context) {
+          ctx = context;
+          return Form(
+            key: key,
+            child: Column(
+              children: [
+                20.verticalSpace,
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      //? Event details :
+                      Text(
+                        context.tr('eventDetails'),
+                        style: AppTextStyle.rubikSemiBold18.copyWith(
+                          color: AppColors.primary,
                         ),
-                        12.verticalSpace,
-                        Text(
-                          context.tr('fillDetails'),
-                          style: AppTextStyle.rubikRegular14.copyWith(
-                            color: AppColors.primary,
-                          ),
+                      ),
+                      12.verticalSpace,
+                      Text(
+                        context.tr('fillDetails'),
+                        style: AppTextStyle.rubikRegular14.copyWith(
+                          color: AppColors.primary,
                         ),
-                        20.verticalSpace,
+                      ),
+                      20.verticalSpace,
 
-                        //? Name :
-                        AppTextFormField(
-                          controller: _title,
-                          isReadOnly: false,
-                          hint: context.tr('enterEventTitle'),
-                          isRequired: false,
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return context.tr('required');
-                            }
-                            return null;
-                          },
+                      //? Name :
+                      AppTextFormField(
+                        withIcon: false,
+                        controller: _title,
+                        isReadOnly: false,
+                        hint: context.tr('enterEventTitle'),
+                        isRequired: false,
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return context.tr('required');
+                          }
+                          return null;
+                        },
 
-                          label: context.tr('eventName'),
-                          icon: Assets.icons.eventNameIc,
+                        label: context.tr('eventName'),
+                        icon: Assets.icons.eventNameIc,
+                      ),
+                      20.verticalSpace,
+                      Text(
+                        context.tr('eventImage'),
+                        style: AppTextStyle.rubikRegular18.copyWith(
+                          color: AppColors.primary,
                         ),
-                        20.verticalSpace,
-                        Text(
-                          context.tr('eventImage'),
-                          style: AppTextStyle.rubikRegular18.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        12.verticalSpace,
+                      ),
+                      12.verticalSpace,
 
-                        //? For image :
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final image = ref.watch(
-                              addEventControllerProvider.select(
-                                (val) => val.value!.eventModel?.image,
+                      //? For image :
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final image = ref.watch(
+                            addEventControllerProvider.select(
+                              (val) => val.value!.eventModel?.image,
+                            ),
+                          );
+                          return EventDetailsImage(
+                            deleteLink: null,
+                            deleteFile: () {
+                              ref
+                                  .read(addEventControllerProvider.notifier)
+                                  .deleteImage();
+                            },
+                            onImageSelect: (image) {
+                              ref
+                                  .read(addEventControllerProvider.notifier)
+                                  .updateEvent(EventModel(image: image));
+                            },
+                            image: image,
+                            imageUrl: null,
+                          );
+                        },
+                      ),
+
+                      20.verticalSpace,
+
+                      //? Date :
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final date = ref.watch(
+                            addEventControllerProvider.select(
+                              (val) => val.value!.eventModel?.date,
+                            ),
+                          );
+                          return EventDetailsDate(
+                            date: date,
+                            // controller: ,
+                            onSelectDate: (date) {
+                              ref
+                                  .read(addEventControllerProvider.notifier)
+                                  .updateEvent(
+                                    EventModel(date: date.toString()),
+                                  );
+                            },
+                          );
+                        },
+                      ),
+
+                      20.verticalSpace,
+                      //? Language :
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final lang = ref.watch(
+                            addEventControllerProvider.select(
+                              (val) => val.value!.eventModel?.language,
+                            ),
+                          );
+                          return EventDetailsLanguage(
+                            value: lang ?? 'Arabic',
+                            onLangChang: (val) {
+                              ref
+                                  .read(addEventControllerProvider.notifier)
+                                  .updateEvent(EventModel(language: val));
+                            },
+                          );
+                        },
+                      ),
+                      20.verticalSpace,
+
+                      // //? Type :
+                      // if (ref
+                      //         .read(homeControllerProvider)
+                      //         .value
+                      //         ?.eventResponse
+                      //         ?.value
+                      //         ?.eventTypes !=
+                      //     null)
+                      // if (ref.read(
+                      //       homeControllerProvider.select((val) {
+                      //         return val.value!.eventResponse?.eventTypes;
+                      //       }),
+                      //     ) !=
+                      //     null)
+                      // Consumer(
+                      //   builder: (context, ref, child) {
+                      //     final type = ref.watch(
+                      //       addEventControllerProvider.select(
+                      //         (val) => val.value!.eventModel?.type,
+                      //       ),
+                      //     );
+                      //     return EventDetailsType(
+                      //       value: type,
+                      //       onTypeChange: (val) {
+                      //         ref
+                      //             .read(addEventControllerProvider.notifier)
+                      //             .updateEvent(EventModel(type: val));
+                      //       },
+                      //     );
+                      //   },
+                      // ),
+                      // 20.verticalSpace,
+
+                      // Row(
+                      //   children: [
+                      //     Checkbox(value: false, onChanged: (val) {}),
+                      //     Text(
+                      //       context.tr('showQrinvite'),
+                      //       style: AppTextStyle.rubikRegular16.copyWith(
+                      //         color: AppColors.primary,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // 20.verticalSpace,
+                      Text(
+                        context.tr('eventLocation'),
+                        style: AppTextStyle.rubikRegular18.copyWith(
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      12.verticalSpace,
+
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final latlng = ref.watch(
+                            addEventControllerProvider.select(
+                              (val) => val.value!.latLng,
+                            ),
+                          );
+                          // final event = ref.watch(
+                          //   addEventControllerProvider.select(
+                          //     (val) => val.value!.eventModel,
+                          //   ),
+                          // );
+                          return EventLocationWidget(
+                            latlng: LatLng(latlng.lat, latlng.lng),
+                            // latlng: LatLng(double.parse(event?.mapLatitude ??'0'), double.parse(event?.mapLongitude ?? '0')),
+                          );
+                        },
+                      ),
+                      20.verticalSpace,
+
+                      //? Save as draft or continue :
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AddEventPageBotton(
+                            onTap: () {
+                              if (key.currentState!.validate()) {
+                                // if (image != null) {
+
+                                ref.read(addEventControllerProvider.notifier)
+                                  ..updateEvent(
+                                    EventModel(
+                                      title: _title.text,
+                                      // mapLink: 'map',
+                                      // locationName: 'qatar',
+                                    ),
+                                  )
+                                  ..createEvent();
+
+                                // } else {
+                                //   AppToast.errorToast('image is required');
+                                // }
+                              }
+                            },
+                            isSubmit: false,
+                            child: Text(
+                              context.tr('saveDraft'),
+                              style: AppTextStyle.rubikSemiBold18.copyWith(
+                                color: AppColors.primary,
                               ),
-                            );
-                            return EventDetailsImage(
-                              deleteLink: null,
-                              deleteFile: () {
-                                ref
-                                    .read(addEventControllerProvider.notifier)
-                                    .deleteImage();
-                              },
-                              onImageSelect: (image) {
-                                ref
-                                    .read(addEventControllerProvider.notifier)
-                                    .updateEvent(EventModel(image: image));
-                              },
-                              image: image,
-                              imageUrl: null,
-                            );
-                          },
-                        ),
+                            ),
+                          ),
 
-                        20.verticalSpace,
-
-                        //? Date :
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final date = ref.watch(
-                              addEventControllerProvider.select(
-                                (val) => val.value!.eventModel?.date,
-                              ),
-                            );
-                            return EventDetailsDate(
-                              date: date,
-                              // controller: ,
-                              onSelectDate: (date) {
+                          AddEventPageBotton(
+                            onTap: () {
+                              if (key.currentState!.validate()) {
+                                // if (image != null) {
                                 ref
                                     .read(addEventControllerProvider.notifier)
                                     .updateEvent(
-                                      EventModel(date: date.toString()),
-                                    );
-                              },
-                            );
-                          },
-                        ),
-
-                        20.verticalSpace,
-                        //? Language :
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final lang = ref.watch(
-                              addEventControllerProvider.select(
-                                (val) => val.value!.eventModel?.language,
-                              ),
-                            );
-                            return EventDetailsLanguage(
-                              value: lang,
-                              onLangChang: (val) {
-                                ref
-                                    .read(addEventControllerProvider.notifier)
-                                    .updateEvent(EventModel(language: val));
-                              },
-                            );
-                          },
-                        ),
-                        20.verticalSpace,
-
-                        // //? Type :
-                        // if (ref
-                        //         .read(homeControllerProvider)
-                        //         .value
-                        //         ?.eventResponse
-                        //         ?.value
-                        //         ?.eventTypes !=
-                        //     null)
-                        // if (ref.read(
-                        //       homeControllerProvider.select((val) {
-                        //         return val.value!.eventResponse?.eventTypes;
-                        //       }),
-                        //     ) !=
-                        //     null)
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final type = ref.watch(
-                              addEventControllerProvider.select(
-                                (val) => val.value!.eventModel?.type,
-                              ),
-                            );
-                            return EventDetailsType(
-                              value: type,
-                              onTypeChange: (val) {
-                                ref
-                                    .read(addEventControllerProvider.notifier)
-                                    .updateEvent(EventModel(type: val));
-                              },
-                            );
-                          },
-                        ),
-                        20.verticalSpace,
-
-                        // Row(
-                        //   children: [
-                        //     Checkbox(value: false, onChanged: (val) {}),
-                        //     Text(
-                        //       context.tr('showQrinvite'),
-                        //       style: AppTextStyle.rubikRegular16.copyWith(
-                        //         color: AppColors.primary,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        // 20.verticalSpace,
-                        Text(
-                          context.tr('eventLocation'),
-                          style: AppTextStyle.rubikRegular18.copyWith(
-                            color: AppColors.primary,
-                          ),
-                        ),
-                        12.verticalSpace,
-
-                        Consumer(
-                          builder: (context, ref, child) {
-                            final latlng = ref.watch(
-                              addEventControllerProvider.select(
-                                (val) => val.value!.latLng,
-                              ),
-                            );
-                            // final event = ref.watch(
-                            //   addEventControllerProvider.select(
-                            //     (val) => val.value!.eventModel,
-                            //   ),
-                            // );
-                            return EventLocationWidget(
-                              latlng: LatLng(latlng.lat, latlng.lng),
-                              // latlng: LatLng(double.parse(event?.mapLatitude ??'0'), double.parse(event?.mapLongitude ?? '0')),
-                            );
-                          },
-                        ),
-                        20.verticalSpace,
-
-                        //? Save as draft or continue :
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            AddEventPageBotton(
-                              onTap: () {
-                                if (key.currentState!.validate()) {
-                                  // if (image != null) {
-
-                                  ref.read(addEventControllerProvider.notifier)
-                                    ..updateEvent(
                                       EventModel(
                                         title: _title.text,
                                         // mapLink: 'map',
                                         // locationName: 'qatar',
                                       ),
-                                    )
-                                    ..createEvent();
-
-                                  // } else {
-                                  //   AppToast.errorToast('image is required');
-                                  // }
-                                }
-                              },
-                              isSubmit: false,
-                              child: Text(
-                                context.tr('saveDraft'),
-                                style: AppTextStyle.rubikSemiBold18.copyWith(
-                                  color: AppColors.primary,
-                                ),
+                                    );
+                                context.push(Routes.guestList);
+                              }
+                            },
+                            isSubmit: true,
+                            child: Text(
+                              context.tr('continue'),
+                              style: AppTextStyle.rubikSemiBold18.copyWith(
+                                color: AppColors.white,
                               ),
                             ),
-
-                            AddEventPageBotton(
-                              onTap: () {
-                                if (key.currentState!.validate()) {
-                                  // if (image != null) {
-                                  ref
-                                      .read(addEventControllerProvider.notifier)
-                                      .updateEvent(
-                                        EventModel(
-                                          title: _title.text,
-                                          // mapLink: 'map',
-                                          // locationName: 'qatar',
-                                        ),
-                                      );
-                                  context.push(Routes.guestList);
-                                }
-                              },
-                              isSubmit: true,
-                              child: Text(
-                                context.tr('continue'),
-                                style: AppTextStyle.rubikSemiBold18.copyWith(
-                                  color: AppColors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        20.verticalSpace,
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      20.verticalSpace,
+                    ],
                   ),
-                ],
-              ).onlyPadding(start: 16.w, end: 23.w),
-            );
-          },
-        ),
+                ),
+                // 100.verticalSpace,
+              ],
+            ).onlyPadding(start: 16.w, end: 23.w),
+          );
+        },
       ),
     );
   }

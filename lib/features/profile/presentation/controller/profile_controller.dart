@@ -1,3 +1,4 @@
+import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/features/profile/data/repository/profile_respository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
@@ -16,11 +17,15 @@ class ProfileController extends _$ProfileController {
     state = AsyncData(state.value!.copyWith(index: index));
   }
 
-  Future<String?> getPaymentUrl(String subscriptionType,String local) async {
+  void changeBundle(BundleModel bundle) {
+    state = AsyncData(state.value!.copyWith(bundleModel: bundle));
+  }
+
+  Future<String?> getPaymentUrl(String subscriptionType, String local) async {
     try {
       state = AsyncData(state.value!.copyWith(paymentLink: AsyncLoading()));
       final repo = ref.read(profileRespositoryProvider);
-      final response = await repo.getPaymentUrl(subscriptionType,local);
+      final response = await repo.getPaymentUrl(subscriptionType, local);
 
       if (response.hasFailed) {
         state = AsyncData(

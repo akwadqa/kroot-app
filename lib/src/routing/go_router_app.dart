@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/presentation/screens/manage_access_page.dart';
+import 'package:kroot_app/features/profile/presentation/pages/bundles_screen.dart';
 import 'package:kroot_app/features/profile/presentation/pages/payment_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -36,24 +38,13 @@ GoRouter goRouter(Ref ref) {
 }
 
 class GoRouterApp {
-  // final String? token;
-  // GoRouterApp({
-  //   required this.token,
-  // });
   GoRouter get routes => GoRouter(
     routes: [
       //************ Auth *********** */
       //? Login :
       GoRoute(
         path: Routes.start,
-        // builder: (context, state) => AddContactScreen(),
-        // builder: (context, state) => Consumer(
-        //   builder: (context, ref, _) {
-        //     final token = ref.read(userDataProvider);
-        //     if (token != null) return MainScreen();
-        //     return LoginScreen();
-        //   },
-        // ),
+
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: Consumer(
@@ -135,12 +126,25 @@ class GoRouterApp {
         // builder: (context, state) => AddEventScreen(),
       ),
 
+      //? Manage Access :
+      GoRoute(
+        path: Routes.manageAccess,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: ManageAccessPage(state.extra as String?),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+        // builder: (context, state) => AddEventScreen(),
+      ),
+
       //? Select Location :
       GoRoute(
         path: Routes.selectLocation,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: SelectLocationPage(id: state.extra as String?,),
+          child: SelectLocationPage(id: state.extra as String?),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -290,7 +294,7 @@ class GoRouterApp {
         path: Routes.scanQr,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: ScanQrEventPage(),
+          child: ScanQrEventPage(state.extra as String),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -309,12 +313,24 @@ class GoRouterApp {
         ),
       ),
 
+      //? Bundle :
+      GoRoute(
+        path: Routes.bundle,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: BundlesScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+
       //? Payment :
       GoRoute(
         path: Routes.payment,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: PaymentScreen(paymentUrl: state.extra as String,),
+          child: PaymentScreen(paymentUrl: state.extra as String),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

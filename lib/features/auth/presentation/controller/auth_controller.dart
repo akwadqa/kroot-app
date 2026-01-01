@@ -19,7 +19,7 @@ class AuthController extends _$AuthController {
           ?.value
           ?.mobile_number;
       // final number = state.value?.sendOtpResponse?.mobile_number;
-      state = const AsyncLoading();
+      state = AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
           .verifyOtp(

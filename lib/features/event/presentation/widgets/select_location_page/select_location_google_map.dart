@@ -29,6 +29,7 @@ class SelectLocationGoogleMap extends ConsumerWidget {
       zoom: 14.4746,
     );
     return google.GoogleMap(
+      myLocationEnabled: true,
       onTap: (position) {
         id == null
             ? ref
@@ -39,9 +40,9 @@ class SelectLocationGoogleMap extends ConsumerWidget {
                   .changeLatlng(position.latitude, position.longitude);
       },
       markers: {
-         google.Marker(
-          markerId:  google.MarkerId('value'),
-          position:  google.LatLng(lanlng.lat, lanlng.lng),
+        google.Marker(
+          markerId: google.MarkerId('value'),
+          position: google.LatLng(lanlng.lat, lanlng.lng),
         ),
       },
       initialCameraPosition: qatarLocation,

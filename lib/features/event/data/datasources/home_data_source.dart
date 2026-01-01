@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:kroot_app/features/event/data/models/add_guests_response/add_guests_response.dart';
+import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
 import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/constants/Api/end_points.dart';
@@ -22,6 +24,18 @@ class HomeDataSource {
           if (event.guests != null && (event.guests?.isNotEmpty ?? false))
             'guest_list': jsonEncode(
               event.guests!.map((e) => e.toJson()).toList(),
+            ),
+        },
+        ...{
+          if (event.operators != null && (event.operators?.isNotEmpty ?? false))
+            'operator_list': jsonEncode(
+              event.operators!.map((e) => e.whatsappNumber).toList(),
+            ),
+        },
+        ...{
+          if (event.handlers != null && (event.handlers?.isNotEmpty ?? false))
+            'handler_list': jsonEncode(
+              event.handlers!.map((e) => e.toJson()).toList(),
             ),
         },
         ...{
@@ -53,18 +67,16 @@ class HomeDataSource {
         'image': event.image != null
             ? await MultipartFile.fromFile(event.image!.path)
             : null,
-        ...(event.toJson()..remove('image_url')),
+        ...(event.toJson()
+          ..remove('image_url')
+          ..remove('handlers')
+          ..remove('operators')),
         ...{
           if (event.guests != null && (event.guests?.isNotEmpty ?? false))
             'guest_list': jsonEncode(
               event.guests!.map((e) => e.toJson()).toList(),
             ),
         },
-
-        // ...{
-        //   if (event.image != null)
-        //     'image': await MultipartFile.fromFile(event.image!.path),
-        // },
       });
       final response = await _networkService.post(
         EndPoints.updateEvent,
@@ -114,6 +126,50 @@ class HomeDataSource {
       return ApiResponse.fromJson(
         response.data,
         (json) => UtilsResponse.fromJson(json as Map<String, dynamic>),
+      );
+    } catch (e) {
+      return ApiResponse.error(message: e.toString());
+    }
+  }
+
+  Future<ApiResponse<UpdateHandlersResponse>> updateHandlers(
+    String id,
+    List<HandlerModel> handlers,
+  ) async {
+    try {
+      final data = FormData.fromMap({
+        'occasion_id': id,
+        'handlers': jsonEncode(handlers.map((e) => e.toJson()).toList()),
+      });
+      final response = await _networkService.post(
+        EndPoints.updateHandlers,
+        data: data,
+      );
+      return ApiResponse.fromJson(
+        response.data,
+        (json) => UpdateHandlersResponse.fromJson(json as Map<String, dynamic>),
+      );
+    } catch (e) {
+      return ApiResponse.error(message: e.toString());
+    }
+  }
+
+  Future<ApiResponse<DeleteHandlerResponse>> deleteHandlers(
+    String id,
+    List<HandlerModel> handlers,
+  ) async {
+    try {
+      final data = FormData.fromMap({
+        'occasion_id': id,
+        'handlers': jsonEncode(handlers.map((e) => e.toJson()).toList()),
+      });
+      final response = await _networkService.post(
+        EndPoints.deleteHandlers,
+        data: data,
+      );
+      return ApiResponse.fromJson(
+        response.data,
+        (json) => DeleteHandlerResponse.fromJson(json as Map<String, dynamic>),
       );
     } catch (e) {
       return ApiResponse.error(message: e.toString());

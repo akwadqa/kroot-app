@@ -63,25 +63,33 @@ class RemoteInterceptor extends Interceptor {
 
     // debugPrint("🧵 Stack trace: ${err.error}");
     final isUnauthorized =
-        statusCode == 401 ||
-        (responseData is Map &&
-            responseData['message']?.toString().toLowerCase().contains(
-                  "unauthorized",
-                ) ==
-                true);
+        (statusCode == 401 &&
+            // (responseData is Map &&
+            //     (responseData['message']?.toString().toLowerCase().contains(
+            //           "unauthorized",
+            //         )) ==
+            //         true &&
+            (responseData['message']?.toString().toLowerCase().contains(
+                  "otp",
+                )) ==
+                false) ||
+        (responseData['exc_type']?.toString().contains(
+              'AuthenticationError',
+            )) ==
+            true;
 
     if (isUnauthorized) {
       debugPrint("🚪 Session expired → redirect to Login");
 
-      //? Clear the token : 
+      //? Clear the token :
       ref.read(userDataProvider.notifier).removeData();
 
-      //? Navigate to login screen : 
+      //? Navigate to login screen :
       ref.read(goRouterProvider).go(Routes.login);
-      Future.delayed(Duration.zero, () {
-        final router = ref.read(goRouterProvider);
-        router.go(Routes.login);
-      });
+      // Future.delayed(Duration.zero, () {
+      //   final router = ref.read(goRouterProvider);
+      //   router.go(Routes.login);
+      // });
     }
 
     final apiResponse = _handleErrorResponse(err);

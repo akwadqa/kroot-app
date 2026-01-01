@@ -24,6 +24,7 @@ abstract class EventModel with _$EventModel {
     String? type,
     String? date,
     String? language,
+    String? role,
 
     @JsonKey(name: 'map_longitude') String? mapLongitude,
     @JsonKey(name: 'map_latitude') String? mapLatitude,
@@ -46,6 +47,8 @@ abstract class EventModel with _$EventModel {
 
     // قائمة guest
     @JsonKey(name: 'guests') List<GuestModel>? guests,
+    @JsonKey(name: 'operators') List<HandlerModel>? operators,
+    @JsonKey(name: 'handlers') List<HandlerModel>? handlers,
   }) = _EventModel;
 
   factory EventModel.fromJson(Map<String, dynamic> json) =>
@@ -84,3 +87,17 @@ abstract class GuestModel with _$GuestModel {
   factory GuestModel.fromJson(Map<String, dynamic> json) =>
       _$GuestModelFromJson(json);
 }
+
+@freezed
+abstract class HandlerModel with _$HandlerModel {
+  const factory HandlerModel({
+    @JsonKey(name: 'whatsapp_number') String? whatsappNumber,
+    @JsonKey(name: 'scan_access') int? scanAccess,
+    @JsonKey(name: 'edit_event_access') int? editEventAccess,
+    @JsonKey(name: 'guest_list_access') int? guestListAccess,
+  }) = _HandlerModel;
+
+  factory HandlerModel.fromJson(Map<String, dynamic> json) =>
+      _$HandlerModelFromJson(json);
+}
+

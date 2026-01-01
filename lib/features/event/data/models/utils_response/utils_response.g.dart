@@ -16,8 +16,11 @@ _UtilsResponse _$UtilsResponseFromJson(Map<String, dynamic> json) =>
       eventTypes: (json['event_types'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      subscriptions: (json['subscriptions'] as List<dynamic>?)
-          ?.map((e) => SubscriptionModel.fromJson(e as Map<String, dynamic>))
+      bundles: (json['bundles'] as List<dynamic>?)
+          ?.map((e) => BundleModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      templates: (json['invite_templates'] as List<dynamic>?)
+          ?.map((e) => TemplateModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -25,39 +28,30 @@ Map<String, dynamic> _$UtilsResponseToJson(_UtilsResponse instance) =>
     <String, dynamic>{
       'subscriber': instance.subscriber,
       'event_types': instance.eventTypes,
-      'subscriptions': instance.subscriptions,
+      'bundles': instance.bundles,
+      'invite_templates': instance.templates,
     };
 
 _SubscriberModel _$SubscriberModelFromJson(Map<String, dynamic> json) =>
     _SubscriberModel(
       name: json['name'] as String?,
-      subscriptionType: json['subscription_type'] as String?,
-      expiryDate: json['expiry_date'] as String?,
+      subscriber: json['subscriber'] as String?,
+      firstName: json['first_name'] as String?,
+      lastName: json['last_name'] as String?,
       mobile: json['mobile'] as String?,
       email: json['email'] as String?,
-      maxKroots: (json['max_kroots'] as num?)?.toInt(),
-      remainingKroots: (json['remaining_kroots'] as num?)?.toInt(),
-      csvImport: (json['csv_import'] as num?)?.toInt(),
-      premiumDesigns: (json['premium_designs'] as num?)?.toInt(),
-      operators: (json['operators'] as num?)?.toInt(),
-      subAccount: (json['sub_account'] as num?)?.toInt(),
-      subscriber: json['subscriber'] as String?,
+      remainingBalance: (json['remaining_balance'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SubscriberModelToJson(_SubscriberModel instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'subscription_type': instance.subscriptionType,
-      'expiry_date': instance.expiryDate,
+      'subscriber': instance.subscriber,
+      'first_name': instance.firstName,
+      'last_name': instance.lastName,
       'mobile': instance.mobile,
       'email': instance.email,
-      'max_kroots': instance.maxKroots,
-      'remaining_kroots': instance.remainingKroots,
-      'csv_import': instance.csvImport,
-      'premium_designs': instance.premiumDesigns,
-      'operators': instance.operators,
-      'sub_account': instance.subAccount,
-      'subscriber': instance.subscriber,
+      'remaining_balance': instance.remainingBalance,
     };
 
 _SubscriptionModel _$SubscriptionModelFromJson(Map<String, dynamic> json) =>
@@ -84,4 +78,37 @@ Map<String, dynamic> _$SubscriptionModelToJson(_SubscriptionModel instance) =>
       'operators': instance.operators,
       'sub_account': instance.subAccount,
       'price': instance.price,
+    };
+
+_BundleModel _$BundleModelFromJson(Map<String, dynamic> json) => _BundleModel(
+  name: json['name'] as String?,
+  price: (json['price'] as num?)?.toDouble(),
+  amount: (json['amount'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$BundleModelToJson(_BundleModel instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'price': instance.price,
+      'amount': instance.amount,
+    };
+
+_TemplateModel _$TemplateModelFromJson(Map<String, dynamic> json) =>
+    _TemplateModel(
+      name: json['name'] as String?,
+      template: json['template'] as String?,
+      sampleValues: json['sample_values'] as String?,
+      forDoctype: json['for_doctype'] as String?,
+      fieldNames: json['field_names'] as String?,
+      language: json['language'] as String?,
+    );
+
+Map<String, dynamic> _$TemplateModelToJson(_TemplateModel instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'template': instance.template,
+      'sample_values': instance.sampleValues,
+      'for_doctype': instance.forDoctype,
+      'field_names': instance.fieldNames,
+      'language': instance.language,
     };

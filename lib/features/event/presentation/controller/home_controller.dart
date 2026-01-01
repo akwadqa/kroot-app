@@ -84,6 +84,15 @@ class HomeController extends _$HomeController {
 
   // List<EventModel> _updatedList = [];
 
+  
+    Future<bool> refreshEvents() async {
+    _eventsList.clear();
+    _currentPage = 1;
+    _totalPages = 1;
+    await getUserEvents(page: 1, showLoading: true);
+    return true;
+  }
+
   Future<GetUserEventsModel?> getUserEvents({
     required int page,
     String? search,

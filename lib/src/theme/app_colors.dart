@@ -20,10 +20,12 @@ abstract class AppColors {
   static const Color gray = Color(0xFF6C7278);
   static const Color grayField = Color(0xFFF5F5F5);
   static const Color grayHint = Color(0xFF767676);
+  static const Color grayLight = Color(0xFFccbbff);
   static const Color grayShadow = Color(0xffE4E5E7);
   static const Color rose = Color(0xFFF8D5CC);
   static const Color darkRed = Color(0xFFBC0000);
   static const Color red = Color(0xFFF0453F);
+  static const Color redLight = Color(0xFFf4beb1);
   static const Color noticeRed = Color(0xFF9F2102);
   static const Color black900 = Color(0xFF484848);
   static const Color lightGray = Color(0xFFE5E5E5);
@@ -32,6 +34,7 @@ abstract class AppColors {
   static const Color mediumGray = Color(0xFFD7D7D7);
   static const Color grayBorder = Color(0xFFEDF1F3);
   static const Color darkGray = Color(0xFF727272);
+  static const Color lightBlue2 = Color(0xFF6B8ACB);
   static const Color lightGray01 = Color(0xFFF1F1F1);
   static const Color lightGray02 = Color(0xFFD9D9D9);
   static const Color black400 = Color(0xFF888888);

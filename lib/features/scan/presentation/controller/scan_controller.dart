@@ -20,7 +20,7 @@ class ScanController extends _$ScanController {
 
   Future<ScanQrResponse?> scanQr({
     required String qrCode,
-    required String checkinBy,
+    // required String checkinBy,
     required String inviteeId,
   }) async {
     try {
@@ -28,7 +28,7 @@ class ScanController extends _$ScanController {
       final repo = ref.read(scanRepositoryProvider);
       final response = await repo.scanQr(
         qrCode: qrCode,
-        checkinBy: checkinBy,
+        checkinBy: '',
         inviteeId: inviteeId,
       );
 
@@ -60,10 +60,10 @@ class ScanController extends _$ScanController {
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
       if (page == 1) {
-        _eventsList = List.from(response.data!.ownedEvents ?? []);
+        _eventsList = List.from(response.data!.events ?? []);
       } else {
         _eventsList.addAll(
-          (response.data?.ownedEvents ?? []) as Iterable<EventModel>,
+          (response.data?.events ?? []) as Iterable<EventModel>,
         );
       }
 
@@ -75,8 +75,7 @@ class ScanController extends _$ScanController {
         throw Exception(response.message);
       }
       final eventResponse = UserScanEventResponse(
-        participantEvents: [],
-        ownedEvents: _eventsList,
+        events: _eventsList
       );
 
       state = AsyncData(
@@ -93,6 +92,14 @@ class ScanController extends _$ScanController {
     if (_currentPage >= _totalPages) return false;
     final nextPage = _currentPage + 1;
     final result = await getUserScanEvent(showLoading: false, page: nextPage);
-    return result?.ownedEvents.isNotEmpty ?? false;
+    return result?.events.isNotEmpty ?? false;
+  }
+  
+    Future<bool> refreshEvents() async {
+    _eventsList.clear();
+    _currentPage = 1;
+    _totalPages = 1;
+    await getUserScanEvent(page: 1, showLoading: true);
+    return true;
   }
 }

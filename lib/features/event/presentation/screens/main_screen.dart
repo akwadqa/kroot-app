@@ -1,12 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/screens/add_event_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/home_screen.dart';
 import 'package:kroot_app/features/profile/presentation/pages/profile_screen.dart';
 import 'package:kroot_app/features/scan/presentation/pages/scan_page.dart';
+import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
+import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/bottom_navigation_bar_view.dart';
-
+import 'package:kroot_app/features/event/presentation/screens/manage_access_page.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
 
 //
 class MainScreen extends ConsumerStatefulWidget {
@@ -53,8 +61,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       // PricingScreen(),
       ScanPage(),
       // EventDetailsScreen(),
-      AddEventScreen(),
+      // AddEventScreen(),
       ProfileScreen(),
+
+      // SizedBox(),
+      // ManageAccessPage(),
+      Center(child: MailPulseAnimation()),
+
       // SizedBox(),
       // Center(
       //   child: CustomButtonWidget(
@@ -79,9 +92,32 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
     return Scaffold(
       extendBody: true,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+      /// زر الإضافة العائم
+      floatingActionButton: GestureDetector(
+        onTap: () => context.push(Routes.createEvent),
+        child: Container(
+          width: 70.w,
+          height: 70.w,
+          decoration: BoxDecoration(
+            color: Color(0xff15294B),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0, 4),
+                blurRadius: 12,
+                color: Colors.black.withOpacity(.25),
+              ),
+            ],
+          ),
+          child: Center(child: Assets.icons.addEventIc.svg()),
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       body: pages[index],
       bottomNavigationBar: BottomNavigationBarView(),
     );
   }
 }
+

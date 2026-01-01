@@ -95,22 +95,88 @@ class AppAlert {
   }
 
   //? Loading :
-  static void showLoadingDialog(BuildContext context, {bool useRootNavigator = true}) {
-  showGeneralDialog(
-    context: context,
-    useRootNavigator: useRootNavigator,
-    barrierDismissible: false,
-    barrierColor: Colors.black.withOpacity(0.3), // خلفية شفافة اختيارية
-    transitionDuration: const Duration(milliseconds: 150),
-    pageBuilder: (ctx, animation, secondaryAnimation) {
-      return PopScope(
-        canPop: false, // يمنع الرجوع أثناء التحميل
-        child: Center(
-          child: Assets.images.animationLoading.image(),
-        ),
-      );
-    },
-  );
+  static void showLoadingDialog(
+    BuildContext context, {
+    bool useRootNavigator = true,
+  }) {
+    showGeneralDialog(
+      context: context,
+      useRootNavigator: useRootNavigator,
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.3), // خلفية شفافة اختيارية
+      transitionDuration: const Duration(milliseconds: 150),
+      pageBuilder: (ctx, animation, secondaryAnimation) {
+        return PopScope(
+          canPop: false, // يمنع الرجوع أثناء التحميل
+          child: Center(
+            child: MailPulseAnimation(),
+          ),
+        );
+      },
+    );
+  }
+}
+class MailPulseAnimation extends StatefulWidget {
+  const MailPulseAnimation({super.key});
+
+  @override
+  State<MailPulseAnimation> createState() => _MailPulseAnimationState();
 }
 
+class _MailPulseAnimationState extends State<MailPulseAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scale;
+  late Animation<double> _rotation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..repeat(reverse: true);
+
+    _scale = Tween<double>(
+      begin: 0.85,
+      end: 1.15,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    _rotation = Tween<double>(
+      begin: -0.05,
+      end: 0.05,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) {
+        return Transform.rotate(
+          angle: _rotation.value,
+          child: Transform.scale(
+            scale: _scale.value,
+            child: Container(
+              width: 70,
+              height: 70,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              alignment: Alignment.center,
+              child: const Icon(Icons.mail, color: Colors.white, size: 40),
+            ),
+          ),
+        );
+      },
+    );
+  }
 }

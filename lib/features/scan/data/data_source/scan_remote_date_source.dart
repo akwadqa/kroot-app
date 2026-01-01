@@ -21,7 +21,17 @@ class ScanRemoteDateSource {
         'checkin_by': checkinBy,
         'invitee_id': inviteeId,
       });
-      final response = await _networkService.post(EndPoints.scanQr, data: data);
+      final params = {
+        'qr_code': qrCode,
+        // 'checkin_by': checkinBy,
+        'occasion_id': inviteeId,
+      };
+      final response = await _networkService.post(
+        EndPoints.scanQr,
+
+        //  data: data,
+        queryParameters: params,
+      );
       return ApiResponse.fromJson(
         response.data,
         (json) => ScanQrResponse.fromJson(json as Map<String, dynamic>),

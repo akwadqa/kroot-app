@@ -15,6 +15,7 @@ import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
 
 class ScanPage extends ConsumerStatefulWidget {
   const ScanPage({super.key});
@@ -36,43 +37,44 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(scanControllerProvider);
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        appBar: CustomAppbar(title: context.tr('scan'), withBackButton: false),
+    return Scaffold(
+      appBar: CustomAppbar(title: context.tr('scan'), withBackButton: false),
 
-        // body: _buildBody(),
-        body: controller.when(
-          data: (data) {
-            if (data.userScanEventResponse?.ownedEvents.isEmpty ?? false) {
-              return Center(child: Assets.icons.emptyIc.svg());
-            }
-            return _buildBody(data.userScanEventResponse?.ownedEvents ?? []);
-          },
-          error: (e, st) {
-            return AppErrorWidget(
-              onTap: () {
-                ref
-                    .read(scanControllerProvider.notifier)
-                    .getUserScanEvent(page: 1);
-              },
-            );
-          },
-          loading: () {
-            return Center(child: Assets.images.animationLoading.image());
-          },
-        ),
+      // body: _buildBody(),
+      body: controller.when(
+        data: (data) {
+          if (data.userScanEventResponse?.events.isEmpty ?? false) {
+            return Center(child: Assets.icons.emptyIc.svg());
+          }
+          return _buildBody(data.userScanEventResponse?.ownedEvents ?? []);
+        },
+        error: (e, st) {
+          return AppErrorWidget(
+            onTap: () {
+              ref
+                  .read(scanControllerProvider.notifier)
+                  .getUserScanEvent(page: 1);
+            },
+          );
+        },
+        loading: () {
+          // return Center(child: Assets.images.animationLoading.image());
+          return Center(child: MailPulseAnimation());
+        },
       ),
     );
   }
 
   Widget _buildBody(List<EventModel> events) {
     return AppPaginationWidget(
+      enablePullDown: true,
+      onRefresh: () =>
+          ref.read(scanControllerProvider.notifier).refreshEvents(),
       onLoading: (_) =>
           ref.read(scanControllerProvider.notifier).onLoadMoreEvents(),
       child: ListView.separated(
         separatorBuilder: (context, index) => 20.verticalSpace,
-        padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 25.h),
+        padding: EdgeInsets.fromLTRB(22.w, 25.h, 22.w, 75.h),
         itemBuilder: (context, index) => ScanScreenItem(event: events[index]),
         itemCount: events.length,
       ),
@@ -96,6 +98,7 @@ class ScanScreenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceLocale = Localizations.localeOf(context).toString();
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.r),
 
@@ -148,7 +151,7 @@ class ScanScreenItem extends StatelessWidget {
                       // TODO
                       // "Wedding",
                       event.title ?? '',
-                      style: AppTextStyle.rubikRegular14.copyWith(
+                      style: AppTextStyle.rubikMedium14.copyWith(
                         color: AppColors.primary,
                       ),
                     ),
@@ -167,25 +170,68 @@ class ScanScreenItem extends StatelessWidget {
                     // 19.horizontalSpace,
                   ],
                 ),
-                5.verticalSpace,
+                15.verticalSpace,
                 Row(
                   children: [
                     19.horizontalSpace,
-                    Text(
-                      // 'Wedding',
-                      // TODO
-                      // "Wedding",
-                      event.type ?? '',
-                      style: AppTextStyle.rubikSemiBold16.copyWith(
-                        color: AppColors.primary,
+                    //? Operator tag :
+                    if (event.role == 'operator')
+                      CustomButtonWidget(
+                        content: Text(
+                          // 'Handler',
+                          context.tr('operator'),
+                          // event.status ?? 'status',
+                          style: AppTextStyle.rubikRegular14.copyWith(
+                            color: AppColors.black,
+                          ),
+                        ),
+                        backgroundColor: AppColors.redLight,
+                        text: '',
+                        radius: 32.r,
+                        onTap: () {},
+                        isFiled: false,
+                        height: 25.h,
+                        width: 70.w,
+                        topPading: 0,
                       ),
-                    ),
+
+                    //? This for handler
+                    if (event.role == 'handler')
+                      CustomButtonWidget(
+                        content: Text(
+                          // 'Handler',
+                                            context.tr('authorized'),
+
+                          // event.status ?? 'status',
+                          style: AppTextStyle.rubikRegular14.copyWith(
+                            color: AppColors.black,
+                          ),
+                        ),
+                        backgroundColor: AppColors.grayLight,
+                        text: '',
+                        radius: 32.r,
+                        onTap: () {},
+                        isFiled: false,
+                        height: 25.h,
+                        width: 84.w,
+                        topPading: 0,
+                      ),
+                    // Text(
+                    //   // 'Wedding',
+                    //   // TODO
+                    //   // "Wedding",
+                    //   event.type ?? '',
+                    //   style: AppTextStyle.rubikSemiBold16.copyWith(
+                    //     color: AppColors.primary,
+                    //   ),
+                    // ),
                     Spacer(),
                     Text(
                       // 'Wed, 1-10-2025 08:00PM',
                       // DateFormat('EEE, d-M-yyyy hh:mma').format(DateTime.now()),
                       DateFormat(
-                        'EEE, d-M-yyyy hh:mma',
+                        'EEEE dd MMMM yyyy',
+                        deviceLocale,
                       ).format(DateTime.parse(event.date ?? '')),
                       style: AppTextStyle.rubikRegular12.copyWith(
                         color: AppColors.blackText,
@@ -194,11 +240,11 @@ class ScanScreenItem extends StatelessWidget {
                     19.horizontalSpace,
                   ],
                 ),
-                5.verticalSpace,
+                15.verticalSpace,
                 CustomButtonWidget(
                   text: '',
                   onTap: () {
-                    context.push(Routes.scanQr);
+                    context.push(Routes.scanQr , extra: event.occasionId);
                   },
                   content: Text(
                     context.tr('scan'),

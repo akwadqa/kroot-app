@@ -48,20 +48,20 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
     );
   }
 
-  String rsvpStatusFromIndex(int index) {
+  List<String?> rsvpStatusesFromIndex(int index) {
     switch (index) {
-      case 0:
-        return "all";
-      case 1:
-        return "Confirmed";
-      case 2:
-        return "Declined";
-      case 3:
-        return "Pending";
-      case 4:
-        return "Failed";
+      case 0: // All
+        return []; // فارغة = بدون فلترة
+      case 1: // Confirmed
+        return ['Confirmed'];
+      case 2: // Declined
+        return ['Declined'];
+      case 3: // Pending
+        return ['Pending', 'Not Sent', null];
+      case 4: // Failed
+        return ['Failed'];
       default:
-        return "all";
+        return [];
     }
   }
 
@@ -113,7 +113,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
             );
           },
 
-          child: Assets.icons.addContactIc.svg(),
+          child: Assets.icons.addContactIc.svg(width: 30.w),
         ),
       ),
       body: Column(
@@ -128,7 +128,24 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
           //? Guests list
           controller.when(
             data: (data) {
-              return _buildBody(data, index);
+              return Expanded(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, animation) {
+                    return SlideTransition(
+                      position: Tween<Offset>(
+                        begin: const Offset(0.1, 0),
+                        end: Offset.zero,
+                      ).animate(animation),
+                      child: FadeTransition(opacity: animation, child: child),
+                    );
+                  },
+                  child: KeyedSubtree(
+                    key: ValueKey(index),
+                    child: _buildBody(data, index),
+                  ),
+                ),
+              );
             },
             error: (e, st) => AppErrorWidget(
               onTap: () {
@@ -138,7 +155,8 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
               },
             ),
             loading: () =>
-                Center(child: Assets.images.animationLoading.image()),
+                // Center(child: Assets.images.animationLoading.image()),
+                Center(child: MailPulseAnimation()),
           ),
         ],
       ),
@@ -146,35 +164,23 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
   }
 
   Widget _buildBody(EventModel event, int index) {
-    print('---------------------------');
-    print(index);
-    print(
-      "Controller in page: ${ref.read(guestUiControllerProvider.notifier).hashCode}",
-    );
+    // final selectedStatus = rsvpStatusesFromIndex(index);
+    final statuses = rsvpStatusesFromIndex(index);
 
-    final selectedStatus = rsvpStatusFromIndex(index);
-    final filteredGuests = selectedStatus == "all"
+    final filteredGuests = statuses.isEmpty
         ? event.guests
-        : event.guests
-              ?.where(
-                (g) =>
-                    (g.rsvpStatus ?? "").toLowerCase() ==
-                    selectedStatus.toLowerCase(),
-              )
-              .toList();
+        : event.guests?.where((g) => statuses.contains(g.rsvpStatus)).toList();
 
     return filteredGuests?.isNotEmpty ?? false
-        ? Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) =>
-                  Divider(color: AppColors.lightGray02.withValues(alpha: .4)),
-              itemBuilder: (context, index) => GuestsScreenGuestItem(
-                index: index,
-                guest: filteredGuests?[index],
-                isConfirmed: event.status == 'Confirmed',
-              ),
-              itemCount: filteredGuests?.length ?? 0,
+        ? ListView.separated(
+            separatorBuilder: (context, index) =>
+                Divider(color: AppColors.lightGray02.withValues(alpha: .4)),
+            itemBuilder: (context, index) => GuestsScreenGuestItem(
+              index: index,
+              guest: filteredGuests?[index],
+              isConfirmed: event.status == 'Confirmed',
             ),
+            itemCount: filteredGuests?.length ?? 0,
           )
         : Center(child: Assets.icons.emptyIc.svg());
   }
@@ -201,6 +207,7 @@ class GuestsScreenGuestItem extends ConsumerWidget {
           ? () {
               showModalBottomSheet(
                 context: context,
+                isScrollControlled: true,
                 builder: (context) =>
                     UpdateGuestNameBottomSheet(guestModel: guest!),
               );

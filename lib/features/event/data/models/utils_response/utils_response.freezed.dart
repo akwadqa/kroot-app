@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UtilsResponse {
 
- SubscriberModel? get subscriber;@JsonKey(name: 'event_types') List<String>? get eventTypes;@JsonKey(name: 'subscriptions') List<SubscriptionModel>? get subscriptions;
+ SubscriberModel? get subscriber;@JsonKey(name: 'event_types') List<String>? get eventTypes;// كانت سابقاً subscriptions — الآن bundles
+@JsonKey(name: 'bundles') List<BundleModel>? get bundles;@JsonKey(name: 'invite_templates') List<TemplateModel>? get templates;
 /// Create a copy of UtilsResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $UtilsResponseCopyWith<UtilsResponse> get copyWith => _$UtilsResponseCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UtilsResponse&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber)&&const DeepCollectionEquality().equals(other.eventTypes, eventTypes)&&const DeepCollectionEquality().equals(other.subscriptions, subscriptions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UtilsResponse&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber)&&const DeepCollectionEquality().equals(other.eventTypes, eventTypes)&&const DeepCollectionEquality().equals(other.bundles, bundles)&&const DeepCollectionEquality().equals(other.templates, templates));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,subscriber,const DeepCollectionEquality().hash(eventTypes),const DeepCollectionEquality().hash(subscriptions));
+int get hashCode => Object.hash(runtimeType,subscriber,const DeepCollectionEquality().hash(eventTypes),const DeepCollectionEquality().hash(bundles),const DeepCollectionEquality().hash(templates));
 
 @override
 String toString() {
-  return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, subscriptions: $subscriptions)';
+  return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, bundles: $bundles, templates: $templates)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $UtilsResponseCopyWith<$Res>  {
   factory $UtilsResponseCopyWith(UtilsResponse value, $Res Function(UtilsResponse) _then) = _$UtilsResponseCopyWithImpl;
 @useResult
 $Res call({
- SubscriberModel? subscriber,@JsonKey(name: 'event_types') List<String>? eventTypes,@JsonKey(name: 'subscriptions') List<SubscriptionModel>? subscriptions
+ SubscriberModel? subscriber,@JsonKey(name: 'event_types') List<String>? eventTypes,@JsonKey(name: 'bundles') List<BundleModel>? bundles,@JsonKey(name: 'invite_templates') List<TemplateModel>? templates
 });
 
 
@@ -65,12 +66,13 @@ class _$UtilsResponseCopyWithImpl<$Res>
 
 /// Create a copy of UtilsResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? subscriber = freezed,Object? eventTypes = freezed,Object? subscriptions = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? subscriber = freezed,Object? eventTypes = freezed,Object? bundles = freezed,Object? templates = freezed,}) {
   return _then(_self.copyWith(
 subscriber: freezed == subscriber ? _self.subscriber : subscriber // ignore: cast_nullable_to_non_nullable
 as SubscriberModel?,eventTypes: freezed == eventTypes ? _self.eventTypes : eventTypes // ignore: cast_nullable_to_non_nullable
-as List<String>?,subscriptions: freezed == subscriptions ? _self.subscriptions : subscriptions // ignore: cast_nullable_to_non_nullable
-as List<SubscriptionModel>?,
+as List<String>?,bundles: freezed == bundles ? _self.bundles : bundles // ignore: cast_nullable_to_non_nullable
+as List<BundleModel>?,templates: freezed == templates ? _self.templates : templates // ignore: cast_nullable_to_non_nullable
+as List<TemplateModel>?,
   ));
 }
 /// Create a copy of UtilsResponse
@@ -167,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SubscriberModel? subscriber, @JsonKey(name: 'event_types')  List<String>? eventTypes, @JsonKey(name: 'subscriptions')  List<SubscriptionModel>? subscriptions)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SubscriberModel? subscriber, @JsonKey(name: 'event_types')  List<String>? eventTypes, @JsonKey(name: 'bundles')  List<BundleModel>? bundles, @JsonKey(name: 'invite_templates')  List<TemplateModel>? templates)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UtilsResponse() when $default != null:
-return $default(_that.subscriber,_that.eventTypes,_that.subscriptions);case _:
+return $default(_that.subscriber,_that.eventTypes,_that.bundles,_that.templates);case _:
   return orElse();
 
 }
@@ -188,10 +190,10 @@ return $default(_that.subscriber,_that.eventTypes,_that.subscriptions);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SubscriberModel? subscriber, @JsonKey(name: 'event_types')  List<String>? eventTypes, @JsonKey(name: 'subscriptions')  List<SubscriptionModel>? subscriptions)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SubscriberModel? subscriber, @JsonKey(name: 'event_types')  List<String>? eventTypes, @JsonKey(name: 'bundles')  List<BundleModel>? bundles, @JsonKey(name: 'invite_templates')  List<TemplateModel>? templates)  $default,) {final _that = this;
 switch (_that) {
 case _UtilsResponse():
-return $default(_that.subscriber,_that.eventTypes,_that.subscriptions);case _:
+return $default(_that.subscriber,_that.eventTypes,_that.bundles,_that.templates);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +210,10 @@ return $default(_that.subscriber,_that.eventTypes,_that.subscriptions);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SubscriberModel? subscriber, @JsonKey(name: 'event_types')  List<String>? eventTypes, @JsonKey(name: 'subscriptions')  List<SubscriptionModel>? subscriptions)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SubscriberModel? subscriber, @JsonKey(name: 'event_types')  List<String>? eventTypes, @JsonKey(name: 'bundles')  List<BundleModel>? bundles, @JsonKey(name: 'invite_templates')  List<TemplateModel>? templates)?  $default,) {final _that = this;
 switch (_that) {
 case _UtilsResponse() when $default != null:
-return $default(_that.subscriber,_that.eventTypes,_that.subscriptions);case _:
+return $default(_that.subscriber,_that.eventTypes,_that.bundles,_that.templates);case _:
   return null;
 
 }
@@ -223,7 +225,7 @@ return $default(_that.subscriber,_that.eventTypes,_that.subscriptions);case _:
 @JsonSerializable()
 
 class _UtilsResponse implements UtilsResponse {
-  const _UtilsResponse({this.subscriber, @JsonKey(name: 'event_types') final  List<String>? eventTypes, @JsonKey(name: 'subscriptions') final  List<SubscriptionModel>? subscriptions}): _eventTypes = eventTypes,_subscriptions = subscriptions;
+  const _UtilsResponse({this.subscriber, @JsonKey(name: 'event_types') final  List<String>? eventTypes, @JsonKey(name: 'bundles') final  List<BundleModel>? bundles, @JsonKey(name: 'invite_templates') final  List<TemplateModel>? templates}): _eventTypes = eventTypes,_bundles = bundles,_templates = templates;
   factory _UtilsResponse.fromJson(Map<String, dynamic> json) => _$UtilsResponseFromJson(json);
 
 @override final  SubscriberModel? subscriber;
@@ -236,11 +238,22 @@ class _UtilsResponse implements UtilsResponse {
   return EqualUnmodifiableListView(value);
 }
 
- final  List<SubscriptionModel>? _subscriptions;
-@override@JsonKey(name: 'subscriptions') List<SubscriptionModel>? get subscriptions {
-  final value = _subscriptions;
+// كانت سابقاً subscriptions — الآن bundles
+ final  List<BundleModel>? _bundles;
+// كانت سابقاً subscriptions — الآن bundles
+@override@JsonKey(name: 'bundles') List<BundleModel>? get bundles {
+  final value = _bundles;
   if (value == null) return null;
-  if (_subscriptions is EqualUnmodifiableListView) return _subscriptions;
+  if (_bundles is EqualUnmodifiableListView) return _bundles;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+ final  List<TemplateModel>? _templates;
+@override@JsonKey(name: 'invite_templates') List<TemplateModel>? get templates {
+  final value = _templates;
+  if (value == null) return null;
+  if (_templates is EqualUnmodifiableListView) return _templates;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(value);
 }
@@ -259,16 +272,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UtilsResponse&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber)&&const DeepCollectionEquality().equals(other._eventTypes, _eventTypes)&&const DeepCollectionEquality().equals(other._subscriptions, _subscriptions));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UtilsResponse&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber)&&const DeepCollectionEquality().equals(other._eventTypes, _eventTypes)&&const DeepCollectionEquality().equals(other._bundles, _bundles)&&const DeepCollectionEquality().equals(other._templates, _templates));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,subscriber,const DeepCollectionEquality().hash(_eventTypes),const DeepCollectionEquality().hash(_subscriptions));
+int get hashCode => Object.hash(runtimeType,subscriber,const DeepCollectionEquality().hash(_eventTypes),const DeepCollectionEquality().hash(_bundles),const DeepCollectionEquality().hash(_templates));
 
 @override
 String toString() {
-  return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, subscriptions: $subscriptions)';
+  return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, bundles: $bundles, templates: $templates)';
 }
 
 
@@ -279,7 +292,7 @@ abstract mixin class _$UtilsResponseCopyWith<$Res> implements $UtilsResponseCopy
   factory _$UtilsResponseCopyWith(_UtilsResponse value, $Res Function(_UtilsResponse) _then) = __$UtilsResponseCopyWithImpl;
 @override @useResult
 $Res call({
- SubscriberModel? subscriber,@JsonKey(name: 'event_types') List<String>? eventTypes,@JsonKey(name: 'subscriptions') List<SubscriptionModel>? subscriptions
+ SubscriberModel? subscriber,@JsonKey(name: 'event_types') List<String>? eventTypes,@JsonKey(name: 'bundles') List<BundleModel>? bundles,@JsonKey(name: 'invite_templates') List<TemplateModel>? templates
 });
 
 
@@ -296,12 +309,13 @@ class __$UtilsResponseCopyWithImpl<$Res>
 
 /// Create a copy of UtilsResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? subscriber = freezed,Object? eventTypes = freezed,Object? subscriptions = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? subscriber = freezed,Object? eventTypes = freezed,Object? bundles = freezed,Object? templates = freezed,}) {
   return _then(_UtilsResponse(
 subscriber: freezed == subscriber ? _self.subscriber : subscriber // ignore: cast_nullable_to_non_nullable
 as SubscriberModel?,eventTypes: freezed == eventTypes ? _self._eventTypes : eventTypes // ignore: cast_nullable_to_non_nullable
-as List<String>?,subscriptions: freezed == subscriptions ? _self._subscriptions : subscriptions // ignore: cast_nullable_to_non_nullable
-as List<SubscriptionModel>?,
+as List<String>?,bundles: freezed == bundles ? _self._bundles : bundles // ignore: cast_nullable_to_non_nullable
+as List<BundleModel>?,templates: freezed == templates ? _self._templates : templates // ignore: cast_nullable_to_non_nullable
+as List<TemplateModel>?,
   ));
 }
 
@@ -324,7 +338,7 @@ $SubscriberModelCopyWith<$Res>? get subscriber {
 /// @nodoc
 mixin _$SubscriberModel {
 
- String? get name;@JsonKey(name: 'subscription_type') String? get subscriptionType;@JsonKey(name: 'expiry_date') String? get expiryDate; String? get mobile; String? get email;@JsonKey(name: 'max_kroots') int? get maxKroots;@JsonKey(name: 'remaining_kroots') int? get remainingKroots;@JsonKey(name: 'csv_import') int? get csvImport;@JsonKey(name: 'premium_designs') int? get premiumDesigns; int? get operators;@JsonKey(name: 'sub_account') int? get subAccount; String? get subscriber;
+ String? get name; String? get subscriber;@JsonKey(name: 'first_name') String? get firstName;@JsonKey(name: 'last_name') String? get lastName; String? get mobile; String? get email;@JsonKey(name: 'remaining_balance') int? get remainingBalance;
 /// Create a copy of SubscriberModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -337,16 +351,16 @@ $SubscriberModelCopyWith<SubscriberModel> get copyWith => _$SubscriberModelCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SubscriberModel&&(identical(other.name, name) || other.name == name)&&(identical(other.subscriptionType, subscriptionType) || other.subscriptionType == subscriptionType)&&(identical(other.expiryDate, expiryDate) || other.expiryDate == expiryDate)&&(identical(other.mobile, mobile) || other.mobile == mobile)&&(identical(other.email, email) || other.email == email)&&(identical(other.maxKroots, maxKroots) || other.maxKroots == maxKroots)&&(identical(other.remainingKroots, remainingKroots) || other.remainingKroots == remainingKroots)&&(identical(other.csvImport, csvImport) || other.csvImport == csvImport)&&(identical(other.premiumDesigns, premiumDesigns) || other.premiumDesigns == premiumDesigns)&&(identical(other.operators, operators) || other.operators == operators)&&(identical(other.subAccount, subAccount) || other.subAccount == subAccount)&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SubscriberModel&&(identical(other.name, name) || other.name == name)&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.mobile, mobile) || other.mobile == mobile)&&(identical(other.email, email) || other.email == email)&&(identical(other.remainingBalance, remainingBalance) || other.remainingBalance == remainingBalance));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,subscriptionType,expiryDate,mobile,email,maxKroots,remainingKroots,csvImport,premiumDesigns,operators,subAccount,subscriber);
+int get hashCode => Object.hash(runtimeType,name,subscriber,firstName,lastName,mobile,email,remainingBalance);
 
 @override
 String toString() {
-  return 'SubscriberModel(name: $name, subscriptionType: $subscriptionType, expiryDate: $expiryDate, mobile: $mobile, email: $email, maxKroots: $maxKroots, remainingKroots: $remainingKroots, csvImport: $csvImport, premiumDesigns: $premiumDesigns, operators: $operators, subAccount: $subAccount, subscriber: $subscriber)';
+  return 'SubscriberModel(name: $name, subscriber: $subscriber, firstName: $firstName, lastName: $lastName, mobile: $mobile, email: $email, remainingBalance: $remainingBalance)';
 }
 
 
@@ -357,7 +371,7 @@ abstract mixin class $SubscriberModelCopyWith<$Res>  {
   factory $SubscriberModelCopyWith(SubscriberModel value, $Res Function(SubscriberModel) _then) = _$SubscriberModelCopyWithImpl;
 @useResult
 $Res call({
- String? name,@JsonKey(name: 'subscription_type') String? subscriptionType,@JsonKey(name: 'expiry_date') String? expiryDate, String? mobile, String? email,@JsonKey(name: 'max_kroots') int? maxKroots,@JsonKey(name: 'remaining_kroots') int? remainingKroots,@JsonKey(name: 'csv_import') int? csvImport,@JsonKey(name: 'premium_designs') int? premiumDesigns, int? operators,@JsonKey(name: 'sub_account') int? subAccount, String? subscriber
+ String? name, String? subscriber,@JsonKey(name: 'first_name') String? firstName,@JsonKey(name: 'last_name') String? lastName, String? mobile, String? email,@JsonKey(name: 'remaining_balance') int? remainingBalance
 });
 
 
@@ -374,21 +388,16 @@ class _$SubscriberModelCopyWithImpl<$Res>
 
 /// Create a copy of SubscriberModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? subscriptionType = freezed,Object? expiryDate = freezed,Object? mobile = freezed,Object? email = freezed,Object? maxKroots = freezed,Object? remainingKroots = freezed,Object? csvImport = freezed,Object? premiumDesigns = freezed,Object? operators = freezed,Object? subAccount = freezed,Object? subscriber = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? subscriber = freezed,Object? firstName = freezed,Object? lastName = freezed,Object? mobile = freezed,Object? email = freezed,Object? remainingBalance = freezed,}) {
   return _then(_self.copyWith(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,subscriptionType: freezed == subscriptionType ? _self.subscriptionType : subscriptionType // ignore: cast_nullable_to_non_nullable
-as String?,expiryDate: freezed == expiryDate ? _self.expiryDate : expiryDate // ignore: cast_nullable_to_non_nullable
+as String?,subscriber: freezed == subscriber ? _self.subscriber : subscriber // ignore: cast_nullable_to_non_nullable
+as String?,firstName: freezed == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
+as String?,lastName: freezed == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String?,mobile: freezed == mobile ? _self.mobile : mobile // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String?,maxKroots: freezed == maxKroots ? _self.maxKroots : maxKroots // ignore: cast_nullable_to_non_nullable
-as int?,remainingKroots: freezed == remainingKroots ? _self.remainingKroots : remainingKroots // ignore: cast_nullable_to_non_nullable
-as int?,csvImport: freezed == csvImport ? _self.csvImport : csvImport // ignore: cast_nullable_to_non_nullable
-as int?,premiumDesigns: freezed == premiumDesigns ? _self.premiumDesigns : premiumDesigns // ignore: cast_nullable_to_non_nullable
-as int?,operators: freezed == operators ? _self.operators : operators // ignore: cast_nullable_to_non_nullable
-as int?,subAccount: freezed == subAccount ? _self.subAccount : subAccount // ignore: cast_nullable_to_non_nullable
-as int?,subscriber: freezed == subscriber ? _self.subscriber : subscriber // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,remainingBalance: freezed == remainingBalance ? _self.remainingBalance : remainingBalance // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -473,10 +482,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name, @JsonKey(name: 'subscription_type')  String? subscriptionType, @JsonKey(name: 'expiry_date')  String? expiryDate,  String? mobile,  String? email, @JsonKey(name: 'max_kroots')  int? maxKroots, @JsonKey(name: 'remaining_kroots')  int? remainingKroots, @JsonKey(name: 'csv_import')  int? csvImport, @JsonKey(name: 'premium_designs')  int? premiumDesigns,  int? operators, @JsonKey(name: 'sub_account')  int? subAccount,  String? subscriber)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  String? subscriber, @JsonKey(name: 'first_name')  String? firstName, @JsonKey(name: 'last_name')  String? lastName,  String? mobile,  String? email, @JsonKey(name: 'remaining_balance')  int? remainingBalance)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SubscriberModel() when $default != null:
-return $default(_that.name,_that.subscriptionType,_that.expiryDate,_that.mobile,_that.email,_that.maxKroots,_that.remainingKroots,_that.csvImport,_that.premiumDesigns,_that.operators,_that.subAccount,_that.subscriber);case _:
+return $default(_that.name,_that.subscriber,_that.firstName,_that.lastName,_that.mobile,_that.email,_that.remainingBalance);case _:
   return orElse();
 
 }
@@ -494,10 +503,10 @@ return $default(_that.name,_that.subscriptionType,_that.expiryDate,_that.mobile,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name, @JsonKey(name: 'subscription_type')  String? subscriptionType, @JsonKey(name: 'expiry_date')  String? expiryDate,  String? mobile,  String? email, @JsonKey(name: 'max_kroots')  int? maxKroots, @JsonKey(name: 'remaining_kroots')  int? remainingKroots, @JsonKey(name: 'csv_import')  int? csvImport, @JsonKey(name: 'premium_designs')  int? premiumDesigns,  int? operators, @JsonKey(name: 'sub_account')  int? subAccount,  String? subscriber)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  String? subscriber, @JsonKey(name: 'first_name')  String? firstName, @JsonKey(name: 'last_name')  String? lastName,  String? mobile,  String? email, @JsonKey(name: 'remaining_balance')  int? remainingBalance)  $default,) {final _that = this;
 switch (_that) {
 case _SubscriberModel():
-return $default(_that.name,_that.subscriptionType,_that.expiryDate,_that.mobile,_that.email,_that.maxKroots,_that.remainingKroots,_that.csvImport,_that.premiumDesigns,_that.operators,_that.subAccount,_that.subscriber);case _:
+return $default(_that.name,_that.subscriber,_that.firstName,_that.lastName,_that.mobile,_that.email,_that.remainingBalance);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -514,10 +523,10 @@ return $default(_that.name,_that.subscriptionType,_that.expiryDate,_that.mobile,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name, @JsonKey(name: 'subscription_type')  String? subscriptionType, @JsonKey(name: 'expiry_date')  String? expiryDate,  String? mobile,  String? email, @JsonKey(name: 'max_kroots')  int? maxKroots, @JsonKey(name: 'remaining_kroots')  int? remainingKroots, @JsonKey(name: 'csv_import')  int? csvImport, @JsonKey(name: 'premium_designs')  int? premiumDesigns,  int? operators, @JsonKey(name: 'sub_account')  int? subAccount,  String? subscriber)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  String? subscriber, @JsonKey(name: 'first_name')  String? firstName, @JsonKey(name: 'last_name')  String? lastName,  String? mobile,  String? email, @JsonKey(name: 'remaining_balance')  int? remainingBalance)?  $default,) {final _that = this;
 switch (_that) {
 case _SubscriberModel() when $default != null:
-return $default(_that.name,_that.subscriptionType,_that.expiryDate,_that.mobile,_that.email,_that.maxKroots,_that.remainingKroots,_that.csvImport,_that.premiumDesigns,_that.operators,_that.subAccount,_that.subscriber);case _:
+return $default(_that.name,_that.subscriber,_that.firstName,_that.lastName,_that.mobile,_that.email,_that.remainingBalance);case _:
   return null;
 
 }
@@ -529,21 +538,16 @@ return $default(_that.name,_that.subscriptionType,_that.expiryDate,_that.mobile,
 @JsonSerializable()
 
 class _SubscriberModel implements SubscriberModel {
-  const _SubscriberModel({this.name, @JsonKey(name: 'subscription_type') this.subscriptionType, @JsonKey(name: 'expiry_date') this.expiryDate, this.mobile, this.email, @JsonKey(name: 'max_kroots') this.maxKroots, @JsonKey(name: 'remaining_kroots') this.remainingKroots, @JsonKey(name: 'csv_import') this.csvImport, @JsonKey(name: 'premium_designs') this.premiumDesigns, this.operators, @JsonKey(name: 'sub_account') this.subAccount, this.subscriber});
+  const _SubscriberModel({this.name, this.subscriber, @JsonKey(name: 'first_name') this.firstName, @JsonKey(name: 'last_name') this.lastName, this.mobile, this.email, @JsonKey(name: 'remaining_balance') this.remainingBalance});
   factory _SubscriberModel.fromJson(Map<String, dynamic> json) => _$SubscriberModelFromJson(json);
 
 @override final  String? name;
-@override@JsonKey(name: 'subscription_type') final  String? subscriptionType;
-@override@JsonKey(name: 'expiry_date') final  String? expiryDate;
+@override final  String? subscriber;
+@override@JsonKey(name: 'first_name') final  String? firstName;
+@override@JsonKey(name: 'last_name') final  String? lastName;
 @override final  String? mobile;
 @override final  String? email;
-@override@JsonKey(name: 'max_kroots') final  int? maxKroots;
-@override@JsonKey(name: 'remaining_kroots') final  int? remainingKroots;
-@override@JsonKey(name: 'csv_import') final  int? csvImport;
-@override@JsonKey(name: 'premium_designs') final  int? premiumDesigns;
-@override final  int? operators;
-@override@JsonKey(name: 'sub_account') final  int? subAccount;
-@override final  String? subscriber;
+@override@JsonKey(name: 'remaining_balance') final  int? remainingBalance;
 
 /// Create a copy of SubscriberModel
 /// with the given fields replaced by the non-null parameter values.
@@ -558,16 +562,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SubscriberModel&&(identical(other.name, name) || other.name == name)&&(identical(other.subscriptionType, subscriptionType) || other.subscriptionType == subscriptionType)&&(identical(other.expiryDate, expiryDate) || other.expiryDate == expiryDate)&&(identical(other.mobile, mobile) || other.mobile == mobile)&&(identical(other.email, email) || other.email == email)&&(identical(other.maxKroots, maxKroots) || other.maxKroots == maxKroots)&&(identical(other.remainingKroots, remainingKroots) || other.remainingKroots == remainingKroots)&&(identical(other.csvImport, csvImport) || other.csvImport == csvImport)&&(identical(other.premiumDesigns, premiumDesigns) || other.premiumDesigns == premiumDesigns)&&(identical(other.operators, operators) || other.operators == operators)&&(identical(other.subAccount, subAccount) || other.subAccount == subAccount)&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SubscriberModel&&(identical(other.name, name) || other.name == name)&&(identical(other.subscriber, subscriber) || other.subscriber == subscriber)&&(identical(other.firstName, firstName) || other.firstName == firstName)&&(identical(other.lastName, lastName) || other.lastName == lastName)&&(identical(other.mobile, mobile) || other.mobile == mobile)&&(identical(other.email, email) || other.email == email)&&(identical(other.remainingBalance, remainingBalance) || other.remainingBalance == remainingBalance));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,subscriptionType,expiryDate,mobile,email,maxKroots,remainingKroots,csvImport,premiumDesigns,operators,subAccount,subscriber);
+int get hashCode => Object.hash(runtimeType,name,subscriber,firstName,lastName,mobile,email,remainingBalance);
 
 @override
 String toString() {
-  return 'SubscriberModel(name: $name, subscriptionType: $subscriptionType, expiryDate: $expiryDate, mobile: $mobile, email: $email, maxKroots: $maxKroots, remainingKroots: $remainingKroots, csvImport: $csvImport, premiumDesigns: $premiumDesigns, operators: $operators, subAccount: $subAccount, subscriber: $subscriber)';
+  return 'SubscriberModel(name: $name, subscriber: $subscriber, firstName: $firstName, lastName: $lastName, mobile: $mobile, email: $email, remainingBalance: $remainingBalance)';
 }
 
 
@@ -578,7 +582,7 @@ abstract mixin class _$SubscriberModelCopyWith<$Res> implements $SubscriberModel
   factory _$SubscriberModelCopyWith(_SubscriberModel value, $Res Function(_SubscriberModel) _then) = __$SubscriberModelCopyWithImpl;
 @override @useResult
 $Res call({
- String? name,@JsonKey(name: 'subscription_type') String? subscriptionType,@JsonKey(name: 'expiry_date') String? expiryDate, String? mobile, String? email,@JsonKey(name: 'max_kroots') int? maxKroots,@JsonKey(name: 'remaining_kroots') int? remainingKroots,@JsonKey(name: 'csv_import') int? csvImport,@JsonKey(name: 'premium_designs') int? premiumDesigns, int? operators,@JsonKey(name: 'sub_account') int? subAccount, String? subscriber
+ String? name, String? subscriber,@JsonKey(name: 'first_name') String? firstName,@JsonKey(name: 'last_name') String? lastName, String? mobile, String? email,@JsonKey(name: 'remaining_balance') int? remainingBalance
 });
 
 
@@ -595,21 +599,16 @@ class __$SubscriberModelCopyWithImpl<$Res>
 
 /// Create a copy of SubscriberModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? subscriptionType = freezed,Object? expiryDate = freezed,Object? mobile = freezed,Object? email = freezed,Object? maxKroots = freezed,Object? remainingKroots = freezed,Object? csvImport = freezed,Object? premiumDesigns = freezed,Object? operators = freezed,Object? subAccount = freezed,Object? subscriber = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? subscriber = freezed,Object? firstName = freezed,Object? lastName = freezed,Object? mobile = freezed,Object? email = freezed,Object? remainingBalance = freezed,}) {
   return _then(_SubscriberModel(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,subscriptionType: freezed == subscriptionType ? _self.subscriptionType : subscriptionType // ignore: cast_nullable_to_non_nullable
-as String?,expiryDate: freezed == expiryDate ? _self.expiryDate : expiryDate // ignore: cast_nullable_to_non_nullable
+as String?,subscriber: freezed == subscriber ? _self.subscriber : subscriber // ignore: cast_nullable_to_non_nullable
+as String?,firstName: freezed == firstName ? _self.firstName : firstName // ignore: cast_nullable_to_non_nullable
+as String?,lastName: freezed == lastName ? _self.lastName : lastName // ignore: cast_nullable_to_non_nullable
 as String?,mobile: freezed == mobile ? _self.mobile : mobile // ignore: cast_nullable_to_non_nullable
 as String?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String?,maxKroots: freezed == maxKroots ? _self.maxKroots : maxKroots // ignore: cast_nullable_to_non_nullable
-as int?,remainingKroots: freezed == remainingKroots ? _self.remainingKroots : remainingKroots // ignore: cast_nullable_to_non_nullable
-as int?,csvImport: freezed == csvImport ? _self.csvImport : csvImport // ignore: cast_nullable_to_non_nullable
-as int?,premiumDesigns: freezed == premiumDesigns ? _self.premiumDesigns : premiumDesigns // ignore: cast_nullable_to_non_nullable
-as int?,operators: freezed == operators ? _self.operators : operators // ignore: cast_nullable_to_non_nullable
-as int?,subAccount: freezed == subAccount ? _self.subAccount : subAccount // ignore: cast_nullable_to_non_nullable
-as int?,subscriber: freezed == subscriber ? _self.subscriber : subscriber // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,remainingBalance: freezed == remainingBalance ? _self.remainingBalance : remainingBalance // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -897,6 +896,553 @@ as int?,operators: freezed == operators ? _self.operators : operators // ignore:
 as int?,subAccount: freezed == subAccount ? _self.subAccount : subAccount // ignore: cast_nullable_to_non_nullable
 as int?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
 as double?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$BundleModel {
+
+ String? get name; double? get price; int? get amount;
+/// Create a copy of BundleModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$BundleModelCopyWith<BundleModel> get copyWith => _$BundleModelCopyWithImpl<BundleModel>(this as BundleModel, _$identity);
+
+  /// Serializes this BundleModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BundleModel&&(identical(other.name, name) || other.name == name)&&(identical(other.price, price) || other.price == price)&&(identical(other.amount, amount) || other.amount == amount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,price,amount);
+
+@override
+String toString() {
+  return 'BundleModel(name: $name, price: $price, amount: $amount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $BundleModelCopyWith<$Res>  {
+  factory $BundleModelCopyWith(BundleModel value, $Res Function(BundleModel) _then) = _$BundleModelCopyWithImpl;
+@useResult
+$Res call({
+ String? name, double? price, int? amount
+});
+
+
+
+
+}
+/// @nodoc
+class _$BundleModelCopyWithImpl<$Res>
+    implements $BundleModelCopyWith<$Res> {
+  _$BundleModelCopyWithImpl(this._self, this._then);
+
+  final BundleModel _self;
+  final $Res Function(BundleModel) _then;
+
+/// Create a copy of BundleModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? price = freezed,Object? amount = freezed,}) {
+  return _then(_self.copyWith(
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as double?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [BundleModel].
+extension BundleModelPatterns on BundleModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _BundleModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _BundleModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _BundleModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _BundleModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _BundleModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _BundleModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  double? price,  int? amount)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _BundleModel() when $default != null:
+return $default(_that.name,_that.price,_that.amount);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  double? price,  int? amount)  $default,) {final _that = this;
+switch (_that) {
+case _BundleModel():
+return $default(_that.name,_that.price,_that.amount);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  double? price,  int? amount)?  $default,) {final _that = this;
+switch (_that) {
+case _BundleModel() when $default != null:
+return $default(_that.name,_that.price,_that.amount);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _BundleModel implements BundleModel {
+  const _BundleModel({this.name, this.price, this.amount});
+  factory _BundleModel.fromJson(Map<String, dynamic> json) => _$BundleModelFromJson(json);
+
+@override final  String? name;
+@override final  double? price;
+@override final  int? amount;
+
+/// Create a copy of BundleModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$BundleModelCopyWith<_BundleModel> get copyWith => __$BundleModelCopyWithImpl<_BundleModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$BundleModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BundleModel&&(identical(other.name, name) || other.name == name)&&(identical(other.price, price) || other.price == price)&&(identical(other.amount, amount) || other.amount == amount));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,price,amount);
+
+@override
+String toString() {
+  return 'BundleModel(name: $name, price: $price, amount: $amount)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$BundleModelCopyWith<$Res> implements $BundleModelCopyWith<$Res> {
+  factory _$BundleModelCopyWith(_BundleModel value, $Res Function(_BundleModel) _then) = __$BundleModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String? name, double? price, int? amount
+});
+
+
+
+
+}
+/// @nodoc
+class __$BundleModelCopyWithImpl<$Res>
+    implements _$BundleModelCopyWith<$Res> {
+  __$BundleModelCopyWithImpl(this._self, this._then);
+
+  final _BundleModel _self;
+  final $Res Function(_BundleModel) _then;
+
+/// Create a copy of BundleModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? price = freezed,Object? amount = freezed,}) {
+  return _then(_BundleModel(
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,price: freezed == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
+as double?,amount: freezed == amount ? _self.amount : amount // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$TemplateModel {
+
+ String? get name; String? get template;@JsonKey(name: 'sample_values') String? get sampleValues;@JsonKey(name: 'for_doctype') String? get forDoctype;@JsonKey(name: 'field_names') String? get fieldNames; String? get language;
+/// Create a copy of TemplateModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TemplateModelCopyWith<TemplateModel> get copyWith => _$TemplateModelCopyWithImpl<TemplateModel>(this as TemplateModel, _$identity);
+
+  /// Serializes this TemplateModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TemplateModel&&(identical(other.name, name) || other.name == name)&&(identical(other.template, template) || other.template == template)&&(identical(other.sampleValues, sampleValues) || other.sampleValues == sampleValues)&&(identical(other.forDoctype, forDoctype) || other.forDoctype == forDoctype)&&(identical(other.fieldNames, fieldNames) || other.fieldNames == fieldNames)&&(identical(other.language, language) || other.language == language));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,template,sampleValues,forDoctype,fieldNames,language);
+
+@override
+String toString() {
+  return 'TemplateModel(name: $name, template: $template, sampleValues: $sampleValues, forDoctype: $forDoctype, fieldNames: $fieldNames, language: $language)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TemplateModelCopyWith<$Res>  {
+  factory $TemplateModelCopyWith(TemplateModel value, $Res Function(TemplateModel) _then) = _$TemplateModelCopyWithImpl;
+@useResult
+$Res call({
+ String? name, String? template,@JsonKey(name: 'sample_values') String? sampleValues,@JsonKey(name: 'for_doctype') String? forDoctype,@JsonKey(name: 'field_names') String? fieldNames, String? language
+});
+
+
+
+
+}
+/// @nodoc
+class _$TemplateModelCopyWithImpl<$Res>
+    implements $TemplateModelCopyWith<$Res> {
+  _$TemplateModelCopyWithImpl(this._self, this._then);
+
+  final TemplateModel _self;
+  final $Res Function(TemplateModel) _then;
+
+/// Create a copy of TemplateModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? template = freezed,Object? sampleValues = freezed,Object? forDoctype = freezed,Object? fieldNames = freezed,Object? language = freezed,}) {
+  return _then(_self.copyWith(
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,template: freezed == template ? _self.template : template // ignore: cast_nullable_to_non_nullable
+as String?,sampleValues: freezed == sampleValues ? _self.sampleValues : sampleValues // ignore: cast_nullable_to_non_nullable
+as String?,forDoctype: freezed == forDoctype ? _self.forDoctype : forDoctype // ignore: cast_nullable_to_non_nullable
+as String?,fieldNames: freezed == fieldNames ? _self.fieldNames : fieldNames // ignore: cast_nullable_to_non_nullable
+as String?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [TemplateModel].
+extension TemplateModelPatterns on TemplateModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TemplateModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TemplateModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TemplateModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _TemplateModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TemplateModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TemplateModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? name,  String? template, @JsonKey(name: 'sample_values')  String? sampleValues, @JsonKey(name: 'for_doctype')  String? forDoctype, @JsonKey(name: 'field_names')  String? fieldNames,  String? language)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TemplateModel() when $default != null:
+return $default(_that.name,_that.template,_that.sampleValues,_that.forDoctype,_that.fieldNames,_that.language);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? name,  String? template, @JsonKey(name: 'sample_values')  String? sampleValues, @JsonKey(name: 'for_doctype')  String? forDoctype, @JsonKey(name: 'field_names')  String? fieldNames,  String? language)  $default,) {final _that = this;
+switch (_that) {
+case _TemplateModel():
+return $default(_that.name,_that.template,_that.sampleValues,_that.forDoctype,_that.fieldNames,_that.language);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? name,  String? template, @JsonKey(name: 'sample_values')  String? sampleValues, @JsonKey(name: 'for_doctype')  String? forDoctype, @JsonKey(name: 'field_names')  String? fieldNames,  String? language)?  $default,) {final _that = this;
+switch (_that) {
+case _TemplateModel() when $default != null:
+return $default(_that.name,_that.template,_that.sampleValues,_that.forDoctype,_that.fieldNames,_that.language);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _TemplateModel implements TemplateModel {
+  const _TemplateModel({this.name, this.template, @JsonKey(name: 'sample_values') this.sampleValues, @JsonKey(name: 'for_doctype') this.forDoctype, @JsonKey(name: 'field_names') this.fieldNames, this.language});
+  factory _TemplateModel.fromJson(Map<String, dynamic> json) => _$TemplateModelFromJson(json);
+
+@override final  String? name;
+@override final  String? template;
+@override@JsonKey(name: 'sample_values') final  String? sampleValues;
+@override@JsonKey(name: 'for_doctype') final  String? forDoctype;
+@override@JsonKey(name: 'field_names') final  String? fieldNames;
+@override final  String? language;
+
+/// Create a copy of TemplateModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TemplateModelCopyWith<_TemplateModel> get copyWith => __$TemplateModelCopyWithImpl<_TemplateModel>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$TemplateModelToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TemplateModel&&(identical(other.name, name) || other.name == name)&&(identical(other.template, template) || other.template == template)&&(identical(other.sampleValues, sampleValues) || other.sampleValues == sampleValues)&&(identical(other.forDoctype, forDoctype) || other.forDoctype == forDoctype)&&(identical(other.fieldNames, fieldNames) || other.fieldNames == fieldNames)&&(identical(other.language, language) || other.language == language));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,template,sampleValues,forDoctype,fieldNames,language);
+
+@override
+String toString() {
+  return 'TemplateModel(name: $name, template: $template, sampleValues: $sampleValues, forDoctype: $forDoctype, fieldNames: $fieldNames, language: $language)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TemplateModelCopyWith<$Res> implements $TemplateModelCopyWith<$Res> {
+  factory _$TemplateModelCopyWith(_TemplateModel value, $Res Function(_TemplateModel) _then) = __$TemplateModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String? name, String? template,@JsonKey(name: 'sample_values') String? sampleValues,@JsonKey(name: 'for_doctype') String? forDoctype,@JsonKey(name: 'field_names') String? fieldNames, String? language
+});
+
+
+
+
+}
+/// @nodoc
+class __$TemplateModelCopyWithImpl<$Res>
+    implements _$TemplateModelCopyWith<$Res> {
+  __$TemplateModelCopyWithImpl(this._self, this._then);
+
+  final _TemplateModel _self;
+  final $Res Function(_TemplateModel) _then;
+
+/// Create a copy of TemplateModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = freezed,Object? template = freezed,Object? sampleValues = freezed,Object? forDoctype = freezed,Object? fieldNames = freezed,Object? language = freezed,}) {
+  return _then(_TemplateModel(
+name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,template: freezed == template ? _self.template : template // ignore: cast_nullable_to_non_nullable
+as String?,sampleValues: freezed == sampleValues ? _self.sampleValues : sampleValues // ignore: cast_nullable_to_non_nullable
+as String?,forDoctype: freezed == forDoctype ? _self.forDoctype : forDoctype // ignore: cast_nullable_to_non_nullable
+as String?,fieldNames: freezed == fieldNames ? _self.fieldNames : fieldNames // ignore: cast_nullable_to_non_nullable
+as String?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

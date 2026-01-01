@@ -72,7 +72,7 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
           .read(scanControllerProvider.notifier)
           .scanQr(
             qrCode: code,
-            checkinBy: 'Administrator',
+            // checkinBy: 'Administrator',
             // inviteeId: widget.inviteeId,
             inviteeId: 'OINV-0185',
           );

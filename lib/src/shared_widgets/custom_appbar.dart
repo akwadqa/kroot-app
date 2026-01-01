@@ -1,7 +1,5 @@
-import 'dart:ui' as ui;
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
@@ -22,16 +20,20 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double topPadding = MediaQuery.of(context).padding.top;
+
     return Directionality(
-      textDirection: ui.TextDirection.ltr,
+      textDirection: TextDirection.ltr,
       child: Container(
-        height: preferredSize.height + 20.h,
-        padding: EdgeInsets.symmetric(horizontal: 22.w),
+        // height: 90,
+        height: preferredSize.height + topPadding,
+        padding: EdgeInsets.symmetric(horizontal: 22),
         child: SafeArea(
           bottom: false,
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               (withBackButton ?? false)
                   ? GestureDetector(
@@ -42,7 +44,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                           context.go(Routes.main);
                         }
                       },
-                      child: Assets.icons.verificationArrowBackIc.svg(),
+                      child: Assets.icons.verificationArrowBackIc.svg(
+                        width: 30,
+                      ),
                     )
                   : 22.horizontalSpace,
 
@@ -63,5 +67,5 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  ui.Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

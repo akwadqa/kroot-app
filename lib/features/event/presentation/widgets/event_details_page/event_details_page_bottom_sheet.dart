@@ -45,6 +45,9 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
 
           //? Manage access :
           ListTile(
+            onTap: () {
+              context.push(Routes.manageAccess , extra: event.occasionId);
+            },
             contentPadding: EdgeInsets.zero,
             leading: Assets.icons.manageAccessIc.svg(),
             title: Text(

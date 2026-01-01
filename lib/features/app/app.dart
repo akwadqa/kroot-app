@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +38,8 @@ class _AppState extends ConsumerState<App> {
       designSize: Size(375, 812),
       child: ToastificationWrapper(
         child: MaterialApp.router(
+          // builder: (context, child) =>
+          //     Directionality(textDirection: ui.TextDirection.ltr, child: child!),
           debugShowCheckedModeBanner: false,
           // routerConfig: GoRouterApp().routes,
           routerConfig: goRouter,

@@ -14,6 +14,8 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deviceLocale = Localizations.localeOf(context).toString();
+
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -27,7 +29,8 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
                 // DateFormat('EEE, d-M-yyyy hh:mma').format(event.date),
                 // DateFormat('d-M-yyyy hh:mma').format(DateTime.now()),
                 DateFormat(
-                  'd-M-yyyy hh:mma',
+                  'EEEE dd MMMM yyyy',
+                  deviceLocale,
                 ).format(DateTime.parse(event.date ?? '')),
                 style: AppTextStyle.rubikRegular12.copyWith(
                   color: AppColors.blackText,
@@ -77,7 +80,7 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
           5.verticalSpace,
           Text(
             // 'Wedding',
-            event.type ?? '',
+            event.title ?? '',
             style: AppTextStyle.rubikSemiBold16.copyWith(
               color: AppColors.primary,
             ),
@@ -89,19 +92,20 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
             children: [
               Assets.icons.locationIc.svg(),
               5.horizontalSpace,
-              SizedBox(
-                width: 300.w,
-                child: Text(
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
-                  // 'Riffa Halls Hall No. 15',
-                  event.locationName ?? '',
-                  style: AppTextStyle.rubikRegular12.copyWith(
-                    color: AppColors.blackText,
+              Expanded(
+                child: SizedBox(
+                  child: Text(
+                    softWrap: true,
+                    overflow: TextOverflow.visible,
+                    // 'Riffa Halls Hall No. 15',
+                    event.locationName ?? '',
+                    style: AppTextStyle.rubikRegular12.copyWith(
+                      color: AppColors.blackText,
+                    ),
                   ),
                 ),
               ),
-              Spacer(),
+              // Spacer(),
             ],
           ),
         ],

@@ -54,70 +54,79 @@ class EventDetailsImage extends StatelessWidget {
             }
           },
           child: image == null
-              ? Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 13.h,
-                  ),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.grayBorder,
-                        offset: Offset(0, 1),
-                        blurRadius: 4,
-                        spreadRadius: 0,
-                      ),
-                    ],
-                  ),
-                  child: (imageUrl != null && imageUrl!.isNotEmpty)
-                      ? SizedBox(
-                          width: double.infinity,
-                          height: 182.h,
-                          child: Stack(
-                            children: [
-                              CachedNetworkImage(
-                                fadeInCurve: Curves.linear,
-                                placeholder: (context, url) =>
-                                    FadeCircleLoadingIndicator(),
-                                imageUrl: resolveImageUrl()!,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: double.infinity,
-                              ),
-                              Positioned(
-                                top: 11.h,
-                                width: 25.w,
-                                height: 25.w,
-                                right: 11.h,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    print('delete image');
-                                    if (deleteLink != null) {
-                                      deleteLink!();
-                                    }
-                                  },
-                                  child: Assets.icons.deleteImageIc.svg(
-                                    height: 22.w,
+              ? ClipRRect(
+                  borderRadius: BorderRadius.circular(7.r),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: imageUrl != null && imageUrl!.isNotEmpty
+                          ? 0
+                          : 16.w,
+                      vertical: imageUrl != null && imageUrl!.isNotEmpty
+                          ? 0
+                          : 13.h,
+                    ),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: AppColors.grayField,
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.grayBorder,
+                          offset: Offset(0, 1),
+                          blurRadius: 4,
+                          spreadRadius: 0,
+                        ),
+                      ],
+                    ),
+                    child: (imageUrl != null && imageUrl!.isNotEmpty)
+                        ? SizedBox(
+                            width: double.infinity,
+                            height: 182.h,
+                            // height: doo,
+                            child: Stack(
+                              children: [
+                                CachedNetworkImage(
+                                  fadeInCurve: Curves.linear,
+                                  placeholder: (context, url) =>
+                                      FadeCircleLoadingIndicator(),
+                                  imageUrl: resolveImageUrl()!,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                                Positioned(
+                                  top: 11.h,
+                                  width: 25.w,
+                                  height: 25.w,
+                                  right: 11.h,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      print('delete image');
+                                      if (deleteLink != null) {
+                                        deleteLink!();
+                                      }
+                                    },
+                                    child: Assets.icons.deleteImageIc.svg(
+                                      height: 22.w,
+                                    ),
                                   ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              //TODO : this is the icon :
+                              // Assets.icons.uploadImageIc.svg(),
+                              // 15.horizontalSpace,
+                              Text(
+                                context.tr('uploadImage'),
+                                style: AppTextStyle.rubikRegular16.copyWith(
+                                  color: AppColors.grayHint,
                                 ),
                               ),
                             ],
                           ),
-                        )
-                      : Row(
-                          children: [
-                            Assets.icons.uploadImageIc.svg(),
-                            15.horizontalSpace,
-                            Text(
-                              context.tr('uploadImage'),
-                              style: AppTextStyle.rubikRegular16.copyWith(
-                                color: AppColors.grayHint,
-                              ),
-                            ),
-                          ],
-                        ),
+                  ),
                 )
               : ClipRRect(
                   borderRadius: BorderRadius.circular(7.r),

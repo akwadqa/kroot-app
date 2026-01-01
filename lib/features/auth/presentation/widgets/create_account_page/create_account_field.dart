@@ -68,16 +68,16 @@ class AppTextFormField extends StatelessWidget {
         12.verticalSpace,
         Container(
           decoration: BoxDecoration(
-            color: AppColors.white,
+            // color: AppColors.white,
             borderRadius: BorderRadius.circular(10.r),
-            boxShadow: [
-              BoxShadow(
-                offset: Offset(0, 1),
-                blurRadius: 2,
-                spreadRadius: 3,
-                color: AppColors.grayShadow.withValues(alpha: .24),
-              ),
-            ],
+            // boxShadow: [
+            // BoxShadow(
+            //   offset: Offset(0, 1),
+            //   blurRadius: 2,
+            //   spreadRadius: 3,
+            //   // color: AppColors.grayShadow.withValues(alpha: .24),
+            // ),
+            // ],
           ),
           child: TextFormField(
             // key: ValueKey(value),
@@ -96,6 +96,8 @@ class AppTextFormField extends StatelessWidget {
               color: AppColors.primary,
             ),
             decoration: InputDecoration(
+              filled: true,
+              fillColor: AppColors.grayField,
               suffixIcon: isReadOnly
                   ? Icon(
                       Icons.arrow_drop_down_rounded,
@@ -107,13 +109,16 @@ class AppTextFormField extends StatelessWidget {
                 color: AppColors.grayHint,
               ),
 
-              contentPadding: EdgeInsets.zero,
+              contentPadding: withIcon
+                  ? EdgeInsets.zero
+                  : EdgeInsets.symmetric(horizontal: 16.w),
               prefixIcon: withIcon
                   ? Padding(
                       padding: EdgeInsets.symmetric(horizontal: 17.w),
                       child: icon!.svg(),
                     )
                   : null,
+
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
                 borderSide: BorderSide(color: AppColors.primary),

@@ -8,6 +8,7 @@ import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/app_dialogs.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
 
 class GatesScreen extends ConsumerWidget {
   const GatesScreen({super.key});
@@ -23,7 +24,8 @@ class GatesScreen extends ConsumerWidget {
       ),
       body: asyncState.when(
         loading: () =>
-             Center(child: Assets.images.animationLoading.image()),
+            //  Center(child: Assets.images.animationLoading.image()),
+             Center(child: MailPulseAnimation()),
         error: (e, _) => Center(
           child: Text(
             tr('something_went_wrong', args: [e.toString()]),

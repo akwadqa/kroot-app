@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
+import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/event/data/datasources/home_data_source.dart';
@@ -52,6 +54,32 @@ class HomeRepositories {
   ) async {
     try {
       final respone = await _dataSource.addGeusts(occasionId, gustsList);
+      return respone;
+    } on DioException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<ApiResponse<UpdateHandlersResponse>> updateHandlers(
+    String occasionId,
+    List<HandlerModel> handlers,
+  ) async {
+    try {
+      final respone = await _dataSource.updateHandlers(occasionId, handlers);
+      return respone;
+    } on DioException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+  Future<ApiResponse<DeleteHandlerResponse>> deleteHandlers(
+    String occasionId,
+    List<HandlerModel> handlers,
+  ) async {
+    try {
+      final respone = await _dataSource.deleteHandlers(occasionId, handlers);
       return respone;
     } on DioException {
       rethrow;

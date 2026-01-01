@@ -21,10 +21,12 @@ class Routes {
   static String inviteTemplate = '/invite-template-page';
   static String qrScreen = '/qr-page';
   static String sendInvite = '/send-invite-page';
+  static String manageAccess = '/manage-access-page';
   static String eventDetails = '/event-details-page';
 
   //************* profile */
   static String pricing = '/pricing-page';
+  static String bundle = '/bundle-page';
   static String payment = '/paynemt-page';
 
   //************* scan  */

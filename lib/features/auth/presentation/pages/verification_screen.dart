@@ -53,6 +53,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       }
 
       if (next is AsyncError) {
+        // if (prev is AsyncLoading) context.pop();
         if (prev is AsyncLoading) context.pop();
         Future.delayed(const Duration(milliseconds: 100), () {
           AppToast.errorToast(next.error.toString());
@@ -167,7 +168,9 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                       if (_key.currentState!.validate()) {
                         ref
                             .read(authControllerProvider.notifier)
+                            //TODO:
                             .verifyOtp(controller.text, widget.number);
+                        // .verifyOtp('557733', widget.number);
                       }
                     }
                   : null,
@@ -248,7 +251,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                       );
                     }
                     return VerificationPageInputButton.label(keys[index], () {
-                      if (controller.text.length < 6) {
+                      if (controller.text.length < 4) {
                         controller.text += keys[index];
                       }
                     });

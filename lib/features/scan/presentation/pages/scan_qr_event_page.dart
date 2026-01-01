@@ -17,7 +17,8 @@ import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
 
 class ScanQrEventPage extends ConsumerStatefulWidget {
-  const ScanQrEventPage({super.key});
+  const ScanQrEventPage(this.id, {super.key});
+  final String id;
 
   @override
   ConsumerState<ScanQrEventPage> createState() => _ScanQrEventPageState();
@@ -73,9 +74,9 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
           .read(scanControllerProvider.notifier)
           .scanQr(
             qrCode: code,
-            checkinBy: 'Administrator',
-            // inviteeId: widget.inviteeId,
-            inviteeId: 'OINV-0185',
+            // checkinBy: 'Administrator',
+            inviteeId: widget.id,
+            // inviteeId: 'OINV-0185',
           );
       // Navigator.of(
       //   context,
@@ -179,16 +180,16 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
           ).symmetricPadding(horizontal: 32.w),
 
           60.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Assets.icons.scanQrFirstIc.svg(),
-              21.horizontalSpace,
-              Assets.icons.scanQrSecondIc.svg(),
-              21.horizontalSpace,
-              Assets.icons.scanQrThirdIc.svg(),
-            ],
-          ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Assets.icons.scanQrFirstIc.svg(),
+          //     21.horizontalSpace,
+          //     Assets.icons.scanQrSecondIc.svg(),
+          //     21.horizontalSpace,
+          //     Assets.icons.scanQrThirdIc.svg(),
+          //   ],
+          // ),
           58.verticalSpace,
           CustomButtonWidget(
             text: '',

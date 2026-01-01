@@ -22,6 +22,7 @@ _EventModel _$EventModelFromJson(Map<String, dynamic> json) => _EventModel(
   type: json['type'] as String?,
   date: json['date'] as String?,
   language: json['language'] as String?,
+  role: json['role'] as String?,
   mapLongitude: json['map_longitude'] as String?,
   mapLatitude: json['map_latitude'] as String?,
   locationName: json['location_name'] as String?,
@@ -38,6 +39,12 @@ _EventModel _$EventModelFromJson(Map<String, dynamic> json) => _EventModel(
   guests: (json['guests'] as List<dynamic>?)
       ?.map((e) => GuestModel.fromJson(e as Map<String, dynamic>))
       .toList(),
+  operators: (json['operators'] as List<dynamic>?)
+      ?.map((e) => HandlerModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  handlers: (json['handlers'] as List<dynamic>?)
+      ?.map((e) => HandlerModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
 );
 
 Map<String, dynamic> _$EventModelToJson(_EventModel instance) =>
@@ -47,6 +54,7 @@ Map<String, dynamic> _$EventModelToJson(_EventModel instance) =>
       'type': instance.type,
       'date': instance.date,
       'language': instance.language,
+      'role': instance.role,
       'map_longitude': instance.mapLongitude,
       'map_latitude': instance.mapLatitude,
       'location_name': instance.locationName,
@@ -59,6 +67,8 @@ Map<String, dynamic> _$EventModelToJson(_EventModel instance) =>
       'status': instance.status,
       'guest_report': instance.guestReport,
       'guests': instance.guests,
+      'operators': instance.operators,
+      'handlers': instance.handlers,
     };
 
 _GuestReportModel _$GuestReportModelFromJson(Map<String, dynamic> json) =>
@@ -104,4 +114,20 @@ Map<String, dynamic> _$GuestModelToJson(_GuestModel instance) =>
       'party_size': instance.partySize,
       'rsvp_status': instance.rsvpStatus,
       'replied': instance.replied,
+    };
+
+_HandlerModel _$HandlerModelFromJson(Map<String, dynamic> json) =>
+    _HandlerModel(
+      whatsappNumber: json['whatsapp_number'] as String?,
+      scanAccess: (json['scan_access'] as num?)?.toInt(),
+      editEventAccess: (json['edit_event_access'] as num?)?.toInt(),
+      guestListAccess: (json['guest_list_access'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$HandlerModelToJson(_HandlerModel instance) =>
+    <String, dynamic>{
+      'whatsapp_number': instance.whatsappNumber,
+      'scan_access': instance.scanAccess,
+      'edit_event_access': instance.editEventAccess,
+      'guest_list_access': instance.guestListAccess,
     };

@@ -76,78 +76,114 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
     return Scaffold(
       body: Stack(
         children: [
-          SelectLocationGoogleMap(_controller,widget.id),
+          SelectLocationGoogleMap(_controller, widget.id),
           Positioned(
             top: 64.h,
+            // bottom: 54.h,
             left: 22.w,
             right: 22.w,
-            child: LocationSearchBox(
-              onSelect: (id, des) async {
-                if (widget.id == null) {
-                  final notifier = ref.read(
-                    addEventControllerProvider.notifier,
-                  );
+            child: Column(
+              children: [
+                LocationSearchBox(
+                  onSelect: (id, des) async {
+                    if (widget.id == null) {
+                      final notifier = ref.read(
+                        addEventControllerProvider.notifier,
+                      );
 
-                  final latLng = await notifier.getPlaceLocation(id);
+                      final latLng = await notifier.getPlaceLocation(id);
 
-                  if (latLng != null) {
-                    final GoogleMapController mapController =
-                        await _controller.future;
+                      if (latLng != null) {
+                        final GoogleMapController mapController =
+                            await _controller.future;
 
-                    mapController.animateCamera(
-                      CameraUpdate.newLatLng(LatLng(latLng.lat, latLng.lng)),
-                    );
-                  }
-                } else {
-                  final notifier = ref.read(
-                    updateEventControllerProvider.notifier,
-                  );
+                        mapController.animateCamera(
+                          CameraUpdate.newLatLng(
+                            LatLng(latLng.lat, latLng.lng),
+                          ),
+                        );
+                      }
+                    } else {
+                      final notifier = ref.read(
+                        updateEventControllerProvider.notifier,
+                      );
 
-                  final latLng = await notifier.getPlaceLocation(id);
+                      final latLng = await notifier.getPlaceLocation(id);
 
-                  if (latLng != null) {
-                    final GoogleMapController mapController =
-                        await _controller.future;
+                      if (latLng != null) {
+                        final GoogleMapController mapController =
+                            await _controller.future;
 
-                    mapController.animateCamera(
-                      CameraUpdate.newLatLng(LatLng(latLng.lat, latLng.lng)),
-                    );
-                  }
-                }
-              },
-            ),
-          ),
-          Positioned(
-            bottom: 54.h,
-            left: 22.w,
-            right: 22.w,
-            child: CustomButtonWidget(
-              text: '',
-              onTap: () async {
-                // context.pop();
-              if(widget.id == null) {
-                await ref
-                    .read(addEventControllerProvider.notifier)
-                    .getPlaceInfoFromLatLng();
-              }else{
-                await ref
-                    .read(updateEventControllerProvider.notifier)
-                    .getPlaceInfoFromLatLng(widget.id!);
-
-              }
-              },
-              isFiled: true,
-              content: Text(
-                context.tr('confirm'),
-                style: AppTextStyle.nunitoBold16.copyWith(
-                  color: AppColors.white,
+                        mapController.animateCamera(
+                          CameraUpdate.newLatLng(
+                            LatLng(latLng.lat, latLng.lng),
+                          ),
+                        );
+                      }
+                    }
+                  },
                 ),
-              ),
-              height: 44.h,
-              width: 330.w,
-              backgroundColor: AppColors.primary,
+                (MediaQuery.of(context).size.height * .8).verticalSpace,
+
+                CustomButtonWidget(
+                  text: '',
+                  onTap: () async {
+                    // context.pop();
+                    if (widget.id == null) {
+                      await ref
+                          .read(addEventControllerProvider.notifier)
+                          .getPlaceInfoFromLatLng();
+                    } else {
+                      await ref
+                          .read(updateEventControllerProvider.notifier)
+                          .getPlaceInfoFromLatLng(widget.id!);
+                    }
+                  },
+                  isFiled: true,
+                  content: Text(
+                    context.tr('confirm'),
+                    style: AppTextStyle.nunitoBold16.copyWith(
+                      color: AppColors.white,
+                    ),
+                  ),
+                  height: 44.h,
+                  width: 330.w,
+                  backgroundColor: AppColors.primary,
+                ),
+              ],
             ),
           ),
+          // Positioned(
+          //   // bottom: 54.h,
+          //   top: 800.h,
+          //   left: 22.w,
+          //   right: 22.w,
+          //   child: CustomButtonWidget(
+          //     text: '',
+          //     onTap: () async {
+          //       // context.pop();
+          //       if (widget.id == null) {
+          //         await ref
+          //             .read(addEventControllerProvider.notifier)
+          //             .getPlaceInfoFromLatLng();
+          //       } else {
+          //         await ref
+          //             .read(updateEventControllerProvider.notifier)
+          //             .getPlaceInfoFromLatLng(widget.id!);
+          //       }
+          //     },
+          //     isFiled: true,
+          //     content: Text(
+          //       context.tr('confirm'),
+          //       style: AppTextStyle.nunitoBold16.copyWith(
+          //         color: AppColors.white,
+          //       ),
+          //     ),
+          //     height: 44.h,
+          //     width: 330.w,
+          //     backgroundColor: AppColors.primary,
+          //   ),
+          // ),
         ],
       ),
     );

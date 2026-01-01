@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,28 +21,36 @@ class HomePageAppBar extends ConsumerWidget {
         ?.utilsResponse
         ?.value
         ?.subscriber
-        ?.name;
-    return Row(
+        ?.mobile;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //? App bar :
         Text(
-          context.tr('welcome'),
-          style: AppTextStyle.rubikSemiBold16.copyWith(
-            color: AppColors.primary,
-          ),
-        ),
-        12.horizontalSpace,
-        Text(
-          name ?? '',
-          style: AppTextStyle.rubikSemiBold16.copyWith(
-            color: AppColors.primary,
-            fontSize: 14.sp,
-          ),
-        ),
-        Spacer(),
-        Text(
-          DateFormat('dd MMM yyyy', local).format(DateTime.now()),
+          DateFormat('EEEE dd MMMM yyyy', local).format(DateTime.now()),
           style: AppTextStyle.rubikMedium14.copyWith(color: AppColors.primary),
+        ),
+        12.verticalSpace,
+        Row(
+          children: [
+            //? App bar :
+            Text(
+              context.tr('welcome'),
+              style: AppTextStyle.rubikSemiBold16.copyWith(
+                color: AppColors.primary,
+              ),
+            ),
+            12.horizontalSpace,
+            Directionality(
+              textDirection: ui.TextDirection.ltr,
+              child: Text(
+                name != null ? '+$name' : '',
+                style: AppTextStyle.rubikSemiBold16.copyWith(
+                  color: AppColors.primary,
+                  // fontSize: 14.sp,
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

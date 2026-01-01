@@ -64,7 +64,6 @@ class _AppPaginationWidgetState extends State<AppPaginationWidget> {
           : null,
       child: SmartRefresher(
         enablePullDown: widget.enablePullDown,
-
         enablePullUp: true,
         footer: CustomFooter(
           builder: (BuildContext context, LoadStatus? mode) {

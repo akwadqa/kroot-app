@@ -19,7 +19,7 @@ class AppToast {
       alignment: Alignment.bottomCenter,
       type: ToastificationType.error,
       showProgressBar: false,
-      style: ToastificationStyle.fillColored,
+      style: ToastificationStyle.flat,
       description: Text(message),
     );
   }
@@ -31,7 +31,7 @@ class AppToast {
       alignment: Alignment.bottomCenter,
       primaryColor: AppColors.deepGreen,
       showProgressBar: false,
-      style: ToastificationStyle.fillColored,
+      style: ToastificationStyle.flat,
       type: ToastificationType.success,
       description: Text(message),
     );

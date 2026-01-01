@@ -23,6 +23,10 @@ class AppTextStyle {
     fontSize: 20.sp,
   );
 
+  static TextStyle rubikMedium18 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w500,
+    fontSize: 18.sp,
+  );
   static TextStyle rubikMedium16 = GoogleFonts.rubik(
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,

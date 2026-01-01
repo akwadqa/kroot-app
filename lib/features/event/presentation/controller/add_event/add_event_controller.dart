@@ -120,6 +120,68 @@ class AddEventController extends _$AddEventController {
     );
   }
 
+  void addOperator(HandlerModel operator) {
+    if (!state.value!.operators.contains(operator)) {
+      state = AsyncData(
+        state.value!.copyWith(
+          operators: List.from([...state.value!.operators, operator]),
+        ),
+      );
+    }
+  }
+
+  void removeOperator(HandlerModel operator) {
+    state = AsyncData(
+      state.value!.copyWith(
+        operators: state.value!.operators
+            .where((e) => e.whatsappNumber != operator.whatsappNumber)
+            .toList(),
+      ),
+    );
+  }
+
+  void removeHandler(HandlerModel handler) {
+    state = AsyncData(
+      state.value!.copyWith(
+        handlers: state.value!.handlers
+            .where((e) => e.whatsappNumber != handler.whatsappNumber)
+            .toList(),
+      ),
+    );
+  }
+
+  void addHandler(HandlerModel handler) {
+    if (!state.value!.handlers.contains(handler)) {
+      state = AsyncData(
+        state.value!.copyWith(
+          handlers: List.from([...state.value!.handlers, handler]),
+        ),
+      );
+    }
+  }
+
+  void makeHandlerScanableOrNot(HandlerModel editedHandler) {
+    final newHandlers = state.value!.handlers.map((handler) {
+      if (handler.whatsappNumber == editedHandler.whatsappNumber) {
+        return handler.copyWith(scanAccess: handler.scanAccess == 1 ? 0 : 1);
+      }
+      return handler;
+    }).toList();
+    state = AsyncData(state.value!.copyWith(handlers: newHandlers));
+  }
+
+  void makeHandlerEditableOrNot(HandlerModel editedHandler) {
+    final newHandlers = state.value!.handlers.map((handler) {
+      if (handler.whatsappNumber == editedHandler.whatsappNumber) {
+        return handler.copyWith(
+          editEventAccess: handler.editEventAccess == 1 ? 0 : 1,
+        );
+      }
+      return handler;
+    }).toList();
+    state = AsyncData(state.value!.copyWith(handlers: newHandlers));
+  }
+
   void updateEvent(EventModel newData) {
     // final current = EventModel();
     final current = state.value?.eventModel ?? EventModel();
@@ -147,11 +209,14 @@ class AddEventController extends _$AddEventController {
           image: newData.image ?? current.image,
           mapLatitude: newData.mapLatitude ?? current.mapLatitude,
           mapLongitude: newData.mapLongitude ?? current.mapLongitude,
-          // inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
-          inviteTemplate: 'Kroot 2 -',
-          confirmedTemplate: 'Kroot Confirm-',
+          operators: newData.operators ?? state.value!.operators,
+          handlers: newData.handlers ?? state.value!.handlers,
+
+          inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
+          // inviteTemplate: 'Kroot 2 -',
+          // confirmedTemplate: 'Kroot Confirm-',
           // newData.confirmedTemplate ?? current.confirmedTemplate,
-          declinedTemplate: 'Kroot Decline-',
+          // declinedTemplate: 'Kroot Decline-',
           // newData.declinedTemplate ?? current.declinedTemplate,
           guests: setGuestListFromContacts() ?? current.guests,
         ),
@@ -561,13 +626,11 @@ class AddEventController extends _$AddEventController {
 
   Future<void> getPlaceInfoFromLatLng() async {
     final lat =
-        state.value!.eventModel?.mapLatitude ??
-        state.value!.latLng.lat ??
-        25.2854473;
+        // double.tryParse(state.value!.eventModel?.mapLatitude ?? '') ??
+        state.value!.latLng.lat;
     final lng =
-        state.value!.eventModel?.mapLatitude ??
-        state.value!.latLng.lng ??
-        51.53103979999999;
+        // double.tryParse(state.value!.eventModel?.mapLongitude ?? '') ??
+        state.value!.latLng.lng;
     try {
       state = AsyncData(state.value!.copyWith(selectedPlace: AsyncLoading()));
       final apiKey = dotenv.env['MAPS_API_KEY'];
@@ -587,6 +650,7 @@ class AddEventController extends _$AddEventController {
       final result = data["results"][0];
 
       final locationName = cleanName(result["formatted_address"] ?? "");
+      // final locationName = cleanName('7Q4F+4R Mesaieed, Qatar');
       final placeId = result["place_id"] ?? "";
 
       final mapLink =
@@ -599,6 +663,14 @@ class AddEventController extends _$AddEventController {
           mapLongitude: lng.toString(),
         ),
       );
+      print('''
+
+    lat : $lat
+    lng : $lng
+    name : ${result["formatted_address"]}
+
+
+''');
 
       state = AsyncData(
         state.value!.copyWith(
@@ -621,11 +693,43 @@ class AddEventController extends _$AddEventController {
 
   //? This for get only the location name with out the address before :
   String cleanName(String address) {
-    final parts = address.split(',');
-    if (parts.length > 1) {
-      return parts.sublist(1).join(',').trim();
+    if (address.isEmpty) return "Location";
+
+    final trimmed = address.trim();
+
+    // تقسيم حسب الفواصل
+    List<String> commaParts = trimmed.split(',').map((e) => e.trim()).toList();
+
+    // الجزء الأول قبل الفاصلة (قد يحتوي plus code + اسم)
+    String first = commaParts[0];
+
+    // إزالة Full Plus Code مثل: 7Q4F+4R
+    final fullPlusCode = RegExp(r"^[A-Z0-9]{4,}\+[A-Z0-9]+");
+    first = first.replaceFirst(fullPlusCode, '').trim();
+
+    // إزالة Short Plus Code مثل: +4R أو +9W
+    final shortPlusCode = RegExp(r"^\+[A-Z0-9]{2,4}");
+    first = first.replaceFirst(shortPlusCode, '').trim();
+
+    // إذا أصبح فارغاً بعد إزالة الأكواد → تجاهله
+    List<String> parts = [];
+    if (first.isNotEmpty) {
+      parts.add(first);
     }
-    return address;
+
+    // إضافة بقية الأجزاء
+    if (commaParts.length > 1) {
+      parts.addAll(commaParts.sublist(1));
+    }
+
+    final result = parts.join(', ').trim();
+
+    // منع نتيجة تكون أرقام أو رموز
+    if (RegExp(r"^[0-9+\- ]+$").hasMatch(result)) {
+      return "Location";
+    }
+
+    return result.isEmpty ? "Location" : result;
   }
 
   Future<void> initLocation() async {
@@ -678,10 +782,12 @@ class AddEventController extends _$AddEventController {
         ),
       );
 
-      // وضع الحالة النهائية
       state = AsyncData(
         state.value!.copyWith(
           latLng: LatLng(lat: double.parse(lat), lng: double.parse(lng)),
+          initialLatLng:
+              state.value!.initialLatLng ??
+              LatLng(lat: double.parse(lat), lng: double.parse(lng)),
           selectedPlace: AsyncData(
             SelectedPlace(
               placeId: "",

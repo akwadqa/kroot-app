@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_guest_number_filed.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -24,15 +25,13 @@ class UpdateGuestNameBottomSheet extends ConsumerStatefulWidget {
 
 class _UpdateGuestNameBottomSheetState
     extends ConsumerState<UpdateGuestNameBottomSheet> {
-  late TextEditingController _firstNameController;
-  late TextEditingController _lastNameController;
+  late TextEditingController _phone;
   final _key = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    _firstNameController = TextEditingController(text: '');
-    _lastNameController = TextEditingController(text: '');
+    _phone = TextEditingController(text: '');
   }
 
   @override
@@ -55,19 +54,20 @@ class _UpdateGuestNameBottomSheetState
         }
       },
     );
-    return Container(
-      // padding: EdgeInsets.all(22.w),
+    return AnimatedPadding(
       padding: EdgeInsets.fromLTRB(
         22.w,
         22.w,
         22.w,
-        MediaQuery.of(context).viewInsets.bottom,
+        MediaQuery.of(context).viewInsets.bottom + 20.w,
       ),
+      duration: Duration(milliseconds: 200),
       child: Wrap(
         children: [
           Form(
             key: _key,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -88,6 +88,7 @@ class _UpdateGuestNameBottomSheetState
                   ],
                 ),
                 31.verticalSpace,
+
                 // AppTextFormField(
                 //   withIcon: false,
                 //   controller: _firstNameController,
@@ -100,19 +101,9 @@ class _UpdateGuestNameBottomSheetState
                 //   }
                 // },
                 // ),
-                AppTextFormField(
-                  withIcon: false,
-                  controller: _lastNameController,
-                  hint: context.tr('phone'),
-                  label: context.tr('phone'),
-                  isRequired: false,
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return context.tr('required');
-                    }
-                    return null;
-                  },
-                ),
+                Text(context.tr('phone'), style: AppTextStyle.rubikRegular18),
+                12.verticalSpace,
+                AddGuestNumberField(_phone),
                 // Spacer(),
                 20.verticalSpace,
                 CustomButtonWidget(
@@ -133,7 +124,7 @@ class _UpdateGuestNameBottomSheetState
                           .updateGuest(
                             // TODO : Dont forget to add inviteeId here :
                             inviteeId: widget.guestModel.inviteeId!,
-                            whatsappNumber: _lastNameController.text,
+                            whatsappNumber: _phone.text,
                           );
                     }
                   },

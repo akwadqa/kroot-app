@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,13 +58,14 @@ class ProfileScreen extends ConsumerWidget {
 
               //? User section settings :
               10.verticalSpace,
-              ProfilePageUserSectionItem(
-                title: context.tr('pricingServices'),
-                icon: Assets.icons.pricingIc,
-                onTap: () {
-                  context.push(Routes.pricing);
-                },
-              ),
+              //? Pricing and services : 
+              // ProfilePageUserSectionItem(
+              //   title: context.tr('pricingServices'),
+              //   icon: Assets.icons.pricingIc,
+              //   onTap: () {
+              //     context.push(Routes.pricing);
+              //   },
+              // ),
 
               //? Change language :
               ProfilePageUserSectionItem(

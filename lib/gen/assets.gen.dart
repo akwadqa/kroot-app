@@ -37,6 +37,10 @@ class $AssetsIconsGen {
   SvgGenImage get addContactIc =>
       const SvgGenImage('assets/icons/add_contact_ic.svg');
 
+  /// File path: assets/icons/add_event_ic.svg
+  SvgGenImage get addEventIc =>
+      const SvgGenImage('assets/icons/add_event_ic.svg');
+
   /// File path: assets/icons/add_from_contact_ic.svg
   SvgGenImage get addFromContactIc =>
       const SvgGenImage('assets/icons/add_from_contact_ic.svg');
@@ -201,6 +205,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/mobile_ic.svg
   SvgGenImage get mobileIc => const SvgGenImage('assets/icons/mobile_ic.svg');
 
+  /// File path: assets/icons/notifications_ic.svg
+  SvgGenImage get notificationsIc =>
+      const SvgGenImage('assets/icons/notifications_ic.svg');
+
   /// File path: assets/icons/options_ic.svg
   SvgGenImage get optionsIc => const SvgGenImage('assets/icons/options_ic.svg');
 
@@ -280,6 +288,7 @@ class $AssetsIconsGen {
   /// List of all assets
   List<SvgGenImage> get values => [
     addContactIc,
+    addEventIc,
     addFromContactIc,
     addIc,
     addManuallyIc,
@@ -325,6 +334,7 @@ class $AssetsIconsGen {
     manageAccessIc,
     messagesIc,
     mobileIc,
+    notificationsIc,
     optionsIc,
     phoneIc,
     pricingCorrectIc,
@@ -356,6 +366,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/animation_loading.gif
   AssetGenImage get animationLoading =>
       const AssetGenImage('assets/images/animation_loading.gif');
+
+  /// File path: assets/images/animation_loadinggg.gif
+  AssetGenImage get animationLoadinggg =>
+      const AssetGenImage('assets/images/animation_loadinggg.gif');
 
   /// File path: assets/images/check_done_image.png
   AssetGenImage get checkDoneImage =>
@@ -411,6 +425,7 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
     animationLoading,
+    animationLoadinggg,
     checkDoneImage,
     imErrorScreen,
     imWedding,

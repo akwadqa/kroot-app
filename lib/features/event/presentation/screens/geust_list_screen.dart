@@ -10,6 +10,7 @@ import 'package:kroot_app/features/event/presentation/controller/home_controller
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
+import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_contact_manuall_bottom_sheet.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/guest_list_item.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
@@ -70,12 +71,12 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                 ),
               ),
               leading: Assets.icons.addFromContactIc.svg(),
-              trailing: GestureDetector(
-                onTap: () => context.pop(),
-                child: Assets.icons.closeIc.svg(),
-              ),
+              // trailing: GestureDetector(
+              //   onTap: () => context.pop(),
+              //   child: Assets.icons.closeIc.svg(),
+              // ),
             ),
-            Divider(color: AppColors.lightGray02),
+            Divider(color: AppColors.grayBorder),
 
             //? Add manually :
             ListTile(
@@ -94,31 +95,33 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             Divider(color: AppColors.grayBorder),
 
             //? Add from csv :
-            ListTile(
-              onTap: () {
-                if (widget.id == null) {
-                  ref
-                      .read(addEventControllerProvider.notifier)
-                      .importGuestsFromFile();
-                } else {
-                  ref
-                      .read(updateEventControllerProvider.notifier)
-                      .importGuestsFromFile();
-                }
-              },
-              title: Text(
-                context.tr('importCSVGuestList'),
-                style: AppTextStyle.rubikMedium16.copyWith(
-                  color: AppColors.primary,
-                ),
-              ),
-              leading: Assets.icons.importCsvFileIc.svg(),
-            ),
-            Divider(color: AppColors.grayBorder),
+            // ListTile(
+            //   onTap: () {
+            //     if (widget.id == null) {
+            //       ref
+            //           .read(addEventControllerProvider.notifier)
+            //           .importGuestsFromFile();
+            //     } else {
+            //       ref
+            //           .read(updateEventControllerProvider.notifier)
+            //           .importGuestsFromFile();
+            //     }
+            //   },
+            //   title: Text(
+            //     context.tr('importCSVGuestList'),
+            //     style: AppTextStyle.rubikMedium16.copyWith(
+            //       color: AppColors.primary,
+            //     ),
+            //   ),
+            //   leading: Assets.icons.importCsvFileIc.svg(),
+            // ),
+            // Divider(color: AppColors.grayBorder),
 
             //? Invite someone :
             ListTile(
-              onTap: () {},
+              onTap: () {
+                context.push(Routes.manageAccess);
+              },
               title: Text(
                 context.tr('inviteSomeoneToManageGuests'),
                 style: AppTextStyle.rubikMedium16.copyWith(
@@ -147,8 +150,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           .toList(),
     );
   }
-
- 
 
   void _openSheetForAddMan(BuildContext context) {
     showModalBottomSheet(
@@ -272,7 +273,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
       });
     }
 
-
     final items = widget.id != null
         ? ref.watch(updateEventControllerProvider).value!.selectedContacts
         : ref.watch(addEventControllerProvider).value!.selectedContacts;
@@ -333,7 +333,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             _openSheetForSelectAdd(context);
           },
 
-          child: Assets.icons.addContactIc.svg(),
+          child: Assets.icons.addContactIc.svg(width: 30.w),
         ),
       ),
 
@@ -344,12 +344,13 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               20.verticalSpace,
-              Text(
-                context.tr('additionalGuest'),
-                style: AppTextStyle.rubikRegular12.copyWith(
-                  color: AppColors.primary,
-                ),
-              ).onlyPadding(end: 22.w),
+              if (items?.isNotEmpty ?? false)
+                Text(
+                  context.tr('additionalGuest'),
+                  style: AppTextStyle.rubikRegular12.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ).onlyPadding(end: 22.w),
 
               Expanded(
                 child:
@@ -358,10 +359,14 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                     ?
                       //? Empty :
                       Center(
-                        child: Text(
-                          context.tr('emptyContacts'),
-                          style: AppTextStyle.rubikRegular16.copyWith(
-                            color: AppColors.black,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 22.w),
+                          child: Text(
+                            context.tr('emptyContacts'),
+                            textAlign: TextAlign.center,
+                            style: AppTextStyle.rubikRegular16.copyWith(
+                              color: AppColors.black,
+                            ),
                           ),
                         ),
                       )
@@ -419,12 +424,12 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                   },
                   isFiled: true,
                   content: Text(
-                    context.tr('editGuestList'),
+                    context.tr('done'),
                     style: AppTextStyle.nunitoBold16.copyWith(
                       color: AppColors.white,
                     ),
                   ),
-                  height: 44.h,
+                  height: 60.h,
                   width: 330.w,
                   backgroundColor: AppColors.primary,
                 ).symmetricPadding(horizontal: 22.w),
@@ -533,227 +538,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             ],
           );
         },
-      ),
-    );
-  }
-}
-
-class AddContactManuallBottomSheet extends StatefulWidget {
-  const AddContactManuallBottomSheet({super.key, required this.id});
-
-  final String? id;
-
-  @override
-  State<AddContactManuallBottomSheet> createState() =>
-      _AddContactManuallBottomSheetState();
-}
-
-class _AddContactManuallBottomSheetState
-    extends State<AddContactManuallBottomSheet> {
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
-
-  late TextEditingController firstName;
-  late TextEditingController lastName;
-  late TextEditingController number;
-  late TextEditingController code;
-
-  @override
-  void initState() {
-    super.initState();
-    firstName = TextEditingController();
-    lastName = TextEditingController();
-    code = TextEditingController();
-    number = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 700.h,
-      padding: EdgeInsets.all(22.w),
-      child: Form(
-        key: _key,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  //? Title :
-                  Text(
-                    context.tr('addContact'),
-                    style: AppTextStyle.rubikSemiBold20.copyWith(
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  Spacer(),
-
-                  //? Close button :
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Assets.icons.closeIc.svg(),
-                  ),
-                ],
-              ),
-              33.verticalSpace,
-
-              //? First name :
-              AppTextFormField(
-                controller: firstName,
-                hint: context.tr('enterAnyFirstName'),
-                icon: Assets.icons.contactNameIc,
-                label: context.tr('firstName'),
-                isRequired: false,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return context.tr('required');
-                  }
-                  return null;
-                },
-              ),
-              20.verticalSpace,
-
-              //? Last name :
-              AppTextFormField(
-                controller: lastName,
-                hint: context.tr('enterAnyLastName'),
-                icon: Assets.icons.contactNameIc,
-                label: context.tr('lastName'),
-                isRequired: false,
-                validator: (val) {
-                  return null;
-
-                  //TODO
-                  // if (val == null || val.isEmpty) {
-                  //   return context.tr('required');
-                  // }
-                },
-              ),
-              20.verticalSpace,
-
-              //? number :
-              AppTextFormField(
-                controller: number,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return context.tr('required');
-                  }
-                  return null;
-                },
-                inputType: TextInputType.number,
-                hint: context.tr('enterPhone'),
-                icon: Assets.icons.contactNumberIc,
-                label: context.tr('phone_number'),
-                isRequired: false,
-              ),
-              20.verticalSpace,
-
-              //? code :
-              AppTextFormField(
-                controller: code,
-                validator: (val) {
-                  if (val == null || val.isEmpty) {
-                    return context.tr('required');
-                  }
-                  return null;
-                },
-                inputType: TextInputType.number,
-                hint: context.tr('enterQuntryCode'),
-                icon: Assets.icons.contactNumberIc,
-                label: context.tr('countryCode'),
-                isRequired: false,
-              ),
-              150.verticalSpace,
-              Consumer(
-                builder: (context, ref, child) {
-                  final isLoading = ref.read(homeControllerProvider);
-                  if (isLoading is AsyncLoading) {
-                    return Center(
-                      child: Assets.images.animationLoading.image(
-                        color: AppColors.primary,
-                      ),
-                    );
-                  }
-                  return CustomButtonWidget(
-                    text: '',
-                    onTap: () {
-                      if (_key.currentState!.validate()) {
-                        if (widget.id == null) {
-                          ref
-                              .read(addEventControllerProvider.notifier)
-                              .addNewContact(
-                                firstName: firstName.text,
-                                lastName: lastName.text,
-                                phoneNumber: number.text,
-                                code: code.text,
-                              );
-                        } else {
-                          ref
-                              .read(updateEventControllerProvider.notifier)
-                              .addNewContact(
-                                firstName: firstName.text,
-                                lastName: lastName.text,
-                                phoneNumber: number.text,
-                                code: code.text,
-                              );
-                        }
-                        context.pop();
-                      }
-                    },
-                    isFiled: true,
-                    boxDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      boxShadow: [
-                        BoxShadow(color: AppColors.primary, spreadRadius: 1),
-                        BoxShadow(
-                          color: AppColors.primary,
-                          offset: Offset(0, 1),
-                          blurRadius: 2,
-                        ),
-                      ],
-                    ),
-                    height: 44.h,
-                    width: double.infinity,
-                    backgroundColor: AppColors.primary,
-                    content: Text(
-                      context.tr('add'),
-                      style: AppTextStyle.rubikSemiBold18.copyWith(
-                        color: AppColors.white,
-                      ),
-                    ),
-                  );
-                },
-              ),
-
-              //? Add button:
-              31.verticalSpace,
-              CustomButtonWidget(
-                text: '',
-                onTap: () {
-                  context.pop();
-                },
-                isFiled: false,
-                boxDecoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: .25),
-                      blurRadius: 4,
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(10.r),
-                ),
-                height: 44.h,
-                width: double.infinity,
-                backgroundColor: AppColors.white,
-                content: Text(
-                  context.tr('cancel'),
-                  style: AppTextStyle.rubikSemiBold18.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

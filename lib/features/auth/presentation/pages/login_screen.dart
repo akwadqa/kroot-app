@@ -63,11 +63,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         print('*********************');
         print(next.value?.allow_login_after);
         print('*********************');
+        ref
+            .read(authUiControllerProvider.notifier)
+            .makeResendButtonVisibleOrNo(false);
 
         if ((next.value?.allow_login_after != null)) {
-          ref
-              .read(authUiControllerProvider.notifier)
-              .makeResendButtonVisibleOrNo(false);
           context.push(Routes.verification);
         } else {
           context.push(Routes.creataAccount, extra: _controller.text);

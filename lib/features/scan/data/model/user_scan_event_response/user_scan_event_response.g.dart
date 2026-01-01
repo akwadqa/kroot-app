@@ -9,10 +9,13 @@ part of 'user_scan_event_response.dart';
 _UserScanEventResponse _$UserScanEventResponseFromJson(
   Map<String, dynamic> json,
 ) => _UserScanEventResponse(
-  ownedEvents: (json['owned_events'] as List<dynamic>)
-      .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
+  ownedEvents: (json['owned_events'] as List<dynamic>?)
+      ?.map((e) => EventModel.fromJson(e as Map<String, dynamic>))
       .toList(),
-  participantEvents: (json['participant_events'] as List<dynamic>)
+  participantEvents: (json['participant_events'] as List<dynamic>?)
+      ?.map((e) => EventModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  events: (json['events'] as List<dynamic>)
       .map((e) => EventModel.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
@@ -22,4 +25,5 @@ Map<String, dynamic> _$UserScanEventResponseToJson(
 ) => <String, dynamic>{
   'owned_events': instance.ownedEvents,
   'participant_events': instance.participantEvents,
+  'events': instance.events,
 };

@@ -11,7 +11,8 @@ class ProfileRemoteDataSource {
   Future<ApiResponse<String>> getPaymentLink(String type,String local) async {
     try {
       final data = FormData.fromMap({
-        'subscription_type': type,
+        // 'subscription_type': type,
+        'bundle' : type,
         'language': local,
       });
 

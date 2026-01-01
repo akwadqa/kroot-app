@@ -181,7 +181,8 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                     final state = ref.watch(addEventControllerProvider);
                     if (state.value!.contacts.isEmpty) {
                       return Center(
-                        child: Assets.images.animationLoading.image(),
+                        // child: Assets.images.animationLoading.image(),
+                        child: MailPulseAnimation(),
                       );
                     }
                     return _buildList(state.value!);

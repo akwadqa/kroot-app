@@ -28,8 +28,8 @@ class VerificationPagePin extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return 'Please enter code';
           }
-          if (value.length != 6) {
-            return 'The code must be 6 numbers';
+          if (value.length != 4) {
+            return 'The code must be 4 numbers';
           }
           return null;
         },
@@ -46,7 +46,7 @@ class VerificationPagePin extends StatelessWidget {
         errorPinTheme: pinTheme.copyBorderWith(
           border: Border.all(color: AppColors.darkRed),
         ),
-        length: 6,
+        length: 4,
         defaultPinTheme: pinTheme,
       ),
     );

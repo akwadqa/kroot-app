@@ -182,7 +182,8 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
                     final state = ref.watch(addEventControllerProvider);
                     if (state.value!.contacts.isEmpty) {
                       return Center(
-                        child: Assets.images.animationLoading.image(),
+                        // child: Assets.images.animationLoading.image(),
+                        child: MailPulseAnimation(),
                       );
                     }
                     return _buildList(state.value!.contacts);

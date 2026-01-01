@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ abstract class AppInitializer {
     //
     //-- Load base URL's  --
     ServicesUrls.init();
-    
+
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     //-- Localization init  --
@@ -45,7 +44,9 @@ Future<ProviderContainer> initializeProviders() async {
 }
 
 Future<void> handleSplashScreen(ProviderContainer container) async {
-  const minSplashDuration = 2000;
+  //TODO : This will be 3 sec :
+  // const minSplashDuration = 2000;
+  const minSplashDuration = 3000;
   final startTime = DateTime.now();
   // await container.read(homeProvider.future);
   final loadDuration = DateTime.now().difference(startTime).inMilliseconds;

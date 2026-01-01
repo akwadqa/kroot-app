@@ -109,7 +109,7 @@ class _AddGuestManuallBotomSheetState
                 isRequired: false,
                 validator: (val) {
                   return null;
-                
+
                   //TODO
                   // if (val == null || val.isEmpty) {
                   //   return context.tr('required');
@@ -139,9 +139,10 @@ class _AddGuestManuallBotomSheetState
                   final isLoading = ref.read(homeControllerProvider);
                   if (isLoading is AsyncLoading) {
                     return Center(
-                      child: Assets.images.animationLoading.image(
-                        color: AppColors.primary,
-                      ),
+                      child: MailPulseAnimation(),
+                      // child: Assets.images.animationLoading.image(
+                      //   color: AppColors.primary,
+                      // ),
                     );
                   }
                   return CustomButtonWidget(

@@ -7,6 +7,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
+import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,13 +32,165 @@ class UpdateEventController extends _$UpdateEventController {
         ?.occasionModel
         ?.value
         ?.guests;
+
+    final operators = ref
+        .watch(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value
+        ?.operators;
+    final handlers = ref
+        .watch(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value
+        ?.handlers;
     if (list != null) {
       final selected = convertGuestModelsToSelectedContacts(list);
 
-      return UpdateEventState.init().copyWith(selectedContacts: selected);
+      return UpdateEventState.init().copyWith(
+        selectedContacts: selected,
+        operators: operators,
+        handlers: handlers,
+      );
     } else {
       return UpdateEventState.init();
     }
+  }
+
+  Future<UpdateHandlersResponse?> updateHandlers() async {
+    try {
+      state = AsyncData(
+        state.value!.copyWith(updateHandlersResponse: AsyncLoading()),
+      );
+      final repo = ref.read(homeRepositoryProvider);
+
+       
+      final response = await repo.updateHandlers(
+        state.value!.updatedEvent!.occasionId!,
+        List.from([...state.value!.handlers, ...state.value!.operators]),
+      );
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            updateHandlersResponse: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+        return null;
+      }
+
+      state = AsyncData(
+        state.value!.copyWith(
+          updateHandlersResponse: AsyncData(response.data!),
+        ),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(
+        state.value!.copyWith(updateHandlersResponse: AsyncError(e, st)),
+      );
+      return null;
+    }
+  }
+
+  Future<DeleteHandlerResponse?> deleteHandler(String id) async {
+    try {
+      state = AsyncData(
+        state.value!.copyWith(deleteHandlersResponse: AsyncLoading()),
+      );
+      final repo = ref.read(homeRepositoryProvider);
+      final response = await repo.deleteHandlers(id, state.value!.handlers);
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            deleteHandlersResponse: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+        return null;
+      }
+
+      state = AsyncData(
+        state.value!.copyWith(
+          deleteHandlersResponse: AsyncData(response.data!),
+        ),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(
+        state.value!.copyWith(deleteHandlersResponse: AsyncError(e, st)),
+      );
+      return null;
+    }
+  }
+
+  void addOperator(HandlerModel operator) {
+    if (!state.value!.operators.contains(operator)) {
+      state = AsyncData(
+        state.value!.copyWith(
+          operators: List.from([...state.value!.operators, operator]),
+        ),
+      );
+    }
+  }
+
+  void removeOperator(HandlerModel operator) {
+    state = AsyncData(
+      state.value!.copyWith(
+        operators: state.value!.operators
+            .where((e) => e.whatsappNumber != operator.whatsappNumber)
+            .toList(),
+      ),
+    );
+  }
+
+  void removeHandler(HandlerModel handler) {
+    state = AsyncData(
+      state.value!.copyWith(
+        handlers: state.value!.handlers
+            .where((e) => e.whatsappNumber != handler.whatsappNumber)
+            .toList(),
+      ),
+    );
+  }
+
+  void addHandler(HandlerModel handler) {
+    if (!state.value!.handlers.contains(handler)) {
+      state = AsyncData(
+        state.value!.copyWith(
+          handlers: List.from([...state.value!.handlers, handler]),
+        ),
+      );
+    }
+  }
+
+  void makeHandlerScanableOrNot(HandlerModel editedHandler) {
+    final newHandlers = state.value!.handlers.map((handler) {
+      if (handler.whatsappNumber == editedHandler.whatsappNumber) {
+        return handler.copyWith(scanAccess: handler.scanAccess == 1 ? 0 : 1);
+      }
+      return handler;
+    }).toList();
+    state = AsyncData(state.value!.copyWith(handlers: newHandlers));
+  }
+
+  void makeHandlerEditableOrNot(HandlerModel editedHandler) {
+    final newHandlers = state.value!.handlers.map((handler) {
+      if (handler.whatsappNumber == editedHandler.whatsappNumber) {
+        return handler.copyWith(
+          editEventAccess: handler.editEventAccess == 1 ? 0 : 1,
+        );
+      }
+      return handler;
+    }).toList();
+    state = AsyncData(state.value!.copyWith(handlers: newHandlers));
   }
 
   List<SelectedContact> convertGuestModelsToSelectedContacts(
@@ -71,7 +225,7 @@ class UpdateEventController extends _$UpdateEventController {
       return SelectedContact(
         contact: contact,
         count: g.partySize ?? 0,
-        id:contact.id ,
+        id: contact.id,
         code: g.whatsappNumber!.substring(0, 3),
       );
     }).toList();
@@ -175,6 +329,7 @@ class UpdateEventController extends _$UpdateEventController {
         state.value!.copyWith(
           createEventResponse: response.data,
           isUpdateEvent: false,
+          msg: response.message,
         ),
       );
       return response.data;
@@ -364,6 +519,8 @@ class UpdateEventController extends _$UpdateEventController {
         updatedEvent: EventModel(
           occasionId: id,
           type: newData.type ?? current?.type,
+          operators: newData.operators ?? state.value!.operators,
+          handlers: newData.handlers ?? state.value!.handlers,
           title: newData.title ?? current?.title,
           mapLatitude: newData.mapLatitude ?? current!.mapLatitude,
           mapLongitude: newData.mapLongitude ?? current!.mapLongitude,

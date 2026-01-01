@@ -42,7 +42,7 @@ class HomeState {
     isDeleteEvent: false,
     eventResponse: AsyncLoading(),
     isUpdateEvent: false,
-    occasionModel: null,
+    occasionModel: AsyncLoading(),
     confirmEventResponse: null,
     gusetsList: [],
   );
@@ -83,13 +83,13 @@ class SelectedContact extends Equatable {
   final Contact contact;
   final int count;
   final String id;
-  final String code;
+  final String? code;
 
   SelectedContact({
     required this.contact,
 
     this.count = 0,
-    required this.code,
+    this.code,
 
     required this.id,
   });

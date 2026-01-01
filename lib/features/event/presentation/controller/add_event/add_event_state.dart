@@ -28,8 +28,18 @@ class AddEventState {
   //? This for get location name :
   final AsyncValue<SelectedPlace>? selectedPlace;
 
+  //? This for current location :
+  final LatLng? initialLatLng;
+
+  //? This for operators and handlers:
+  final List<HandlerModel> operators;
+  final List<HandlerModel> handlers;
+
   AddEventState({
     required this.eventModel,
+    required this.operators,
+    required this.handlers,
+    required this.initialLatLng,
     required this.selectedPlace,
     required this.contacts,
     required this.selectedContacts,
@@ -45,9 +55,13 @@ class AddEventState {
     eventModel: null,
     selectedContacts: [],
     isAddContact: null,
+    operators: [],
+    handlers: [],
     isGetContacts: false,
     contacts: [],
+    // latLng: LatLng(lat: 25.2854473, lng: 51.53103979999999),
     latLng: LatLng(lat: 25.2854473, lng: 51.53103979999999),
+    initialLatLng: null,
     predictions: null,
     createEventResponse: null,
     selectedPlace: null,
@@ -62,12 +76,18 @@ class AddEventState {
     bool? isAddEvent,
     List<Contact>? contacts,
     LatLng? latLng,
+    List<HandlerModel>? operators,
+    List<HandlerModel>? handlers,
+    LatLng? initialLatLng,
     CreateEventResponse? createEventResponse,
     AsyncValue<List<AutocompletePrediction>>? predictions,
     AsyncValue<SelectedPlace>? selectedPlace,
   }) {
     return AddEventState(
-      selectedPlace :selectedPlace ?? this.selectedPlace,
+      initialLatLng: initialLatLng ?? this.initialLatLng,
+      operators: operators ?? this.operators,
+      handlers: handlers ?? this.handlers,
+      selectedPlace: selectedPlace ?? this.selectedPlace,
       eventModel: eventModel ?? this.eventModel,
       selectedContacts: selectedContacts ?? this.selectedContacts,
       isAddContact: isAddContact,
