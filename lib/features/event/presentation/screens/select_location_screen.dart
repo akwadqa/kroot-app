@@ -77,11 +77,8 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
       body: Stack(
         children: [
           SelectLocationGoogleMap(_controller, widget.id),
-          Positioned(
-            top: 64.h,
-            // bottom: 54.h,
-            left: 22.w,
-            right: 22.w,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 64.h),
             child: Column(
               children: [
                 LocationSearchBox(
@@ -123,8 +120,9 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
                     }
                   },
                 ),
-                (MediaQuery.of(context).size.height * .8).verticalSpace,
+                Spacer(),
 
+                // (MediaQuery.of(context).size.height * .8).verticalSpace,
                 CustomButtonWidget(
                   text: '',
                   onTap: () async {
@@ -150,6 +148,7 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
                   width: 330.w,
                   backgroundColor: AppColors.primary,
                 ),
+                // (MediaQuery.of(context).size.height * .05).verticalSpace,
               ],
             ),
           ),

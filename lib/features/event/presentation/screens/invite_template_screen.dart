@@ -143,11 +143,11 @@ class InviteTemplateScreen extends ConsumerWidget {
     //? This for current lang :
     final deviceLocale = Localizations.localeOf(context).toString();
 
-    final eventLang = ref
-        .watch(addEventControllerProvider)
-        .value!
-        .eventModel!
-        .language;
+    // final eventLang = ref
+    //     .watch(addEventControllerProvider)
+    //     .value!
+    //     .eventModel!
+        // .language;
 
     //? This for all tamplates from backend :
     final templates = ref
