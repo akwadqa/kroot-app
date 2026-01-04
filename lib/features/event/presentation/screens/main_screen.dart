@@ -62,11 +62,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       ScanPage(),
       // EventDetailsScreen(),
       // AddEventScreen(),
-      ProfileScreen(),
 
       // SizedBox(),
       // ManageAccessPage(),
       Center(child: MailPulseAnimation()),
+      ProfileScreen(),
 
       // SizedBox(),
       // Center(

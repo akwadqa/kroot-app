@@ -21,30 +21,33 @@ class BottomNavigationBarView extends ConsumerWidget {
     final iconList = [
       Assets.icons.homeIc.svg(),
       Assets.icons.scanIc.svg(),
-      Assets.icons.profileIc.svg(),
       Assets.icons.notificationsIc.svg(),
+      Assets.icons.profileIc.svg(),
+
     ];
 
     final labelList = [
       context.tr('home'),
       context.tr('scan'),
-      context.tr('profile'),
       context.tr('notification'),
+      context.tr('profile'),
+
     ];
 
     return Directionality(
       textDirection: ui.TextDirection.ltr,
       child: SizedBox(
-        height: 107,
+        height: 105,
         child: AnimatedBottomNavigationBar.builder(
           itemCount: iconList.length,
           tabBuilder: (int i, bool isActive) {
             final color = isActive ? AppColors.primary : AppColors.black400;
 
             return Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 5,
               children: [
-                SizedBox(height: 10),
+                SizedBox(height: 5),
                 AnimatedContainer(
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
@@ -57,18 +60,19 @@ class BottomNavigationBarView extends ConsumerWidget {
                   width: 27.w,
                   height: 4.h,
                 ),
-                12.verticalSpace,
+                // Spacer(),
+                
+                // 12.verticalSpace,
                 ColorFiltered(
                   colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                   child: iconList[i],
                 ),
                 // SizedBox(height: 4),
-                Spacer(),
                 Text(
                   labelList[i],
                   style: TextStyle(fontSize: 12.sp, color: color),
                 ),
-                12.verticalSpace,
+                // 12.verticalSpace,
               ],
             );
           },

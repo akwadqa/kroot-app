@@ -46,7 +46,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
           if (data.userScanEventResponse?.events.isEmpty ?? false) {
             return Center(child: Assets.icons.emptyIc.svg());
           }
-          return _buildBody(data.userScanEventResponse?.ownedEvents ?? []);
+          return _buildBody(data.userScanEventResponse?.events ?? []);
         },
         error: (e, st) {
           return AppErrorWidget(
@@ -66,6 +66,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   }
 
   Widget _buildBody(List<EventModel> events) {
+    debugPrint(events.length.toString()??"kod");
     return AppPaginationWidget(
       enablePullDown: true,
       onRefresh: () =>

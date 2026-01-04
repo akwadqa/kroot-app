@@ -43,4 +43,5 @@ abstract class EndPoints {
   static const String qrCheck = '.check_in';
     // ! FCM TOKEN
   static const String sendFcmToken = 'fcm_frappe.api.device_token';
+  static const String appNotifications = 'app_messages.app_messages';
 }
