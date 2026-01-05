@@ -12,6 +12,7 @@ import 'package:kroot_app/features/event/presentation/controller/update_event/up
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_language.dart';
+import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_time.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_location_widget.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
@@ -226,8 +227,33 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                         onSelectDate: (date) {
                           ref
                               .read(updateEventControllerProvider.notifier)
-                              .updateDataForEvent(
-                                EventModel(date: date.toString()),
+                              .updateEventDate(
+                                date,
+                                widget.eventModel.occasionId ?? widget.id!,
+                              );
+                        },
+                      );
+                    },
+                  ),
+
+                  20.verticalSpace,
+                  //? Time :
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final date = ref.watch(
+                        updateEventControllerProvider.select(
+                          (val) => val.value!.updatedEvent?.date,
+                        ),
+                      );
+                      return EventDetailsTime(
+                        dateTime: DateTime.parse(
+                          date ?? DateTime.now().toString(),
+                        ),
+                        onSelectTime: (date) {
+                          ref
+                              .read(updateEventControllerProvider.notifier)
+                              .updateEventTime(
+                                date,
                                 widget.eventModel.occasionId ?? widget.id!,
                               );
                         },

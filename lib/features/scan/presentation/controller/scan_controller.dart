@@ -54,7 +54,12 @@ class ScanController extends _$ScanController {
     bool showLoading = true,
   }) async {
     try {
-      if (showLoading) state = AsyncLoading();
+      // if (showLoading) state = AsyncLoading();
+      if (showLoading) {
+        state = AsyncData(
+          state.value!.copyWith(userScanEventResponse: AsyncLoading()),
+        );
+      }
       final repo = ref.read(scanRepositoryProvider);
       final response = await repo.getUserScanEvent(page: page);
       _currentPage = response.pagination?.currentPage ?? _currentPage;
@@ -69,16 +74,20 @@ class ScanController extends _$ScanController {
       }
 
       if (response.hasFailed) {
-        state = AsyncError(
-          response.message ?? '',
-          StackTrace.fromString(response.message ?? ''),
+        state = AsyncData(
+          state.value!.copyWith(
+            userScanEventResponse: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
         );
         throw Exception(response.message);
       }
       final eventResponse = UserScanEventResponse(events: _eventsList);
 
       state = AsyncData(
-        state.value!.copyWith(userScanEventResponse: eventResponse),
+        state.value!.copyWith(userScanEventResponse: AsyncData(eventResponse)),
       );
       return response.data;
     } catch (e, st) {

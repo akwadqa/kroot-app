@@ -4,6 +4,7 @@ import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
@@ -57,6 +58,42 @@ class UpdateEventController extends _$UpdateEventController {
       return UpdateEventState.init();
     }
   }
+
+  
+  void updateEventDate(DateTime newDate, String id) {
+    final current = DateTime.parse(
+      state.value?.updatedEvent?.date ?? DateTime.now().toString(),
+    );
+
+
+    final updated = DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      current?.hour ?? 0,
+      current?.minute ?? 0,
+    );
+
+    updateDataForEvent(EventModel(date: updated.toString()),id);
+  }
+
+  void updateEventTime(TimeOfDay newTime, String id) {
+    final current = DateTime.parse(
+      state.value?.updatedEvent?.date ?? DateTime.now().toString(),
+    );
+
+    final updated = DateTime(
+      current.year,
+      current.month,
+      current.day,
+      newTime.hour,
+      newTime.minute,
+    );
+
+    updateDataForEvent(EventModel(date: updated.toString()),id);
+  }
+
+
 
   Future<UpdateHandlersResponse?> updateHandlers() async {
     try {

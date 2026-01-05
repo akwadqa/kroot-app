@@ -36,17 +36,17 @@ class _ScanPageState extends ConsumerState<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(scanControllerProvider);
+    final controller = ref.watch(scanControllerProvider.select((val)=>val.value!.userScanEventResponse));
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('scan'), withBackButton: false),
 
       // body: _buildBody(),
-      body: controller.when(
+      body: controller?.when(
         data: (data) {
-          if (data.userScanEventResponse?.events.isEmpty ?? false) {
+          if (data.events.isEmpty ?? false) {
             return Center(child: Assets.icons.emptyIc.svg());
           }
-          return _buildBody(data.userScanEventResponse?.events ?? []);
+          return _buildBody(data.events ?? []);
         },
         error: (e, st) {
           return AppErrorWidget(

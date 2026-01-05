@@ -232,5 +232,8 @@
     "chooseYourPaymentPlan" : "Choose your payment plan",
     "operator" : "Operator",
     "authorized" : "Authorized",
-    "edit" : "Edit"
+    "edit" : "Edit",
+    "today" : "Today",
+    "successfullyCompleted" : "Successfully completed",
+    "There is no kroot remaining in your account" : "There is no kroot remaining in your account"
 }

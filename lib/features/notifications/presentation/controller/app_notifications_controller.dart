@@ -1,10 +1,8 @@
-
 import 'package:kroot_app/features/notifications/data/repositories/notifications_repository.dart';
 import 'package:kroot_app/features/notifications/domain/model/app_notifications_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'app_notifications_controller.g.dart';
-
 
 @riverpod
 class AppNotificationsController extends _$AppNotificationsController {
@@ -17,8 +15,10 @@ class AppNotificationsController extends _$AppNotificationsController {
     return await fetchOrdersOffersNotifications(page: 1);
   }
 
-  Future<List<AppNotificationsModel>> fetchOrdersOffersNotifications(
-      {required int page, bool showLoading = true}) async {
+  Future<List<AppNotificationsModel>> fetchOrdersOffersNotifications({
+    required int page,
+    bool showLoading = true,
+  }) async {
     try {
       if (showLoading) state = const AsyncLoading();
 
@@ -32,9 +32,18 @@ class AppNotificationsController extends _$AppNotificationsController {
       _totalPages = response.pagination!.totalPages;
 
       if (page == 1) {
-        _notifications =  List.from(response.data!);
+        _notifications = List.from(response.data!);
       } else {
         _notifications.addAll(response.data!);
+      }
+
+      if (response.hasFailed ||
+          response.data == null ||
+          response.pagination == null) {
+        state = AsyncError(
+          response.message ?? '',
+          StackTrace.fromString(response.message ?? ''),
+        );
       }
 
       state = AsyncData(_notifications);
@@ -48,7 +57,10 @@ class AppNotificationsController extends _$AppNotificationsController {
   Future<bool> loadNextPage() async {
     if (_currentPage >= _totalPages) return false;
     final nextPage = _currentPage + 1;
-    final result = await fetchOrdersOffersNotifications(page: nextPage,showLoading: false);
+    final result = await fetchOrdersOffersNotifications(
+      page: nextPage,
+      showLoading: false,
+    );
     return result.isNotEmpty;
   }
 
@@ -63,8 +75,7 @@ class AppNotificationsController extends _$AppNotificationsController {
   // List<AppNotificationsModel> getFilteredOrders(MyorderStatus? status) {
   // if (status == MyorderStatus.all) {
   //     return state.value!;
-  //   }    
+  //   }
   //   return state.value?.where((order) => order.status == status?.name).toList()??[];
   // }
-  
 }

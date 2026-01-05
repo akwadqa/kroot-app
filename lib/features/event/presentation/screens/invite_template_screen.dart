@@ -70,10 +70,10 @@ class InviteTemplateScreen extends ConsumerWidget {
 
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
-            AppToast.doneToast('Done');
+            AppToast.doneToast("successfullyCompleted".tr());
             ref.read(homeControllerProvider.notifier)
-            ..getUserEvents(page: 1)
-            ..getUtils();
+              ..getUserEvents(page: 1)
+              ..getUtils();
 
             context.go(
               Routes.eventDetails,
@@ -112,10 +112,10 @@ class InviteTemplateScreen extends ConsumerWidget {
 
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
-            AppToast.doneToast('Done');
+            AppToast.doneToast("successfullyCompleted".tr());
             ref.read(homeControllerProvider.notifier)
-            ..getUserEvents(page: 1)
-            ..getUtils();
+              ..getUserEvents(page: 1)
+              ..getUtils();
 
             context.go(
               Routes.eventDetails,
@@ -147,7 +147,7 @@ class InviteTemplateScreen extends ConsumerWidget {
     //     .watch(addEventControllerProvider)
     //     .value!
     //     .eventModel!
-        // .language;
+    // .language;
 
     //? This for all tamplates from backend :
     final templates = ref
@@ -474,7 +474,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                   },
                   isFiled: true,
                   content: Text(
-                    context.tr('done'),
+                    context.tr("done".tr()),
                     style: AppTextStyle.nunitoBold16.copyWith(
                       color: AppColors.white,
                     ),

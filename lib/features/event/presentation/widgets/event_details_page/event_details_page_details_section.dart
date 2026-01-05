@@ -28,10 +28,12 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
               Text(
                 // DateFormat('EEE, d-M-yyyy hh:mma').format(event.date),
                 // DateFormat('d-M-yyyy hh:mma').format(DateTime.now()),
-                DateFormat(
-                  'EEEE dd MMMM yyyy',
-                  deviceLocale,
-                ).format(DateTime.parse(event.date ?? '')),
+                // DateFormat(
+                //   'EEEE dd MMMM yyyy',
+                //   deviceLocale,
+                // ).format(DateTime.parse(event.date ?? '')),
+                '${DateFormat('EEEE dd MMMM yyyy', deviceLocale).format(DateTime.parse(event.date ?? ''))} • ${DateFormat.jm(deviceLocale).format(DateTime.parse(event.date ?? ''))}',
+
                 style: AppTextStyle.rubikRegular12.copyWith(
                   color: AppColors.blackText,
                 ),

@@ -47,7 +47,7 @@ class _AddGuestManuallBotomSheetState
         if (next is AsyncData) {
           context.pop();
           context.pop();
-          AppToast.doneToast('Done');
+          AppToast.doneToast("successfullyCompleted".tr());
         }
         if (next is AsyncError) {
           context.pop();

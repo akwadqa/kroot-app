@@ -15,6 +15,7 @@ _AppNotificationsModel _$AppNotificationsModelFromJson(
   type: json['type'] as String,
   item: json['item'] as String?,
   publishedOn: json['published_on'] as String?,
+  expiryDate: json['expiry_date'] as String?,
   content: json['content'] as String?,
 );
 
@@ -27,5 +28,6 @@ Map<String, dynamic> _$AppNotificationsModelToJson(
   'type': instance.type,
   'item': instance.item,
   'published_on': instance.publishedOn,
+  'expiry_date': instance.expiryDate,
   'content': instance.content,
 };

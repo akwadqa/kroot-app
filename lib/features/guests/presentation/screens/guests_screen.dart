@@ -85,7 +85,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
           context.pop();
           context.pop();
           ref.read(homeControllerProvider.notifier).getEventDetails(widget.id);
-          AppToast.doneToast('Done');
+          AppToast.doneToast("successfullyCompleted".tr());
         }
         if (next is AsyncError) {
           context.pop();
@@ -95,26 +95,29 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
     );
 
     // final gustsLists = ref.watch(guestsControllerProvider).value!.guestsList;
-
+    final event = ref.watch(homeControllerProvider).value!.occasionModel?.value;
     return Scaffold(
       appBar: CustomAppbar(
         title: context.tr('all_guests'),
-        actionButton: GestureDetector(
-          onTap: () {
-            // _openBottomSheet(context);
-            context.push(
-              Routes.guestList,
-              extra: ref
-                  .read(homeControllerProvider)
-                  .value!
-                  .occasionModel!
-                  .value!
-                  .occasionId,
-            );
-          },
+        actionButton: event?.status == 'Draft'
+            ? GestureDetector(
+                onTap: () {
+                  // _openBottomSheet(context);
+                  context.push(
+                    Routes.guestList,
+                    extra: event?.occasionId,
+                    // extra: ref
+                    //     .read(homeControllerProvider)
+                    //     .value!
+                    //     .occasionModel!
+                    //     .value!
+                    //     .occasionId,
+                  );
+                },
 
-          child: Assets.icons.addContactIc.svg(width: 30.w),
-        ),
+                child: Assets.icons.addContactIc.svg(width: 30.w),
+              )
+            : null,
       ),
       body: Column(
         children: [

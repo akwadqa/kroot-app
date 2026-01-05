@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -122,7 +123,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               //   ref.read(bottomNavIndexProvider.notifier).setIndex(index);
               // } else {
               AppToast.errorToast(
-                'There is no kroot remaining in your account',
+                'There is no kroot remaining in your account'.tr(),
               );
             } else {
               context.push(Routes.createEvent);

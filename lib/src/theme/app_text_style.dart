@@ -16,6 +16,10 @@ class AppTextStyle {
     fontWeight: FontWeight.w600,
     fontSize: 16.sp,
   );
+  static TextStyle rubikSemiBold14 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w600,
+    fontSize: 14.sp,
+  );
 
   //? Rubik medium :
   static TextStyle rubikMedium20 = GoogleFonts.rubik(
@@ -73,6 +77,10 @@ class AppTextStyle {
   static TextStyle rubikRegular12 = GoogleFonts.rubik(
     fontWeight: FontWeight.w400,
     fontSize: 12.sp,
+  );
+  static TextStyle rubikRegular11 = GoogleFonts.rubik(
+    fontWeight: FontWeight.w400,
+    fontSize: 11.sp,
   );
 
   //************************* Poppins ////////////// */

@@ -37,13 +37,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
       ..addListener(() {
         setState(() {});
       });
-
-    Future(() {
-      // if (widget.id != null)
-      // ref
-      //     .read(updateEventControllerProvider.notifier)
-      //     .deleteHandler(widget.id!);
-    });
   }
 
   @override
@@ -64,7 +57,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
           // context.go(Routes.eventDetails, extra: {'id': widget.id});
           context.pop();
           context.pop();
-          AppToast.doneToast('Done');
+          AppToast.doneToast("successfullyCompleted".tr());
           ref.read(homeControllerProvider.notifier).getEventDetails(widget.id!);
         }
         if (next is AsyncError) {
@@ -86,6 +79,15 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
         }
       },
     );
+    final isConfirmed = widget.id == null
+        ? false
+        : ref
+                  .read(homeControllerProvider)
+                  .value!
+                  .occasionModel!
+                  .value!
+                  .status ==
+              'Confirmed';
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('manageAccess')),
@@ -132,36 +134,37 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
               children: [_buildOperatorSecton(), _buildHandlerSection(context)],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: CustomButtonWidget(
-              text: '',
-              backgroundColor: AppColors.primary,
-              onTap: () {
-                if (widget.id == null) {
-                  ref
-                      .read(addEventControllerProvider.notifier)
-                      .updateEvent(EventModel());
-                  context.pop();
-                } else {
-                  ref.read(updateEventControllerProvider.notifier)
-                    ..updateDataForEvent(EventModel(), widget.id!)
-                    ..updateHandlers();
-                }
-              },
-              isFiled: false,
-              height: 50.h,
+          if (!isConfirmed)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: CustomButtonWidget(
+                text: '',
+                backgroundColor: AppColors.primary,
+                onTap: () {
+                  if (widget.id == null) {
+                    ref
+                        .read(addEventControllerProvider.notifier)
+                        .updateEvent(EventModel());
+                    context.pop();
+                  } else {
+                    ref.read(updateEventControllerProvider.notifier)
+                      ..updateDataForEvent(EventModel(), widget.id!)
+                      ..updateHandlers();
+                  }
+                },
+                isFiled: false,
+                height: 50.h,
 
-              content: Text(
-                context.tr('confirm'),
-                style: AppTextStyle.rubikSemiBold16.copyWith(
-                  color: AppColors.white,
+                content: Text(
+                  context.tr('confirm'),
+                  style: AppTextStyle.rubikSemiBold16.copyWith(
+                    color: AppColors.white,
+                  ),
                 ),
+                width: double.infinity,
+                radius: 10.r,
               ),
-              width: double.infinity,
-              radius: 10.r,
             ),
-          ),
           24.verticalSpace,
         ],
       ),
@@ -169,6 +172,15 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
   }
 
   Column _buildHandlerSection(BuildContext context) {
+    final isConfirmed = widget.id == null
+        ? false
+        : ref
+                  .read(homeControllerProvider)
+                  .value!
+                  .occasionModel!
+                  .value!
+                  .status ==
+              'Confirmed';
     final handlers = widget.id == null
         ? ref.watch(addEventControllerProvider).value!.handlers
         : ref.watch(updateEventControllerProvider).value!.handlers;
@@ -196,131 +208,278 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
             ],
           ),
         Expanded(
-          child: ListView.separated(
-            itemBuilder: (context, index) {
-              if (index == handlers.length) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 30.w,
-                    vertical: 20.h,
-                  ),
-                  child: CustomButtonWidget(
-                    text: '',
-                    backgroundColor: AppColors.primary,
-                    onTap: () {
-                      if (handlers.length >= 5) {
-                        AppToast.errorToast('You can\'t add more than 5');
-                      } else {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
+          child: handlers.isEmpty
+              ? Assets.icons.emptyIc.svg()
+              : ListView.separated(
+                  itemBuilder: (context, index) {
+                    if (index == handlers.length) {
+                      return isConfirmed
+                          ? SizedBox.shrink()
+                          : Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 30.w,
+                                vertical: 20.h,
+                              ),
+                              child: CustomButtonWidget(
+                                text: '',
+                                backgroundColor: AppColors.primary,
+                                onTap: () {
+                                  if (handlers.length >= 5) {
+                                    AppToast.errorToast(
+                                      'You can\'t add more than 5',
+                                    );
+                                  } else {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
 
-                          builder: (context) => AddOperatorHandlerBotomSheet(
-                            title: context.tr('addAuthorizeds'),
-                            onFinish: (number) {
-                              context.pop();
-                              if (widget.id == null) {
-                                ref
-                                    .read(addEventControllerProvider.notifier)
-                                    .addHandler(
-                                      HandlerModel(
-                                        whatsappNumber: number,
-                                        editEventAccess: 0,
-                                        guestListAccess: 1,
-                                        scanAccess: 0,
-                                      ),
+                                      builder: (context) =>
+                                          AddOperatorHandlerBotomSheet(
+                                            title: context.tr('addAuthorizeds'),
+                                            onFinish: (number) {
+                                              context.pop();
+                                              if (widget.id == null) {
+                                                ref
+                                                    .read(
+                                                      addEventControllerProvider
+                                                          .notifier,
+                                                    )
+                                                    .addHandler(
+                                                      HandlerModel(
+                                                        whatsappNumber: number,
+                                                        editEventAccess: 0,
+                                                        guestListAccess: 1,
+                                                        scanAccess: 0,
+                                                      ),
+                                                    );
+                                              } else {
+                                                ref
+                                                    .read(
+                                                      updateEventControllerProvider
+                                                          .notifier,
+                                                    )
+                                                    .addHandler(
+                                                      HandlerModel(
+                                                        whatsappNumber: number,
+                                                        editEventAccess: 0,
+                                                        guestListAccess: 1,
+                                                        scanAccess: 0,
+                                                      ),
+                                                    );
+                                              }
+                                            },
+                                          ),
                                     );
-                              } else {
-                                ref
-                                    .read(
-                                      updateEventControllerProvider.notifier,
-                                    )
-                                    .addHandler(
-                                      HandlerModel(
-                                        whatsappNumber: number,
-                                        editEventAccess: 0,
-                                        guestListAccess: 1,
-                                        scanAccess: 0,
-                                      ),
-                                    );
-                              }
-                            },
-                          ),
-                        );
-                      }
-                    },
-                    isFiled: false,
-                    height: 50.h,
-                    content: Text(
-                      context.tr('addAuthorizeds'),
-                      style: AppTextStyle.rubikSemiBold16.copyWith(
-                        color: AppColors.white,
+                                  }
+                                },
+                                isFiled: false,
+                                height: 50.h,
+                                content: Text(
+                                  context.tr('addAuthorizeds'),
+                                  style: AppTextStyle.rubikSemiBold16.copyWith(
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                                width: double.infinity,
+                                radius: 10.r,
+                              ),
+                            );
+                    }
+                    return ListTile(
+                      trailing: SizedBox(
+                        width: 92.w,
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: handlers[index].scanAccess == 1,
+                              onChanged: (val) {
+                                if (widget.id == null) {
+                                  ref
+                                      .read(addEventControllerProvider.notifier)
+                                      .makeHandlerScanableOrNot(
+                                        handlers[index],
+                                      );
+                                } else {
+                                  ref
+                                      .read(
+                                        updateEventControllerProvider.notifier,
+                                      )
+                                      .makeHandlerScanableOrNot(
+                                        handlers[index],
+                                      );
+
+                                  // ref
+                                  //     .read(updateEventControllerProvider.notifier)
+                                  //     .makeHandlerScanableOrNot(handlers[index]);
+                                }
+                              },
+                              fillColor: WidgetStateProperty.resolveWith<Color>(
+                                (states) {
+                                  if (states.contains(WidgetState.selected)) {
+                                    return AppColors.primary;
+                                  }
+                                  return AppColors.white;
+                                },
+                              ),
+                            ),
+                            Spacer(),
+                            Checkbox(
+                              value: handlers[index].editEventAccess == 1,
+                              onChanged: (val) {
+                                if (widget.id == null) {
+                                  ref
+                                      .read(addEventControllerProvider.notifier)
+                                      .makeHandlerEditableOrNot(
+                                        handlers[index],
+                                      );
+                                } else {
+                                  ref
+                                      .read(
+                                        updateEventControllerProvider.notifier,
+                                      )
+                                      .makeHandlerEditableOrNot(
+                                        handlers[index],
+                                      );
+                                }
+                              },
+                              fillColor: WidgetStateProperty.resolveWith<Color>(
+                                (states) {
+                                  if (states.contains(WidgetState.selected)) {
+                                    return AppColors.primary;
+                                  }
+                                  return AppColors.white;
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    width: double.infinity,
-                    radius: 10.r,
-                  ),
-                );
+                      title: Text(
+                        handlers[index].whatsappNumber ?? '',
+                        style: AppTextStyle.rubikRegular16.copyWith(
+                          color: AppColors.black,
+                        ),
+                      ),
+                      leading: GestureDetector(
+                        onTap: () {
+                          if (widget.id == null) {
+                            ref
+                                .read(addEventControllerProvider.notifier)
+                                .removeHandler(handlers[index]);
+                          } else {
+                            ref
+                                .read(updateEventControllerProvider.notifier)
+                                .removeHandler(handlers[index]);
+                          }
+                        },
+                        child: Assets.icons.deleteEventIc.svg(height: 25.h),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => Divider(height: 0),
+                  itemCount: handlers.length + 1,
+                ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOperatorSecton() {
+    final isConfirmed = widget.id == null
+        ? false
+        : ref
+                  .read(homeControllerProvider)
+                  .value!
+                  .occasionModel!
+                  .value!
+                  .status ==
+              'Confirmed';
+    final operator = widget.id == null
+        ? ref.watch(
+            addEventControllerProvider.select((val) => val.value!.operators),
+          )
+        : ref.watch(
+            updateEventControllerProvider.select((val) => val.value!.operators),
+          );
+    return isConfirmed
+        ? Assets.icons.emptyIc.svg()
+        : ListView.separated(
+            padding: EdgeInsets.only(top: 25.h),
+            itemBuilder: (context, index) {
+              if (index == operator.length) {
+                return isConfirmed
+                    ? SizedBox.shrink()
+                    : Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 30.w,
+                          vertical: 20.h,
+                        ),
+                        child: CustomButtonWidget(
+                          text: '',
+                          backgroundColor: AppColors.primary,
+                          onTap: () {
+                            if (operator.length >= 5) {
+                              AppToast.errorToast('You can\'t add more than 5');
+                            } else {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+
+                                builder: (context) =>
+                                    AddOperatorHandlerBotomSheet(
+                                      title: context.tr('addOperators'),
+                                      onFinish: (number) {
+                                        context.pop();
+                                        if (widget.id == null) {
+                                          ref
+                                              .read(
+                                                addEventControllerProvider
+                                                    .notifier,
+                                              )
+                                              .addOperator(
+                                                HandlerModel(
+                                                  whatsappNumber: number,
+                                                  scanAccess: 1,
+                                                  editEventAccess: 0,
+                                                  guestListAccess: 0,
+                                                ),
+                                              );
+                                        } else {
+                                          ref
+                                              .read(
+                                                updateEventControllerProvider
+                                                    .notifier,
+                                              )
+                                              .addOperator(
+                                                HandlerModel(
+                                                  whatsappNumber: number,
+                                                  scanAccess: 1,
+                                                  editEventAccess: 0,
+                                                  guestListAccess: 0,
+                                                ),
+                                              );
+                                        }
+                                      },
+                                    ),
+                              );
+                            }
+                          },
+                          isFiled: false,
+                          height: 50.h,
+                          content: Text(
+                            context.tr('addOperators'),
+                            style: AppTextStyle.rubikSemiBold16.copyWith(
+                              color: AppColors.white,
+                            ),
+                          ),
+                          width: double.infinity,
+                          radius: 10.r,
+                        ),
+                      );
               }
               return ListTile(
-                trailing: SizedBox(
-                  width: 92.w,
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: handlers[index].scanAccess == 1,
-                        onChanged: (val) {
-                          if (widget.id == null) {
-                            ref
-                                .read(addEventControllerProvider.notifier)
-                                .makeHandlerScanableOrNot(handlers[index]);
-                          } else {
-                            ref
-                                .read(updateEventControllerProvider.notifier)
-                                .makeHandlerScanableOrNot(handlers[index]);
-
-                            // ref
-                            //     .read(updateEventControllerProvider.notifier)
-                            //     .makeHandlerScanableOrNot(handlers[index]);
-                          }
-                        },
-                        fillColor: WidgetStateProperty.resolveWith<Color>((
-                          states,
-                        ) {
-                          if (states.contains(WidgetState.selected)) {
-                            return AppColors.primary;
-                          }
-                          return AppColors.white;
-                        }),
-                      ),
-                      Spacer(),
-                      Checkbox(
-                        value: handlers[index].editEventAccess == 1,
-                        onChanged: (val) {
-                          if (widget.id == null) {
-                            ref
-                                .read(addEventControllerProvider.notifier)
-                                .makeHandlerEditableOrNot(handlers[index]);
-                          } else {
-                            ref
-                                .read(updateEventControllerProvider.notifier)
-                                .makeHandlerEditableOrNot(handlers[index]);
-                          }
-                        },
-                        fillColor: WidgetStateProperty.resolveWith<Color>((
-                          states,
-                        ) {
-                          if (states.contains(WidgetState.selected)) {
-                            return AppColors.primary;
-                          }
-                          return AppColors.white;
-                        }),
-                      ),
-                    ],
-                  ),
-                ),
                 title: Text(
-                  handlers[index].whatsappNumber ?? '',
+                  operator[index].whatsappNumber!,
                   style: AppTextStyle.rubikRegular16.copyWith(
                     color: AppColors.black,
                   ),
@@ -330,120 +489,21 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                     if (widget.id == null) {
                       ref
                           .read(addEventControllerProvider.notifier)
-                          .removeHandler(handlers[index]);
+                          .removeOperator(operator[index]);
                     } else {
                       ref
                           .read(updateEventControllerProvider.notifier)
-                          .removeHandler(handlers[index]);
+                          .removeOperator(operator[index]);
                     }
                   },
                   child: Assets.icons.deleteEventIc.svg(height: 25.h),
                 ),
+                // leading: Icon(Icons.delete, color: AppColors.red),
               );
             },
+
             separatorBuilder: (context, index) => Divider(height: 0),
-            itemCount: handlers.length + 1,
-          ),
-        ),
-      ],
-    );
-  }
-
-  ListView _buildOperatorSecton() {
-    final operator = widget.id == null
-        ? ref.watch(
-            addEventControllerProvider.select((val) => val.value!.operators),
-          )
-        : ref.watch(
-            updateEventControllerProvider.select((val) => val.value!.operators),
+            itemCount: operator.length + 1,
           );
-    return ListView.separated(
-      padding: EdgeInsets.only(top: 25.h),
-      itemBuilder: (context, index) {
-        if (index == operator.length) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 20.h),
-            child: CustomButtonWidget(
-              text: '',
-              backgroundColor: AppColors.primary,
-              onTap: () {
-                if (operator.length >= 5) {
-                  AppToast.errorToast('You can\'t add more than 5');
-                } else {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-
-                    builder: (context) => AddOperatorHandlerBotomSheet(
-                      title: context.tr('addOperators'),
-                      onFinish: (number) {
-                        context.pop();
-                        if (widget.id == null) {
-                          ref
-                              .read(addEventControllerProvider.notifier)
-                              .addOperator(
-                                HandlerModel(
-                                  whatsappNumber: number,
-                                  scanAccess: 1,
-                                  editEventAccess: 0,
-                                  guestListAccess: 0,
-                                ),
-                              );
-                        } else {
-                          ref
-                              .read(updateEventControllerProvider.notifier)
-                              .addOperator(
-                                HandlerModel(
-                                  whatsappNumber: number,
-                                  scanAccess: 1,
-                                  editEventAccess: 0,
-                                  guestListAccess: 0,
-                                ),
-                              );
-                        }
-                      },
-                    ),
-                  );
-                }
-              },
-              isFiled: false,
-              height: 50.h,
-              content: Text(
-                context.tr('addOperators'),
-                style: AppTextStyle.rubikSemiBold16.copyWith(
-                  color: AppColors.white,
-                ),
-              ),
-              width: double.infinity,
-              radius: 10.r,
-            ),
-          );
-        }
-        return ListTile(
-          title: Text(
-            operator[index].whatsappNumber!,
-            style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
-          ),
-          leading: GestureDetector(
-            onTap: () {
-              if (widget.id == null) {
-                ref
-                    .read(addEventControllerProvider.notifier)
-                    .removeOperator(operator[index]);
-              } else {
-                ref
-                    .read(updateEventControllerProvider.notifier)
-                    .removeOperator(operator[index]);
-              }
-            },
-            child: Assets.icons.deleteEventIc.svg(height: 25.h),
-          ),
-          // leading: Icon(Icons.delete, color: AppColors.red),
-        );
-      },
-
-      separatorBuilder: (context, index) => Divider(height: 0),
-      itemCount: operator.length + 1,
-    );
   }
 }

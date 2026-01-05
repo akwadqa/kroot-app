@@ -199,7 +199,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             // if (context.canPop()) {
             ctx.pop();
 
-            AppToast.doneToast('Done');
+            AppToast.doneToast("successfullyCompleted".tr());
 
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
@@ -249,7 +249,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           if (next is AsyncData && prev is AsyncLoading) {
             // if (context.canPop()) {
             ctx.pop();
-            AppToast.doneToast('Done');
+            AppToast.doneToast("successfullyCompleted".tr());
 
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
@@ -424,7 +424,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                   },
                   isFiled: true,
                   content: Text(
-                    context.tr('done'),
+                    context.tr("done".tr()),
                     style: AppTextStyle.nunitoBold16.copyWith(
                       color: AppColors.white,
                     ),

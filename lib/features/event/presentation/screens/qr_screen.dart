@@ -38,13 +38,13 @@ class QrScreen extends ConsumerWidget {
           if (next is AsyncData && prev is AsyncLoading) {
             // if (context.canPop()) {
             ctx.pop();
-            AppToast.doneToast('Done');
+            AppToast.doneToast("successfullyCompleted".tr());
 
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
             ref.read(homeControllerProvider.notifier)
-            ..getUserEvents(page: 1)
-            ..getUtils();
+              ..getUserEvents(page: 1)
+              ..getUtils();
 
             context.go(
               Routes.eventDetails,
@@ -88,13 +88,13 @@ class QrScreen extends ConsumerWidget {
           if (next is AsyncData && prev is AsyncLoading) {
             // if (context.canPop()) {
             ctx.pop();
-            AppToast.doneToast('Done');
+            AppToast.doneToast("successfullyCompleted".tr());
 
             // context.pushReplacement(Routes.main);
             // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
             ref.read(homeControllerProvider.notifier)
-            ..getUserEvents(page: 1)
-            ..getUtils();
+              ..getUserEvents(page: 1)
+              ..getUtils();
 
             context.go(
               Routes.eventDetails,

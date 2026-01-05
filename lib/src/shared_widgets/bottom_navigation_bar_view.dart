@@ -23,15 +23,13 @@ class BottomNavigationBarView extends ConsumerWidget {
       Assets.icons.scanIc.svg(),
       Assets.icons.notificationsIc.svg(),
       Assets.icons.profileIc.svg(),
-
     ];
 
     final labelList = [
       context.tr('home'),
       context.tr('scan'),
-      context.tr('notification'),
+      context.tr('notifications'),
       context.tr('profile'),
-
     ];
 
     return Directionality(
@@ -47,7 +45,7 @@ class BottomNavigationBarView extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               spacing: 5,
               children: [
-                SizedBox(height: 5),
+                SizedBox(height: 3),
                 AnimatedContainer(
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
@@ -57,11 +55,11 @@ class BottomNavigationBarView extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(20.r),
                     color: index == i ? AppColors.primary : Colors.transparent,
                   ),
-                  width: 27.w,
-                  height: 4.h,
+                  width: 27,
+                  height: 4,
                 ),
-                // Spacer(),
-                
+                Spacer(),
+
                 // 12.verticalSpace,
                 ColorFiltered(
                   colorFilter: ColorFilter.mode(color, BlendMode.srcIn),

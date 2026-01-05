@@ -205,6 +205,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/mobile_ic.svg
   SvgGenImage get mobileIc => const SvgGenImage('assets/icons/mobile_ic.svg');
 
+  /// File path: assets/icons/notifications_cart_ic.svg
+  SvgGenImage get notificationsCartIc =>
+      const SvgGenImage('assets/icons/notifications_cart_ic.svg');
+
   /// File path: assets/icons/notifications_ic.svg
   SvgGenImage get notificationsIc =>
       const SvgGenImage('assets/icons/notifications_ic.svg');
@@ -334,6 +338,7 @@ class $AssetsIconsGen {
     manageAccessIc,
     messagesIc,
     mobileIc,
+    notificationsCartIc,
     notificationsIc,
     optionsIc,
     phoneIc,

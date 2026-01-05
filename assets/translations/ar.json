@@ -253,5 +253,8 @@
     "chooseYourPaymentPlan": "اختر خطة الدفع الخاصة بك",
     "operator": "المشغل",
     "authorized": "مصرح به",
-    "edit": "تعديل"
+    "edit": "تعديل",
+    "today": "اليوم",
+    "successfullyCompleted": "تمت العملية بنجاح",
+    "There is no kroot remaining in your account": "لا يوجد رصيد كروت متبقٍ في حسابك"
 }

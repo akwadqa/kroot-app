@@ -12,6 +12,7 @@ import 'package:kroot_app/features/event/presentation/widgets/create_event_page/
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_language.dart';
+import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_time.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_type.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_location_widget.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
@@ -85,11 +86,11 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
         if (next is AsyncData && prev is AsyncLoading) {
           // if (context.canPop()) {
           ctx.pop();
-          AppToast.doneToast('Done');
+          AppToast.doneToast("successfullyCompleted".tr());
 
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-ref.read(homeControllerProvider.notifier)
+          ref.read(homeControllerProvider.notifier)
             ..getUserEvents(page: 1)
             ..getUtils();
           context.go(
@@ -211,9 +212,30 @@ ref.read(homeControllerProvider.notifier)
                             onSelectDate: (date) {
                               ref
                                   .read(addEventControllerProvider.notifier)
-                                  .updateEvent(
-                                    EventModel(date: date.toString()),
-                                  );
+                                  .updateEventDate(date);
+                            },
+                          );
+                        },
+                      ),
+
+                      20.verticalSpace,
+                      //? Date :
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final date = ref.watch(
+                            addEventControllerProvider.select(
+                              (val) => val.value!.eventModel?.date,
+                            ),
+                          );
+                          return EventDetailsTime(
+                            dateTime: DateTime.parse(
+                              date ?? DateTime.now().toString(),
+                            ),
+                            // controller: ,
+                            onSelectTime: (date) {
+                              ref
+                                  .read(addEventControllerProvider.notifier)
+                                  .updateEventTime(date);
                             },
                           );
                         },
@@ -320,8 +342,7 @@ ref.read(homeControllerProvider.notifier)
                           AddEventPageBotton(
                             onTap: () {
                               if (key.currentState!.validate()) {
-                                // if (image != null) {
-
+                              
                                 ref.read(addEventControllerProvider.notifier)
                                   ..updateEvent(
                                     EventModel(
@@ -331,10 +352,6 @@ ref.read(homeControllerProvider.notifier)
                                     ),
                                   )
                                   ..createEvent();
-
-                                // } else {
-                                //   AppToast.errorToast('image is required');
-                                // }
                               }
                             },
                             isSubmit: false,

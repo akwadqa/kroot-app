@@ -1,3 +1,4 @@
+import 'package:kroot_app/src/notifications/notifications/services/notification_service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/features/auth/data/repo/auth_repository.dart';
@@ -37,6 +38,9 @@ class AuthController extends _$AuthController {
         return;
       }
       await ref.read(userDataProvider.notifier).setData(result.data!.token!);
+      await ref
+          .read(notificationsServiceProvider)
+          .sendDeviceToken(result.data!.email!);
 
       state = AsyncData(
         state.value?.copyWith(verifyOtpResponse: result.data) ??

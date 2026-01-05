@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:excel/excel.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:file_picker/file_picker.dart';
@@ -182,6 +183,39 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(state.value!.copyWith(handlers: newHandlers));
   }
 
+  void updateEventDate(DateTime newDate) {
+    final current = DateTime.parse(
+      state.value?.eventModel?.date ?? DateTime.now().toString(),
+    );
+
+
+    final updated = DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      current?.hour ?? 0,
+      current?.minute ?? 0,
+    );
+
+    updateEvent(EventModel(date: updated.toString()));
+  }
+
+  void updateEventTime(TimeOfDay newTime) {
+    final current = DateTime.parse(
+      state.value?.eventModel?.date ?? DateTime.now().toString(),
+    );
+
+    final updated = DateTime(
+      current.year,
+      current.month,
+      current.day,
+      newTime.hour,
+      newTime.minute,
+    );
+
+    updateEvent(EventModel(date: updated.toString()));
+  }
+
   void updateEvent(EventModel newData) {
     // final current = EventModel();
     final current = state.value?.eventModel ?? EventModel();
@@ -202,7 +236,7 @@ class AddEventController extends _$AddEventController {
         ?.utilsResponse
         ?.value
         ?.templates
-        ?.firstWhere((e) => lang.toLowerCase().contains(e.language??'ar'));
+        ?.firstWhere((e) => lang.toLowerCase().contains(e.language ?? 'ar'));
 
     state = AsyncData(
       state.value!.copyWith(

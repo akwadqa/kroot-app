@@ -120,38 +120,38 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
               surfaceTintColor: AppColors.white,
               title: const SizedBox.shrink(),
 
-              leadingWidth: 52.w,
-              leading: Padding(
-                padding: EdgeInsets.only(left: 22.w),
-                child: GestureDetector(
-                  onTap: () {
-                    if (context.canPop()) {
-                      context.pop();
-                    } else {
-                      context.go(Routes.main);
-                    }
-                  },
-                  child: Assets.icons.verificationArrowBackIc.svg(),
-                ),
-              ),
-
+              leadingWidth: 74.w,
+              leading: context.locale.languageCode == 'ar'
+                  ? controller!.maybeWhen(
+                      orElse: () => const SizedBox.shrink(),
+                      data: (data) {
+                        if (data.role == 'owner' ||
+                            data.role == 'handler_edit') {
+                          return Padding(
+                            padding: EdgeInsets.only(right: 22.w, left: 22.w),
+                            child: GestureDetector(
+                              onTap: () => _buildBottomSheet(
+                                context,
+                                widget.eventModel ?? data,
+                              ),
+                              child: Assets.icons.optionsIc.svg(width: 30.w),
+                            ),
+                          );
+                        }
+                        return SizedBox.shrink();
+                      },
+                    )
+                  : _backButton(context),
               actions: [
-                widget.eventModel != null
-                    ? Padding(
-                        padding: EdgeInsets.only(right: 22.w),
-                        child: GestureDetector(
-                          onTap: () =>
-                              _buildBottomSheet(context, widget.eventModel!),
-                          child: Assets.icons.optionsIc.svg(width: 30.w),
-                        ),
-                      )
+                context.locale.languageCode == 'ar'
+                    ? _backButton(context)
                     : controller!.maybeWhen(
                         orElse: () => const SizedBox.shrink(),
                         data: (data) {
                           if (data.role == 'owner' ||
                               data.role == 'handler_edit') {
                             return Padding(
-                              padding: EdgeInsets.only(right: 22.w),
+                              padding: EdgeInsets.only(right: 22.w, left: 22.w),
                               child: GestureDetector(
                                 onTap: () => _buildBottomSheet(
                                   context,
@@ -346,6 +346,27 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
       //           },
       //         ),
       // ),
+    );
+  }
+
+  Padding _backButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 22.w,
+        right: context.locale.languageCode == 'ar' ? 0 : 22.w,
+      ),
+      child: GestureDetector(
+        onTap: () {
+          if (context.canPop()) {
+            context.pop();
+          } else {
+            context.go(Routes.main);
+          }
+        },
+        child: Assets.icons.verificationArrowBackIc.svg(
+          width: context.locale.languageCode == 'ar' ? 30.w : null,
+        ),
+      ),
     );
   }
 

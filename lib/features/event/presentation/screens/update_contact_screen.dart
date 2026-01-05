@@ -55,7 +55,7 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
         if (next is AsyncData && prev is AsyncLoading) {
           // if (context.canPop()) {
           ctx.pop();
-          AppToast.doneToast('Done');
+          AppToast.doneToast("successfullyCompleted".tr());
 
           // context.pushReplacement(Routes.main);
           // ref.read(bottomNavIndexProvider.notifier).setIndex(0);

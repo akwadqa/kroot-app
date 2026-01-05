@@ -13,6 +13,7 @@ abstract class AppNotificationsModel with _$AppNotificationsModel {
     required String? item,
 
     @JsonKey(name: "published_on") required String? publishedOn,
+    @JsonKey(name: "expiry_date") required String? expiryDate,
     @JsonKey(name: "content") required String? content,
   }) = _AppNotificationsModel;
 
