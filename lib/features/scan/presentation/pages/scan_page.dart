@@ -66,6 +66,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   }
 
   Widget _buildBody(List<EventModel> events) {
+    debugPrint(events.length.toString()??"kod");
     return AppPaginationWidget(
       enablePullDown: true,
       onRefresh: () =>

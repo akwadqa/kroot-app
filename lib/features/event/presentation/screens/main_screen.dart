@@ -7,10 +7,12 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/screens/add_event_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/home_screen.dart';
+import 'package:kroot_app/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:kroot_app/features/profile/presentation/pages/profile_screen.dart';
 import 'package:kroot_app/features/scan/presentation/pages/scan_page.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
+import 'package:kroot_app/src/notifications/notifications/services/notification_service.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/bottom_navigation_bar_view.dart';
 import 'package:kroot_app/features/event/presentation/screens/manage_access_page.dart';
@@ -64,12 +66,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       ScanPage(),
       // EventDetailsScreen(),
       // AddEventScreen(),
-      ProfileScreen(),
 
       // SizedBox(),
       // ManageAccessPage(),
       // Center(child: MailPulseAnimation()),
-      SizedBox(),
+      // SizedBox(),
+      // Center(child: MailPulseAnimation()),
+      NotificationsScreen(),
+      ProfileScreen(),
 
       // SizedBox(),
       // Center(
@@ -122,7 +126,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
               );
             } else {
               context.push(Routes.createEvent);
-              // ref.read(bottomNavIndexProvider.notifier).setIndex(index);
             }
           }
         },
