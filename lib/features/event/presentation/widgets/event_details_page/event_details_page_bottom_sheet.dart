@@ -22,10 +22,8 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
       padding: EdgeInsets.all(22.w),
       child: Column(
         children: [
-          //? App bar :
           Row(
             children: [
-              //? Title :
               Text(
                 context.tr('moreOptions'),
                 style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -34,7 +32,6 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
               ),
               Spacer(),
 
-              //? Close button :
               GestureDetector(
                 onTap: () => context.pop(),
                 child: Assets.icons.closeIc.svg(),
@@ -43,7 +40,6 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
           ),
           33.verticalSpace,
 
-          //? Manage access :
           if (event.role == 'owner')
             ListTile(
               onTap: () {
@@ -61,14 +57,10 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
           if (event.role == 'owner')
             Divider(color: AppColors.lightGray02, height: 0),
 
-          //? Edit event :
           if (event.status == 'Draft')
             ListTile(
               onTap: () {
                 context.push(Routes.updateEvent, extra: {'model': event});
-                // ref
-                //     .read(homeControllerProvider.notifier)
-                //     .updateEvent(CreateEventRequest());
               },
               contentPadding: EdgeInsets.zero,
               leading: Assets.icons.editEventIc.svg(),
@@ -81,7 +73,6 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
             ),
           Divider(color: AppColors.lightGray02, height: 0),
 
-          //? Delete event :
           if (event.role == 'owner')
             ListTile(
               onTap: () {

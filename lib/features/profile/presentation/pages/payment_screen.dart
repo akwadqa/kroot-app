@@ -19,7 +19,6 @@ class PaymentScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<PaymentScreen> createState() => _PaymentScreenState();
 }
-// 'https://kroot.akwad.qa/payment_form?order_id=al6ci2t52a&subscription_type=Basic&language=ENG',
 
 class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   late final WebViewController controller;
@@ -36,13 +35,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
           },
         ),
       )
-      ..loadRequest(
-        Uri.parse(
-          widget.paymentUrl,
-          // 'https://kroot.akwad.qa/payment_form?order_id=al6ci2t52a&subscription_type=Basic&language=ENG',
-          // 'https://kroot.akwad.qa/payment_form?order_id=k9rh8gu6li&subscription_type=Basic&language=ENG',
-        ),
-      );
+      ..loadRequest(Uri.parse(widget.paymentUrl));
   }
 
   Future<void> _onPageFinished(String url) async {
@@ -55,7 +48,6 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
 
       debugPrint('📄 Body content: $bodyText');
 
-      // if (Platform.isAndroid && (bodyText as String).contains('Txn Success')) {
       if (Platform.isAndroid && (bodyText as String).contains('message')) {
         _handleResult(bodyText);
       }
@@ -65,38 +57,27 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   }
 
   void _handleResult(String rawBody) {
-    // if (_hasCompleted) return;
-    // _hasCompleted = true;
-
     try {
       final bodyStr = rawBody.toString();
 
-      // 1. Remove surrounding quotes if needed (on Android)
       final unquoted = bodyStr.startsWith('"') ? json.decode(bodyStr) : bodyStr;
 
-      // 2. Parse the inner JSON string
       final parsed = json.decode(unquoted);
 
-      print('----------------------');
-      print(parsed['message']);
-
       if (parsed['message'] == 'Txn Success') {
-        // if (parsed['message'] == 'Txn Success') {
-        // widget.onResult?.call(true);
-        // context.pop(); // ✅ Return to success screen
         ref.read(bottomNavIndexProvider.notifier).setIndex(0);
         ref.read(homeControllerProvider.notifier).getUtils();
         context.go(Routes.main);
         AppToast.doneToast('Payment succeeded');
       } else {
         debugPrint("⚠️ Payment failed or unknown response: $parsed");
-        // widget.onResult?.call(false);
-        context.pop(); // optional: go back with failure
+
+        context.pop();
         AppToast.errorToast('Payment failed');
       }
     } catch (e) {
       debugPrint("❌ Failed to decode or handle result: $e");
-      // widget.onResult?.call(false);
+
       context.pop();
     }
   }

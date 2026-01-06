@@ -59,22 +59,20 @@ class UpdateEventController extends _$UpdateEventController {
     }
   }
 
-  
   void updateEventDate(DateTime newDate, String id) {
     final current = DateTime.parse(
       state.value?.updatedEvent?.date ?? DateTime.now().toString(),
     );
 
-
     final updated = DateTime(
       newDate.year,
       newDate.month,
       newDate.day,
-      current?.hour ?? 0,
-      current?.minute ?? 0,
+      current.hour,
+      current.minute,
     );
 
-    updateDataForEvent(EventModel(date: updated.toString()),id);
+    updateDataForEvent(EventModel(date: updated.toString()), id);
   }
 
   void updateEventTime(TimeOfDay newTime, String id) {
@@ -90,10 +88,8 @@ class UpdateEventController extends _$UpdateEventController {
       newTime.minute,
     );
 
-    updateDataForEvent(EventModel(date: updated.toString()),id);
+    updateDataForEvent(EventModel(date: updated.toString()), id);
   }
-
-
 
   Future<UpdateHandlersResponse?> updateHandlers() async {
     try {
@@ -102,7 +98,6 @@ class UpdateEventController extends _$UpdateEventController {
       );
       final repo = ref.read(homeRepositoryProvider);
 
-       
       final response = await repo.updateHandlers(
         state.value!.updatedEvent!.occasionId!,
         List.from([...state.value!.handlers, ...state.value!.operators]),
@@ -234,11 +229,9 @@ class UpdateEventController extends _$UpdateEventController {
     List<GuestModel> guests,
   ) {
     final newList = guests.map((g) {
-      // استخراج الاسم
       String? first = g.firstName;
       String? last = g.lastName;
 
-      // في حال fullName موجود ولا يوجد first/last
       if ((first == null || first.isEmpty) &&
           (last == null || last.isEmpty) &&
           g.fullName != null) {
@@ -249,16 +242,14 @@ class UpdateEventController extends _$UpdateEventController {
 
       final number = g.whatsappNumber ?? "";
 
-      // إنشاء Contact بالطريقة الصحيحة
       final contact = Contact(
         id: const Uuid().v4(),
         name: Name(first: first ?? "", last: last ?? ""),
         phones: [Phone(number.substring(3))],
-        // phones: number.trim().isNotEmpty ? [Phone(number.trim())] : [],
+
         displayName: "${first ?? ''} ${last ?? ''}".trim(),
       );
 
-      // تحويله إلى SelectedContact
       return SelectedContact(
         contact: contact,
         count: g.partySize ?? 0,
@@ -273,10 +264,9 @@ class UpdateEventController extends _$UpdateEventController {
   }
 
   String normalize(String s) {
-    return s.replaceAll(RegExp(r'\D+'), ''); // يحذف كل شيء غير الأرقام
+    return s.replaceAll(RegExp(r'\D+'), '');
   }
 
-  //? This for make
   void selectContactForUpdatedEvent(Contact contact) {
     final currentState = state.value!;
     List<SelectedContact> selectedList = currentState.selectedContacts!;
@@ -287,21 +277,18 @@ class UpdateEventController extends _$UpdateEventController {
           .where((c) => c.contact.id != contact.id)
           .toList();
     } else {
-      //? The code :
       final code =
           contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(1, 4)
           : '974';
 
-      //? Number without 0 or + :
       final number =
           contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(4)
           : contact.phones.first.number.replaceAll(' ', '').substring(1);
 
-      //? New contact :
       final newContact = Contact(
         id: contact.id,
         displayName: contact.displayName,
@@ -312,21 +299,7 @@ class UpdateEventController extends _$UpdateEventController {
             .toList(),
       );
 
-      print('''
-
-        number is : ${contact.phones.first.number}
-        number after edit : $number
-
-        code : $code
-
-        new Contact number after edit : ${newContact.phones.first.number}
-
-
-
-
-
-''');
-
+    
       selectedList = [
         ...selectedList,
         SelectedContact(
@@ -340,8 +313,6 @@ class UpdateEventController extends _$UpdateEventController {
 
     state = AsyncData(currentState.copyWith(selectedContacts: selectedList));
   }
-
-  //? This for update event :
 
   Future<CreateEventResponse?> updateEventToServer(String id) async {
     try {
@@ -357,11 +328,8 @@ class UpdateEventController extends _$UpdateEventController {
           StackTrace.fromString(response.message ?? ''),
         );
         state = AsyncData(state.value!.copyWith(isUpdateEvent: false));
-
-        // throw Exception(response.message);
       }
 
-      // state = AsyncData(state.value!.copyWith(eventResponse: eventResponse));
       state = AsyncData(
         state.value!.copyWith(
           createEventResponse: response.data,
@@ -387,16 +355,13 @@ class UpdateEventController extends _$UpdateEventController {
 
     state = AsyncData(
       state.value!.copyWith(
-        // updatedEvent: current?.copyWith(
         updatedEvent: EventModel(
           occasionId: id,
           type: current?.type ?? currentEvent?.type,
           title: current?.title ?? currentEvent?.title,
           date: current?.date ?? currentEvent?.date,
           language: current?.language ?? currentEvent?.language,
-          // mapLink: current?.mapLink ?? currentEvent?.mapLink,
-          // locationName: current?.locationName ?? currentEvent?.locationName,
-          // image: newData.image ?? current?.image  ?? currentEvent?.image,
+
           image: null,
           imageUrl: null,
           inviteTemplate:
@@ -411,7 +376,6 @@ class UpdateEventController extends _$UpdateEventController {
     );
   }
 
-  //? This for update contact name :
   void updateContactName(
     Contact contact,
     String firstName,
@@ -419,11 +383,9 @@ class UpdateEventController extends _$UpdateEventController {
     String code,
     int count,
   ) {
-    print('update started');
     final currentState = state.value!;
 
     final updatedList = currentState.selectedContacts?.map((sc) {
-      // استخدام الـ id للمطابقة
       if (sc.contact.id == contact.id) {
         final updatedContact = Contact(
           id: sc.contact.id,
@@ -437,10 +399,6 @@ class UpdateEventController extends _$UpdateEventController {
           displayName: "$firstName $lastName",
         );
 
-        print('updated contact last name: ${updatedContact.name.last}');
-        print('updated code: code $code');
-
-        // return sc.copyWith(contact: updatedContact, code: code);
         return SelectedContact(
           contact: updatedContact,
           code: code,
@@ -448,19 +406,15 @@ class UpdateEventController extends _$UpdateEventController {
           count: count,
         );
       }
-      print('we dont update');
 
       return sc;
     }).toList();
-
-    print(updatedList?.first.code);
 
     state = AsyncData(
       currentState.copyWith(selectedContacts: List.from(updatedList!)),
     );
   }
 
-  //? This for unchecked contact :
   void deleteSelectedContact(Contact contact) {
     final currentState = state.value!;
 
@@ -504,7 +458,6 @@ class UpdateEventController extends _$UpdateEventController {
     }
   }
 
-  //? This for add guest for party :
   void incrementCount(SelectedContact contact) {
     final currentState = state.value!;
     final updatedList = currentState.selectedContacts?.map((sc) {
@@ -517,7 +470,6 @@ class UpdateEventController extends _$UpdateEventController {
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
 
-  //? This for minus guest for party :
   void decrementCount(SelectedContact contact) {
     final currentState = state.value!;
     final updatedList = currentState.selectedContacts?.map((sc) {
@@ -530,29 +482,11 @@ class UpdateEventController extends _$UpdateEventController {
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
 
-  //? This for update event
-
   void updateDataForEvent(EventModel newData, String id) {
     final current = state.value?.updatedEvent;
-    // final currentEvent = ref
-    //     .read(homeControllerProvider)
-    //     .value
-    //     ?.utilsResponse
-    //     ?.value
-    //     ?.eventTypes
-    //     ?.first;
 
     state = AsyncData(
       state.value!.copyWith(
-        // latLng: LatLng(
-        //   lat: double.parse(
-        //     newData.mapLatitude ?? current?.mapLatitude ?? '0.0',
-        //   ),
-        //   lng: double.parse(
-        //     newData.mapLongitude ?? current?.mapLongitude ?? '0.0',
-        //   ),
-        // ),
-        // updatedEvent: current?.copyWith(
         updatedEvent: EventModel(
           occasionId: id,
           type: newData.type ?? current?.type,
@@ -564,12 +498,7 @@ class UpdateEventController extends _$UpdateEventController {
           locationName: newData.locationName ?? current!.locationName,
           date: newData.date ?? current?.date,
           language: newData.language ?? current?.language,
-          // mapLink: newData.mapLink ?? current?.mapLink ?? currentEvent?.mapLink,
-          // locationName:
-          //     newData.locationName ??
-          //     current?.locationName ??
-          //     currentEvent?.locationName,
-          // image: newData.image ?? current?.image  ?? currentEvent?.image,
+
           image: newData.image ?? current?.image,
           imageUrl: newData.imageUrl ?? current?.imageUrl,
           inviteTemplate: newData.inviteTemplate ?? current?.inviteTemplate,
@@ -583,33 +512,23 @@ class UpdateEventController extends _$UpdateEventController {
     );
   }
 
-  //? This for make contacts selected from guest model :
   void setSelectedContactsFromGuests(List<GuestModel> guests) {
     final newGusts = guests.map((g) {
-      // تحليل الاسم
       final fullName = g.fullName ?? '';
       final parts = fullName.split(' ');
       final first = parts.isNotEmpty ? parts.first : '';
       final last = parts.length > 1 ? parts.sublist(1).join(' ') : '';
 
-      // بناء Contact
       final contact = Contact()
         ..displayName = fullName
         ..name = Name(first: first, last: last)
         ..phones = [Phone(g.whatsappNumber!.substring(4))];
 
-      print('''
-
-        the number is : ${contact.phones.first.number}
-
-''');
-
-      // بناء SelectedContact
       return SelectedContact(
         id: const Uuid().v4(),
         contact: contact,
         count: g.partySize ?? 0,
-        // code: g.whatsappNumber!.substring(0, 4),
+
         code: '9',
       );
     }).toList();
@@ -617,25 +536,20 @@ class UpdateEventController extends _$UpdateEventController {
     state = AsyncData(state.value!.copyWith(selectedContacts: newGusts));
   }
 
-  //? This for change the contact to gust model :
   List<GuestModel>? setGuestListFromContacts() {
     final selectedContacts = state.value!.selectedContacts;
     return selectedContacts?.map((s) {
-      final nameParts = (s.contact.displayName ?? '').split(' ');
+      final nameParts = (s.contact.displayName).split(' ');
       final firstName = nameParts.isNotEmpty ? nameParts.first : null;
       final lastName = nameParts.length > 1
           ? nameParts.sublist(1).join(' ')
           : null;
 
       final number = (s.contact.phones.isNotEmpty)
-          // ? '${s.code}${s.contact.phones.first.number}'
           ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
-                ? '${s.contact.phones.first.number.replaceAll(' ', '')}'
-                // ? '${s.contact.phones.first.number.replaceAll(' ', '').substring(1)}'
-                // : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '').substring(4)}'
+                ? s.contact.phones.first.number.replaceAll(' ', '')
                 : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
           : null;
-      // return {};
 
       return GuestModel(
         firstName: firstName,
@@ -648,14 +562,12 @@ class UpdateEventController extends _$UpdateEventController {
 
   Future<void> importGuestsFromFile() async {
     try {
-      //? Pick a file :
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['csv', 'xlsx'],
       );
 
       if (result == null) {
-        // state = AsyncError("لم يتم اختيار أي ملف", StackTrace.current);
         return;
       }
 
@@ -670,7 +582,6 @@ class UpdateEventController extends _$UpdateEventController {
       List<List<dynamic>> rows = [];
       Map<String, int> colIndex = {};
 
-      //? Read Excel :
       if (extension == 'xlsx') {
         final bytes = File(path).readAsBytesSync();
 
@@ -694,9 +605,7 @@ class UpdateEventController extends _$UpdateEventController {
         for (var row in sheet.rows) {
           rows.add(row.map((c) => c?.value).toList());
         }
-      }
-      //? Read CSV :
-      else if (extension == 'csv') {
+      } else if (extension == 'csv') {
         final content = File(path).readAsStringSync();
         rows = const CsvToListConverter().convert(content);
       } else {
@@ -708,7 +617,7 @@ class UpdateEventController extends _$UpdateEventController {
         state = AsyncError('This file is empty', StackTrace.current);
         return;
       }
-      //? Cleaning the header and check :
+
       final cleanHeader = rows.first.map((e) {
         return e.toString().trim().toLowerCase().replaceAll(
           RegExp(r'[\ufeff\s]'),
@@ -726,7 +635,6 @@ class UpdateEventController extends _$UpdateEventController {
       for (var col in requiredCols) {
         if (!cleanHeader.contains(col)) {
           state = AsyncError(
-            // "العمود '$col' غير موجود في الملف",
             "The column $col isn't exist in the file",
             StackTrace.current,
           );
@@ -735,7 +643,6 @@ class UpdateEventController extends _$UpdateEventController {
         colIndex[col] = cleanHeader.indexOf(col);
       }
 
-      //? Convert data to Selected Contact :
       List<SelectedContact> imported = [];
 
       for (int i = 1; i < rows.length; i++) {
@@ -765,13 +672,11 @@ class UpdateEventController extends _$UpdateEventController {
         );
       }
 
-      //? Merge new with old :
       final existing = state.value!.selectedContacts ?? [];
       final updated = [...existing, ...imported];
 
       state = AsyncData(state.value!.copyWith(selectedContacts: updated));
 
-      //? Update the event data :
       updateDataForEvent(
         state.value!.updatedEvent!,
         state.value!.updatedEvent!.occasionId!,
@@ -796,26 +701,11 @@ class UpdateEventController extends _$UpdateEventController {
       EventModel(mapLatitude: lat.toString(), mapLongitude: lng.toString()),
       state.value!.updatedEvent!.occasionId!,
     );
-    // state = AsyncData(
-    //   state.value!.copyWith(
-    //     updatedEvent: EventModel(
-    //       mapLatitude: lat.toString(),
-    //       mapLongitude: lng.toString(),
-    //     ),
-    //     // latLng: LatLng(lat: lat, lng: lng),
-    //   ),
-    // );
   }
 
   Future<void> getPlaceInfoFromLatLng(String id) async {
-    final lat =
-        state.value!.updatedEvent?.mapLatitude ??
-        // state.value!.latLng.lat ??
-        25.2854473;
-    final lng =
-        state.value!.updatedEvent?.mapLongitude ??
-        // state.value!.latLng.lng ??
-        51.53103979999999;
+    final lat = state.value!.updatedEvent?.mapLatitude ?? 25.2854473;
+    final lng = state.value!.updatedEvent?.mapLongitude ?? 51.53103979999999;
     try {
       state = AsyncData(state.value!.copyWith(selectedPlace: AsyncLoading()));
       final apiKey = dotenv.env['MAPS_API_KEY'];
@@ -846,17 +736,12 @@ class UpdateEventController extends _$UpdateEventController {
           mapLatitude: lat.toString(),
           mapLongitude: lng.toString(),
         ),
-        // state.value!.updatedEvent!.occasionId!,
+
         id,
       );
-      print('--------$lat --------$lng');
 
       state = AsyncData(
         state.value!.copyWith(
-          // latLng: LatLng(
-          //   lat: double.parse(lat.toString()),
-          //   lng: double.parse(lng.toString()),
-          // ),
           selectedPlace: AsyncData(
             SelectedPlace(
               placeId: placeId,
@@ -867,14 +752,12 @@ class UpdateEventController extends _$UpdateEventController {
         ),
       );
     } catch (e, st) {
-      print("Reverse Geocoding Error: $e");
       state = AsyncData(
         state.value!.copyWith(selectedPlace: AsyncError(e, st)),
       );
     }
   }
 
-  //? This for get only the location name with out the address before :
   String cleanName(String address) {
     final parts = address.split(',');
     if (parts.length > 1) {

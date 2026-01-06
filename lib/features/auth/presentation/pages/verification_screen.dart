@@ -53,7 +53,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       }
 
       if (next is AsyncError) {
-        // if (prev is AsyncLoading) context.pop();
         if (prev is AsyncLoading) context.pop();
         Future.delayed(const Duration(milliseconds: 100), () {
           AppToast.errorToast(next.error.toString());
@@ -85,10 +84,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
             .read(authUiControllerProvider.notifier)
             .makeResendButtonVisibleOrNo(false);
         AppToast.doneToast('Code resend!');
-
-        // } else {
-        // context.push(Routes.home);
-        // }
       }
     });
 
@@ -100,7 +95,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
           children: [
             28.verticalSpace,
 
-            //? Back button :
             Directionality(
               textDirection: ui.TextDirection.ltr,
               child: Align(
@@ -117,7 +111,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
             ),
             79.verticalSpace,
 
-            //? Code title :
             Text(
               context.tr('VerificationCodeValidatorMessage'),
               style: AppTextStyle.rubikMedium20.copyWith(
@@ -144,7 +137,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                         }),
                       );
                       return Text(
-                        // ' +974*******72',
                         widget.number ?? number ?? '',
                         style: AppTextStyle.rubikRegular16.copyWith(
                           color: AppColors.primary,
@@ -157,31 +149,26 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
             ),
 
             20.verticalSpace,
-            //? Pin field :
+
             VerificationPagePin(controller: controller),
             20.verticalSpace,
 
-            //? Confirm button:
             VerificationPageConfirmButton(
               onTap: !ref.read(authUiControllerProvider).isResendVisible
                   ? () {
                       if (_key.currentState!.validate()) {
                         ref
                             .read(authControllerProvider.notifier)
-                            //TODO:
                             .verifyOtp(controller.text, widget.number);
-                        // .verifyOtp('557733', widget.number);
                       }
                     }
                   : null,
             ),
             15.verticalSpace,
 
-            //? Expiered :
             VerificationPageExpiredTimer(),
             15.verticalSpace,
 
-            //? Resend code :
             Visibility(
               visible: ref.watch(authUiControllerProvider).isResendVisible,
               child: TextButton(
@@ -221,7 +208,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                     mainAxisSpacing: 7.h,
                   ),
                   itemBuilder: (context, index) {
-                    //? Delete button :
                     if (index == 9) {
                       return VerificationPageInputButton.delet(() {
                         if (controller.text.isNotEmpty) {
@@ -233,7 +219,6 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                       });
                     }
 
-                    //? Confirm button :
                     if (index == 11) {
                       return VerificationPageInputButton.done(
                         !ref.read(authUiControllerProvider).isResendVisible

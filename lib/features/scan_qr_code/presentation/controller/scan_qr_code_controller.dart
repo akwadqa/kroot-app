@@ -15,7 +15,7 @@ class ScanQrCodeController extends _$ScanQrCodeController {
 
   Future<bool> setScannedCode(String qr) async {
     state = AsyncData(state.value!.copyWith(scannedCode: qr));
-    // await loadGates();
+
     return true;
   }
 
@@ -26,7 +26,6 @@ class ScanQrCodeController extends _$ScanQrCodeController {
     state = AsyncData(state.value!.copyWith(gates: res.data ?? const []));
   }
 
-  /// UI will decide how to present success/denied.
   Future<ApiResponse<CheckinPayload>> verifyAtGate(String gateName) async {
     final qr = state.value?.scannedCode ?? '';
     final repo = ref.read(scanDriverQrRepositoryProvider);
@@ -39,29 +38,16 @@ class ScanQrCodeController extends _$ScanQrCodeController {
   }
 
   Future<ApiResponse<CheckinPayload>> verifyAtGuest(String inviteeId) async {
-    // final qr = state.value?.scannedCode ?? '';
     final repo = ref.read(scanDriverQrRepositoryProvider);
     return repo.fetchByQrCode(inviteeId: inviteeId);
   }
 
   Future<ApiResponse<CheckinPayload>> checkInGuest(String inviteeId) async {
-    // state = const AsyncLoading();
-
     try {
       final response = await verifyAtGuest(inviteeId);
 
       if (response.hasSucceeded) {
-        // update guest status in memory to confirmed
-        // final updated = _guests.map((g) {
-        //   if (g.name == inviteeId) {
-        //     return g.copyWith(rsvpStatus: RsvpStatus.confirmed);
-        //   }
-        //   return g;
-        // }).toList();
-
-        // _guests = updated;
         return response;
-        // state = AsyncData(updated);
       } else {
         state = AsyncError(
           response.message ?? "Check-in failed",
@@ -69,7 +55,6 @@ class ScanQrCodeController extends _$ScanQrCodeController {
         );
         return response;
       }
-      
     } catch (e, st) {
       state = AsyncError(e, st);
       throw AppException();
@@ -92,27 +77,3 @@ class ScanDriverQrState {
     );
   }
 }
-
-// class ScanDriverQrState {
-//   final bool scanned;
-//   final String? scannedCode;
-//   final List<GatesInfoModel> gates;
-
-//   const ScanDriverQrState({
-//     this.scanned = false,
-//     this.scannedCode,
-//     this.gates = const [],
-//   });
-
-//   ScanDriverQrState copyWith({
-//     bool? scanned,
-//     String? scannedCode,
-//     List<GatesInfoModel>? gates,
-//   }) {
-//     return ScanDriverQrState(
-//       scanned: scanned ?? this.scanned,
-//       scannedCode: scannedCode ?? this.scannedCode,
-//       gates: gates ?? this.gates,
-//     );
-//   }
-// }

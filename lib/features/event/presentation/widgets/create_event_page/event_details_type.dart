@@ -20,22 +20,13 @@ class EventDetailsType extends ConsumerWidget {
     final items = ref.watch(
       homeControllerProvider.select((val) {
         return val.value!.utilsResponse!.value!.eventTypes;
-        // return [''];
       }),
     );
 
     return CreateEventPageSelectLanguageField(
-      // value: ref.watch(
-      //   homeControllerProvider.select((val) {
-      //     // val.value!.createEventRequest?.type ?? [];
-      //   }),
-      // ),
       value: value,
       onChanged: (val) {
         onTypeChange(val);
-        // ref
-        //     .read(homeControllerProvider.notifier)
-        //     .updateEvent(EventModel(type: val));
       },
       title: context.tr('eventType'),
       items: items!

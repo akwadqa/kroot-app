@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +19,6 @@ class LocationSearchBox extends ConsumerWidget {
 
     return Column(
       children: [
-        /// TEXT FIELD
         HomePageSearchField(
           isLocation: true,
           hint: context.tr('search'),
@@ -33,7 +31,6 @@ class LocationSearchBox extends ConsumerWidget {
 
         const SizedBox(height: 6),
 
-        /// LIST OF PREDICTIONS
         if (state?.value?.isNotEmpty ?? false)
           Container(
             width: double.infinity,

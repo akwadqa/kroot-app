@@ -1,7 +1,6 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kroot_app/src/constants/Api/pagination.dart';
-// part 'api_response.g.dart';
+
 @JsonSerializable(genericArgumentFactories: true)
 class ApiResponse<T> {
   ApiResponse(this.status, this.message, this.data, this.pagination);
@@ -21,7 +20,6 @@ class ApiResponse<T> {
     try {
       final statusCode = json['status_code'] ?? json['status'];
       final hasError =
-      //? I make the condition here for success on create to 201 :
           json['error'] == 1 || (statusCode != null && statusCode > 201);
 
       if (hasError) {
@@ -31,16 +29,10 @@ class ApiResponse<T> {
         );
       }
 
-      // For void responses, skip data parsing
       if (T.toString() == 'void') {
         return ApiResponse<T>.success(message: json['message'], data: null);
       }
-      // if (json['status_code'] != 200 || json['error'] == 1) {
-      //   return ApiResponse<T>.error(
-      //     message: json['message']?.toString() ?? 'Unknown error',
-      //     error: json['error'],
-      //   );
-      // } else {
+
       T data = fromJsonT(json['data']);
       return ApiResponse<T>.success(
         message: json['message'],
@@ -49,7 +41,6 @@ class ApiResponse<T> {
             : null,
         data: data,
       );
-      // }
     } catch (error) {
       return ApiResponse<T>.error(message: error.toString(), error: error);
     }

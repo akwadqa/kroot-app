@@ -34,7 +34,6 @@ class EditGuestBottomSheet extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  //? Title :
                   Text(
                     context.tr('selectOption'),
                     style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -44,7 +43,6 @@ class EditGuestBottomSheet extends ConsumerWidget {
                   Spacer(),
                   20.verticalSpace,
 
-                  //? Close button :
                   GestureDetector(
                     onTap: () => context.pop(),
                     child: Assets.icons.closeIc.svg(),
@@ -52,9 +50,8 @@ class EditGuestBottomSheet extends ConsumerWidget {
                 ],
               ),
 
-              // Spacer(),
               20.verticalSpace,
-              //? Edit guest button :
+
               CustomButtonWidget(
                 text: '',
                 content: Row(
@@ -72,7 +69,6 @@ class EditGuestBottomSheet extends ConsumerWidget {
                 ),
                 backgroundColor: AppColors.primary,
                 onTap: () {
-                  //? This to navigate to new bottom sheet :
                   ref
                       .read(homeUiControllerProvider.notifier)
                       .changeBottomIndex();
@@ -83,7 +79,6 @@ class EditGuestBottomSheet extends ConsumerWidget {
               ),
               20.verticalSpace,
 
-              //? Delete guest button :
               CustomButtonWidget(
                 text: '',
                 content: Row(

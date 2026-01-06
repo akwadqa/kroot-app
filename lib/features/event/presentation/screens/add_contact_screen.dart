@@ -10,7 +10,6 @@ import 'package:kroot_app/features/event/presentation/controller/home_controller
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/add_contact_page/add_contact_page_tile.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
-import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
@@ -44,80 +43,33 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
     late BuildContext ctx;
 
     ref.listen(addEventControllerProvider, (prev, next) {
-      //? This listener for create event in this screen :
       if (next.value!.isAddEvent != null) {
-        //? For loading :
         if (next is AsyncLoading) {
           AppAlert.showLoadingDialog(ctx);
         }
 
         if (next is AsyncData && prev is AsyncLoading) {
-          // if (context.canPop()) {
           ctx.pop();
           AppToast.doneToast("successfullyCompleted".tr());
 
-          // context.pushReplacement(Routes.main);
-          // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
           ref.read(homeControllerProvider.notifier)
             ..getUserEvents(page: 1)
             ..getUtils();
 
           context.go(
             Routes.eventDetails,
-            // extra: widget.id != null
-            //? next.value!.updatedEvent!.occasionId
+
             extra: next.value!.createEventResponse?.eventId,
           );
           ref.read(addEventControllerProvider.notifier).clearEventScreen();
         }
-        // }
 
         if (next is AsyncError && prev is AsyncLoading) {
           ctx.pop();
           AppToast.errorToast(next.error.toString());
         }
       }
-
-      // if (next.value?.isGetContacts == null) {
-      //   //? Loading :
-      //   if (next is AsyncLoading && (next.value?.isGetContacts == false)) {
-      //     AppAlert.showLoadingDialog(ctx);
-      //   }
-
-      //   //? Loaded and the last will be loading - not error :
-      //   if (next is AsyncData && prev is AsyncLoading) {
-      //     //? Close the loading
-      //     ctx.pop();
-
-      //     //? Go to home
-      //     // context.pushReplacement(Routes.main);
-      //     context.pushReplacement(
-      //       Routes.eventDetails,
-      //       extra: next.value!.createEventResponse?.eventId,
-      //     );
-
-      //     //? Change the tab
-      //     // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
-      //     //? Cleare event details in create event screen
-      //     ref.read(addEventControllerProvider.notifier).clearEventScreen();
-
-      //     //? Show message :
-      //     AppToast.doneToast('Contact added!');
-      //   }
-
-      //   //? Error :
-      //   if (next is AsyncError) {
-      //     ctx.pop();
-      //     // ScaffoldMessenger.of(context).clearSnackBars();
-      //     AppToast.errorToast(next.error.toString());
-      //   }
-      // }
     });
-    // ref.listen(homeControllerProvider, (prev, next) {
-    //   //? This listener for create event from this screen :
-
-    // });
 
     return Scaffold(
       appBar: CustomAppbar(
@@ -129,7 +81,6 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
           ctx = context;
           return Column(
             children: [
-              //? Search field
               HomePageSearchField(
                 onSubmit: (val) {
                   ref
@@ -139,12 +90,10 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                 hint: context.tr('searchContactHere'),
               ).symmetricPadding(horizontal: 22.w, vertical: 20.h),
 
-              //? Contacts :
               Expanded(
                 child: controller.when(
                   data: (data) {
                     if (data.contacts.isEmpty) {
-                      //? Empty :
                       return Center(
                         child: Text(
                           context.tr('emptyContacts'),
@@ -155,13 +104,12 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                       );
                     }
 
-                    //? Data :
                     return _buildList(data);
                   },
 
                   error: (e, st) {
                     final state = ref.watch(addEventControllerProvider);
-                    //? Error
+
                     if (state.value!.contacts.isEmpty) {
                       return AppErrorWidget(
                         onTap: () {
@@ -170,24 +118,13 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                               .getContacts(null);
                         },
                       );
-                      // return Center(
-                      //   child: Text(
-                      //     context.tr('error_title'),
-                      //     style: AppTextStyle.rubikRegular16.copyWith(
-                      //       color: AppColors.black,
-                      //     ),
-                      //   ),
-                      // );
                     }
                     return _buildList(state.value!);
                   },
                   loading: () {
                     final state = ref.watch(addEventControllerProvider);
                     if (state.value!.contacts.isEmpty) {
-                      return Center(
-                        // child: Assets.images.animationLoading.image(),
-                        child: MailPulseAnimation(),
-                      );
+                      return Center(child: MailPulseAnimation());
                     }
                     return _buildList(state.value!);
                   },
@@ -210,61 +147,6 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                 backgroundColor: AppColors.primary,
               ).symmetricPadding(horizontal: 22.w),
 
-              //? This for continue and save as draft :
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     Consumer(
-              //       builder: (context, ref, child) {
-              //         return AddEventPageBotton(
-              //           onTap: () {
-              //             ref
-              //                 .read(addEventControllerProvider.notifier)
-              //                 .createEvent();
-              //           },
-              //           isSubmit: false,
-              //           child: Text(
-              //             context.tr('saveDraft'),
-              //             style: AppTextStyle.rubikSemiBold18.copyWith(
-              //               color: AppColors.primary,
-              //             ),
-              //           ),
-              //         );
-              //       },
-              //     ),
-
-              //     AddEventPageBotton(
-              //       onTap:
-              //           ref
-              //               .read(addEventControllerProvider)
-              //               .value!
-              //               .selectedContacts!
-              //               .isEmpty
-              //           ? null
-              //           : () {
-              //               context.push(Routes.guestList, extra: widget.id);
-              //             },
-              //       isSubmit: ref
-              //           .read(addEventControllerProvider)
-              //           .value!
-              //           .selectedContacts!
-              //           .isNotEmpty,
-              //       child: Text(
-              //         context.tr('continue'),
-              //         style: AppTextStyle.rubikSemiBold18.copyWith(
-              //           color:
-              //               ref
-              //                   .read(addEventControllerProvider)
-              //                   .value!
-              //                   .selectedContacts!
-              //                   .isEmpty
-              //               ? AppColors.primary
-              //               : AppColors.white,
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
               20.verticalSpace,
             ],
           );

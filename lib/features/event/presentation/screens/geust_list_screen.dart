@@ -4,10 +4,8 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_contact_manuall_bottom_sheet.dart';
@@ -23,9 +21,6 @@ import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
 
-// class GeustListScreen extends StatelessWidget {
-//   const GeustListScreen({super.key});
-
 class GeustListScreen extends ConsumerStatefulWidget {
   const GeustListScreen({super.key, required this.id});
   final String? id;
@@ -40,9 +35,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
   @override
   void initState() {
     super.initState();
-    // Future(() {
-    //   ref.read(addEventControllerProvider.notifier).getContacts(null);
-    // });
 
     firstName = TextEditingController();
     lastName = TextEditingController();
@@ -71,10 +63,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                 ),
               ),
               leading: Assets.icons.addFromContactIc.svg(),
-              // trailing: GestureDetector(
-              //   onTap: () => context.pop(),
-              //   child: Assets.icons.closeIc.svg(),
-              // ),
             ),
             Divider(color: AppColors.grayBorder),
 
@@ -93,29 +81,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
               leading: Assets.icons.addManuallyIc.svg(),
             ),
             Divider(color: AppColors.grayBorder),
-
-            //? Add from csv :
-            // ListTile(
-            //   onTap: () {
-            //     if (widget.id == null) {
-            //       ref
-            //           .read(addEventControllerProvider.notifier)
-            //           .importGuestsFromFile();
-            //     } else {
-            //       ref
-            //           .read(updateEventControllerProvider.notifier)
-            //           .importGuestsFromFile();
-            //     }
-            //   },
-            //   title: Text(
-            //     context.tr('importCSVGuestList'),
-            //     style: AppTextStyle.rubikMedium16.copyWith(
-            //       color: AppColors.primary,
-            //     ),
-            //   ),
-            //   leading: Assets.icons.importCsvFileIc.svg(),
-            // ),
-            // Divider(color: AppColors.grayBorder),
 
             //? Invite someone :
             ListTile(
@@ -196,24 +161,15 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           }
 
           if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
             ctx.pop();
 
             AppToast.doneToast("successfullyCompleted".tr());
-
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
             context.go(
               Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              // extra: next.value!.createEventResponse?.eventId,
               extra: {'id': next.value!.createEventResponse?.eventId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
-          // }
 
           if (next is AsyncError && prev is AsyncLoading) {
             ctx.pop();
@@ -224,12 +180,10 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
         //? This listener for add new contact :
         if (next.value?.isAddContact ?? false) {
           if (next is AsyncData) {
-            // context.pop();
             AppToast.doneToast('Contact added!');
           }
 
           if (next is AsyncError) {
-            // context.pop();
             AppToast.errorToast(next.error.toString());
           }
           firstName.clear();
@@ -247,23 +201,14 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           }
 
           if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
             ctx.pop();
             AppToast.doneToast("successfullyCompleted".tr());
-
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
             context.go(
               Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              // extra: next.value!.updatedEvent?.occasionId,
               extra: {'id': next.value!.updatedEvent?.occasionId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
-          // }
 
           if (next is AsyncError && prev is AsyncLoading) {
             ctx.pop();
@@ -277,59 +222,11 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
         ? ref.watch(updateEventControllerProvider).value!.selectedContacts
         : ref.watch(addEventControllerProvider).value!.selectedContacts;
 
-    // final newItems = items?.map((contact) {
-    //   //? if number start with + or has code it owns :
-    //   if (contact.contact.phones.first.number.contains('+') ||
-    //       contact.contact.phones.first.number.length > 11) {
-    //     final newContact = SelectedContact(
-    //       contact: Contact(
-    //         name: contact.contact.name,
-    //         phones: [Phone(contact.contact.phones.first.number.substring(4))],
-    //       ),
-    //       code: contact.code,
-    //       id: contact.id,
-    //     );
-    //     return newContact;
-    //   } else {
-    //     final newContact = SelectedContact(
-    //       contact: Contact(
-    //         name: contact.contact.name,
-    //         phones: [Phone(contact.contact.phones.first.number.substring(1))],
-    //       ),
-    //       code: contact.code,
-    //       id: contact.id,
-    //     );
-    //     return newContact;
-    //   }
-    // }).toList();
-    // final newItems = items?.map((contact) {
-    //   final copied = deepCopySelected(contact);
-
-    //   final number = copied.contact.phones.first.number;
-
-    //   String normalized;
-    //   if (number.startsWith('+') || number.length > 11) {
-    //     normalized = number.substring(4); // مثال فقط كما كنت تفعل
-    //   } else {
-    //     normalized = number.substring(1);
-    //   }
-
-    //   copied.contact.phones = [Phone(normalized)];
-
-    //   return SelectedContact(
-    //     contact: copied.contact,
-    //     code: copied.code,
-    //     id: copied.id,
-    //     count: copied.count,
-    //   );
-    // }).toList();
-
     return Scaffold(
       appBar: CustomAppbar(
         title: context.tr('guestList'),
         actionButton: GestureDetector(
           onTap: () {
-            // _openSheetForAddMan(context);
             _openSheetForSelectAdd(context);
           },
 
@@ -353,9 +250,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                 ).onlyPadding(end: 22.w),
 
               Expanded(
-                child:
-                    // builder: (context, ref, _) {
-                    items!.isEmpty
+                child: items!.isEmpty
                     ?
                       //? Empty :
                       Center(
@@ -417,7 +312,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                 CustomButtonWidget(
                   text: '',
                   onTap: () async {
-                    // context.push(Routes.eventGuestList);
                     ref
                         .read(guestsControllerProvider.notifier)
                         .updateGuestList(occasionId: widget.id!);
@@ -485,19 +379,6 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                             : () {
                                 context.push(Routes.inviteTemplate);
                               },
-                        // onTap:
-                        //     ref
-                        //         .read(addEventControllerProvider)
-                        //         .value!
-                        //         .selectedContacts!
-                        //         .isEmpty
-                        //     ? null
-                        //     : () {
-                        //         context.push(
-                        //           Routes.inviteTemplate,
-                        //           extra: widget.id,
-                        //         );
-                        //       },
                         isSubmit: widget.id != null
                             ? ref
                                   .read(updateEventControllerProvider)

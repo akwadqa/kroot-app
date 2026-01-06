@@ -13,7 +13,6 @@ import 'package:kroot_app/features/event/presentation/widgets/create_event_page/
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_language.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_time.dart';
-import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_type.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_location_widget.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
@@ -37,20 +36,14 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
   void initState() {
     super.initState();
     _title = TextEditingController(text: '');
-    //TODO :
+
     Future(() {
-      // final currentLocation = ref
-      //     .read(addEventControllerProvider)
-      //     .value
-      //     ?.initialLatLng;
-      // if (currentLocation == null)
       ref.read(addEventControllerProvider.notifier).initLocation();
     });
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _title.dispose();
     super.dispose();
   }
@@ -75,34 +68,26 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
       },
     );
 
-    //? This listener for create event :
     ref.listen(addEventControllerProvider, (prev, next) {
       if (next.value!.isAddEvent != null) {
-        //? For loading :
         if (next is AsyncLoading) {
           AppAlert.showLoadingDialog(ctx);
         }
 
         if (next is AsyncData && prev is AsyncLoading) {
-          // if (context.canPop()) {
           ctx.pop();
           AppToast.doneToast("successfullyCompleted".tr());
 
-          // context.pushReplacement(Routes.main);
-          // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
           ref.read(homeControllerProvider.notifier)
             ..getUserEvents(page: 1)
             ..getUtils();
           context.go(
             Routes.eventDetails,
-            // extra: widget.id != null
-            //? next.value!.updatedEvent!.occasionId
-            // extra: next.value!.createEventResponse?.eventId,
+
             extra: {'id': next.value!.createEventResponse?.eventId},
           );
           ref.read(addEventControllerProvider.notifier).clearEventScreen();
         }
-        // }
 
         if (next is AsyncError && prev is AsyncLoading) {
           ctx.pop();
@@ -128,7 +113,6 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                   child: ListView(
                     padding: EdgeInsets.zero,
                     children: [
-                      //? Event details :
                       Text(
                         context.tr('eventDetails'),
                         style: AppTextStyle.rubikSemiBold18.copyWith(
@@ -144,7 +128,6 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       ),
                       20.verticalSpace,
 
-                      //? Name :
                       AppTextFormField(
                         withIcon: false,
                         controller: _title,
@@ -170,7 +153,6 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       ),
                       12.verticalSpace,
 
-                      //? For image :
                       Consumer(
                         builder: (context, ref, child) {
                           final image = ref.watch(
@@ -198,7 +180,6 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
 
                       20.verticalSpace,
 
-                      //? Date :
                       Consumer(
                         builder: (context, ref, child) {
                           final date = ref.watch(
@@ -208,7 +189,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                           );
                           return EventDetailsDate(
                             date: date,
-                            // controller: ,
+
                             onSelectDate: (date) {
                               ref
                                   .read(addEventControllerProvider.notifier)
@@ -219,7 +200,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       ),
 
                       20.verticalSpace,
-                      //? Date :
+
                       Consumer(
                         builder: (context, ref, child) {
                           final date = ref.watch(
@@ -231,7 +212,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                             dateTime: DateTime.parse(
                               date ?? DateTime.now().toString(),
                             ),
-                            // controller: ,
+
                             onSelectTime: (date) {
                               ref
                                   .read(addEventControllerProvider.notifier)
@@ -242,7 +223,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       ),
 
                       20.verticalSpace,
-                      //? Language :
+
                       Consumer(
                         builder: (context, ref, child) {
                           final lang = ref.watch(
@@ -262,51 +243,6 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       ),
                       20.verticalSpace,
 
-                      // //? Type :
-                      // if (ref
-                      //         .read(homeControllerProvider)
-                      //         .value
-                      //         ?.eventResponse
-                      //         ?.value
-                      //         ?.eventTypes !=
-                      //     null)
-                      // if (ref.read(
-                      //       homeControllerProvider.select((val) {
-                      //         return val.value!.eventResponse?.eventTypes;
-                      //       }),
-                      //     ) !=
-                      //     null)
-                      // Consumer(
-                      //   builder: (context, ref, child) {
-                      //     final type = ref.watch(
-                      //       addEventControllerProvider.select(
-                      //         (val) => val.value!.eventModel?.type,
-                      //       ),
-                      //     );
-                      //     return EventDetailsType(
-                      //       value: type,
-                      //       onTypeChange: (val) {
-                      //         ref
-                      //             .read(addEventControllerProvider.notifier)
-                      //             .updateEvent(EventModel(type: val));
-                      //       },
-                      //     );
-                      //   },
-                      // ),
-                      // 20.verticalSpace,
-
-                      // Row(
-                      //   children: [
-                      //     Checkbox(value: false, onChanged: (val) {}),
-                      //     Text(
-                      //       context.tr('showQrinvite'),
-                      //       style: AppTextStyle.rubikRegular16.copyWith(
-                      //         color: AppColors.primary,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // 20.verticalSpace,
                       Text(
                         context.tr('eventLocation'),
                         style: AppTextStyle.rubikRegular18.copyWith(
@@ -322,35 +258,22 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                               (val) => val.value!.latLng,
                             ),
                           );
-                          // final event = ref.watch(
-                          //   addEventControllerProvider.select(
-                          //     (val) => val.value!.eventModel,
-                          //   ),
-                          // );
+
                           return EventLocationWidget(
                             latlng: LatLng(latlng.lat, latlng.lng),
-                            // latlng: LatLng(double.parse(event?.mapLatitude ??'0'), double.parse(event?.mapLongitude ?? '0')),
                           );
                         },
                       ),
                       20.verticalSpace,
 
-                      //? Save as draft or continue :
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           AddEventPageBotton(
                             onTap: () {
                               if (key.currentState!.validate()) {
-                              
                                 ref.read(addEventControllerProvider.notifier)
-                                  ..updateEvent(
-                                    EventModel(
-                                      title: _title.text,
-                                      // mapLink: 'map',
-                                      // locationName: 'qatar',
-                                    ),
-                                  )
+                                  ..updateEvent(EventModel(title: _title.text))
                                   ..createEvent();
                               }
                             },
@@ -366,15 +289,10 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                           AddEventPageBotton(
                             onTap: () {
                               if (key.currentState!.validate()) {
-                                // if (image != null) {
                                 ref
                                     .read(addEventControllerProvider.notifier)
                                     .updateEvent(
-                                      EventModel(
-                                        title: _title.text,
-                                        // mapLink: 'map',
-                                        // locationName: 'qatar',
-                                      ),
+                                      EventModel(title: _title.text),
                                     );
                                 context.push(Routes.guestList);
                               }
@@ -393,7 +311,6 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                     ],
                   ),
                 ),
-                // 100.verticalSpace,
               ],
             ).onlyPadding(start: 16.w, end: 23.w),
           );

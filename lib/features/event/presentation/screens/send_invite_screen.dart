@@ -38,17 +38,14 @@ class SendInviteScreen extends ConsumerWidget {
           ref
               .read(homeControllerProvider.notifier)
               .getEventDetails(next!.value!.occasionId!);
-          // context.go(
-          //   Routes.eventDetails,
-          //   extra: {'id': next!.value!.occasionId},
-          // );
+
           ref.read(homeControllerProvider.notifier)
             ..getUserEvents(page: 1)
             ..getUtils();
-          // context.go(Routes.eventDetails, extra: {'model': eventModel});
+
           context.go(
             Routes.eventDetails,
-            extra: {'id': next!.value!.occasionId},
+            extra: {'id': next.value!.occasionId},
           );
         }
         if (next is AsyncError) {
@@ -85,16 +82,7 @@ class SendInviteScreen extends ConsumerWidget {
 
               Consumer(
                 builder: (context, ref, child) {
-                  print(eventModel.toJson());
-                  // final contact = eventModel.occasionId != null
-                  //     ? ref
-                  //           .read(updateEventControllerProvider)
-                  //           .value!
-                  //           .selectedContacts
-                  //     : ref
-                  //           .read(addEventControllerProvider)
-                  //           .value!
-                  //           .selectedContacts;
+
                   return Expanded(
                     child: ListView.separated(
                       separatorBuilder: (context, index) =>
@@ -104,8 +92,6 @@ class SendInviteScreen extends ConsumerWidget {
 
                       itemBuilder: (context, index) => ListTile(
                         title: Text(
-                          // '${contact[index].contact.name.first} ${contact[index].contact.name.last}',
-                          // '${eventModel.guests![index].firstName} ${eventModel.guests![index].lastName}',
                           eventModel.guests![index].fullName!,
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.black,
@@ -118,7 +104,6 @@ class SendInviteScreen extends ConsumerWidget {
                                 ? Alignment.centerRight
                                 : Alignment.centerLeft,
                             child: Text(
-                              // contact[index].contact.phones.first.number,
                               eventModel
                                           .guests![index]
                                           .whatsappNumber
@@ -126,7 +111,7 @@ class SendInviteScreen extends ConsumerWidget {
                                       false
                                   ? eventModel.guests![index].whatsappNumber!
                                   : context.tr('no_phone'),
-                              // '+974999999999',
+
                               style: AppTextStyle.rubikRegular16.copyWith(
                                 color: AppColors.black,
                               ),
@@ -138,22 +123,13 @@ class SendInviteScreen extends ConsumerWidget {
                   );
                 },
               ),
-              // Spacer(),
+
               CustomButtonWidget(
                 text: '',
                 onTap: () {
-                  // context.pushReplacement(Routes.eventDetails, extra: id);
                   ref
                       .read(homeControllerProvider.notifier)
                       .confirmEvent(eventModel.occasionId!);
-
-                  // eventModel.occasionId != null
-                  //     ? ref
-                  //           .read(updateEventControllerProvider.notifier)
-                  //           .updateEventToServer(eventModel.occasionId!)
-                  //     : ref
-                  //           .read(addEventControllerProvider.notifier)
-                  //           .createEvent();
                 },
                 backgroundColor: AppColors.primary,
                 isFiled: true,

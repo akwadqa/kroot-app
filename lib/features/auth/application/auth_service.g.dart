@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'auth_service.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
 
 @ProviderFor(sharedPreferences)
 const sharedPreferencesProvider = SharedPreferencesProvider._();
@@ -69,7 +63,6 @@ final class UserDataProvider extends $NotifierProvider<UserData, String?> {
   @override
   UserData create() => UserData();
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(String? value) {
     return $ProviderOverride(
       origin: this,
@@ -129,7 +122,6 @@ final class IsAuthinticatedProvider
     return isAuthinticated(ref);
   }
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
     return $ProviderOverride(
       origin: this,
@@ -139,6 +131,3 @@ final class IsAuthinticatedProvider
 }
 
 String _$isAuthinticatedHash() => r'06718e95e3ceea2ea9b79d792cbdee9e9cc4164c';
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

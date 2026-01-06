@@ -11,10 +11,8 @@ class EventDetailsTime extends StatelessWidget {
     required this.onSelectTime,
   });
 
-  /// DateTime القادم من الـ controller (قد يكون null)
   final DateTime? dateTime;
 
-  /// Callback لإرجاع الوقت فقط
   final void Function(TimeOfDay time) onSelectTime;
 
   @override

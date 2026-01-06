@@ -87,11 +87,6 @@ class AuthRemoteDataSource {
   Future<ApiResponse<LoginResponseModel>> login(LoginParams params) async {
     try {
       final response = await _networkService.post('', data: params.toJson());
-      // if (response.data == null || response.status != 200||response.data.isEmpty) {
-
-      //   throw AppException('Failed to Login');
-      // }
-
       return ApiResponse.fromJson(
         response.data as Map<String, dynamic>,
         (json) => LoginResponseModel.fromJson(json as Map<String, dynamic>),

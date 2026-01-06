@@ -26,36 +26,27 @@ class QrScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     late BuildContext ctx;
     if (id == null) {
-      //? Listener for add :
       ref.listen(addEventControllerProvider, (prev, next) {
-        //? This listener for create event in this screen :
         if (next.value!.isAddEvent != null) {
-          //? For loading :
           if (next is AsyncLoading) {
             AppAlert.showLoadingDialog(ctx);
           }
 
           if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
             ctx.pop();
             AppToast.doneToast("successfullyCompleted".tr());
 
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
             ref.read(homeControllerProvider.notifier)
               ..getUserEvents(page: 1)
               ..getUtils();
 
             context.go(
               Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              // extra: next.value!.createEventResponse?.eventId,
+
               extra: {'id': next.value!.createEventResponse?.eventId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
-          // }
 
           if (next is AsyncError && prev is AsyncLoading) {
             ctx.pop();
@@ -63,7 +54,6 @@ class QrScreen extends ConsumerWidget {
           }
         }
 
-        //? This listener for add new contact :
         if (next.value?.isAddContact ?? false) {
           if (next is AsyncData) {
             context.pop();
@@ -78,34 +68,26 @@ class QrScreen extends ConsumerWidget {
       });
     } else {
       ref.listen(updateEventControllerProvider, (prev, next) {
-        //? This listener for create event in this screen :
         if (next.value!.isUpdateEvent != null) {
-          //? For loading :
           if (next is AsyncLoading) {
             AppAlert.showLoadingDialog(ctx);
           }
 
           if (next is AsyncData && prev is AsyncLoading) {
-            // if (context.canPop()) {
             ctx.pop();
             AppToast.doneToast("successfullyCompleted".tr());
 
-            // context.pushReplacement(Routes.main);
-            // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
             ref.read(homeControllerProvider.notifier)
               ..getUserEvents(page: 1)
               ..getUtils();
 
             context.go(
               Routes.eventDetails,
-              // extra: widget.id != null
-              //? next.value!.updatedEvent!.occasionId
-              // extra: next.value!.updatedEvent?.occasionId,
+
               extra: {'id': next.value!.updatedEvent?.occasionId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
           }
-          // }
 
           if (next is AsyncError && prev is AsyncLoading) {
             ctx.pop();
@@ -206,7 +188,6 @@ class QrScreen extends ConsumerWidget {
               CustomButtonWidget(
                 text: '',
                 onTap: () {
-                  // context.push(Routes.sendInvite , extra: id);
                   ref.read(addEventControllerProvider.notifier).createEvent();
                 },
                 backgroundColor: AppColors.primary,

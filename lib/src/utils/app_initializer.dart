@@ -14,24 +14,18 @@ import '../riverpod_observer.dart';
 
 abstract class AppInitializer {
   static Future<void> init() async {
-    //-- Flutter init --
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    //-- ENV FILE LOAD  --
+
     await dotenv.load(fileName: '.env');
-    //-- Hive initialize --
-    // await Hive.initFlutter();
-    // await HiveInitializer.initialize();
-    //
-    //-- Load base URL's  --
+
     ServicesUrls.init();
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-    //-- Localization init  --
     await EasyLocalization.ensureInitialized();
   }
 }
@@ -44,11 +38,9 @@ Future<ProviderContainer> initializeProviders() async {
 }
 
 Future<void> handleSplashScreen(ProviderContainer container) async {
-  //TODO : This will be 3 sec :
-  // const minSplashDuration = 2000;
   const minSplashDuration = 3000;
   final startTime = DateTime.now();
-  // await container.read(homeProvider.future);
+
   final loadDuration = DateTime.now().difference(startTime).inMilliseconds;
 
   if (loadDuration < minSplashDuration) {

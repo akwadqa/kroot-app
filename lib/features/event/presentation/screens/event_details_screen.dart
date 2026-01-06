@@ -1,7 +1,7 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +17,6 @@ import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
-import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -87,8 +86,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
     });
 
     String? resolveImageUrl(String? imagePath) {
-      // final imagePath = widget.eventModel?.imageUrl;
-      final baseUrl = 'https://kroot.akwad.qa/';
+      final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
       if (imagePath == null || imagePath.isEmpty) return null;
       if (imagePath.startsWith('http')) return imagePath;
       final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -104,10 +102,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
       canPop: false,
       onPopInvoked: (didPop) {
         if (context.canPop()) {
-          print('here we poped!');
           context.pop();
         } else {
-          print('here we pushed!');
           context.go(Routes.main);
         }
       },
@@ -175,7 +171,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                   final double collapsedH =
                       kToolbarHeight + MediaQuery.of(context).padding.top;
 
-                  // إذا ما في صورة، خلّ معامل التمدد = 0 (يعني collapsed دائمًا)
                   final double t = (expandedH <= 0)
                       ? 0
                       : ((top - collapsedH) / (expandedH - collapsedH)).clamp(
@@ -183,20 +178,16 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                           1.0,
                         );
 
-                  // t = 1 => expanded (الصورة كاملة)
-                  // t = 0 => collapsed (الصورة مختفية)
                   final bool showTitle = t <= 0.02;
 
                   return Stack(
                     fit: StackFit.expand,
                     children: [
-                      // 1) طبقة ثابتة: أبيض دائمًا (هذا اللي يضمن عند collapse تصير الخلفية أبيض)
                       Container(color: AppColors.white),
 
-                      // 2) الصورة: تتلاشى مع الانكماش
                       if (resolveImageUrl(image) != null)
                         Opacity(
-                          opacity: t, // <-- هنا السحر
+                          opacity: t,
                           child: CachedNetworkImage(
                             fadeInCurve: Curves.linear,
                             placeholder: (context, url) =>
@@ -206,8 +197,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                           ),
                         ),
 
-                      // 3) (اختياري) لو تحب تعطي Fade أنعم/أجمل عند الاقتراب من collapse:
-                      //    طبقة بيضاء شبه شفافة تزيد مع الانكماش
                       IgnorePointer(
                         ignoring: true,
                         child: Container(
@@ -215,7 +204,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                         ),
                       ),
 
-                      // 4) العنوان يظهر فقط عند collapsed
                       Positioned(
                         left: 0,
                         right: 0,
@@ -262,90 +250,12 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                 ),
               ),
               loading: () => SliverFillRemaining(
-                // child: Center(child: Assets.images.animationLoading.image()),
                 child: Center(child: MailPulseAnimation()),
               ),
             ),
-            // _buildBody(context, widget.eventModel!, ref),
-
-            // controller?.when(
-            //       data: (event) {
-            //         return SliverToBoxAdapter();
-            //       },
-            //       error: (e, st) {
-            //         return SliverToBoxAdapter(
-            //           child: AppErrorWidget(
-            //             onTap: () {
-            //               ref
-            //                   .read(homeControllerProvider.notifier)
-            //                   .getEventDetails(widget.id!);
-            //             },
-            //           ),
-            //         );
-            //       },
-            //       loading: () {
-            //         return SliverFillRemaining(
-            //           child: Center(
-            //             child: Assets.images.animationLoading.image(),
-            //           ),
-            //         );
-            //       },
-            //     ) ??
-            //     SizedBox.shrink(),
           ],
         ),
       ),
-      //  Scaffold(
-      //   appBar: CustomAppbar(
-      //     title: 'Event Details',
-      //     withBackButton: true,
-      //     actionButton: widget.eventModel != null
-      //         ? GestureDetector(
-      //             onTap: () {
-      //               _buildBottomSheet(context, widget.eventModel!);
-      //             },
-
-      //             child: Assets.icons.optionsIc.svg(),
-      //           )
-      //         : controller?.maybeWhen(
-      //             orElse: () => SizedBox.shrink(),
-      //             data: (data) {
-      //               return GestureDetector(
-      //                 onTap: () {
-      //                   _buildBottomSheet(context, widget.eventModel ?? data);
-      //                 },
-
-      //                 child: Assets.icons.optionsIc.svg(),
-      //               );
-      //             },
-      //           ),
-      //   ),
-      //   body: widget.eventModel != null
-      //       ? _buildBody(context, widget.eventModel!, ref)
-      //       : controller?.when(
-      //           data: (data) {
-      //             // Future(() {
-      //             //   ref
-      //             //       .read(homeControllerProvider.notifier)
-      //             //       .getUserEvents(page: 1);
-      //             // });
-      //             return _buildBody(context, data, ref);
-      //           },
-      //           error: (e, st) {
-      //             // return Text('error');
-      //             return AppErrorWidget(
-      //               onTap: () {
-      //                 ref
-      //                     .read(homeControllerProvider.notifier)
-      //                     .getEventDetails(widget.id!);
-      //               },
-      //             );
-      //           },
-      //           loading: () {
-      //             return Center(child: Assets.images.animationLoading.image());
-      //           },
-      //         ),
-      // ),
     );
   }
 
@@ -374,7 +284,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
     return SliverList(
       delegate: SliverChildListDelegate([
         20.verticalSpace,
-        //? Details section
+
         EventDetailsPageDetailsSection(event: event),
         20.verticalSpace,
         Divider(color: AppColors.grayBorder),
@@ -502,7 +412,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
 
         20.verticalSpace,
 
-        //? Confirm event :
         if ((widget.eventModel?.status == 'Draft' || event.status == 'Draft') &&
             event.role == 'owner')
           CustomButtonWidget(
@@ -510,13 +419,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             onTap: () {
               context.push(
                 Routes.sendInvite,
-                extra: widget.eventModel != null ? widget.eventModel : event,
+                extra: widget.eventModel ?? event,
               );
-              // ref
-              //     .read(homeControllerProvider.notifier)
-              //     .confirmEvent(
-              //       widget.eventModel?.occasionId ?? widget.id!,
-              //     );
             },
             isFiled: true,
             content: Text(
@@ -531,13 +435,11 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
         if (widget.eventModel?.status == 'Draft' || event.status == 'Draft')
           20.verticalSpace,
 
-        //? Edit guest list :
         if ((widget.eventModel?.status == 'Draft' || event.status == 'Draft') &&
             event.role != 'operator')
           CustomButtonWidget(
             text: '',
             onTap: () {
-              // context.push(Routes.eventGuestList, extra: event.occasionId);
               context.push(
                 Routes.guestList,
                 extra: ref
@@ -570,8 +472,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
           ).symmetricPadding(horizontal: 22.w),
         40.verticalSpace,
       ]),
-      // padding: EdgeInsets.zero,
-      // children:,
     );
   }
 

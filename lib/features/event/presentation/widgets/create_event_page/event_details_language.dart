@@ -27,7 +27,7 @@ class EventDetailsLanguage extends StatelessWidget {
           value: 'Arabic',
           child: Text(
             context.tr('arabic'),
-            // 'Arabic',
+
             style: AppTextStyle.rubikRegular16.copyWith(
               color: AppColors.grayHint,
             ),
@@ -37,7 +37,7 @@ class EventDetailsLanguage extends StatelessWidget {
           value: 'English',
           child: Text(
             context.tr('english'),
-            // 'English',
+
             style: AppTextStyle.rubikRegular16.copyWith(
               color: AppColors.grayHint,
             ),

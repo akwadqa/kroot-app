@@ -1,5 +1,4 @@
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
-// import 'package:flutter_contacts/fluuter_contact.dart' as flutterContact;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/repositories/home_repositories.dart';
@@ -82,10 +81,7 @@ class HomeController extends _$HomeController {
     }
   }
 
-  // List<EventModel> _updatedList = [];
-
-  
-    Future<bool> refreshEvents() async {
+  Future<bool> refreshEvents() async {
     _eventsList.clear();
     _currentPage = 1;
     _totalPages = 1;
@@ -98,10 +94,7 @@ class HomeController extends _$HomeController {
     String? search,
     bool showLoading = true,
   }) async {
-    print("Fetching page: $page");
-
     try {
-      // if (showLoading) state = AsyncLoading();
       if (showLoading) {
         state = AsyncData(state.value!.copyWith(eventResponse: AsyncLoading()));
       }
@@ -112,12 +105,8 @@ class HomeController extends _$HomeController {
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
       if (page == 1) {
-        // _updatedList = [..._eventsList, ...List.from(response.data!.events!)];
         _eventsList = List.from(response.data!.events!);
       } else {
-        // _updatedList = [..._eventsList, ...List.from(response.data!.events!)];
-
-        // _eventsList.addAll((response.data?.events) as Iterable<EventModel>);
         _eventsList = [..._eventsList, ...List.from(response.data!.events!)];
       }
 
@@ -130,14 +119,9 @@ class HomeController extends _$HomeController {
             ),
           ),
         );
-        // throw Exception(response.message);
         return null;
       }
-      final eventResponse = GetUserEventsModel(
-        events: _eventsList,
-        // events: _updatedList,
-        // eventTypes: response.data!.eventTypes,
-      );
+      final eventResponse = GetUserEventsModel(events: _eventsList);
 
       state = AsyncData(
         state.value!.copyWith(eventResponse: AsyncData(eventResponse)),
@@ -167,7 +151,6 @@ class HomeController extends _$HomeController {
         state = AsyncData(state.value!.copyWith(isDeleteEvent: true));
       }
 
-      // state = AsyncData(state.value!.copyWith(eventResponse: eventResponse));
       state = AsyncData(state.value!.copyWith(isDeleteEvent: true));
     } catch (e, st) {
       state = AsyncError(e, st);
@@ -195,7 +178,6 @@ class HomeController extends _$HomeController {
         return null;
       }
 
-      // state = AsyncData(state.value!.copyWith(eventResponse: eventResponse));
       state = AsyncData(
         state.value!.copyWith(confirmEventResponse: AsyncData(response.data!)),
       );
@@ -209,7 +191,6 @@ class HomeController extends _$HomeController {
   }
 
   Future<bool> onLoadMoreEvents() async {
-    print("Load More Called: $_currentPage / $_totalPages");
     if (_currentPage >= _totalPages) return false;
     final nextPage = _currentPage + 1;
     final result = await getUserEvents(showLoading: false, page: nextPage);

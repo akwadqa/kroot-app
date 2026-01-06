@@ -60,10 +60,5 @@ class ProfileController extends _$ProfileController {
       state = AsyncError(e, st);
       state = AsyncData(state.value!.copyWith(isLogout: false));
     }
-
-    // state = await AsyncValue.guard(() async {
-    //   ref.read(userDataProvider.notifier).removeData();
-    //   return state.value!;
-    // });
   }
 }

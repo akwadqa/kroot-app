@@ -63,7 +63,6 @@ class HomeDataSource {
     try {
       final data = FormData.fromMap({
         'occasion_id': id,
-        // 'image': (await MultipartFile.fromFile(event.image?.path) ?? null),
         'image': event.image != null
             ? await MultipartFile.fromFile(event.image!.path)
             : null,
@@ -199,8 +198,6 @@ class HomeDataSource {
     try {
       final data = FormData.fromMap({
         'occasion_id': id,
-        // "guest_list": gustsList,
-        //  if (event.guests != null && (event.guests?.isNotEmpty ?? false))
         'guest_list': jsonEncode(gustsList.map((e) => e).toList()),
       });
       final response = await _networkService.post(

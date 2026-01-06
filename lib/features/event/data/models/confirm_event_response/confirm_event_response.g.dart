@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'confirm_event_response.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 _ConfirmEventResponse _$ConfirmEventResponseFromJson(
   Map<String, dynamic> json,

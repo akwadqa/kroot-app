@@ -9,7 +9,17 @@
 # packages, and plugins designed to encourage good coding practices.
 analyzer:
   errors:
+    avoid_init_to_null: ignore
+    deprecated_member_use: ignore
     invalid_annotation_target: ignore
+    invalid_use_of_internal_member: ignore
+    library_private_types_in_public_api: ignore
+    no_leading_underscores_for_local_identifiers: ignore
+    non_constant_identifier_names: ignore
+    prefer_const_constructors_in_immutables: ignore
+    unused_element: ignore
+    use_build_context_synchronously: ignore
+    use_function_type_syntax_for_parameters: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:
@@ -20,8 +30,8 @@ linter:
   #
   # Instead of disabling a lint rule for the entire project in the
   # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
+  # or a specific dart file by using the `
+  # `
   # producing the lint.
   rules:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule

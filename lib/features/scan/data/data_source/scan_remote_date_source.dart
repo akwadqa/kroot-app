@@ -16,20 +16,11 @@ class ScanRemoteDateSource {
     required String inviteeId,
   }) async {
     try {
-      final data = FormData.fromMap({
-        'qr_code': qrCode,
-        'checkin_by': checkinBy,
-        'invitee_id': inviteeId,
-      });
-      final params = {
-        'qr_code': qrCode,
-        // 'checkin_by': checkinBy,
-        'occasion_id': inviteeId,
-      };
+     
+      final params = {'qr_code': qrCode, 'occasion_id': inviteeId};
       final response = await _networkService.post(
         EndPoints.scanQr,
 
-        //  data: data,
         queryParameters: params,
       );
       return ApiResponse.fromJson(
@@ -58,28 +49,4 @@ class ScanRemoteDateSource {
       return ApiResponse.error(message: e.toString());
     }
   }
-
-  // Future<ApiResponse<ScanQrResponse>> scanQr({
-  //   required String qrCode,
-  //   required String checkinBy,
-  //   required String inviteeId,
-  // }) async {
-  //   try {
-  //     final data = FormData.fromMap({
-  //       'qr_code': qrCode,
-  //       'checkin_by': checkinBy,
-  //       'invitee_id': inviteeId,
-  //     });
-  //     final response = await _networkService.post(
-  //       EndPoints.getScaned,
-  //       data: data,
-  //     );
-  //     return ApiResponse.fromJson(
-  //       response.data,
-  //       (json) => ScanQrResponse.fromJson(json as Map<String, dynamic>),
-  //     );
-  //   } catch (e) {
-  //     return ApiResponse.error(message: e.toString());
-  //   }
-  // }
 }

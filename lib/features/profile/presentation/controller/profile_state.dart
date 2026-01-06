@@ -6,7 +6,6 @@ class ProfileState {
   final bool? isLogout;
   final AsyncValue<String>? paymentLink;
 
-  //? This for select bundle :
   final BundleModel? bundleModel;
 
   ProfileState({

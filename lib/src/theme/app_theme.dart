@@ -7,7 +7,6 @@ import 'app_colors.dart';
 part 'app_theme.g.dart';
 
 abstract class AppTheme {
-  // Define shared styles to avoid repetition
   static const TextStyle _baseTextStyle = TextStyle(
     color: AppColors.black900,
     fontFamily: FontFamily.cairo,
@@ -30,8 +29,7 @@ abstract class AppTheme {
         selectionColor: AppColors.primary,
         selectionHandleColor: AppColors.primary,
       ),
-      // colorScheme:
-      //     ColorScheme.fromSwatch(primarySwatch:AppColors.primarySwatch),
+
       fontFamily: FontFamily.cairo,
       textTheme: TextTheme(
         displayLarge: _baseTextStyle.copyWith(fontSize: 24),

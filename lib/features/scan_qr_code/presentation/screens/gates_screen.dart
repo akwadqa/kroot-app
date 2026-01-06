@@ -1,10 +1,8 @@
-// gates_screen.dart
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/scan_qr_code/domain/model/gates_info_model.dart';
 import 'package:kroot_app/features/scan_qr_code/presentation/controller/scan_qr_code_controller.dart';
-import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/app_dialogs.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -20,12 +18,10 @@ class GatesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size(double.infinity, 55),
-        child: CustomAppbar(title: tr('select_gate')), // ✅ translated
+        child: CustomAppbar(title: tr('select_gate')),
       ),
       body: asyncState.when(
-        loading: () =>
-            //  Center(child: Assets.images.animationLoading.image()),
-             Center(child: MailPulseAnimation()),
+        loading: () => Center(child: MailPulseAnimation()),
         error: (e, _) => Center(
           child: Text(
             tr('something_went_wrong', args: [e.toString()]),
@@ -37,7 +33,7 @@ class GatesScreen extends ConsumerWidget {
           if (gates.isEmpty) {
             return Center(
               child: Text(
-                tr('no_gates_found'), // ✅ translated
+                tr('no_gates_found'),
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
             );
@@ -126,7 +122,6 @@ class _GateCard extends ConsumerWidget {
             );
           }
         } catch (e) {
-          // AppDialogs.close(context);
           await AppDialogs.error(
             context,
             title: tr('checkin_denied_title'),
@@ -135,9 +130,7 @@ class _GateCard extends ConsumerWidget {
           );
         }
       },
-      //  ref
-      //     .read(scanQrCodeControllerProvider.notifier)
-      //     .verifyAtGate(context, gate.nameId ?? gate.gateName ?? 'gate'),
+
       child: Ink(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -157,7 +150,7 @@ class _GateCard extends ConsumerWidget {
             const Icon(Icons.meeting_room, size: 40, color: AppColors.primary),
             const SizedBox(height: 12),
             Text(
-              gate.gateName ?? tr('gate'), // ✅ fallback translation
+              gate.gateName ?? tr('gate'),
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,

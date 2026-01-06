@@ -38,7 +38,7 @@ class UpdateEventScreen extends ConsumerStatefulWidget {
 }
 
 class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
-  late TextEditingController _title, _date;
+  late TextEditingController _title;
   @override
   void initState() {
     super.initState();
@@ -48,34 +48,14 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
           widget.eventModel,
           widget.eventModel.occasionId ?? widget.id!,
         )
-        ..setSelectedContactsFromGuests(
-          // ref.read(homeControllerProvider).value!.occasionModel!.value!.guests!,
-          widget.eventModel.guests!,
-        );
+        ..setSelectedContactsFromGuests(widget.eventModel.guests!);
     });
-    _title = TextEditingController(
-      // text: ref.read(homeControllerProvider).value?.occasionModel?.value!.title,
-      text: widget.eventModel.title,
-    );
-    _date = TextEditingController(text: '');
+    _title = TextEditingController(text: widget.eventModel.title);
   }
 
   @override
   Widget build(BuildContext context) {
     final key = GlobalKey<FormState>();
-    //? Event image :
-    // final image = ref
-    //     .watch(homeControllerProvider)
-    //     .value!
-    //     .createEventRequest
-    //     ?.image;
-
-    //? Event types :
-    // final items =
-    //     ref.watch(homeControllerProvider).value!.eventResponse?.eventTypes ??
-    //     [];
-
-    // late BuildContext context;
 
     ref.listen(updateEventControllerProvider, (prev, next) {
       if (next.value!.isUpdateEvent != null) {
@@ -84,32 +64,17 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
         }
 
         if (next is AsyncData && prev is AsyncLoading) {
-          // if (context.canPop()) {
-
-          //? For loading :
           context.pop();
 
-          //? For edit screen :
           context.pop();
 
-          //? For bottom sheet in detaisl screen :
           context.pop();
           AppToast.doneToast(next.value!.msg);
           ref
               .read(homeControllerProvider.notifier)
               .getEventDetails(widget.id ?? widget.eventModel.occasionId!);
 
-          // context.pushReplacement(Routes.main);
-          // ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-
-          // context.go(
-          //   Routes.eventDetails,
-          //   // extra: widget.id != null
-          //   //? next.value!.updatedEvent!.occasionId
-          //   extra: {'id': next.value!.updatedEvent!.occasionId},
-          // );
           ref.read(addEventControllerProvider.notifier).clearEventScreen();
-          // }
         }
 
         if (next is AsyncError) {
@@ -120,10 +85,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
     });
 
     return Scaffold(
-      appBar: CustomAppbar(
-        title: context.tr('updateEvent'),
-        // withBackButton: true,
-      ),
+      appBar: CustomAppbar(title: context.tr('updateEvent')),
       body: Form(
         key: key,
         child: Column(
@@ -133,7 +95,6 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  //? Event details :
                   Text(
                     context.tr('eventDetails'),
                     style: AppTextStyle.rubikSemiBold18.copyWith(
@@ -149,7 +110,6 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   ),
                   20.verticalSpace,
 
-                  //? Name :
                   AppTextFormField(
                     controller: _title,
                     isReadOnly: false,
@@ -174,7 +134,6 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   ),
                   12.verticalSpace,
 
-                  //? For image :
                   Consumer(
                     builder: (context, ref, child) {
                       final imageUrl = ref.watch(
@@ -187,8 +146,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                           (val) => val.value!.updatedEvent?.image,
                         ),
                       );
-                      print('-------------');
-                      print(imageUrl);
+           
                       return EventDetailsImage(
                         image: image,
                         deleteFile: null,
@@ -214,7 +172,6 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
 
                   20.verticalSpace,
 
-                  //? Date :
                   Consumer(
                     builder: (context, ref, child) {
                       final date = ref.watch(
@@ -237,7 +194,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   ),
 
                   20.verticalSpace,
-                  //? Time :
+
                   Consumer(
                     builder: (context, ref, child) {
                       final date = ref.watch(
@@ -262,7 +219,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   ),
 
                   20.verticalSpace,
-                  //? Language :
+
                   Consumer(
                     builder: (context, ref, child) {
                       final lang = ref.watch(
@@ -285,55 +242,8 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   ),
                   20.verticalSpace,
 
-                  // //? Type :
-                  // if (ref.read(
-                  //       homeControllerProvider.select((val) {
-                  //         return val
-                  //             .value!
-                  //             .eventResponse
-                  //             ?.value
-                  //             ?.eventTypes;
-                  //       }),
-                  //     ) !=
-                  //     null)
-                  // Consumer(
-                  //   builder: (context, ref, child) {
-                  //     // final type = ref.watch(
-                  //     //   updateEventControllerProvider.select(
-                  //     //     (val) => val.value!.updatedEvent?.type,
-                  //     //   ),
-                  //     // );
-                  //     final type = 'Birthday';
-                  //     return EventDetailsType(
-                  //       value: type,
-                  //       onTypeChange: (val) {
-                  //         ref
-                  //             .read(
-                  //               updateEventControllerProvider.notifier,
-                  //             )
-                  //             .updateDataForEvent(
-                  //               EventModel(type: val),
-                  //               widget.eventModel?.occasionId ??
-                  //                   widget.id!,
-                  //             );
-                  //       },
-                  //     );
-                  //   },
-                  // ),
                   20.verticalSpace,
 
-                  // Row(
-                  //   children: [
-                  //     Checkbox(value: false, onChanged: (val) {}),
-                  //     Text(
-                  //       context.tr('showQrinvite'),
-                  //       style: AppTextStyle.rubikRegular16.copyWith(
-                  //         color: AppColors.primary,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  // 20.verticalSpace,
                   Text(
                     context.tr('eventLocation'),
                     style: AppTextStyle.rubikRegular18.copyWith(
@@ -353,29 +263,15 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                       return EventLocationWidget(
                         id: widget.id ?? widget.eventModel.occasionId!,
                         latlng: LatLng(latlng.latitude, latlng.longitude),
-                        // latlng: LatLng(
-                        //   double.parse(lat),
-                        //   double.parse(lng),
-                        // ),
                       );
                     },
                   ),
 
-                  // Container(
-                  //   width: double.infinity,
-                  //   height: 194.h,
-                  //   decoration: BoxDecoration(
-                  //     color: AppColors.deepGreen,
-                  //     borderRadius: BorderRadius.circular(10.r),
-                  //   ),
-                  // ),
                   20.verticalSpace,
 
-                  //? Save :
                   CustomButtonWidget(
                     text: '',
                     onTap: () async {
-                      // context.push(Routes.eventGuestList);
                       if (key.currentState!.validate()) {
                         ref.read(updateEventControllerProvider.notifier)
                           ..updateDataForEvent(
@@ -402,7 +298,6 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   CustomButtonWidget(
                     text: '',
                     onTap: () {
-                      // context.push(Routes.eventGuestList, extra: event.occasionId);
                       context.push(
                         Routes.inviteTemplate,
                         extra: widget.eventModel.occasionId ?? widget.id!,
@@ -429,80 +324,6 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                     backgroundColor: AppColors.white,
                   ),
 
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     AddEventPageBotton(
-                  //       onTap: () {
-                  //         if (_key.currentState!.validate()) {
-                  //           // if (image != null) {
-
-                  //           ref.read(
-                  //               updateEventControllerProvider.notifier,
-                  //             )
-                  //             ..updateDataForEvent(
-                  //               EventModel(
-                  //                 title: _title.text,
-                  //                 mapLink: 'map',
-                  //                 locationName: 'qatar',
-                  //               ),
-                  //               widget.id,
-                  //             )
-                  //             ..updateEventToServer(widget.id);
-
-                  //           // } else {
-                  //           //   AppToast.errorToast('image is required');
-                  //           // }
-                  //         }
-                  //       },
-                  //       isSubmit: false,
-                  //       child: Text(
-                  //         context.tr('saveDraft'),
-                  //         style: AppTextStyle.rubikSemiBold18.copyWith(
-                  //           color: AppColors.primary,
-                  //         ),
-                  //       ),
-                  //     ),
-
-                  //     AddEventPageBotton(
-                  //       onTap: () {
-                  //         if (_key.currentState!.validate()) {
-                  //           // if (image != null) {
-                  //           ref
-                  //               .read(addEventControllerProvider.notifier)
-                  //               .updateEvent(
-                  //                 EventModel(
-                  //                   title: _title.text,
-                  //                   mapLink: 'map',
-                  //                   locationName: 'qatar',
-                  //                 ),
-                  //               );
-                  //           context.push(
-                  //             Routes.updateContact,
-                  //             extra: widget.id,
-                  //           );
-                  //           // print(
-                  //           //   ref
-                  //           //       .read(homeControllerProvider)
-                  //           //       .value
-                  //           //       ?.updatedEvent
-                  //           //       ?.language,
-                  //           // );
-                  //           // } else {
-                  //           // AppToast.errorToast('image is required');
-                  //           // }
-                  //         }
-                  //       },
-                  //       isSubmit: true,
-                  //       child: Text(
-                  //         context.tr('continue'),
-                  //         style: AppTextStyle.rubikSemiBold18.copyWith(
-                  //           color: AppColors.white,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   20.verticalSpace,
                 ],
               ),

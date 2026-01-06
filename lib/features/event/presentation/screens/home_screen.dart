@@ -1,17 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
-import 'package:kroot_app/src/shared_widgets/bottom_navigation_bar_view.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_app_bar.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
@@ -20,7 +19,6 @@ import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart'
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
-import 'package:kroot_app/src/utils/app_toast.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -30,8 +28,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  // class HomeScreen extends ConsumerWidget {
-
   @override
   void initState() {
     Future(() {
@@ -39,20 +35,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
     super.initState();
   }
-  //   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // ref.listen(homeControllerProvider.select((val) => val.value!.utilsResponse), (
-    //   prev,
-    //   next,
-    // ) {
-    //   if (next is AsyncData) {
-    //     AppToast.doneToast(
-    //       'Your Kroot remeaning is :${next!.value!.subscriber!.remainingBalance}',
-    //     );
-    //   }
-    // });
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent == false ||
           pre?.value?.isDeleteEvent == false) {
@@ -71,11 +56,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           children: [
             44.verticalSpace,
 
-            //? App bar :
             HomePageAppBar(),
             12.verticalSpace,
 
-            //? Search field :
             HomePageSearchField(
               hint: context.tr('findEventHere'),
               onSubmit: (val) {
@@ -86,7 +69,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             20.verticalSpace,
 
-            //? The body :
             Expanded(
               child: AppPaginationWidget(
                 enablePullDown: true,
@@ -102,7 +84,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       .onLoadMoreEvents();
                 },
                 child: CustomScrollView(
-                  // مهم: حتى يشتغل pull-to-refresh حتى لو المحتوى قصير/فارغ
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: [
                     SliverToBoxAdapter(
@@ -122,7 +103,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
 
-                    // المحتوى حسب حالة AsyncValue
                     eventsController!.when(
                       data: (data) {
                         if ((data.events ?? []).isEmpty) {
@@ -169,78 +149,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
             ),
-
-            // //? Balance :
-            // HomePageAvailableBalance(),
-
-            // 20.verticalSpace,
-            // //? Title :
-            // Text(
-            //   context.tr('allEvents'),
-            //   style: AppTextStyle.rubikSemiBold18.copyWith(
-            //     color: AppColors.primary,
-            //   ),
-            // ),
-            // 12.verticalSpace,
-            // eventsController!.when(
-            //   data: (data) {
-            //     if (data.events!.isEmpty) {
-            //       return Expanded(
-            //         child: RefreshIndicator(
-            //           onRefresh: () async {
-            //             ref
-            //                 .read(homeControllerProvider.notifier)
-            //                 .getUserEvents(page: 1);
-            //           },
-            //           child: ListView(
-            //             // mainAxisSize: MainAxisSize.max,
-            //             children: [Center(child: Assets.icons.emptyIc.svg())],
-            //           ),
-            //         ),
-            //       );
-            //     }
-            //     return Expanded(
-            //       child: AppPaginationWidget(
-            //         enablePullDown: true,
-            //         onRefresh: () {
-            //           ref.read(homeControllerProvider.notifier).getUtils();
-            //           return ref
-            //               .read(homeControllerProvider.notifier)
-            //               .refreshEvents();
-            //         },
-            //         onLoading: (page) {
-            //           return ref
-            //               .read(homeControllerProvider.notifier)
-            //               .onLoadMoreEvents();
-            //         },
-            //         child: ListView.separated(
-            //           padding: EdgeInsets.zero,
-            //           separatorBuilder: (context, index) => 12.verticalSpace,
-            //           itemCount: data.events?.length ?? 0,
-            //           itemBuilder: (context, index) =>
-            //               HomePageEventItem(event: data.events![index]),
-            //         ),
-            //       ),
-            //     );
-            //   },
-            //   error: (e, st) {
-            //     return AppErrorWidget(
-            //       onTap: () {
-            //         ref.read(homeControllerProvider.notifier)
-            //           ..getUserEvents(page: 1)
-            //           ..getUtils();
-            //       },
-            //     );
-            //     // return Expanded(
-            //     //   child: Center(
-            //     //     child: Assets.icons.emptyIc.svg(),
-            //     //   ),
-            //     // );
-            //   },
-            //   loading: () => Expanded(
-            //     child: Center(child: Assets.images.animationLoading.image()),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -331,7 +239,8 @@ class HomePageEventItem extends StatelessWidget {
 
   String? resolveImageUrl() {
     final imagePath = event.imageUrl;
-    final baseUrl = 'https://kroot.akwad.qa/';
+
+    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
     final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -347,13 +256,7 @@ class HomePageEventItem extends StatelessWidget {
           onTap: () {
             ref
                 .read(goRouterProvider)
-                // .push(Routes.eventDetails, extra: {'model': event});
                 .push(Routes.eventDetails, extra: {'id': event.occasionId});
-            // context.push(Routes.eventDetails, extra: {'model': event});
-            // ref
-            //     .read(homeControllerProvider.notifier)
-            //     .updateOccasionModel(event);
-            // ref.read(homeRepositoryProvider).getUtils();
           },
           child: Container(
             width: double.infinity,
@@ -365,7 +268,6 @@ class HomePageEventItem extends StatelessWidget {
             ),
             child: Row(
               children: [
-                //? Image section :
                 Container(
                   width: 116.w,
                   height: 137.h,
@@ -379,12 +281,7 @@ class HomePageEventItem extends StatelessWidget {
                         color: AppColors.black.withValues(alpha: .25),
                       ),
                     ],
-                    // image: resolveImageUrl() == null
-                    //     ? DecorationImage(
-                    //         image: Assets.images.weddingImage.provider(),
-                    //         fit: BoxFit.cover,
-                    //       )
-                    //     : null,
+
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: (event.imageUrl != null && resolveImageUrl() != null)
@@ -404,7 +301,7 @@ class HomePageEventItem extends StatelessWidget {
                         ),
                 ),
                 10.horizontalSpace,
-                //? Details :
+
                 HomePageEventItemDetails(event: event),
               ],
             ),
@@ -429,11 +326,9 @@ class HomePageEventItemDetails extends StatelessWidget {
         children: [
           4.verticalSpace,
 
-          //? Date :
           SizedBox(
             width: 148.w,
             child: Text(
-              // 'Wed, 1-10-2025 08:00PM',
               DateFormat(
                 'EEEE dd MMMM yyyy',
                 deviceLocale,
@@ -444,16 +339,9 @@ class HomePageEventItemDetails extends StatelessWidget {
               ),
             ),
           ),
-          // Text(
-          //   // 'Wed, 1-10-2025 08:00PM',
-          //   DateFormat('EEE, d-M-yyyy hh:mma').format(event.date),
-          //   style: AppTextStyle.rubikRegular12.copyWith(
-          //     color: AppColors.blackText,
-          //   ),
-          // ),
+
           Spacer(),
 
-          //? Title :
           SizedBox(
             width: 160.w,
             child: Text(
@@ -467,42 +355,6 @@ class HomePageEventItemDetails extends StatelessWidget {
           ),
           Spacer(),
 
-          //? Title :
-          // if (event.type == 'Wedding')
-          //   // TODO
-          //   // if (event == 'Wedding')
-          //   Row(
-          //     children: [
-          //       Text(
-          //         'Mohammed',
-          //         style: AppTextStyle.rubikRegular14.copyWith(
-          //           color: AppColors.blackText,
-          //         ),
-          //       ),
-          //       3.horizontalSpace,
-          //       Assets.images.ringsImage.image(width: 28.w),
-          //       3.horizontalSpace,
-          //       Text(
-          //         'Nour',
-          //         style: AppTextStyle.rubikRegular14.copyWith(
-          //           color: AppColors.blackText,
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // //TODO
-          // if (event.type == 'Birthday')
-          //   // if (event == 'Birthday')
-          //   Text(
-          //     event.title ?? 'title',
-          //     style: AppTextStyle.rubikRegular14.copyWith(
-          //       color: AppColors.blackText,
-          //     ),
-          //   ),
-
-          // Spacer(),
-
-          //? Location :
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -514,7 +366,7 @@ class HomePageEventItemDetails extends StatelessWidget {
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   event.locationName ?? 'location',
-                  // 'location',
+
                   style: AppTextStyle.rubikRegular12.copyWith(
                     color: AppColors.blackText,
                   ),
@@ -528,7 +380,6 @@ class HomePageEventItemDetails extends StatelessWidget {
               Expanded(
                 child: CustomButtonWidget(
                   content: Text(
-                    // 'Confirmed',
                     event.status ?? 'status',
                     style: AppTextStyle.rubikRegular14.copyWith(
                       color: AppColors.white,
@@ -548,13 +399,11 @@ class HomePageEventItemDetails extends StatelessWidget {
               ),
               10.horizontalSpace,
 
-              //? Operator tag :
               if (event.role == 'operator')
                 CustomButtonWidget(
                   content: Text(
-                    // 'Handler',
                     context.tr('operator'),
-                    // event.status ?? 'status',
+
                     style: AppTextStyle.rubikRegular14.copyWith(
                       color: AppColors.black,
                     ),
@@ -569,15 +418,12 @@ class HomePageEventItemDetails extends StatelessWidget {
                   topPading: 0,
                 ),
 
-              //? This for handler
               if (event.role == 'handler_edit' || event.role == 'handler')
                 Expanded(
                   child: CustomButtonWidget(
                     content: Text(
-                      // 'Handler',
                       context.tr('authorized'),
 
-                      // event.status ?? 'status',
                       style: AppTextStyle.rubikRegular14.copyWith(
                         color: AppColors.black,
                       ),
@@ -593,7 +439,6 @@ class HomePageEventItemDetails extends StatelessWidget {
                   ),
                 ),
 
-              //? This for make a space :
               if (event.role == 'owner') Expanded(child: SizedBox()),
             ],
           ),

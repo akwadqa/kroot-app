@@ -16,26 +16,27 @@ class DashedLineVerticalPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
-}String processEtaValue(String? etaResponse, int mode) {
+}
+
+String processEtaValue(String? etaResponse, int mode) {
   if (etaResponse == null || etaResponse.isEmpty) return '';
 
   String normalized = etaResponse;
 
-  // 👇 Detect if format is text like "2.2 km - 0.4 mins"
   if (etaResponse.contains('-')) {
     final parts = etaResponse.split('-');
     if (parts.length == 2) {
-      String distanceText = parts[0].trim(); // e.g. "2.2 km"
-      String timeText = parts[1].trim();     // e.g. "0.4 mins"
+      String distanceText = parts[0].trim();
+      String timeText = parts[1].trim();
 
-      // استخراج الرقم من النص
       final distanceNum = double.tryParse(
-          RegExp(r'([\d.]+)').firstMatch(distanceText)?.group(1) ?? '');
+        RegExp(r'([\d.]+)').firstMatch(distanceText)?.group(1) ?? '',
+      );
       final timeNum = double.tryParse(
-          RegExp(r'([\d.]+)').firstMatch(timeText)?.group(1) ?? '');
+        RegExp(r'([\d.]+)').firstMatch(timeText)?.group(1) ?? '',
+      );
 
       if (distanceNum != null && timeNum != null) {
-        // 👇 حوّل إلى فورمات "distanceMeters,timeMinutes"
         if (distanceText.contains('km')) {
           normalized = '${(distanceNum * 1000).toInt()},${timeNum.toInt()}';
         } else {
@@ -45,7 +46,6 @@ class DashedLineVerticalPainter extends CustomPainter {
     }
   }
 
-  // 👇 الآن كل الـ input في شكل "meters,minutes"
   if (RegExp(r'^\d+,\d+$').hasMatch(normalized)) {
     final parts = normalized.split(',');
     if (parts.length != 2) return '';

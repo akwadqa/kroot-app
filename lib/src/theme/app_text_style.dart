@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyle {
-  //? Rubik semi bold :
   static TextStyle rubikSemiBold20 = GoogleFonts.rubik(
     fontWeight: FontWeight.w600,
     fontSize: 20.sp,
@@ -21,7 +20,6 @@ class AppTextStyle {
     fontSize: 14.sp,
   );
 
-  //? Rubik medium :
   static TextStyle rubikMedium20 = GoogleFonts.rubik(
     fontWeight: FontWeight.w500,
     fontSize: 20.sp,
@@ -44,7 +42,6 @@ class AppTextStyle {
     fontSize: 14.sp,
   );
 
-  //? Rubik regular :
   static TextStyle rubikRegular25 = GoogleFonts.rubik(
     fontWeight: FontWeight.w400,
     fontSize: 25.sp,
@@ -83,15 +80,11 @@ class AppTextStyle {
     fontSize: 11.sp,
   );
 
-  //************************* Poppins ////////////// */
   static TextStyle poppinsMedium16 = GoogleFonts.poppins(
     fontWeight: FontWeight.w500,
     fontSize: 16.sp,
   );
 
-  //************************ Nunito ///////////////// */
-
-  //? Semi bold : 
   static TextStyle nunitoSemibold16 = GoogleFonts.nunitoSans(
     fontWeight: FontWeight.w600,
     fontSize: 16.sp,
@@ -102,15 +95,10 @@ class AppTextStyle {
     fontSize: 14.sp,
   );
 
-  //? Bold : 
   static TextStyle nunitoBold16 = GoogleFonts.nunitoSans(
     fontWeight: FontWeight.w700,
     fontSize: 16.sp,
   );
-
-
-
-  //********************** INTER ////////////// */
 
   static TextStyle bodyXsmallRegular = GoogleFonts.inter(
     fontWeight: FontWeight.w400,

@@ -40,7 +40,6 @@ class EventDetailsPageItemDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
-            // Assets.icons.invitedIc.svg(),
             icon.svg(),
             15.verticalSpace,
             Text(

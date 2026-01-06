@@ -1,13 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
-// import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/firebase_options.dart';
 import 'package:kroot_app/src/constants/keys.dart';
 import 'package:kroot_app/src/localization/current_language.dart';
@@ -19,13 +14,8 @@ import 'package:fcm_config/fcm_config.dart';
 
 part 'notification_service.g.dart';
 
-enum NotificationType {
-  order,
-  driver,
-  general,
-} 
+enum NotificationType { order, driver, general }
 
-/// Main service to handle notifications (FCM + Local Notifications)
 class NotificationsService {
   final Ref _ref;
   final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -34,14 +24,9 @@ class NotificationsService {
 
   NotificationsService(this._ref);
 
-  // SharedPreferences get _prefs =>
-  //     _ref.read(sharedPreferencesProvider).requireValue;
-
-  /// Initialize Firebase Messaging and FCMConfig
   Future<void> init() async {
-    // Initialize FCMConfig
     debugPrint("FCMConfig.instance.init");
-     
+
     await FCMConfig.instance.init(
       options: DefaultFirebaseOptions.currentPlatform,
       defaultAndroidChannel: const AndroidNotificationChannel(
@@ -51,49 +36,38 @@ class NotificationsService {
       ),
     );
 
-    // Request permissions for iOS
     await _messaging.requestPermission(alert: true, badge: true, sound: true);
     debugPrint("FCMConfig.instance.init2");
 
-    // Initialize local notifications
     await _initializeLocalNotifications();
     debugPrint("FCMConfig.instance.init3");
 
-    // Listen for token refresh and send to backend
-  // ! YOU SHOULD STORE USER EMAIL AND PASS IT HERE
-    final userId =   "YOU SHOULD STORE USER EMAIL AND PASS IT HERE";
-    
-    // _ref.read(userDataProvider.notifier).userinformation.email;
+    final userId = "YOU SHOULD STORE USER EMAIL AND PASS IT HERE";
 
     _messaging.onTokenRefresh.listen((token) {
       _ref
           .read(deviceTokenControllerProvider.notifier)
           .sendFCMToken(token, userId);
     });
-    // Also send the current token
-    sendDeviceToken(userId);
-    }
 
-  /// Setup notification interactions (when tapping notifications)
+    sendDeviceToken(userId);
+  }
+
   Future<void> setupInteractedMessage(GoRoute appRouter) async {
-    // App opened from terminated state
     final initialMessage = await _messaging.getInitialMessage();
     if (initialMessage != null) {
       _handleNotification(message: initialMessage, appRouter: appRouter);
     }
 
-    // App opened from background
     FirebaseMessaging.onMessageOpenedApp.listen(
       (remoteMessage) =>
           _handleNotification(message: remoteMessage, appRouter: appRouter),
     );
 
-    // App in foreground
     FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  /// Send FCM token to backend
   Future<void> sendDeviceToken(String userId) async {
     try {
       final token = await _messaging.getToken();
@@ -109,37 +83,23 @@ class NotificationsService {
     }
   }
 
-  /// Subscribe to common FCM topics
   Future<void> subscribeFCMTopics() async {
     try {
       await _messaging.subscribeToTopic(
         Platform.isIOS ? Keys.ios : Keys.android,
       );
       await _messaging.subscribeToTopic(_ref.watch(currentLanguageProvider));
-      // _subscribeMarketingNotifications();
     } catch (e) {
       debugPrint('Error subscribing to topics: $e');
     }
   }
 
-  /// Subscribe to orders notifications
   Future<void> subscribeOrdersTopic() async =>
       _messaging.subscribeToTopic(Keys.orders);
 
-  /// Unsubscribe from orders notifications
   Future<void> unsubscribeOrdersTopic() async =>
       _messaging.unsubscribeFromTopic(Keys.orders);
 
-  /// Private: Handle marketing notifications
-  // void _subscribeMarketingNotifications() {
-  //   final isSubscribed = _ref.read(marketingNotificationsControllerProvider);
-  //   if (isSubscribed) {
-  //     _ref.read(marketingNotificationsControllerProvider.notifier)
-  //         .subscripeMarketingNotifications();
-  //   }
-  // }
-
-  /// Private: Initialize local notifications
   Future<void> _initializeLocalNotifications() async {
     const androidSettings = AndroidInitializationSettings(
       '@mipmap/ic_launcher',
@@ -168,7 +128,6 @@ class NotificationsService {
         );
   }
 
-  /// Private: Handle foreground notification
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
     final notification = message.notification;
     if (notification != null) {
@@ -195,7 +154,6 @@ class NotificationsService {
     }
   }
 
-  /// Private: Handle notification tap
   void _handleNotification({
     required RemoteMessage message,
     required GoRoute appRouter,
@@ -205,18 +163,14 @@ class NotificationsService {
 
     switch (type) {
       case NotificationType.order:
-        // Navigate to order page
         break;
       case NotificationType.driver:
-        // Navigate to driver page
         break;
       case NotificationType.general:
-        // General notification logic
         break;
     }
   }
 
-  /// Helper: Determine notification type
   static NotificationType _getNotificationType(String type) {
     switch (type) {
       case 'order':
@@ -228,7 +182,6 @@ class NotificationsService {
     }
   }
 
-  /// Background handler for FCM
   static Future<void> _firebaseMessagingBackgroundHandler(
     RemoteMessage message,
   ) async {
@@ -244,24 +197,13 @@ class NotificationsService {
         data: message.data,
         createdAt: DateTime.now(),
       );
-
-      // try {
-      //   // await FirebaseFirestore.instance
-      //   //     .collection('notifications')
-      //   //     .doc(notification.id)
-      //   //     .set(notification.toJson());
-      // } catch (e) {
-      //   debugPrint('Failed to save notification in Firestore: $e');
-      // }
     }
   }
 }
 
-/// Riverpod provider for NotificationsService
 @Riverpod(keepAlive: true)
 NotificationsService notificationsService(Ref ref) => NotificationsService(ref);
 
-/// Controller to send device token to backend
 @riverpod
 class DeviceTokenController extends _$DeviceTokenController {
   @override
@@ -271,11 +213,7 @@ class DeviceTokenController extends _$DeviceTokenController {
     state = const AsyncValue.loading();
     final repo = ref.watch(notificationsRepositoryProvider);
 
-    // try {
     await repo.sendFCMToken(token, userId);
     state = const AsyncValue.data(null);
-    // } catch (e, st) {
-    //   state = AsyncValue.error(e, st);
-    // }
   }
 }

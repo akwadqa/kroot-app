@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +29,7 @@ class _ChangeLanguageBottomSheetState
   @override
   Widget build(BuildContext context) {
     final currentLang = context.locale.languageCode;
-    // final currentLang = ref.watch(currentLanguageProvider);
+
     return Container(
       padding: EdgeInsets.all(22.w),
 
@@ -38,7 +37,6 @@ class _ChangeLanguageBottomSheetState
         children: [
           Row(
             children: [
-              //? Title :
               Text(
                 context.tr('changeLanguage'),
                 style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -48,7 +46,6 @@ class _ChangeLanguageBottomSheetState
               Spacer(),
               20.verticalSpace,
 
-              //? Close button :
               GestureDetector(
                 onTap: () => context.pop(),
                 child: Assets.icons.closeIc.svg(),
@@ -57,7 +54,6 @@ class _ChangeLanguageBottomSheetState
           ),
           33.verticalSpace,
 
-          //? English :
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -74,7 +70,6 @@ class _ChangeLanguageBottomSheetState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                //? Title :
                 Text(
                   context.tr('english'),
                   style: AppTextStyle.rubikSemiBold18.copyWith(
@@ -82,11 +77,9 @@ class _ChangeLanguageBottomSheetState
                   ),
                 ),
 
-                //? Check :
                 Checkbox(
                   value: currentLang == 'en' ? true : false,
                   onChanged: (val) {
-                    print(currentLang);
                     ref
                         .read(currentLanguageProvider.notifier)
                         .changeLanguage(context, 'en');
@@ -104,7 +97,6 @@ class _ChangeLanguageBottomSheetState
 
           20.verticalSpace,
 
-          //? Arabic :
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -121,7 +113,6 @@ class _ChangeLanguageBottomSheetState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                //? Title :
                 Text(
                   context.tr('arabic'),
                   style: AppTextStyle.rubikSemiBold18.copyWith(
@@ -129,7 +120,6 @@ class _ChangeLanguageBottomSheetState
                   ),
                 ),
 
-                //? Check :
                 Checkbox(
                   value: currentLang == 'ar' ? true : false,
                   onChanged: (val) {
@@ -152,4 +142,3 @@ class _ChangeLanguageBottomSheetState
     );
   }
 }
-

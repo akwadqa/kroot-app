@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'notifications_repository.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
 
 @ProviderFor(notificationsRepository)
 const notificationsRepositoryProvider = NotificationsRepositoryProvider._();
@@ -42,7 +36,6 @@ final class NotificationsRepositoryProvider
     return notificationsRepository(ref);
   }
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(NotificationsRepository value) {
     return $ProviderOverride(
       origin: this,
@@ -53,6 +46,3 @@ final class NotificationsRepositoryProvider
 
 String _$notificationsRepositoryHash() =>
     r'e5713dbd5404edba9e251ebc26062b6fb608f154';
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

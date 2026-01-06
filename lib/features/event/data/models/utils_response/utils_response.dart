@@ -11,7 +11,6 @@ abstract class UtilsResponse with _$UtilsResponse {
     @JsonKey(name: 'event_types')
     List<String>? eventTypes,
 
-    // كانت سابقاً subscriptions — الآن bundles
     @JsonKey(name: 'bundles')
     List<BundleModel>? bundles,
 

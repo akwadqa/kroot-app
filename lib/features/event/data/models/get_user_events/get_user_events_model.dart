@@ -9,7 +9,6 @@ part 'get_user_events_model.g.dart';
 abstract class GetUserEventsModel with _$GetUserEventsModel {
   const factory GetUserEventsModel({
     @JsonKey(name: 'events') List<EventModel>? events,
-    // @JsonKey(name: 'event_types') List<String>? eventTypes,
   }) = _GetUserEventsModel;
 
   factory GetUserEventsModel.fromJson(Map<String, dynamic> json) =>
@@ -42,10 +41,8 @@ abstract class EventModel with _$EventModel {
     @JsonKey(name: 'workflow_state') String? workflowState,
     String? status,
 
-    // guest_report object
     @JsonKey(name: 'guest_report') GuestReportModel? guestReport,
 
-    // قائمة guest
     @JsonKey(name: 'guests') List<GuestModel>? guests,
     @JsonKey(name: 'operators') List<HandlerModel>? operators,
     @JsonKey(name: 'handlers') List<HandlerModel>? handlers,
@@ -100,4 +97,3 @@ abstract class HandlerModel with _$HandlerModel {
   factory HandlerModel.fromJson(Map<String, dynamic> json) =>
       _$HandlerModelFromJson(json);
 }
-

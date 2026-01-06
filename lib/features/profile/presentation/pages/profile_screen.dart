@@ -43,7 +43,6 @@ class ProfileScreen extends ConsumerWidget {
             children: [
               20.verticalSpace,
 
-              //? Title:
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 9.h),
@@ -56,18 +55,8 @@ class ProfileScreen extends ConsumerWidget {
                 ),
               ),
 
-              //? User section settings :
               10.verticalSpace,
-              //? Pricing and services : 
-              // ProfilePageUserSectionItem(
-              //   title: context.tr('pricingServices'),
-              //   icon: Assets.icons.pricingIc,
-              //   onTap: () {
-              //     context.push(Routes.pricing);
-              //   },
-              // ),
 
-              //? Change language :
               ProfilePageUserSectionItem(
                 title: context.tr('changeLanguage'),
                 icon: Assets.icons.changeLanguageIc,
@@ -79,7 +68,6 @@ class ProfileScreen extends ConsumerWidget {
                 },
               ),
 
-              //? Delete user :
               ProfilePageUserSectionItem(
                 title: context.tr('deleteUser'),
                 icon: Assets.icons.deleteUserIc,
@@ -98,7 +86,6 @@ class ProfileScreen extends ConsumerWidget {
                 },
               ),
 
-              //? Logout :
               ProfilePageUserSectionItem(
                 title: context.tr('logout'),
                 icon: Assets.icons.logoutIc,
@@ -114,7 +101,6 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                     ),
                     onSubmit: () {
-                      // context.
                       ref.read(profileControllerProvider.notifier).logout();
                     },
                   );
@@ -122,7 +108,6 @@ class ProfileScreen extends ConsumerWidget {
               ),
               10.verticalSpace,
 
-              //? Contact us :
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 9.h),
@@ -136,7 +121,6 @@ class ProfileScreen extends ConsumerWidget {
               ),
               10.verticalSpace,
 
-              //? Whats app :
               ProfilePageUserSectionItem(
                 title: context.tr('+974 555 666'),
                 icon: Assets.icons.contactWhatsappIc,

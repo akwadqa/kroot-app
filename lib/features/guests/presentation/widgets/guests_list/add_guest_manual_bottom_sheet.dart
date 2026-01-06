@@ -66,7 +66,6 @@ class _AddGuestManuallBotomSheetState
             children: [
               Row(
                 children: [
-                  //? Title :
                   Text(
                     context.tr('addGuest'),
                     style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -75,7 +74,6 @@ class _AddGuestManuallBotomSheetState
                   ),
                   Spacer(),
 
-                  //? Close button :
                   GestureDetector(
                     onTap: () => context.pop(),
                     child: Assets.icons.closeIc.svg(),
@@ -84,7 +82,6 @@ class _AddGuestManuallBotomSheetState
               ),
               33.verticalSpace,
 
-              //? First name :
               AppTextFormField(
                 controller: firstName,
                 hint: context.tr('enterAnyFirstName'),
@@ -100,7 +97,6 @@ class _AddGuestManuallBotomSheetState
               ),
               20.verticalSpace,
 
-              //? Last name :
               AppTextFormField(
                 controller: lastName,
                 hint: context.tr('enterAnyLastName'),
@@ -109,16 +105,10 @@ class _AddGuestManuallBotomSheetState
                 isRequired: false,
                 validator: (val) {
                   return null;
-
-                  //TODO
-                  // if (val == null || val.isEmpty) {
-                  //   return context.tr('required');
-                  // }
                 },
               ),
               20.verticalSpace,
 
-              //? number :
               AppTextFormField(
                 controller: number,
                 validator: (val) {
@@ -138,21 +128,14 @@ class _AddGuestManuallBotomSheetState
                 builder: (context, ref, child) {
                   final isLoading = ref.read(homeControllerProvider);
                   if (isLoading is AsyncLoading) {
-                    return Center(
-                      child: MailPulseAnimation(),
-                      // child: Assets.images.animationLoading.image(
-                      //   color: AppColors.primary,
-                      // ),
-                    );
+                    return Center(child: MailPulseAnimation());
                   }
                   return CustomButtonWidget(
                     text: '',
                     onTap: () {
                       if (_key.currentState!.validate()) {
-                        // context.pop();
                         ref
                             .read(guestsControllerProvider.notifier)
-                            // TODO : Edit occasionId here :
                             .addGuest(
                               guest: GuestModel(
                                 firstName: firstName.text,
@@ -195,7 +178,6 @@ class _AddGuestManuallBotomSheetState
                 },
               ),
 
-              //? Add button:
               31.verticalSpace,
               CustomButtonWidget(
                 text: '',

@@ -46,7 +46,6 @@ class PricingScreen extends ConsumerWidget {
         children: [
           30.verticalSpace,
 
-          //? Tabs :
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -58,19 +57,17 @@ class PricingScreen extends ConsumerWidget {
 
           30.verticalSpace,
 
-          //? Body :
           Expanded(
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 400),
               switchInCurve: Curves.easeInOut,
               switchOutCurve: Curves.easeInOut,
               transitionBuilder: (child, animation) {
-                // يمكنك اختيار أي نوع حركة تحبه
                 return FadeTransition(
                   opacity: animation,
                   child: SlideTransition(
                     position: Tween<Offset>(
-                      begin: const Offset(0.1, 0), // يبدأ من اليمين قليلاً
+                      begin: const Offset(0.1, 0),
                       end: Offset.zero,
                     ).animate(animation),
                     child: child,
@@ -132,7 +129,6 @@ class PricingPageBasicSection extends StatelessWidget {
             return CustomButtonWidget(
               text: '',
               onTap: () {
-                // context.push(Routes.payment);
                 ref
                     .read(profileControllerProvider.notifier)
                     .getPaymentUrl('Basic', context.locale.languageCode);

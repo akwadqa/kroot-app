@@ -1,16 +1,8 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'notification_service.dart';
 
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
-
-/// Riverpod provider for NotificationsService
 @ProviderFor(notificationsService)
 const notificationsServiceProvider = NotificationsServiceProvider._();
 
-/// Riverpod provider for NotificationsService
 final class NotificationsServiceProvider
     extends
         $FunctionalProvider<
@@ -19,7 +11,6 @@ final class NotificationsServiceProvider
           NotificationsService
         >
     with $Provider<NotificationsService> {
-  /// Riverpod provider for NotificationsService
   const NotificationsServiceProvider._()
     : super(
         from: null,
@@ -45,7 +36,6 @@ final class NotificationsServiceProvider
     return notificationsService(ref);
   }
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(NotificationsService value) {
     return $ProviderOverride(
       origin: this,
@@ -57,14 +47,11 @@ final class NotificationsServiceProvider
 String _$notificationsServiceHash() =>
     r'1210ccb08dd4d5c8d2554af87f4ed41ee14ed8e5';
 
-/// Controller to send device token to backend
 @ProviderFor(DeviceTokenController)
 const deviceTokenControllerProvider = DeviceTokenControllerProvider._();
 
-/// Controller to send device token to backend
 final class DeviceTokenControllerProvider
     extends $AsyncNotifierProvider<DeviceTokenController, void> {
-  /// Controller to send device token to backend
   const DeviceTokenControllerProvider._()
     : super(
         from: null,
@@ -105,6 +92,3 @@ abstract class _$DeviceTokenController extends $AsyncNotifier<void> {
     element.handleValue(ref, null);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

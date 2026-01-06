@@ -9,22 +9,9 @@ class NotificationController extends _$NotificationController {
   @override
   Stream<List<NotificationModel>>? build(String userId) {
     return null;
-    // return ref.watch(notificationRepositoryProvider).watchUserNotifications(userId);
   }
 
-  Future<void> markAsRead(String notificationId) async {
-    // await ref.read(notificationRepositoryProvider).markAsRead(notificationId);
-  }
+  Future<void> markAsRead(String notificationId) async {}
 
-  Future<void> deleteNotification(String notificationId) async {
-    // await ref.read(notificationRepositoryProvider).deleteNotification(notificationId);
-  }
+  Future<void> deleteNotification(String notificationId) async {}
 }
-
-// @riverpod
-// Stream<int> unreadNotificationsCount(
-//   WidgetRef ref,
-//   String userId,
-// ) {
-//   // return ref.watch(notificationRepositoryProvider).watchUnreadCount(userId);
-// }

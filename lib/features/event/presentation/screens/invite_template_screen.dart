@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -47,7 +48,7 @@ class InviteTemplateScreen extends ConsumerWidget {
 
     String? resolveImageUrl() {
       final imagePath = imageUrl;
-      final baseUrl = 'https://kroot.akwad.qa/';
+      final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
       if (imagePath == null || imagePath.isEmpty) return null;
       if (imagePath.startsWith('http')) return imagePath;
       final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -59,11 +60,8 @@ class InviteTemplateScreen extends ConsumerWidget {
 
     late BuildContext ctx;
     if (id == null) {
-      //? Listener for add :
       ref.listen(addEventControllerProvider, (prev, next) {
-        //? This listener for create event in this screen :
         if (next.value!.isAddEvent != null) {
-          //? For loading :
           if (next is AsyncLoading) {
             AppAlert.showLoadingDialog(ctx);
           }
@@ -88,7 +86,6 @@ class InviteTemplateScreen extends ConsumerWidget {
           }
         }
 
-        //? This listener for add new contact :
         if (next.value?.isAddContact ?? false) {
           if (next is AsyncData) {
             context.pop();
@@ -103,9 +100,7 @@ class InviteTemplateScreen extends ConsumerWidget {
       });
     } else {
       ref.listen(updateEventControllerProvider, (prev, next) {
-        //? This listener for create event in this screen :
         if (next.value!.isUpdateEvent != null) {
-          //? For loading :
           if (next is AsyncLoading) {
             AppAlert.showLoadingDialog(ctx);
           }
@@ -132,36 +127,15 @@ class InviteTemplateScreen extends ConsumerWidget {
       });
     }
 
-    //? This for app user name :
-    final name = ref
-        .read(homeControllerProvider)
-        .value!
-        .utilsResponse!
-        .value!
-        .subscriber!
-        .name!;
-    //? This for current lang :
     final deviceLocale = Localizations.localeOf(context).toString();
 
-    // final eventLang = ref
-    //     .watch(addEventControllerProvider)
-    //     .value!
-    //     .eventModel!
-    // .language;
-
-    //? This for all tamplates from backend :
     final templates = ref
         .watch(homeControllerProvider)
         .value!
         .utilsResponse!
         .value!
         .templates!;
-    // .where(
-    //   (e) => eventLang!.toLowerCase().contains(e.language!.toLowerCase()),
-    // )
-    // .toList();
 
-    //? This for selected template :
     final selectedTemplate = id == null
         ? ref.watch(
             addEventControllerProvider.select((val) {
@@ -194,8 +168,6 @@ class InviteTemplateScreen extends ConsumerWidget {
               CreateEventPageSelectLanguageField(
                 value: selectedTemplate,
                 onChanged: (val) {
-                  print(selectedTemplate);
-                  print(val);
                   if (id == null) {
                     ref
                         .read(addEventControllerProvider.notifier)
@@ -215,8 +187,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                       (e) => DropdownMenuItem(
                         value: e.name,
                         child: Text(
-                          // context.tr('defaultTemplate'),
-                          // e.name ?? '',
                           '${e.name}  ${e.language}',
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.grayHint,
@@ -243,7 +213,6 @@ class InviteTemplateScreen extends ConsumerWidget {
               ),
               20.verticalSpace,
 
-              //? invite item :
               Expanded(
                 child: SingleChildScrollView(
                   child: ClipRRect(
@@ -268,13 +237,8 @@ class InviteTemplateScreen extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Assets.images.weddingImage.image(),
-
-                            //? in update case :
                             id != null
-                                ?
-                                  //? if update image updated :
-                                  resolveImageUrl() != null
+                                ? resolveImageUrl() != null
                                       ? SizedBox(
                                           width: double.infinity,
                                           height: 182.h,
@@ -305,16 +269,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                                             ),
                                           ),
                                         )
-                                      // image != null
-                                      //     ? Align(
-                                      //         alignment: Alignment.center,
-                                      //         child: Image.file(image),
-                                      //       )
-                                      //     //? if there is a link image :
-                                      //     : (imageUrl != null && imageUrl.isNotEmpty)
-                                      //     ? CachedNetworkImage(imageUrl: imageUrl)
                                       : SizedBox.shrink()
-                                //? In add event case :
                                 : image != null
                                 ? SizedBox(
                                     width: double.infinity,
@@ -333,16 +288,7 @@ class InviteTemplateScreen extends ConsumerWidget {
 
                             18.verticalSpace,
 
-                            // Text(
-                            //   // 'Hadeel',
-                            //   name,
-                            //   style: AppTextStyle.rubikMedium16.copyWith(
-                            //     color: AppColors.black,
-                            //   ),
-                            // ).onlyPadding(start: 18.w),
-                            // 10.verticalSpace,
                             Text(
-                              // context.tr('weddingInvite'),
                               getTemplateMessage(
                                 templates,
                                 selectedTemplate!,
@@ -356,7 +302,6 @@ class InviteTemplateScreen extends ConsumerWidget {
 
                             18.verticalSpace,
 
-                            //? Buttons :
                             Localizations.override(
                               context: context,
                               locale: Locale(lang),
@@ -367,7 +312,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                                     text: '',
                                     backgroundColor: AppColors.white,
                                     content: Text(
-                                      // ctx.tr('confirm'),
                                       lang == 'en' ? 'Confirm' : 'تأكيد',
                                       style: AppTextStyle.rubikRegular18
                                           .copyWith(color: AppColors.black),
@@ -394,7 +338,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                                     text: '',
                                     backgroundColor: AppColors.white,
                                     content: Text(
-                                      // context.tr('declined'),
                                       lang == 'en' ? 'Declined' : 'رفض',
 
                                       style: AppTextStyle.rubikRegular18
@@ -427,7 +370,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                               text: '',
                               backgroundColor: AppColors.white,
                               content: Text(
-                                // context.tr('eventLocation'),
                                 lang == 'en' ? 'Event Location' : 'موقع الحدث',
                                 style: AppTextStyle.rubikRegular18.copyWith(
                                   color: AppColors.black,
@@ -459,12 +401,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                 ),
               ),
 
-              // Spacer(),
-              //? TODO :
-              // if (image == null) 250.verticalSpace,
               if (id != null)
-                //? This for update Guest List :
-                //? Update guest :
                 CustomButtonWidget(
                   text: '',
                   onTap: () async {
@@ -484,7 +421,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                   backgroundColor: AppColors.primary,
                 ).symmetricPadding(horizontal: 22.w),
 
-              //? This for save and continues :
               if (id == null)
                 Align(
                   alignment: Alignment.center,
@@ -494,13 +430,11 @@ class InviteTemplateScreen extends ConsumerWidget {
                       AddEventPageBotton(
                         onTap: () {
                           id != null
-                              //? Update case :
                               ? ref
                                     .read(
                                       updateEventControllerProvider.notifier,
                                     )
                                     .updateEventToServer(id!)
-                              //? Add case :
                               : ref
                                     .read(addEventControllerProvider.notifier)
                                     .createEvent();
@@ -548,17 +482,15 @@ class InviteTemplateScreen extends ConsumerWidget {
             .firstWhere((template) => template.name == selectedTemplate)
             .template ??
         '';
-    print(title);
+
     if (title.contains('{{1}}')) {
       final eventTitle = id == null
           ? ref.read(addEventControllerProvider).value!.eventModel!.title
           : ref.read(updateEventControllerProvider).value!.updatedEvent!.title;
       final newTitle = title.replaceAll('{{1}}', eventTitle!);
-      print('new title:');
-      print(newTitle);
+
       return newTitle;
     }
-    print('title:');
 
     return title;
   }

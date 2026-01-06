@@ -7,7 +7,6 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:kroot_app/features/scan/presentation/controller/scan_controller.dart';
 import 'package:kroot_app/features/scan_qr_code/presentation/controller/scan_qr_code_controller.dart';
 import 'package:kroot_app/features/scan_qr_code/presentation/screens/gates_screen.dart';
-import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -30,21 +29,17 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
 
   bool _isScanning = true;
   String? _scannedCode;
-  int _scannerVersion = 0; // Version counter for forcing rebuild
+  int _scannerVersion = 0;
 
   @override
   void initState() {
     _initializeCamera();
 
     super.initState();
-    // resetScanner();
   }
 
   void _initializeCamera() {
-    _cameraController = MobileScannerController(
-      autoStart: true,
-      // formats: [BarcodeFormat.qrCode],
-    );
+    _cameraController = MobileScannerController(autoStart: true);
   }
 
   @override
@@ -64,23 +59,14 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
         _scannedCode = code;
         driverIdController.text = code;
       });
-      // NEW: store QR + fetch gates + navigate
+
       await ref
           .read(scanQrCodeControllerProvider.notifier)
           .setScannedCode(code);
 
-      // TODO : here the scan api :
       ref
           .read(scanControllerProvider.notifier)
-          .scanQr(
-            qrCode: code,
-            // checkinBy: 'Administrator',
-            inviteeId: widget.id,
-            // inviteeId: 'OINV-0185',
-          );
-      // Navigator.of(
-      //   context,
-      // ).push(MaterialPageRoute(builder: (_) => const GatesScreen()));
+          .scanQr(qrCode: code, inviteeId: widget.id);
     }
   }
 
@@ -89,17 +75,14 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
   }
 
   Future<void> resetScanner() async {
-    // Dispose old controller
     await _cameraController.stop();
 
-    // Reset state
     setState(() {
       _isScanning = true;
       _scannedCode = null;
-      _scannerVersion++; // Force complete rebuild
+      _scannerVersion++;
     });
 
-    // Reinitialize camera
     _initializeCamera();
   }
 
@@ -143,7 +126,7 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
             ),
           ).symmetricPadding(horizontal: 32.w),
           45.verticalSpace,
-          // Assets.icons.scanQrIc.svg(),
+
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Container(
@@ -153,9 +136,7 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
               alignment: Alignment.center,
               child: _isScanning
                   ? MobileScanner(
-                      key: Key(
-                        'scanner_$_scannerVersion',
-                      ), // Force new instance
+                      key: Key('scanner_$_scannerVersion'),
                       controller: _cameraController,
                       onDetect: _handleScan,
                     )
@@ -180,25 +161,11 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
           ).symmetricPadding(horizontal: 32.w),
 
           60.verticalSpace,
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.center,
-          //   children: [
-          //     Assets.icons.scanQrFirstIc.svg(),
-          //     21.horizontalSpace,
-          //     Assets.icons.scanQrSecondIc.svg(),
-          //     21.horizontalSpace,
-          //     Assets.icons.scanQrThirdIc.svg(),
-          //   ],
-          // ),
+
           58.verticalSpace,
           CustomButtonWidget(
             text: '',
-            onTap: () {
-              // context.push(Routes.scanCameraQR);
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(builder: (context) => ScanQrCodeScreen()),
-              // );
-            },
+            onTap: () {},
             content: Text(
               context.tr('scanQrWithYourCamera'),
               style: AppTextStyle.rubikSemiBold16.copyWith(

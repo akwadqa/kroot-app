@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'pagination.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 _Pagination _$PaginationFromJson(Map<String, dynamic> json) => _Pagination(
   totalItems: (json['total_items'] as num).toInt(),

@@ -3,18 +3,15 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import '../../gen/assets.gen.dart';
 import '../theme/app_colors.dart';
-// app_dialogs.dart
 
 class AppDialogs {
   AppDialogs._();
 
-  /// Simple loading overlay (blocks UI)
   static Future<void> loading(
     BuildContext context, {
     bool dismissible = false,
@@ -27,14 +24,12 @@ class AppDialogs {
     );
   }
 
-  /// Close any open dialog (loading or others)
   static void close(BuildContext context) {
     if (Navigator.of(context, rootNavigator: true).canPop()) {
       Navigator.of(context, rootNavigator: true).pop();
     }
   }
 
-  /// Success dialog with optional [message] and/or custom [child] content.
   static Future<void> success(
     BuildContext context, {
     required String title,
@@ -56,7 +51,6 @@ class AppDialogs {
     );
   }
 
-  /// Error dialog with optional [message] and/or custom [child] content.
   static Future<void> error(
     BuildContext context, {
     required String title,
@@ -78,7 +72,6 @@ class AppDialogs {
     );
   }
 
-  /// Confirm dialog (returns true if confirmed)
   static Future<bool> confirm(
     BuildContext context, {
     required String title,
@@ -104,8 +97,6 @@ class AppDialogs {
     return result ?? false;
   }
 }
-
-/// -------------------- Internals --------------------
 
 class _LoadingIndicator extends StatelessWidget {
   const _LoadingIndicator();
@@ -251,27 +242,12 @@ Future<void> showCustomDialog({
       return Dialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 300, // Replace with appropriate fixed or dynamic size
-            maxHeight: 400,
-          ),
+          constraints: const BoxConstraints(maxWidth: 300, maxHeight: 400),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 50),
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                icon ?? SizedBox(),
-                28.verticalSpace,
-                title,
-                // Text(
-                //   title,
-                //   textAlign: TextAlign.center,
-                //   style: Theme.of(context)
-                //       .textTheme
-                //       .displayLarge!
-                //       .copyWith(fontSize: 22),
-                // ),
-              ],
+              children: [icon ?? SizedBox(), 28.verticalSpace, title],
             ),
           ),
         ),
@@ -283,29 +259,24 @@ Future<void> showCustomDialog({
 Future<void> showAutoClosingDialog(BuildContext context, String message) async {
   Timer timer;
 
-  // Start timer to auto-close the dialog
   timer = Timer(Duration(seconds: 3), () {
     Navigator.of(context).pop();
   });
 
   await showDialog(
     context: context,
-    barrierDismissible: true, // User can still tap outside to close
+    barrierDismissible: true,
     builder: (context) => AlertDialog(
       title: Text(
         message,
-        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-          fontSize: 16,
-          // fontWeight: FontWeight.w700,
-          // color: Colors.grey,
-        ),
+        style: Theme.of(context).textTheme.bodySmall!.copyWith(fontSize: 16),
       ).centered(),
       icon: Icon(Icons.error, color: AppColors.darkRed, size: 50),
       actions: [
         TextButton(
           onPressed: () {
             if (timer.isActive) timer.cancel();
-            Navigator.of(context).pop(); // User manually closes
+            Navigator.of(context).pop();
           },
           child: Text(
             "OK",
@@ -347,7 +318,6 @@ Dialog showYesNowChoicesDialog(
           style: Theme.of(context).textTheme.bodySmall!.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            // color: Colors.grey,
           ),
         ).centered(),
         40.verticalSpace,
@@ -385,7 +355,7 @@ Dialog showYesNowChoicesDialog(
                     },
                 color: AppColors.black,
                 isFiled: false,
-                // b: AppColors.darkGray,
+
                 height: 45,
                 radius: 12,
                 width: MediaQuery.sizeOf(context).width,
@@ -404,7 +374,6 @@ void showLogoutDialog(BuildContext context) {
     builder: (BuildContext context) {
       return Consumer(
         builder: (context, ref, _) {
-          final userData = ref.read(userDataProvider.notifier);
           return Container(
             child: showYesNowChoicesDialog(
               context,
@@ -412,10 +381,6 @@ void showLogoutDialog(BuildContext context) {
               dsc: "logout_confirmation".tr(),
               yesButton: () async {
                 Navigator.pop(context);
-                // await userData.removeData();
-                // context.router.replaceAll([const LoginRoute()]);
-
-                // Navigator.pop(context);
               },
             ),
           );
@@ -494,7 +459,7 @@ Future<void> showSuccessWiwthdrawingDialog({required BuildContext context}) {
               backgroundColor: AppColors.black,
               color: AppColors.white,
               isFiled: false,
-              // borderColor: AppColors.darkGray,
+
               height: 50,
               radius: 12,
               width: MediaQuery.sizeOf(context).width,

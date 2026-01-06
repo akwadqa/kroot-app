@@ -12,8 +12,7 @@ class AppToast {
     if (message.contains('null')) message = 'Error , please try again later';
 
     toastification.dismissAll();
-    // TODO
-    // toastification.showCustom(builder: );
+
     toastification.show(
       autoCloseDuration: const Duration(seconds: 5),
       alignment: Alignment.bottomCenter,
@@ -36,16 +35,4 @@ class AppToast {
       description: Text(message),
     );
   }
-
-  // static void additinalToast(String message) {
-  //   toastification.dismissAll();
-  //   toastification.show(
-  //       primaryColor: AppColorManger.primaryColor,
-  //       autoCloseDuration: const Duration(seconds: 5),
-  //       alignment: Alignment.topCenter,
-  //       // type: ToastificationType.info,
-  //       showProgressBar: false,
-  //       style: ToastificationStyle.fillColored,
-  //       description: Text(message));
-  // }
 }

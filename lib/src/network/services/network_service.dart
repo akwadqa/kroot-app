@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-/// Abstract interface for network layer
 abstract class NetworkService<T> {
   Future<T> get(
     String url, {
@@ -37,13 +36,11 @@ class DioNetworkService implements NetworkService<Response> {
 
   DioNetworkService(this._dio);
 
-  /// Merge default headers from Dio config with optional custom headers
   Options _createOptions(Map<String, String>? headers) {
     final defaultHeaders = Map<String, dynamic>.from(_dio.options.headers);
-    return Options(headers: {
-      ...defaultHeaders,
-      if (headers != null) ...headers,
-    });
+    return Options(
+      headers: {...defaultHeaders, if (headers != null) ...headers},
+    );
   }
 
   @override

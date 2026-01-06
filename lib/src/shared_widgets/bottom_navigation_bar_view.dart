@@ -4,11 +4,9 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
-import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 
 class BottomNavigationBarView extends ConsumerWidget {
@@ -50,7 +48,7 @@ class BottomNavigationBarView extends ConsumerWidget {
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   duration: Duration(milliseconds: 300),
-                  // width: double.infinity,
+
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.r),
                     color: index == i ? AppColors.primary : Colors.transparent,
@@ -60,17 +58,15 @@ class BottomNavigationBarView extends ConsumerWidget {
                 ),
                 Spacer(),
 
-                // 12.verticalSpace,
                 ColorFiltered(
                   colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                   child: iconList[i],
                 ),
-                // SizedBox(height: 4),
+
                 Text(
                   labelList[i],
                   style: TextStyle(fontSize: 12.sp, color: color),
                 ),
-                // 12.verticalSpace,
               ],
             );
           },

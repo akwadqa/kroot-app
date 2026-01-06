@@ -1,6 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class AuthUiState {
-  final bool isAgree, isValidate, isPhoneFilled, isResendVisible , isTimerZero;
+  final bool isAgree, isValidate, isPhoneFilled, isResendVisible, isTimerZero;
 
   AuthUiState({
     required this.isAgree,
@@ -23,10 +22,10 @@ class AuthUiState {
     bool? isValidate,
     bool? isPhoneFilled,
     bool? isResendVisible,
-    bool? isTimerZero
+    bool? isTimerZero,
   }) {
     return AuthUiState(
-      isTimerZero:isTimerZero ?? this.isTimerZero,
+      isTimerZero: isTimerZero ?? this.isTimerZero,
       isValidate: isValidate ?? this.isValidate,
       isAgree: isAgree ?? this.isAgree,
       isResendVisible: isResendVisible ?? this.isResendVisible,

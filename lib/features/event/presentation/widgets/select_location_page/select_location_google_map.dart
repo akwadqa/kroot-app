@@ -24,7 +24,6 @@ class SelectLocationGoogleMap extends ConsumerWidget {
             }),
           );
     final qatarLocation = google.CameraPosition(
-      // target: LatLng(25.2854473, 51.53103979999999),
       target: google.LatLng(lanlng.lat, lanlng.lng),
       zoom: 14.4746,
     );

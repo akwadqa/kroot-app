@@ -1,42 +1,26 @@
-/// GENERATED CODE - DO NOT MODIFY BY HAND
-/// *****************************************************
-///  FlutterGen
-/// *****************************************************
-
-// coverage:ignore-file
-// ignore_for_file: type=lint
-// ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
-
 import 'package:flutter/widgets.dart';
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/empty_data.svg
   String get emptyData => 'assets/images/empty_data.svg';
 
-  /// File path: assets/images/im_error_screen.png
   AssetGenImage get imErrorScreen =>
       const AssetGenImage('assets/images/im_error_screen.png');
 
-  /// File path: assets/images/qatar_flag.png
   AssetGenImage get qatarFlag =>
       const AssetGenImage('assets/images/qatar_flag.png');
 
-  /// List of all assets
   List<dynamic> get values => [emptyData, imErrorScreen, qatarFlag];
 }
 
 class $AssetsTranslationsGen {
   const $AssetsTranslationsGen();
 
-  /// File path: assets/translations/ar.json
   String get ar => 'assets/translations/ar.json';
 
-  /// File path: assets/translations/en.json
   String get en => 'assets/translations/en.json';
 
-  /// List of all assets
   List<String> get values => [ar, en];
 }
 

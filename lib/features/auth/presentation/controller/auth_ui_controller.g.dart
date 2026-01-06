@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'auth_ui_controller.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
 
 @ProviderFor(AuthUiController)
 const authUiControllerProvider = AuthUiControllerProvider._();
@@ -29,7 +23,6 @@ final class AuthUiControllerProvider
   @override
   AuthUiController create() => AuthUiController();
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(AuthUiState value) {
     return $ProviderOverride(
       origin: this,
@@ -58,6 +51,3 @@ abstract class _$AuthUiController extends $Notifier<AuthUiState> {
     element.handleValue(ref, created);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

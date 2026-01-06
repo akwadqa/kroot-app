@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_guest_number_filed.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
@@ -71,7 +70,6 @@ class _UpdateGuestNameBottomSheetState
               children: [
                 Row(
                   children: [
-                    //? Title :p
                     Text(
                       context.tr('editGuest'),
                       style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -80,7 +78,6 @@ class _UpdateGuestNameBottomSheetState
                     ),
                     Spacer(),
 
-                    //? Close button :
                     GestureDetector(
                       onTap: () => context.pop(),
                       child: Assets.icons.closeIc.svg(),
@@ -89,22 +86,10 @@ class _UpdateGuestNameBottomSheetState
                 ),
                 31.verticalSpace,
 
-                // AppTextFormField(
-                //   withIcon: false,
-                //   controller: _firstNameController,
-                //   hint: context.tr('firstName'),
-                //   label: context.tr('firstName'),
-                //   isRequired: false,
-                // validator: (val) {
-                //   if (val == null || val.isEmpty) {
-                //     return context.tr('required');
-                //   }
-                // },
-                // ),
                 Text(context.tr('phone'), style: AppTextStyle.rubikRegular18),
                 12.verticalSpace,
                 AddGuestNumberField(_phone),
-                // Spacer(),
+
                 20.verticalSpace,
                 CustomButtonWidget(
                   text: '',
@@ -118,11 +103,9 @@ class _UpdateGuestNameBottomSheetState
                   backgroundColor: AppColors.primary,
                   onTap: () {
                     if (_key.currentState!.validate()) {
-                      // context.pop();
                       ref
                           .read(guestsControllerProvider.notifier)
                           .updateGuest(
-                            // TODO : Dont forget to add inviteeId here :
                             inviteeId: widget.guestModel.inviteeId!,
                             whatsappNumber: _phone.text,
                           );

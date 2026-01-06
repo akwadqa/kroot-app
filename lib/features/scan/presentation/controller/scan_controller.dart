@@ -20,7 +20,7 @@ class ScanController extends _$ScanController {
 
   Future<ScanQrResponse?> scanQr({
     required String qrCode,
-    // required String checkinBy,
+
     required String inviteeId,
   }) async {
     try {
@@ -37,7 +37,7 @@ class ScanController extends _$ScanController {
           response.message ?? '',
           StackTrace.fromString(response.message ?? ''),
         );
-        // throw Exception(response.message);
+
         return null;
       }
 
@@ -54,7 +54,6 @@ class ScanController extends _$ScanController {
     bool showLoading = true,
   }) async {
     try {
-      // if (showLoading) state = AsyncLoading();
       if (showLoading) {
         state = AsyncData(
           state.value!.copyWith(userScanEventResponse: AsyncLoading()),
@@ -66,7 +65,7 @@ class ScanController extends _$ScanController {
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
       if (page == 1) {
-        _eventsList = List.from(response.data!.events ?? []);
+        _eventsList = List.from(response.data!.events );
       } else {
         _eventsList.addAll(
           (response.data?.events ?? []) as Iterable<EventModel>,

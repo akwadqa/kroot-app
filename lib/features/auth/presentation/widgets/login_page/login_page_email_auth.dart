@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -28,7 +27,6 @@ class LoginPageEmailAuth extends ConsumerWidget {
       child: CustomButtonWidget(
         text: '',
         onTap: () {
-          print(ref.read(userDataProvider));
         },
         isFiled: true,
         height: 50,

@@ -57,7 +57,6 @@ class _FadeCircleLoadingIndicatorState extends State<FadeCircleLoadingIndicator>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: widget.color ?? AppColors.primary,
-              // color: widget.color ?? Theme.of(context).colorScheme.secondary,
             ),
           ),
         ),

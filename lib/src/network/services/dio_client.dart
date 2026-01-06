@@ -20,11 +20,9 @@ Dio dio(Ref ref) {
       sendTimeout: timeout,
     ),
   );
-  // dio.interceptors.add(RemoteInterceptor(ref));
+
   dio.interceptors.addAll([
-    RemoteInterceptor(
-      ref,
-    ), // Your custom logic for token, language, error mapping
+    RemoteInterceptor(ref),
     PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
@@ -35,27 +33,10 @@ Dio dio(Ref ref) {
       maxWidth: 90,
     ),
   ]);
-  // dio.interceptors.addAll([
-  //   InterceptorsWrapper(
-  //     onRequest: (options, handler) {
-  //       if (token != null) {
-  //         options.headers['Authorization'] = "token $token";
-  //       }
-  //       // options.queryParameters['sl'] = language;
-  //       options.headers['Accept-Language'] = language;
-  //       handler.next(options);
-  //     },
-  //     onError: (error, handler) {
-  //       handler.reject(DioExceptionHandler.handle(error));
-  //     },
-  //   ),
-  //   LogInterceptor(requestBody: true, responseBody: true),
-  // ]);
 
   return dio;
 }
 
-/// NetworkService injection
 @Riverpod(keepAlive: true)
 NetworkService networkService(Ref ref, [Dio? dio]) =>
     DioNetworkService(dio ?? ref.watch(dioProvider));

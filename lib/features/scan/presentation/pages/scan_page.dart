@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -36,17 +37,18 @@ class _ScanPageState extends ConsumerState<ScanPage> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(scanControllerProvider.select((val)=>val.value!.userScanEventResponse));
+    final controller = ref.watch(
+      scanControllerProvider.select((val) => val.value!.userScanEventResponse),
+    );
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('scan'), withBackButton: false),
 
-      // body: _buildBody(),
       body: controller?.when(
         data: (data) {
-          if (data.events.isEmpty ?? false) {
+          if (data.events.isEmpty) {
             return Center(child: Assets.icons.emptyIc.svg());
           }
-          return _buildBody(data.events ?? []);
+          return _buildBody(data.events);
         },
         error: (e, st) {
           return AppErrorWidget(
@@ -58,7 +60,6 @@ class _ScanPageState extends ConsumerState<ScanPage> {
           );
         },
         loading: () {
-          // return Center(child: Assets.images.animationLoading.image());
           return Center(child: MailPulseAnimation());
         },
       ),
@@ -66,7 +67,7 @@ class _ScanPageState extends ConsumerState<ScanPage> {
   }
 
   Widget _buildBody(List<EventModel> events) {
-    debugPrint(events.length.toString()??"kod");
+    debugPrint(events.length.toString());
     return AppPaginationWidget(
       enablePullDown: true,
       onRefresh: () =>
@@ -89,7 +90,7 @@ class ScanScreenItem extends StatelessWidget {
 
   String? resolveImageUrl() {
     final imagePath = event.imageUrl;
-    final baseUrl = 'https://kroot.akwad.qa/';
+    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
     final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -121,11 +122,6 @@ class ScanScreenItem extends StatelessWidget {
             Column(
               children: [
                 (event.imageUrl != null && resolveImageUrl() != null)
-                    // ? Assets.images.weddingImage.image(
-                    //     height: 129.h,
-                    //     width: double.infinity,
-                    //     fit: BoxFit.cover,
-                    //   )
                     ? CachedNetworkImage(
                         fadeInCurve: Curves.linear,
                         placeholder: (context, url) =>
@@ -148,9 +144,6 @@ class ScanScreenItem extends StatelessWidget {
                   children: [
                     19.horizontalSpace,
                     Text(
-                      // 'Wedding',
-                      // TODO
-                      // "Wedding",
                       event.title ?? '',
                       style: AppTextStyle.rubikMedium14.copyWith(
                         color: AppColors.primary,
@@ -158,30 +151,18 @@ class ScanScreenItem extends StatelessWidget {
                     ),
 
                     Spacer(),
-                    // Text(
-                    //   // 'Wed, 1-10-2025 08:00PM',
-                    //   // DateFormat('EEE, d-M-yyyy hh:mma').format(DateTime.now()),
-                    //   DateFormat(
-                    //     'EEE, d-M-yyyy hh:mma',
-                    //   ).format(DateTime.parse(event.date ?? '')),
-                    //   style: AppTextStyle.rubikRegular12.copyWith(
-                    //     color: AppColors.blackText,
-                    //   ),
-                    // ),
-                    // 19.horizontalSpace,
                   ],
                 ),
                 15.verticalSpace,
                 Row(
                   children: [
                     19.horizontalSpace,
-                    //? Operator tag :
+
                     if (event.role == 'operator')
                       CustomButtonWidget(
                         content: Text(
-                          // 'Handler',
                           context.tr('operator'),
-                          // event.status ?? 'status',
+
                           style: AppTextStyle.rubikRegular14.copyWith(
                             color: AppColors.black,
                           ),
@@ -196,14 +177,11 @@ class ScanScreenItem extends StatelessWidget {
                         topPading: 0,
                       ),
 
-                    //? This for handler
                     if (event.role == 'handler')
                       CustomButtonWidget(
                         content: Text(
-                          // 'Handler',
                           context.tr('authorized'),
 
-                          // event.status ?? 'status',
                           style: AppTextStyle.rubikRegular14.copyWith(
                             color: AppColors.black,
                           ),
@@ -217,19 +195,9 @@ class ScanScreenItem extends StatelessWidget {
                         width: 84.w,
                         topPading: 0,
                       ),
-                    // Text(
-                    //   // 'Wedding',
-                    //   // TODO
-                    //   // "Wedding",
-                    //   event.type ?? '',
-                    //   style: AppTextStyle.rubikSemiBold16.copyWith(
-                    //     color: AppColors.primary,
-                    //   ),
-                    // ),
+
                     Spacer(),
                     Text(
-                      // 'Wed, 1-10-2025 08:00PM',
-                      // DateFormat('EEE, d-M-yyyy hh:mma').format(DateTime.now()),
                       DateFormat(
                         'EEEE dd MMMM yyyy',
                         deviceLocale,

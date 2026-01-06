@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'update_guest_list_response.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 _UpdateGuestListRespone _$UpdateGuestListResponeFromJson(
   Map<String, dynamic> json,

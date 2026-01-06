@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'update_handlers_response.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 _UpdateHandlersResponse _$UpdateHandlersResponseFromJson(
   Map<String, dynamic> json,

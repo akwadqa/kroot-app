@@ -19,7 +19,6 @@ class AuthController extends _$AuthController {
           .asData
           ?.value
           ?.mobile_number;
-      // final number = state.value?.sendOtpResponse?.mobile_number;
       state = AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
@@ -30,10 +29,8 @@ class AuthController extends _$AuthController {
                 '',
             otp: otp,
           );
-      // .verifyOtp(number: '97451365471' ?? number ?? '', otp: otp);
 
       if (result.hasFailed) {
-        // throw Exception(result.message);
         state = AsyncError(result.message ?? '', StackTrace.current);
         return;
       }
@@ -58,7 +55,6 @@ class AuthController extends _$AuthController {
     String? email,
   }) async {
     try {
-      // final number = state.value?.sendOtpResponse?.mobile_number;
       state = const AsyncLoading();
       final result = await ref
           .read(authRepositoryProvider)
@@ -70,7 +66,6 @@ class AuthController extends _$AuthController {
           );
 
       if (result.hasFailed) {
-        // throw Exception(result.message);
         state = AsyncError(result.message ?? '', StackTrace.current);
         return;
       }

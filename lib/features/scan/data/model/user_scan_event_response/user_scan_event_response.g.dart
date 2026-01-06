@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'user_scan_event_response.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 _UserScanEventResponse _$UserScanEventResponseFromJson(
   Map<String, dynamic> json,

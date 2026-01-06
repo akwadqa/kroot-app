@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/data/data.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/manage_access_page/add_operator_handler_bottom_sheet.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -53,8 +51,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
 
         if (next is AsyncData) {
           context.pop();
-          // context.go(Routes.eventDetails, extra: {'model': eventModel});
-          // context.go(Routes.eventDetails, extra: {'id': widget.id});
+
           context.pop();
           context.pop();
           AppToast.doneToast("successfullyCompleted".tr());
@@ -107,7 +104,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
             ),
             child: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
-              // dividerHeight: 3.h,
+
               indicatorWeight: 3.h,
               indicatorColor: AppColors.primary,
               dividerColor: Colors.transparent,
@@ -307,10 +304,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                                       .makeHandlerScanableOrNot(
                                         handlers[index],
                                       );
-
-                                  // ref
-                                  //     .read(updateEventControllerProvider.notifier)
-                                  //     .makeHandlerScanableOrNot(handlers[index]);
                                 }
                               },
                               fillColor: WidgetStateProperty.resolveWith<Color>(
@@ -498,7 +491,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                   },
                   child: Assets.icons.deleteEventIc.svg(height: 25.h),
                 ),
-                // leading: Icon(Icons.delete, color: AppColors.red),
               );
             },
 

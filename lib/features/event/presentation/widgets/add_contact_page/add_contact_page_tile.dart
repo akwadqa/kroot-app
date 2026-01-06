@@ -32,7 +32,6 @@ class AddContactScreenTile extends StatelessWidget {
               ? Alignment.centerRight
               : Alignment.centerLeft,
           child: Text(
-            // contact.phones.first.number,
             contact.phones.isNotEmpty
                 ? contact.phones.first.number
                 : context.tr('no_phone'),
@@ -50,7 +49,7 @@ class AddContactScreenTile extends StatelessWidget {
         value: selectedContacts.any((c) {
           return c.contact.id == contact.id;
         }),
-        // value: selectedContacts.any((c) => c.contact.id == contact.id),
+
         onChanged: (val) {
           onChange(val);
         },
@@ -59,6 +58,6 @@ class AddContactScreenTile extends StatelessWidget {
   }
 
   String normalize(String s) {
-    return s.replaceAll(RegExp(r'\D+'), ''); // يحذف كل شيء غير الأرقام
+    return s.replaceAll(RegExp(r'\D+'), '');
   }
 }

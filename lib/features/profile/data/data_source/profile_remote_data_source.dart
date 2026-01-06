@@ -8,18 +8,13 @@ class ProfileRemoteDataSource {
 
   ProfileRemoteDataSource(this._networkService);
 
-  Future<ApiResponse<String>> getPaymentLink(String type,String local) async {
+  Future<ApiResponse<String>> getPaymentLink(String type, String local) async {
     try {
-      final data = FormData.fromMap({
-        // 'subscription_type': type,
-        'bundle' : type,
-        'language': local,
-      });
+      final data = FormData.fromMap({'bundle': type, 'language': local});
 
       final response = await _networkService.get(
         EndPoints.getPaymentLink,
         data: data,
-        // queryParameters: {'subscription_type': "Basic"},
       );
 
       return ApiResponse.fromJson(

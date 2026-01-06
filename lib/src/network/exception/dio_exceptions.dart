@@ -41,7 +41,6 @@ abstract class DioExceptionHandler {
   }
 }
 
-// Base AppException
 class AppException implements Exception {
   final String? message;
   AppException([this.message]);
@@ -50,19 +49,17 @@ class AppException implements Exception {
   String toString() => message ?? 'Something went wrong';
 }
 
-// Dio-based API exception
 class ApiException extends DioException {
   final String? customMessage;
 
   ApiException(RequestOptions r, [this.customMessage])
-      : super(requestOptions: r, error: customMessage);
+    : super(requestOptions: r, error: customMessage);
 
   String get defaultMessage => 'requestError'.tr();
   @override
   String toString() => customMessage ?? defaultMessage;
 }
 
-// Specific exceptions
 class BadRequestException extends ApiException {
   BadRequestException(super.r, [super.message]);
   @override

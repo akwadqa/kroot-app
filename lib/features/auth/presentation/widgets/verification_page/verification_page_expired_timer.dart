@@ -74,9 +74,7 @@ class _VerificationPageExpiredTimerState
         );
       }
     });
-    // ref
-    //     .read(authUiControllerProvider.notifier)
-    //     .makeResendButtonVisibleOrNo(false);
+  
     return Text.rich(
       style: AppTextStyle.rubikRegular14.copyWith(color: AppColors.primary),
       TextSpan(

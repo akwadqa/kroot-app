@@ -46,12 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     ref.listen(sendOtpControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
-        // if (!(next.value?.validation?.user_exist ?? true)) {
-        // context.push(Routes.creataAccount , extra: _controller.text );
-        // } else {
         AppToast.errorToast(next.error.toString());
-
-        // }
       }
 
       if (next is AsyncLoading) {
@@ -60,9 +55,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
       if (next is AsyncData) {
         context.pop();
-        print('*********************');
-        print(next.value?.allow_login_after);
-        print('*********************');
         ref
             .read(authUiControllerProvider.notifier)
             .makeResendButtonVisibleOrNo(false);
@@ -72,7 +64,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         } else {
           context.push(Routes.creataAccount, extra: _controller.text);
         }
-        // ref.read(authUiControllerProvider.notifier).checkPhoneFilled(false);
       }
     });
 
@@ -82,18 +73,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: Form(
-          // key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               103.verticalSpace,
-              //? Whatsapp icon :
+
               Center(child: Assets.icons.whatsappIc.svg()),
               20.verticalSpace,
 
-              //? Title :
               Text(
-                // "LogInUsingWhatsAppNumber".tr(),
                 context.tr('LogInUsingWhatsAppNumber'),
                 textAlign: TextAlign.center,
                 style: AppTextStyle.rubikMedium20.copyWith(
@@ -102,7 +90,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ).symmetricPadding(horizontal: 10.w),
               20.verticalSpace,
 
-              //? Send verification :
               Text(
                 context.tr('sendVerificationCode'),
                 textAlign: TextAlign.center,
@@ -112,11 +99,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ).symmetricPadding(horizontal: 34.w),
               20.verticalSpace,
 
-              //? Number field :
               LoginPageNumberField(_controller, _formKey),
               40.verticalSpace,
 
-              //? Login button :
               LoginPageSigninButton(
                 onTap: ref.watch(authUiControllerProvider).isPhoneFilled
                     ? () {
@@ -124,7 +109,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ref
                               .read(sendOtpControllerProvider.notifier)
                               .sendOtp(number: _controller.text);
-                          // .sendOtp('999888777666');
                         }
                       }
                     : null,
@@ -132,57 +116,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
               15.verticalSpace,
 
-              //? Signup section :
-              // Text.rich(
-              //   TextSpan(
-              //     text: context.tr('don’tHaveAnAccountYet'),
-              //     style: AppTextStyle.rubikRegular14.copyWith(
-              //       color: AppColors.primary,
-              //     ),
-              //     children: [
-              //       TextSpan(
-              //         text: context.tr('signUp'),
-              //         style: AppTextStyle.rubikMedium15.copyWith(
-              //           color: AppColors.primary,
-              //           decoration: TextDecoration.underline,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // 20.verticalSpace,
-
-              //? Or section :
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       child: Container(height: 1.h, color: AppColors.grayBorder),
-              //     ),
-              //     16.horizontalSpace,
-              //     Text(
-              //       context.tr('or'),
-              //       style: AppTextStyle.bodyXsmallRegular.copyWith(
-              //         color: AppColors.gray,
-              //       ),
-              //     ),
-              //     16.horizontalSpace,
-              //     Expanded(
-              //       child: Container(height: 1.h, color: AppColors.grayBorder),
-              //     ),
-              //   ],
-              // ),
-
-              // 20.verticalSpace,
-
-              //? Email auth
-              // LoginPageEmailAuth(),
-              // 20.verticalSpace,
-
-              //? Google auth
-              // LoginPageGoogleAuth(),
               20.verticalSpace,
 
-              //? Privacy :
               LoginPageTermsSection(),
               20.verticalSpace,
             ],

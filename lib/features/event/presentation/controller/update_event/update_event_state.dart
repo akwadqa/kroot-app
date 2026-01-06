@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,15 +16,14 @@ class UpdateEventState {
   final bool? isUpdateEvent;
   final List<Contact> contacts;
 
-  //? This for search result :
   final AsyncValue<List<AutocompletePrediction>>? predictions;
-  // final LatLng latLng;
+
   final AsyncValue<SelectedPlace>? selectedPlace;
   final AsyncValue<UpdateHandlersResponse>? updateHandlersResponse;
   final AsyncValue<DeleteHandlerResponse>? deleteHandlersResponse;
 
   final CreateEventResponse? createEventResponse;
-  //? This for operators and handlers:
+
   final List<HandlerModel> operators;
   final List<HandlerModel> handlers;
 
@@ -33,7 +31,7 @@ class UpdateEventState {
 
   UpdateEventState({
     required this.updatedEvent,
-    // required this.latLng,
+
     required this.selectedPlace,
     required this.msg,
     required this.updateHandlersResponse,
@@ -53,7 +51,7 @@ class UpdateEventState {
     updatedEvent: EventModel(),
     selectedPlace: null,
     selectedContacts: [],
-    // latLng: LatLng(lat: 25.2854473, lng: 51.53103979999999),
+
     predictions: null,
     msg: '',
     isAddContact: false,
@@ -73,7 +71,7 @@ class UpdateEventState {
     bool? isUpdateEvent,
     List<Contact>? contacts,
     CreateEventResponse? createEventResponse,
-    // LatLng? latLng,
+
     AsyncValue<List<AutocompletePrediction>>? predictions,
     AsyncValue<UpdateHandlersResponse>? updateHandlersResponse,
     AsyncValue<DeleteHandlerResponse>? deleteHandlersResponse,
@@ -85,7 +83,7 @@ class UpdateEventState {
     return UpdateEventState(
       deleteHandlersResponse:
           deleteHandlersResponse ?? this.deleteHandlersResponse,
-      // latLng: latLng ?? this.latLng,
+
       updateHandlersResponse:
           updateHandlersResponse ?? this.updateHandlersResponse,
       predictions: predictions ?? this.predictions,

@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'dio_client.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
 
 @ProviderFor(dio)
 const dioProvider = DioProvider._();
@@ -35,7 +29,6 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
     return dio(ref);
   }
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(Dio value) {
     return $ProviderOverride(
       origin: this,
@@ -46,15 +39,12 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
 
 String _$dioHash() => r'b2c8d0ea919b9569d954884c6b6d80548387d8a2';
 
-/// NetworkService injection
 @ProviderFor(networkService)
 const networkServiceProvider = NetworkServiceFamily._();
 
-/// NetworkService injection
 final class NetworkServiceProvider
     extends $FunctionalProvider<NetworkService, NetworkService, NetworkService>
     with $Provider<NetworkService> {
-  /// NetworkService injection
   const NetworkServiceProvider._({
     required NetworkServiceFamily super.from,
     required Dio? super.argument,
@@ -87,7 +77,6 @@ final class NetworkServiceProvider
     return networkService(ref, argument);
   }
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(NetworkService value) {
     return $ProviderOverride(
       origin: this,
@@ -108,7 +97,6 @@ final class NetworkServiceProvider
 
 String _$networkServiceHash() => r'7aecc727f9e648c49709ba09cd80c82e38d00614';
 
-/// NetworkService injection
 final class NetworkServiceFamily extends $Family
     with $FunctionalFamilyOverride<NetworkService, Dio?> {
   const NetworkServiceFamily._()
@@ -120,13 +108,9 @@ final class NetworkServiceFamily extends $Family
         isAutoDispose: false,
       );
 
-  /// NetworkService injection
   NetworkServiceProvider call([Dio? dio]) =>
       NetworkServiceProvider._(argument: dio, from: this);
 
   @override
   String toString() => r'networkServiceProvider';
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

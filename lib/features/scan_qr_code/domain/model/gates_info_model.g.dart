@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'gates_info_model.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 _GatesInfoModel _$GatesInfoModelFromJson(Map<String, dynamic> json) =>
     _GatesInfoModel(

@@ -15,7 +15,6 @@ class CreateAccountTerms extends ConsumerWidget {
     final isAgree = ref.watch(authUiControllerProvider).isAgree;
     return Row(
       children: [
-        //? Check box :
         GestureDetector(
           onTap: () {
             ref.read(authUiControllerProvider.notifier).agreeTerms();
@@ -34,7 +33,6 @@ class CreateAccountTerms extends ConsumerWidget {
 
         14.horizontalSpace,
 
-        //? Agree with :
         Text(
           context.tr('agreeWith'),
           style: AppTextStyle.rubikRegular16.copyWith(

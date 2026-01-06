@@ -13,7 +13,7 @@ class GuestsScreenTabBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      // height: 54.h,
+
       margin: EdgeInsets.only(bottom: 10.h),
       padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 14.h),
       decoration: BoxDecoration(

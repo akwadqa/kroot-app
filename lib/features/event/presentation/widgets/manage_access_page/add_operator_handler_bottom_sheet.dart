@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_guest_number_filed.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
@@ -65,7 +63,6 @@ class _AddGuestManuallBotomSheetState
     );
 
     return Container(
-      // height: 300.h,
       padding: EdgeInsets.fromLTRB(
         22.w,
         22.w,
@@ -79,7 +76,6 @@ class _AddGuestManuallBotomSheetState
             children: [
               Row(
                 children: [
-                  //? Title :
                   Text(
                     widget.title,
                     style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -88,7 +84,6 @@ class _AddGuestManuallBotomSheetState
                   ),
                   Spacer(),
 
-                  //? Close button :
                   GestureDetector(
                     onTap: () => context.pop(),
                     child: Assets.icons.closeIc.svg(),
@@ -97,7 +92,6 @@ class _AddGuestManuallBotomSheetState
               ),
               33.verticalSpace,
 
-              //? number :
               AddGuestNumberField(number),
               33.verticalSpace,
 
@@ -105,12 +99,7 @@ class _AddGuestManuallBotomSheetState
                 builder: (context, ref, child) {
                   final isLoading = ref.read(homeControllerProvider);
                   if (isLoading is AsyncLoading) {
-                    return Center(
-                      child: MailPulseAnimation(),
-                      // child: Assets.images.animationLoading.image(
-                      //   color: AppColors.primary,
-                      // ),
-                    );
+                    return Center(child: MailPulseAnimation());
                   }
                   return CustomButtonWidget(
                     text: '',

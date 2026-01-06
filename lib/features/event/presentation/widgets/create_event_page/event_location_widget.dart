@@ -22,15 +22,11 @@ class EventLocationWidget extends StatelessWidget {
           markers: {
             Marker(
               markerId: MarkerId('${latlng.latitude} ${latlng.longitude} $id'),
-              // position: LatLng(latlng.lat, latlng.lng),
+
               position: latlng,
             ),
           },
-          initialCameraPosition: CameraPosition(
-            // target: LatLng(latlng.lat, latlng.lng),
-            target: latlng,
-            zoom: 14,
-          ),
+          initialCameraPosition: CameraPosition(target: latlng, zoom: 14),
         ),
       ),
     );

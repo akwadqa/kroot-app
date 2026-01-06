@@ -18,7 +18,7 @@ Future<void> main() async {
         container: container,
         child: EasyLocalization(
           supportedLocales: const [Locale('en'), Locale('ar')],
-          useOnlyLangCode: true, // Reduces logs and warnings
+          useOnlyLangCode: true, 
           path: 'assets/translations',
           child: const App(),
         ),

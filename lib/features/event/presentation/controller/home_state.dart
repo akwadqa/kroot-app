@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,13 +13,10 @@ class HomeState {
   final EventModel? updatedEvent;
   final List<GuestModel>? gusetsList;
   final AsyncValue<EventModel>? confirmEventResponse;
-  // final AsyncValue<ConfirmEventResponse >? confirmEventResponse;
   final AsyncValue<UtilsResponse>? utilsResponse;
 
-  //? This is for delete event :
   final bool? isDeleteEvent;
 
-  //? This for update event :
   final bool? isUpdateEvent;
 
   HomeState({

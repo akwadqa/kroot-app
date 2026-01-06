@@ -7,8 +7,6 @@ part 'user_scan_event_response.g.dart';
 @freezed
 abstract class UserScanEventResponse with _$UserScanEventResponse {
   const factory UserScanEventResponse({
-    // @JsonKey(name: 'owned_events') List<EventModel>? ownedEvents,
-    // @JsonKey(name: 'participant_events') List<EventModel>? participantEvents,
     @JsonKey(name: 'events') required List<EventModel> events,
   }) = _UserScanEventResponse;
 

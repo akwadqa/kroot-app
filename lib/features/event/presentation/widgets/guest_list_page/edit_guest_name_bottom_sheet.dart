@@ -49,7 +49,6 @@ class _EditGuestNameBottomSheetState
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.all(22.w),
       padding: EdgeInsets.fromLTRB(
         22.w,
         22.w,
@@ -64,7 +63,6 @@ class _EditGuestNameBottomSheetState
               children: [
                 Row(
                   children: [
-                    //? Title :p
                     Text(
                       context.tr('editGuest'),
                       style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -73,7 +71,6 @@ class _EditGuestNameBottomSheetState
                     ),
                     Spacer(),
 
-                    //? Close button :
                     GestureDetector(
                       onTap: () => context.pop(),
                       child: Assets.icons.closeIc.svg(),
@@ -118,7 +115,7 @@ class _EditGuestNameBottomSheetState
                     return null;
                   },
                 ),
-                // Spacer(),
+
                 20.verticalSpace,
                 CustomButtonWidget(
                   text: '',
@@ -149,7 +146,7 @@ class _EditGuestNameBottomSheetState
                                   _firstNameController.text,
                                   _lastNameController.text,
                                   _codeController.text,
-                                  widget.contact.count
+                                  widget.contact.count,
                                 );
                       context.pop();
                     }

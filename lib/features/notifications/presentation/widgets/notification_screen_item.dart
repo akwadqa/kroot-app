@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kroot_app/features/notifications/domain/model/app_notifications_model.dart';
@@ -16,7 +15,7 @@ class NotificationScreenItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(11),
       width: double.infinity,
-      // height: 100.h,
+
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
         border: Border.all(color: AppColors.primary.withValues(alpha: .25)),
@@ -38,7 +37,6 @@ class NotificationScreenItem extends StatelessWidget {
               ),
               10.horizontalSpace,
               Text(
-                // 'Save 15% on Your Booking',
                 notificationsModel.appMessageTitle ?? '',
                 style: AppTextStyle.rubikMedium14.copyWith(
                   color: AppColors.primary,
@@ -46,7 +44,6 @@ class NotificationScreenItem extends StatelessWidget {
               ),
               Spacer(),
               Text(
-                // '14min ago',
                 notificationsModel.publishedOn ?? '',
                 style: AppTextStyle.rubikRegular11.copyWith(
                   color: AppColors.grayHint,

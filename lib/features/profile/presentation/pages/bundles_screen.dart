@@ -80,7 +80,7 @@ class BundlesScreen extends ConsumerWidget {
                 itemCount: bundles.length,
               ),
             ),
-            // 40.verticalSpace,
+
             CustomButtonWidget(
               text: '',
               backgroundColor: selectedBundle == null
@@ -156,7 +156,6 @@ class BundlePageBundleItem extends ConsumerWidget {
             ),
             10.verticalSpace,
             Text(
-              // '50 SAR',
               '${bundleModel.price} QAR',
               style: AppTextStyle.rubikRegular18.copyWith(
                 color: AppColors.black,

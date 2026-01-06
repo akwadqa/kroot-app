@@ -1,4 +1,3 @@
-import 'dart:ui' as ui;
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -22,8 +21,6 @@ class _AppState extends ConsumerState<App> {
   void initState() {
     Future(() {
       ref.read(currentLanguageProvider.notifier).getLanguage(context);
-
-      print(ref.read(currentLanguageProvider.notifier));
     });
 
     super.initState();
@@ -31,28 +28,18 @@ class _AppState extends ConsumerState<App> {
 
   @override
   Widget build(BuildContext context) {
-    // final appRouter = ref.watch(appRouterProvider);
-    final currentLanguage = ref.watch(currentLanguageProvider);
     final goRouter = ref.watch(goRouterProvider);
     return ScreenUtilInit(
       designSize: Size(375, 812),
       child: ToastificationWrapper(
         child: MaterialApp.router(
-          // builder: (context, child) =>
-          //     Directionality(textDirection: ui.TextDirection.ltr, child: child!),
           debugShowCheckedModeBanner: false,
-          // routerConfig: GoRouterApp().routes,
           routerConfig: goRouter,
-          // routerDelegate: appRouter.delegate(
-          //   deepLinkBuilder: (deepLink) => DeepLink.defaultPath,
-          // ),
-          // routeInformationParser: appRouter.defaultRouteParser(),
           theme: ref.watch(appThemeProvider),
           onGenerateTitle: (context) => context.tr('appTitle'),
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          // locale: Locale(currentLanguage),
         ),
       ),
     );

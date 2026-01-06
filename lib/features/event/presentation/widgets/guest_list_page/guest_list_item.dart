@@ -59,7 +59,6 @@ class GuestListItem extends StatelessWidget {
               ? Alignment.centerRight
               : Alignment.centerLeft,
           child: Text(
-            // contact.contact.phones.first.number,
             contact.contact.phones.isNotEmpty
                 ? '${contact.code} ${contact.contact.phones.first.number}'
                 : context.tr('no_phone'),

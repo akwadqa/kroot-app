@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -9,7 +8,8 @@ class NotificationCardWidget extends StatelessWidget {
   final String time;
   final String? imageUrl;
 
-  const NotificationCardWidget({super.key, 
+  const NotificationCardWidget({
+    super.key,
     required this.name,
     required this.message,
     required this.time,
@@ -22,7 +22,6 @@ class NotificationCardWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Row(
         children: [
-          // CircleImageWidget(imageUrl: imageUrl),
           16.horizontalSpace,
           Expanded(
             child: Column(
@@ -47,10 +46,7 @@ class NotificationCardWidget extends StatelessWidget {
                 4.verticalSpace,
                 Text(
                   time,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[500],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[500]),
                 ),
               ],
             ),

@@ -25,7 +25,6 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     return Directionality(
       textDirection: TextDirection.ltr,
       child: Container(
-        // height: 90,
         height: preferredSize.height + topPadding,
         padding: EdgeInsets.symmetric(horizontal: 22),
         child: SafeArea(

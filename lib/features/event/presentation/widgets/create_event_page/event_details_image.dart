@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
@@ -26,7 +27,7 @@ class EventDetailsImage extends StatelessWidget {
   });
   String? resolveImageUrl() {
     final imagePath = imageUrl;
-    final baseUrl = 'https://kroot.akwad.qa/';
+    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
     final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -81,7 +82,7 @@ class EventDetailsImage extends StatelessWidget {
                         ? SizedBox(
                             width: double.infinity,
                             height: 182.h,
-                            // height: doo,
+
                             child: Stack(
                               children: [
                                 CachedNetworkImage(
@@ -100,7 +101,6 @@ class EventDetailsImage extends StatelessWidget {
                                   right: 11.h,
                                   child: GestureDetector(
                                     onTap: () {
-                                      print('delete image');
                                       if (deleteLink != null) {
                                         deleteLink!();
                                       }
@@ -115,9 +115,6 @@ class EventDetailsImage extends StatelessWidget {
                           )
                         : Row(
                             children: [
-                              //TODO : this is the icon :
-                              // Assets.icons.uploadImageIc.svg(),
-                              // 15.horizontalSpace,
                               Text(
                                 context.tr('uploadImage'),
                                 style: AppTextStyle.rubikRegular16.copyWith(
@@ -154,7 +151,6 @@ class EventDetailsImage extends StatelessWidget {
                               right: 11.h,
                               child: GestureDetector(
                                 onTap: () {
-                                  print('delete image');
                                   if (deleteFile != null) {
                                     deleteFile!();
                                   }

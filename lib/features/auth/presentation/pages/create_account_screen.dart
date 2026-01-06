@@ -46,7 +46,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //? Listener for create account :
     ref.listen(authControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
@@ -64,14 +63,11 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
       }
     });
 
-    //? Listener for navigate to verify page :
     ref.listen(sendOtpControllerProvider, (prev, next) {
       if (next is AsyncError) {
         context.pop();
         AppToast.errorToast(next.error.toString());
       }
-
-      //? We don't need here a loading because we didn't pop last loading
 
       if (next is AsyncData) {
         context.pop();
@@ -92,7 +88,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
             children: [
               35.verticalSpace,
 
-              //? Title :
               Text(
                 context.tr('weCreateNewAccount'),
                 style: AppTextStyle.rubikRegular16.copyWith(
@@ -102,7 +97,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               Text(widget.number, style: AppTextStyle.rubikSemiBold16),
               21.verticalSpace,
 
-              //? First name :
               AppTextFormField(
                 controller: _firstNameController,
                 icon: Assets.icons.firstNamePersonIc,
@@ -112,7 +106,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               ),
               20.verticalSpace,
 
-              //? Last name :
               AppTextFormField(
                 controller: _lastNameController,
                 icon: Assets.icons.lastNamePersonIc,
@@ -122,7 +115,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               ),
               20.verticalSpace,
 
-              //? Enter email :
               AppTextFormField(
                 controller: _emailController,
                 icon: Assets.icons.enterEmailIc,
@@ -132,11 +124,9 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
               ),
               20.verticalSpace,
 
-              //? Terms :
               CreateAccountTerms(),
               35.verticalSpace,
 
-              //? Confirm button :
               CreateAccountPageConfirmButton(
                 onTap: () {
                   if (_key.currentState!.validate()) {

@@ -1,13 +1,10 @@
 class Routes {
-  //******** Auth ******** */
   static String start = '/';
   static String login = '/-login-page';
 
   static String verification = '/verification-page';
 
   static String creataAccount = '/create-account-page';
-
-  //******** Home ******** */
 
   static String main = '/main-page';
   static String home = '/home-page';
@@ -24,12 +21,10 @@ class Routes {
   static String manageAccess = '/manage-access-page';
   static String eventDetails = '/event-details-page';
 
-  //************* profile */
   static String pricing = '/pricing-page';
   static String bundle = '/bundle-page';
   static String payment = '/paynemt-page';
 
-  //************* scan  */
   static String scanQr = '/scan-qr-page';
   static String scanCameraQR = '/scan-camera-qr-page';
 }

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,23 +14,17 @@ class AddEventState {
 
   final CreateEventResponse? createEventResponse;
 
-  //? This for search result :
   final AsyncValue<List<AutocompletePrediction>>? predictions;
   final LatLng latLng;
 
-  //? This for load contacts :
   final bool? isGetContacts;
 
-  //? This for add event :
   final bool? isAddEvent;
 
-  //? This for get location name :
   final AsyncValue<SelectedPlace>? selectedPlace;
 
-  //? This for current location :
   final LatLng? initialLatLng;
 
-  //? This for operators and handlers:
   final List<HandlerModel> operators;
   final List<HandlerModel> handlers;
 
@@ -59,7 +52,7 @@ class AddEventState {
     handlers: [],
     isGetContacts: false,
     contacts: [],
-    // latLng: LatLng(lat: 25.2854473, lng: 51.53103979999999),
+
     latLng: LatLng(lat: 25.2854473, lng: 51.53103979999999),
     initialLatLng: null,
     predictions: null,

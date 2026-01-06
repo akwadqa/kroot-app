@@ -19,15 +19,8 @@ class RemoteInterceptor extends Interceptor {
     final user = ref.read(userDataProvider);
     final language = ref.read(currentLanguageProvider);
 
-    //? I removed the name and id here :
-    // if (user?.$1 != null) {
-    //   options.headers['Authorization'] =  user!.$1;
-    //   // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
-    // }
     if (user != null) {
       options.headers['Authorization'] = 'token $user';
-      // options.headers['Authorization'] =  'token 8076a272ef22208:0fc27caa720cc39';
-      // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
     }
 
     options.headers['Accept-Language'] = language;
@@ -61,14 +54,8 @@ class RemoteInterceptor extends Interceptor {
     final statusCode = err.response?.statusCode;
     final responseData = err.response?.data;
 
-    // debugPrint("🧵 Stack trace: ${err.error}");
     final isUnauthorized =
         (statusCode == 401 &&
-            // (responseData is Map &&
-            //     (responseData['message']?.toString().toLowerCase().contains(
-            //           "unauthorized",
-            //         )) ==
-            //         true &&
             (responseData['message']?.toString().toLowerCase().contains(
                   "otp",
                 )) ==
@@ -81,15 +68,9 @@ class RemoteInterceptor extends Interceptor {
     if (isUnauthorized) {
       debugPrint("🚪 Session expired → redirect to Login");
 
-      //? Clear the token :
       ref.read(userDataProvider.notifier).removeData();
 
-      //? Navigate to login screen :
       ref.read(goRouterProvider).go(Routes.login);
-      // Future.delayed(Duration.zero, () {
-      //   final router = ref.read(goRouterProvider);
-      //   router.go(Routes.login);
-      // });
     }
 
     final apiResponse = _handleErrorResponse(err);
@@ -97,8 +78,7 @@ class RemoteInterceptor extends Interceptor {
       Response(
         requestOptions: err.requestOptions,
         data: err.response?.data,
-        //? This :
-        // data: apiResponse.toJson(),
+
         statusCode: err.response?.statusCode ?? 500,
       ),
     );

@@ -8,18 +8,14 @@ class EventDetailsDate extends StatelessWidget {
   const EventDetailsDate({
     super.key,
     required this.date,
-    // required this.controller,
+
     required this.onSelectDate,
   });
   final String? date;
   final void Function(DateTime date) onSelectDate;
-  // final String date;
-  // final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
-    // return Consumer(
-    //   builder: (context, ref, child) {
     final deviceLocale = Localizations.localeOf(context).toString();
     final dataFormatter = date != null
         ? DateFormat(
@@ -28,12 +24,8 @@ class EventDetailsDate extends StatelessWidget {
           ).format(DateTime.parse(date!))
         : '';
     return AppTextFormField(
-      // controller: controller,
-      // controller: _date,
-      // value: ,
-      // controller: controller,
       controller: TextEditingController(text: dataFormatter),
-      // value: dataFormatter,
+
       validator: (val) {
         if (val == null || val.isEmpty) {
           return context.tr('required');
@@ -49,15 +41,13 @@ class EventDetailsDate extends StatelessWidget {
         final date = await showDatePicker(
           builder: (context, child) => Theme(
             data: Theme.of(context).copyWith(
-              datePickerTheme: DatePickerThemeData( 
+              datePickerTheme: DatePickerThemeData(
                 dayBackgroundColor: MaterialStateProperty.resolveWith((states) {
                   if (states.contains(MaterialState.selected)) {
                     return AppColors.primary;
                   }
-                  return null; // الافتراضي
+                  return null;
                 }),
-                //   selectionColor: Colors.red,
-                //   selectedDayForegroundColor: Colors.white,
               ),
             ),
             child: child!,
@@ -72,7 +62,5 @@ class EventDetailsDate extends StatelessWidget {
         }
       },
     );
-    //   },
-    // );
   }
 }

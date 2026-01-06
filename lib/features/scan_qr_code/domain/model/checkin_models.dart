@@ -32,7 +32,6 @@ abstract class CheckinPayload with _$CheckinPayload {
   factory CheckinPayload.fromJson(Map<String, dynamic> json) =>
       _$CheckinPayloadFromJson(json);
 
-  /// Helper that can consume either a List or a Map from the backend.
   static CheckinPayload fromAny(Object? json) {
     if (json is List) {
       return CheckinPayload(
@@ -47,6 +46,6 @@ abstract class CheckinPayload with _$CheckinPayload {
         items: [CheckinItem.fromJson(Map<String, dynamic>.from(json))],
       );
     }
-    return const CheckinPayload(); // empty
+    return const CheckinPayload();
   }
 }

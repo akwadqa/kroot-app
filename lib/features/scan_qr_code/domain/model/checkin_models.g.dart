@@ -1,10 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'checkin_models.dart';
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
 
 _CheckinItem _$CheckinItemFromJson(Map<String, dynamic> json) => _CheckinItem(
   invitee: json['invitee'] as String?,

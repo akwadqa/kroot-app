@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:csv/csv.dart';
 import 'package:dio/dio.dart';
 import 'package:excel/excel.dart';
@@ -32,14 +31,12 @@ class AddEventController extends _$AddEventController {
     return AddEventState.init();
   }
 
-  //? This for clear all data when create event :
   void clearEventScreen() {
     state = AsyncData(
       state.value!.copyWith(eventModel: EventModel(), selectedContacts: []),
     );
   }
 
-  //? This for update contact name :
   void updateContactName(
     Contact contact,
     String firstName,
@@ -47,11 +44,9 @@ class AddEventController extends _$AddEventController {
     String code,
     int count,
   ) {
-    print('update started');
     final currentState = state.value!;
 
     final updatedList = currentState.selectedContacts?.map((sc) {
-      // استخدام الـ id للمطابقة
       if (sc.contact.id == contact.id) {
         final updatedContact = Contact(
           id: sc.contact.id,
@@ -65,10 +60,6 @@ class AddEventController extends _$AddEventController {
           displayName: "$firstName $lastName",
         );
 
-        print('updated contact last name: ${updatedContact.name.last}');
-        print('updated code: code $code');
-
-        // return sc.copyWith(contact: updatedContact, code: code);
         return SelectedContact(
           contact: updatedContact,
           code: code,
@@ -76,19 +67,15 @@ class AddEventController extends _$AddEventController {
           count: count,
         );
       }
-      print('we dont update');
 
       return sc;
     }).toList();
-
-    print(updatedList?.first.code);
 
     state = AsyncData(
       currentState.copyWith(selectedContacts: List.from(updatedList!)),
     );
   }
 
-  //? This for delete image in add event screen :
   void deleteImage() {
     final current = state.value?.eventModel ?? EventModel();
 
@@ -103,15 +90,11 @@ class AddEventController extends _$AddEventController {
       state.value!.copyWith(
         eventModel: current.copyWith(
           type: current.type ?? firstType,
-          // type: current.type ?? firstType,
           title: current.title,
           date: current.date,
           language: current.language ?? 'Arabic',
-          // mapLink: current.mapLink,
-          // locationName: current.locationName,
           showQr: current.showQr,
           image: null,
-          // inviteTemplate: newData.inviteTemplate ?? current.inviteTemplate,
           inviteTemplate: 'Kroot Invite-',
           confirmedTemplate: current.confirmedTemplate,
           declinedTemplate: current.declinedTemplate,
@@ -188,13 +171,12 @@ class AddEventController extends _$AddEventController {
       state.value?.eventModel?.date ?? DateTime.now().toString(),
     );
 
-
     final updated = DateTime(
       newDate.year,
       newDate.month,
       newDate.day,
-      current?.hour ?? 0,
-      current?.minute ?? 0,
+      current.hour,
+      current.minute,
     );
 
     updateEvent(EventModel(date: updated.toString()));
@@ -217,7 +199,6 @@ class AddEventController extends _$AddEventController {
   }
 
   void updateEvent(EventModel newData) {
-    // final current = EventModel();
     final current = state.value?.eventModel ?? EventModel();
 
     final firstType = ref
@@ -241,13 +222,10 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(
       state.value!.copyWith(
         eventModel: current.copyWith(
-          //TODO
-          // type: newData.type ?? current.type ?? firstType,
           type: newData.type ?? firstType,
           title: newData.title ?? current.title,
           date: newData.date ?? current.date,
           language: newData.language ?? current.language ?? 'Arabic',
-          // mapLink: newData.mapLink ?? current.mapLink,
           locationName: newData.locationName ?? current.locationName,
           showQr: newData.showQr ?? current.showQr,
           image: newData.image ?? current.image,
@@ -260,36 +238,26 @@ class AddEventController extends _$AddEventController {
               newData.inviteTemplate ??
               current.inviteTemplate ??
               firsTemplate?.name,
-          // inviteTemplate: 'Kroot 2 -',
-          // confirmedTemplate: 'Kroot Confirm-',
-          // newData.confirmedTemplate ?? current.confirmedTemplate,
-          // declinedTemplate: 'Kroot Decline-',
-          // newData.declinedTemplate ?? current.declinedTemplate,
           guests: setGuestListFromContacts() ?? current.guests,
         ),
       ),
     );
   }
 
-  //? This for change the contact to gust model :
   List<GuestModel>? setGuestListFromContacts() {
     final selectedContacts = state.value!.selectedContacts;
     return selectedContacts?.map((s) {
-      final nameParts = (s.contact.displayName ?? '').split(' ');
+      final nameParts = (s.contact.displayName).split(' ');
       final firstName = nameParts.isNotEmpty ? nameParts.first : null;
       final lastName = nameParts.length > 1
           ? nameParts.sublist(1).join(' ')
           : null;
 
       final number = (s.contact.phones.isNotEmpty)
-          // ? '${s.code}${s.contact.phones.first.number}'
           ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
-                ? '${s.contact.phones.first.number.replaceAll(' ', '')}'
-                // ? '${s.contact.phones.first.number.replaceAll(' ', '').substring(1)}'
-                // : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '').substring(4)}'
+                ? s.contact.phones.first.number.replaceAll(' ', '')
                 : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
           : null;
-      // return {};
 
       return GuestModel(
         firstName: firstName,
@@ -300,7 +268,6 @@ class AddEventController extends _$AddEventController {
     }).toList();
   }
 
-  //? This for unchecked contact :
   void deleteSelectedContact(Contact contact) {
     final currentState = state.value!;
 
@@ -311,7 +278,6 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
 
-  //? This is or get contact from user phone :
   Future<void> getContacts(String? search) async {
     state = AsyncLoading();
 
@@ -339,7 +305,6 @@ class AddEventController extends _$AddEventController {
     );
   }
 
-  //? This for select contact and make it check :
   void selectContact(Contact contact) {
     final currentState = state.value!;
     List<SelectedContact> selectedList = currentState.selectedContacts!;
@@ -350,21 +315,18 @@ class AddEventController extends _$AddEventController {
           .where((c) => c.contact.id != contact.id)
           .toList();
     } else {
-      //? The code :
       final code =
           contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(1, 4)
           : '974';
 
-      //? Number without 0 or + :
       final number =
           contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(4)
           : contact.phones.first.number.replaceAll(' ', '').substring(1);
 
-      //? New contact :
       final newContact = Contact(
         id: contact.id,
         displayName: contact.displayName,
@@ -374,21 +336,6 @@ class AddEventController extends _$AddEventController {
             .map((e) => Email(e.address, label: e.label))
             .toList(),
       );
-
-      print('''
-
-        number is : ${contact.phones.first.number}
-        number after edit : $number
-
-        code : $code
-
-        new Contact number after edit : ${newContact.phones.first.number}
-
-
-
-
-
-''');
 
       selectedList = [
         ...selectedList,
@@ -404,7 +351,6 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(currentState.copyWith(selectedContacts: selectedList));
   }
 
-  //? This for add guest for party :
   void incrementCount(SelectedContact contact) {
     final currentState = state.value!;
     final updatedList = currentState.selectedContacts?.map((sc) {
@@ -417,7 +363,6 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
 
-  //? This for minus guest for party :
   void decrementCount(SelectedContact contact) {
     final currentState = state.value!;
     final updatedList = currentState.selectedContacts?.map((sc) {
@@ -464,8 +409,6 @@ class AddEventController extends _$AddEventController {
     }
   }
 
-  //? This for add event to server :
-
   Future<CreateEventResponse?> createEvent() async {
     try {
       state = AsyncData(state.value!.copyWith(isAddEvent: true));
@@ -479,11 +422,8 @@ class AddEventController extends _$AddEventController {
           StackTrace.fromString(response.message ?? ''),
         );
         state = AsyncData(state.value!.copyWith(isAddEvent: false));
-
-        // throw Exception(response.message);
       }
 
-      // state = AsyncData(state.value!.copyWith(eventResponse: eventResponse));
       state = AsyncData(
         state.value!.copyWith(
           createEventResponse: response.data,
@@ -500,14 +440,12 @@ class AddEventController extends _$AddEventController {
 
   Future<void> importGuestsFromFile() async {
     try {
-      //? Pick a file :
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['csv', 'xlsx'],
       );
 
       if (result == null) {
-        // state = AsyncError("لم يتم اختيار أي ملف", StackTrace.current);
         return;
       }
 
@@ -522,7 +460,6 @@ class AddEventController extends _$AddEventController {
       List<List<dynamic>> rows = [];
       Map<String, int> colIndex = {};
 
-      //? Read Excel :
       if (extension == 'xlsx') {
         final bytes = File(path).readAsBytesSync();
 
@@ -546,9 +483,7 @@ class AddEventController extends _$AddEventController {
         for (var row in sheet.rows) {
           rows.add(row.map((c) => c?.value).toList());
         }
-      }
-      //? Read CSV :
-      else if (extension == 'csv') {
+      } else if (extension == 'csv') {
         final content = File(path).readAsStringSync();
         rows = const CsvToListConverter().convert(content);
       } else {
@@ -560,7 +495,7 @@ class AddEventController extends _$AddEventController {
         state = AsyncError('This file is empty', StackTrace.current);
         return;
       }
-      //? Cleaning the header and check :
+
       final cleanHeader = rows.first.map((e) {
         return e.toString().trim().toLowerCase().replaceAll(
           RegExp(r'[\ufeff\s]'),
@@ -578,7 +513,6 @@ class AddEventController extends _$AddEventController {
       for (var col in requiredCols) {
         if (!cleanHeader.contains(col)) {
           state = AsyncError(
-            // "العمود '$col' غير موجود في الملف",
             "The column $col isn't exist in the file",
             StackTrace.current,
           );
@@ -587,7 +521,6 @@ class AddEventController extends _$AddEventController {
         colIndex[col] = cleanHeader.indexOf(col);
       }
 
-      //? Convert data to Selected Contact :
       List<SelectedContact> imported = [];
 
       for (int i = 1; i < rows.length; i++) {
@@ -617,29 +550,24 @@ class AddEventController extends _$AddEventController {
         );
       }
 
-      //? Merge new with old :
       final existing = state.value!.selectedContacts ?? [];
       final updated = [...existing, ...imported];
 
       state = AsyncData(state.value!.copyWith(selectedContacts: updated));
 
-      //? Update the event data :
       updateEvent(state.value!.eventModel!);
     } catch (e, st) {
       state = AsyncError(e, st);
     }
   }
 
-  //***************** For lcation ******* */
   Future<void> searchForLocation(String query) async {
     final sdk = ref.read(placesSdkProvider);
     if (query.isEmpty) {
-      // state = state.copyWith(predictions: []);
       state = AsyncData(state.value!.copyWith(predictions: AsyncData([])));
       return;
     }
 
-    // state = state.copyWith(loading: true);
     state = AsyncData(state.value!.copyWith(predictions: AsyncLoading()));
 
     final result = await sdk.findAutocompletePredictions(query);
@@ -672,12 +600,8 @@ class AddEventController extends _$AddEventController {
   }
 
   Future<void> getPlaceInfoFromLatLng() async {
-    final lat =
-        // double.tryParse(state.value!.eventModel?.mapLatitude ?? '') ??
-        state.value!.latLng.lat;
-    final lng =
-        // double.tryParse(state.value!.eventModel?.mapLongitude ?? '') ??
-        state.value!.latLng.lng;
+    final lat = state.value!.latLng.lat;
+    final lng = state.value!.latLng.lng;
     try {
       state = AsyncData(state.value!.copyWith(selectedPlace: AsyncLoading()));
       final apiKey = dotenv.env['MAPS_API_KEY'];
@@ -697,7 +621,6 @@ class AddEventController extends _$AddEventController {
       final result = data["results"][0];
 
       final locationName = cleanName(result["formatted_address"] ?? "");
-      // final locationName = cleanName('7Q4F+4R Mesaieed, Qatar');
       final placeId = result["place_id"] ?? "";
 
       final mapLink =
@@ -710,14 +633,7 @@ class AddEventController extends _$AddEventController {
           mapLongitude: lng.toString(),
         ),
       );
-      print('''
-
-    lat : $lat
-    lng : $lng
-    name : ${result["formatted_address"]}
-
-
-''');
+   
 
       state = AsyncData(
         state.value!.copyWith(
@@ -731,47 +647,38 @@ class AddEventController extends _$AddEventController {
         ),
       );
     } catch (e, st) {
-      print("Reverse Geocoding Error: $e");
       state = AsyncData(
         state.value!.copyWith(selectedPlace: AsyncError(e, st)),
       );
     }
   }
 
-  //? This for get only the location name with out the address before :
   String cleanName(String address) {
     if (address.isEmpty) return "Location";
 
     final trimmed = address.trim();
 
-    // تقسيم حسب الفواصل
     List<String> commaParts = trimmed.split(',').map((e) => e.trim()).toList();
 
-    // الجزء الأول قبل الفاصلة (قد يحتوي plus code + اسم)
     String first = commaParts[0];
 
-    // إزالة Full Plus Code مثل: 7Q4F+4R
     final fullPlusCode = RegExp(r"^[A-Z0-9]{4,}\+[A-Z0-9]+");
     first = first.replaceFirst(fullPlusCode, '').trim();
 
-    // إزالة Short Plus Code مثل: +4R أو +9W
     final shortPlusCode = RegExp(r"^\+[A-Z0-9]{2,4}");
     first = first.replaceFirst(shortPlusCode, '').trim();
 
-    // إذا أصبح فارغاً بعد إزالة الأكواد → تجاهله
     List<String> parts = [];
     if (first.isNotEmpty) {
       parts.add(first);
     }
 
-    // إضافة بقية الأجزاء
     if (commaParts.length > 1) {
       parts.addAll(commaParts.sublist(1));
     }
 
     final result = parts.join(', ').trim();
 
-    // منع نتيجة تكون أرقام أو رموز
     if (RegExp(r"^[0-9+\- ]+$").hasMatch(result)) {
       return "Location";
     }
@@ -780,20 +687,16 @@ class AddEventController extends _$AddEventController {
   }
 
   Future<void> initLocation() async {
-    // ضع الـ state في وضع التحميل
     state = AsyncData(state.value!.copyWith(selectedPlace: AsyncLoading()));
 
     try {
-      // طلب صلاحيات الموقع
       final permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied ||
           permission == LocationPermission.deniedForever) {
-        // في حال الرفض – استخدم القيم الافتراضية
         _setDefaultLocationWithAsync();
         return;
       }
 
-      // الحصول على موقع المستخدم الحالي
       final pos = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
@@ -801,7 +704,6 @@ class AddEventController extends _$AddEventController {
       final lat = pos.latitude.toString();
       final lng = pos.longitude.toString();
 
-      // استعلام Google Geocoding للحصول على اسم المكان
       final response = await Dio().get(
         "https://maps.googleapis.com/maps/api/geocode/json"
         "?latlng=$lat,$lng&key=${dotenv.env['MAPS_API_KEY']}",
@@ -811,16 +713,7 @@ class AddEventController extends _$AddEventController {
       if (response.statusCode == 200 && response.data["status"] == "OK") {
         locationName = response.data["results"][0]["formatted_address"];
       }
-      print('''
 
-    lat : $lat
-    lng : $lng
-    name : $locationName
-
-
-''');
-
-      // تحديث بيانات الـ Event
       updateEvent(
         EventModel(
           mapLatitude: lat,
@@ -846,7 +739,6 @@ class AddEventController extends _$AddEventController {
         ),
       );
     } catch (e, st) {
-      // خطأ أثناء الحصول على الموقع → استخدم القيم الافتراضية
       _setDefaultLocationWithAsync(error: e, stack: st);
     }
   }
@@ -856,9 +748,6 @@ class AddEventController extends _$AddEventController {
     const lng = "51.53103979999999";
     const locationName = "Doha, Qatar";
 
-    print('here default');
-
-    // تحديث الحدث بالقيم الافتراضية
     updateEvent(
       EventModel(
         mapLatitude: lat,
@@ -867,7 +756,6 @@ class AddEventController extends _$AddEventController {
       ),
     );
 
-    // تخزين الحالة سواء كانت خطأ أو بيانات جاهزة
     if (error != null) {
       state = AsyncData(
         state.value!.copyWith(

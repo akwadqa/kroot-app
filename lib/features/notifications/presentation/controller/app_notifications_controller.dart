@@ -25,9 +25,6 @@ class AppNotificationsController extends _$AppNotificationsController {
       final repo = ref.read(notificationsRepositoryProvider);
       final response = await repo.getAllOrdersNotifications(page: page);
 
-      // افترض أن الدالة ترجع كائن يحتوي على:
-      // data: List<AppNotificationsModel>
-      // pagination: {...}
       _currentPage = response.pagination!.currentPage;
       _totalPages = response.pagination!.totalPages;
 
@@ -71,11 +68,4 @@ class AppNotificationsController extends _$AppNotificationsController {
     await fetchOrdersOffersNotifications(page: 1);
     return true;
   }
-
-  // List<AppNotificationsModel> getFilteredOrders(MyorderStatus? status) {
-  // if (status == MyorderStatus.all) {
-  //     return state.value!;
-  //   }
-  //   return state.value?.where((order) => order.status == status?.name).toList()??[];
-  // }
 }

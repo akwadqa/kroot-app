@@ -13,35 +13,6 @@ class GuestsDatasource {
 
   GuestsDatasource(this._networkService);
 
-  // Future<ApiResponse<List<GuestModel>>> getAllGuests(
-  //   int page,
-  //   String? searchKey,
-  //   RsvpStatus? status,
-  //   // String? searchKey
-  // ) async {
-  //   try {
-  //     final response = await _networkService.get(
-  //       EndPoints.getGuests,
-  //       queryParameters: {
-  //         'page': page,
-  //         'occasion': "OCC-2025-001",
-  //         'rsvp_status': rsvpToApi(status ?? RsvpStatus.all),
-  //         'search': searchKey,
-
-  //         //  if(quickOrderOfferId!=null) "quick_order_offer_id": quickOrderOfferId
-  //       },
-  //     );
-  //     return ApiResponse.fromJson(
-  //       response.data,
-  //       (json) => (json as List)
-  //           .map((item) => GuestModel.fromJson(item as Map<String, dynamic>))
-  //           .toList(),
-  //     );
-  //   } catch (e) {
-  //     return ApiResponse.error(message: e.toString());
-  //   }
-  // }
-
   Future<ApiResponse<GuestModel>> getGuestDetails(String? inviteeId) async {
     try {
       final response = await _networkService.get(
@@ -85,17 +56,12 @@ class GuestsDatasource {
     try {
       final response = await _networkService.post(
         EndPoints.deleteGuest,
-        // queryParameters: {'invitee_id': inviteeId},
+
         queryParameters: {
-          // 'occasion_id': occasionId,
-          // 'invitees_list': jsonEncode(guests.map((e) => e.toJson()).toList()),
           'invitees_list': jsonEncode(guests.map((e) => e.inviteeId).toList()),
         },
       );
-      return ApiResponse.fromJson(
-        response.data,
-        (json) {},
-      );
+      return ApiResponse.fromJson(response.data, (json) {});
     } catch (e) {
       return ApiResponse.error(message: e.toString());
     }
@@ -115,7 +81,7 @@ class GuestsDatasource {
       );
       return ApiResponse.fromJson(
         response.data,
-        // (json) {},
+
         (json) => UpdateGuestListRespone.fromJson(json as Map<String, dynamic>),
       );
     } catch (e) {

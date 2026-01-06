@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:kroot_app/features/auth/presentation/widgets/login_page/login_page_number_field.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
@@ -56,7 +55,6 @@ class _AddContactManuallBottomSheetState
             children: [
               Row(
                 children: [
-                  //? Title :
                   Text(
                     context.tr('addContact'),
                     style: AppTextStyle.rubikSemiBold20.copyWith(
@@ -65,7 +63,6 @@ class _AddContactManuallBottomSheetState
                   ),
                   Spacer(),
 
-                  //? Close button :
                   GestureDetector(
                     onTap: () => context.pop(),
                     child: Assets.icons.closeIc.svg(),
@@ -74,7 +71,6 @@ class _AddContactManuallBottomSheetState
               ),
               33.verticalSpace,
 
-              //? First name :
               AppTextFormField(
                 withIcon: false,
                 controller: firstName,
@@ -91,26 +87,19 @@ class _AddContactManuallBottomSheetState
               ),
               20.verticalSpace,
 
-              //? Last name :
               AppTextFormField(
                 withIcon: false,
                 controller: lastName,
                 hint: context.tr('enterAnyLastName'),
-                // icon: Assets.icons.contactNameIc,
+
                 label: context.tr('lastName'),
                 isRequired: false,
                 validator: (val) {
                   return null;
-
-                  //TODO
-                  // if (val == null || val.isEmpty) {
-                  //   return context.tr('required');
-                  // }
                 },
               ),
               20.verticalSpace,
 
-              //? number :
               Text(
                 context.tr('phone_number'),
                 style: AppTextStyle.rubikRegular18,
@@ -118,48 +107,13 @@ class _AddContactManuallBottomSheetState
               12.verticalSpace,
 
               AddGuestNumberField(number),
-              // AppTextFormField(
-              //   controller: number,
-              //   validator: (val) {
-              //     if (val == null || val.isEmpty) {
-              //       return context.tr('required');
-              //     }
-              //     return null;
-              //   },
-              //   inputType: TextInputType.number,
-              //   hint: context.tr('enterPhone'),
-              //   icon: Assets.icons.contactNumberIc,
-              //   label: context.tr('phone_number'),
-              //   isRequired: false,
-              // ),
-              // 20.verticalSpace,
 
-              // //? code :
-              // AppTextFormField(
-              //   controller: code,
-              //   validator: (val) {
-              //     if (val == null || val.isEmpty) {
-              //       return context.tr('required');
-              //     }
-              //     return null;
-              //   },
-              //   inputType: TextInputType.number,
-              //   hint: context.tr('enterQuntryCode'),
-              //   icon: Assets.icons.contactNumberIc,
-              //   label: context.tr('countryCode'),
-              //   isRequired: false,
-              // ),
               150.verticalSpace,
               Consumer(
                 builder: (context, ref, child) {
                   final isLoading = ref.read(homeControllerProvider);
                   if (isLoading is AsyncLoading) {
-                    return Center(
-                      child: MailPulseAnimation(),
-                      // child: Assets.images.animationLoading.image(
-                      //   color: AppColors.primary,
-                      // ),
-                    );
+                    return Center(child: MailPulseAnimation());
                   }
                   return CustomButtonWidget(
                     text: '',
@@ -212,7 +166,6 @@ class _AddContactManuallBottomSheetState
                 },
               ),
 
-              //? Add button:
               31.verticalSpace,
               CustomButtonWidget(
                 text: '',

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,15 +32,12 @@ part 'go_router_app.g.dart';
 
 @Riverpod(keepAlive: true)
 GoRouter goRouter(Ref ref) {
-  // final token = ref.watch(userDataProvider);
   return GoRouterApp().routes;
 }
 
 class GoRouterApp {
   GoRouter get routes => GoRouter(
     routes: [
-      //************ Auth *********** */
-      //? Login :
       GoRoute(
         path: Routes.start,
 
@@ -52,7 +48,6 @@ class GoRouterApp {
               final token = ref.read(userDataProvider);
               if (token != null) return MainScreen();
               return LoginScreen();
-              // return AddOperatorsScreen();
             },
           ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -60,7 +55,7 @@ class GoRouterApp {
           },
         ),
       ),
-      //? Login :
+
       GoRoute(
         path: Routes.login,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -72,7 +67,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Verification :
       GoRoute(
         path: Routes.verification,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -84,7 +78,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Create account :
       GoRoute(
         path: Routes.creataAccount,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -94,13 +87,8 @@ class GoRouterApp {
             return FadeTransition(opacity: animation, child: child);
           },
         ),
-        // builder: (context, state) =>
-        //     CreateAccountScreen(number: state.extra as String),
       ),
 
-      //****************** Home  ***********/
-
-      //? Home :
       GoRoute(
         path: Routes.main,
 
@@ -113,7 +101,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? createEvent
       GoRoute(
         path: Routes.createEvent,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -123,10 +110,8 @@ class GoRouterApp {
             return FadeTransition(opacity: animation, child: child);
           },
         ),
-        // builder: (context, state) => AddEventScreen(),
       ),
 
-      //? Manage Access :
       GoRoute(
         path: Routes.manageAccess,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -136,10 +121,8 @@ class GoRouterApp {
             return FadeTransition(opacity: animation, child: child);
           },
         ),
-        // builder: (context, state) => AddEventScreen(),
       ),
 
-      //? Select Location :
       GoRoute(
         path: Routes.selectLocation,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -149,10 +132,8 @@ class GoRouterApp {
             return FadeTransition(opacity: animation, child: child);
           },
         ),
-        // builder: (context, state) => AddEventScreen(),
       ),
 
-      //? Update event :
       GoRoute(
         path: Routes.updateEvent,
         pageBuilder: (context, state) {
@@ -169,13 +150,11 @@ class GoRouterApp {
                 },
           );
         },
-        // builder: (context, state) => AddEventScreen(),
       ),
 
-      //? Add contacts
       GoRoute(
         path: Routes.addContact,
-        // builder: (context, state) => AddContactScreen(),
+
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: AddContactScreen(id: state.extra as String?),
@@ -185,10 +164,9 @@ class GoRouterApp {
         ),
       ),
 
-      //? Update contacts
       GoRoute(
         path: Routes.updateContact,
-        // builder: (context, state) => AddContactScreen(),
+
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: UpdateContactScreen(id: state.extra as String?),
@@ -197,7 +175,7 @@ class GoRouterApp {
           },
         ),
       ),
-      //? Geust list :
+
       GoRoute(
         path: Routes.guestList,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -208,7 +186,7 @@ class GoRouterApp {
           },
         ),
       ),
-      //? Event Geust list :
+
       GoRoute(
         path: Routes.eventGuestList,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -220,7 +198,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Invite template
       GoRoute(
         path: Routes.inviteTemplate,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -232,7 +209,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Qr :
       GoRoute(
         path: Routes.qrScreen,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -244,12 +220,11 @@ class GoRouterApp {
         ),
       ),
 
-      //? Scan Qr :
       GoRoute(
         path: Routes.scanCameraQR,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          // child: ScanQrCodeScreen(inviteeId: state.extra as String,),
+
           child: ScanQrCodeScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
@@ -257,7 +232,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Send invite :
       GoRoute(
         path: Routes.sendInvite,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -269,14 +243,13 @@ class GoRouterApp {
         ),
       ),
 
-      //? Event details :
       GoRoute(
         path: Routes.eventDetails,
         pageBuilder: (context, state) {
           final params = state.extra as Map;
           return CustomTransitionPage(
             key: state.pageKey,
-            // child: EventDetailsScreen(id: state.extra as String),
+
             child: EventDetailsScreen(
               eventModel: params['model'],
               id: params['id'],
@@ -289,7 +262,6 @@ class GoRouterApp {
         },
       ),
 
-      //? Scan QR  :
       GoRoute(
         path: Routes.scanQr,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -301,7 +273,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Pricing :
       GoRoute(
         path: Routes.pricing,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -313,7 +284,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Bundle :
       GoRoute(
         path: Routes.bundle,
         pageBuilder: (context, state) => CustomTransitionPage(
@@ -325,7 +295,6 @@ class GoRouterApp {
         ),
       ),
 
-      //? Payment :
       GoRoute(
         path: Routes.payment,
         pageBuilder: (context, state) => CustomTransitionPage(

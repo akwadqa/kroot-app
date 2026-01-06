@@ -32,7 +32,6 @@ class HomePageAppBar extends ConsumerWidget {
         12.verticalSpace,
         Row(
           children: [
-            //? App bar :
             Text(
               context.tr('welcome'),
               style: AppTextStyle.rubikSemiBold16.copyWith(
@@ -46,7 +45,6 @@ class HomePageAppBar extends ConsumerWidget {
                 name != null ? '+$name' : '',
                 style: AppTextStyle.rubikSemiBold16.copyWith(
                   color: AppColors.primary,
-                  // fontSize: 14.sp,
                 ),
               ),
             ),

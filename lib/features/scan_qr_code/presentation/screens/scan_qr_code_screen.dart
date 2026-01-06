@@ -16,8 +16,6 @@ import 'package:kroot_app/src/utils/app_toast.dart';
 class ScanQrCodeScreen extends ConsumerStatefulWidget {
   const ScanQrCodeScreen({super.key});
 
-  // final String inviteeId;
-
   @override
   ConsumerState<ScanQrCodeScreen> createState() => _ScanQrCodeScreenState();
 }
@@ -28,21 +26,17 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
 
   bool _isScanning = true;
   String? _scannedCode;
-  int _scannerVersion = 0; // Version counter for forcing rebuild
+  int _scannerVersion = 0;
 
   @override
   void initState() {
     _initializeCamera();
 
     super.initState();
-    // resetScanner();
   }
 
   void _initializeCamera() {
-    _cameraController = MobileScannerController(
-      autoStart: true,
-      // formats: [BarcodeFormat.qrCode],
-    );
+    _cameraController = MobileScannerController(autoStart: true);
   }
 
   @override
@@ -62,23 +56,14 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
         _scannedCode = code;
         driverIdController.text = code;
       });
-      // NEW: store QR + fetch gates + navigate
+
       await ref
           .read(scanQrCodeControllerProvider.notifier)
           .setScannedCode(code);
 
-      // TODO : here the scan api :
       ref
           .read(scanControllerProvider.notifier)
-          .scanQr(
-            qrCode: code,
-            // checkinBy: 'Administrator',
-            // inviteeId: widget.inviteeId,
-            inviteeId: 'OINV-0185',
-          );
-      // Navigator.of(
-      //   context,
-      // ).push(MaterialPageRoute(builder: (_) => const GatesScreen()));
+          .scanQr(qrCode: code, inviteeId: 'OINV-0185');
     }
   }
 
@@ -87,17 +72,14 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
   }
 
   Future<void> resetScanner() async {
-    // Dispose old controller
     await _cameraController.stop();
 
-    // Reset state
     setState(() {
       _isScanning = true;
       _scannedCode = null;
-      _scannerVersion++; // Force complete rebuild
+      _scannerVersion++;
     });
 
-    // Reinitialize camera
     _initializeCamera();
   }
 
@@ -130,9 +112,7 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
       }
     });
 
-    final scanDriverQrController = ref.watch(
-      scanQrCodeControllerProvider.notifier,
-    );
+   
 
     ref.listen<AsyncValue<ScanDriverQrState?>>(scanQrCodeControllerProvider, (
       prev,
@@ -157,25 +137,12 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           Navigator.of(context, rootNavigator: true).pop();
           await showAutoClosingDialog(context, next.error.toString());
-          // showErrorDialog(context, next.error.toString());
         });
       }
-
-      // if (next is AsyncData) {
-      //   debugPrint("✅ Order data received: ${next.value}");
-      //   WidgetsBinding.instance.addPostFrameCallback((_) {
-      //     if (Navigator.of(context, rootNavigator: true).canPop()) {
-      //       Navigator.of(context, rootNavigator: true).pop();
-      //     }
-      //   });
-      // }
     });
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('scanTheQrCode')),
-      // appBar: PreferredSize(
-      //   preferredSize: const Size(double.infinity, 55),
-      //   child: CustomAppbar(title: context.tr('scan_code')),
-      // ),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -189,7 +156,6 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
             ),
             const SizedBox(height: 30),
 
-            // Scanner or scanned result
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Container(
@@ -199,9 +165,7 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
                 alignment: Alignment.center,
                 child: _isScanning
                     ? MobileScanner(
-                        key: Key(
-                          'scanner_$_scannerVersion',
-                        ), // Force new instance
+                        key: Key('scanner_$_scannerVersion'),
                         controller: _cameraController,
                         onDetect: _handleScan,
                       )
@@ -227,60 +191,7 @@ class _ScanQrCodeScreenState extends ConsumerState<ScanQrCodeScreen> {
 
             const SizedBox(height: 50),
 
-            // Row(
-            //   children: [
-            //     const Expanded(
-            //         child: Divider(height: 1, color: AppColors.lightGray)),
-            //     Padding(
-            //       padding: const EdgeInsets.symmetric(horizontal: 12),
-            //       child: Text("or".tr(),
-            //           style: const TextStyle(fontWeight: FontWeight.bold)),
-            //     ),
-            //     const Expanded(
-            //         child: Divider(height: 1, color: AppColors.lightGray)),
-            //   ],
-            // ),
-
-            // const SizedBox(height: 25),
-            // Text("enter_driver_id".tr(),
-            //     style: Theme.of(context)
-            //         .textTheme
-            //         .bodyMedium
-            //         ?.copyWith(fontWeight: FontWeight.w600)),
-
-            // const SizedBox(height: 20),
-            // TextFormField(
-            //   controller: driverIdController,
-            //   style: TextStyle(color: AppColors.gray),
-            //   decoration: InputDecoration(
-            //     hintText: context.tr('driver_id_hint'),
-            //     hintStyle: Theme.of(context)
-            //         .textTheme
-            //         .labelSmall!
-            //         .copyWith(fontSize: 14, color: AppColors.grey600),
-            //   ),
-            //   textInputAction: TextInputAction.next,
-            //   validator: qValidator([
-            //     IsRequired(context.tr('required')),
-            //   ]),
-            //   keyboardType: TextInputType.name,
-            // ),
             const SizedBox(height: 80),
-            // CustomButtonWidget(
-            //   text: context.tr("search"),
-            //   onTap: () async {
-            //     final input = driverIdController.text.trim();
-            //     if (input.isNotEmpty) {
-            //       // await  ref.read(scanQrCodeControllerProvider.notifier).searchByDriverID(context);
-            //       _submitQrCode(input);
-            //     }
-            //   },
-            //   backgroundColor: AppColors.black,
-            //   isFiled: true,
-            //   height: 52,
-            //   radius: 12,
-            //   width: MediaQuery.sizeOf(context).width,
-            // ).onlyPadding(bottom: 20),
           ],
         ),
       ),

@@ -86,7 +86,7 @@ class _LoginPageNumberFieldState extends ConsumerState<LoginPageNumberField> {
           dropdownTextStyle: AppTextStyle.rubikRegular14.copyWith(
             color: AppColors.primary,
           ),
-          keyboardType: TextInputType.phone, // أفضل للهاتف
+          keyboardType: TextInputType.phone,
           style: AppTextStyle.rubikRegular14.copyWith(color: AppColors.black),
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
