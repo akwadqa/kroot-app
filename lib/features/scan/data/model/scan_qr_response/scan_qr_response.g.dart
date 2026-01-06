@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'scan_qr_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _ScanQrResponse _$ScanQrResponseFromJson(Map<String, dynamic> json) =>
     _ScanQrResponse(

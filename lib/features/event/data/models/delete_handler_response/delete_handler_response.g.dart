@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'delete_handler_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _DeleteHandlerResponse _$DeleteHandlerResponseFromJson(
   Map<String, dynamic> json,

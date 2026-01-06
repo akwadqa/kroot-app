@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'app_notifications_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _AppNotificationsModel _$AppNotificationsModelFromJson(
   Map<String, dynamic> json,

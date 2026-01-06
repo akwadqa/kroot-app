@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'create_account_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _CreateAccountResponse _$CreateAccountResponseFromJson(
   Map<String, dynamic> json,

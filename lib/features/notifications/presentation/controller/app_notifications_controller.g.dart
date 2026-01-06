@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'app_notifications_controller.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
 @ProviderFor(AppNotificationsController)
 const appNotificationsControllerProvider =
@@ -30,7 +36,7 @@ final class AppNotificationsControllerProvider
 }
 
 String _$appNotificationsControllerHash() =>
-    r'2d85720f3f6f42bc52c2d1526053e140304be7ba';
+    r'713764f5f636493a373c92d8830ddf65b8139596';
 
 abstract class _$AppNotificationsController
     extends $AsyncNotifier<List<AppNotificationsModel>> {
@@ -59,3 +65,6 @@ abstract class _$AppNotificationsController
     element.handleValue(ref, created);
   }
 }
+
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

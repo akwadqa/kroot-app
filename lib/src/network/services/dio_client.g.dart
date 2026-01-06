@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'dio_client.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
 @ProviderFor(dio)
 const dioProvider = DioProvider._();
@@ -29,6 +35,7 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
     return dio(ref);
   }
 
+  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(Dio value) {
     return $ProviderOverride(
       origin: this,
@@ -77,6 +84,7 @@ final class NetworkServiceProvider
     return networkService(ref, argument);
   }
 
+  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(NetworkService value) {
     return $ProviderOverride(
       origin: this,
@@ -114,3 +122,6 @@ final class NetworkServiceFamily extends $Family
   @override
   String toString() => r'networkServiceProvider';
 }
+
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

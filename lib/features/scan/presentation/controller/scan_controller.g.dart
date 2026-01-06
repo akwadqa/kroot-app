@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'scan_controller.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
 @ProviderFor(ScanController)
 const scanControllerProvider = ScanControllerProvider._();
@@ -24,7 +30,7 @@ final class ScanControllerProvider
   ScanController create() => ScanController();
 }
 
-String _$scanControllerHash() => r'fa586532b4e84d76266506e4dd5268050d3caa7c';
+String _$scanControllerHash() => r'55071ec488dc66af87f71cfb7c989a2a64252dea';
 
 abstract class _$ScanController extends $AsyncNotifier<ScanState> {
   FutureOr<ScanState> build();
@@ -44,3 +50,6 @@ abstract class _$ScanController extends $AsyncNotifier<ScanState> {
     element.handleValue(ref, created);
   }
 }
+
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

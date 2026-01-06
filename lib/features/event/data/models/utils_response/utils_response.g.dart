@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'utils_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _UtilsResponse _$UtilsResponseFromJson(Map<String, dynamic> json) =>
     _UtilsResponse(

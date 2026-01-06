@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
 import '../../gen/assets.gen.dart';
 import '../theme/app_colors.dart';
 
@@ -113,11 +114,7 @@ class _LoadingIndicator extends StatelessWidget {
             color: bg,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: SizedBox(
-            width: 48,
-            height: 48,
-            child: Assets.images.animationLoading.image(),
-          ),
+          child: SizedBox(width: 48, height: 48, child: MailPulseAnimation()),
         ),
       ),
     );

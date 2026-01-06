@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'get_user_events_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _GetUserEventsModel _$GetUserEventsModelFromJson(Map<String, dynamic> json) =>
     _GetUserEventsModel(

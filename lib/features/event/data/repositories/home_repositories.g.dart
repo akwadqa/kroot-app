@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'home_repositories.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
 @ProviderFor(homeRepository)
 const homeRepositoryProvider = HomeRepositoryProvider._();
@@ -35,6 +41,7 @@ final class HomeRepositoryProvider
     return homeRepository(ref);
   }
 
+  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(HomeRepositories value) {
     return $ProviderOverride(
       origin: this,
@@ -44,3 +51,6 @@ final class HomeRepositoryProvider
 }
 
 String _$homeRepositoryHash() => r'ede126b65dec5a3b3d8c2c8fcca8189d8d800008';
+
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

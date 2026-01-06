@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'home_controller.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
 @ProviderFor(HomeController)
 const homeControllerProvider = HomeControllerProvider._();
@@ -24,7 +30,7 @@ final class HomeControllerProvider
   HomeController create() => HomeController();
 }
 
-String _$homeControllerHash() => r'3522379e57c80a6eb83bda1dba1ab70825e61f49';
+String _$homeControllerHash() => r'eff5536b4525147e517a1d3d9d26cfe5fc32739a';
 
 abstract class _$HomeController extends $AsyncNotifier<HomeState> {
   FutureOr<HomeState> build();
@@ -44,3 +50,6 @@ abstract class _$HomeController extends $AsyncNotifier<HomeState> {
     element.handleValue(ref, created);
   }
 }
+
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

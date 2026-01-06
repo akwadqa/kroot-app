@@ -9,6 +9,7 @@ import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -31,7 +32,8 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
         NavigationDelegate(
           onPageFinished: _onPageFinished,
           onProgress: (progress) {
-            Assets.images.animationLoading.image();
+            // Assets.images.animationLoading.image();
+            Center(child: MailPulseAnimation());
           },
         ),
       )

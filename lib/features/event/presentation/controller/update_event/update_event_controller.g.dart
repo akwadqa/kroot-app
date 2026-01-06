@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'update_event_controller.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
 @ProviderFor(UpdateEventController)
 const updateEventControllerProvider = UpdateEventControllerProvider._();
@@ -25,7 +31,7 @@ final class UpdateEventControllerProvider
 }
 
 String _$updateEventControllerHash() =>
-    r'df22f6e233b5a9e618d0d52c5b3bd9b2aebded4b';
+    r'e2a274d5ee7e452aed8bddb99d4726ae97e5f4d5';
 
 abstract class _$UpdateEventController
     extends $AsyncNotifier<UpdateEventState> {
@@ -47,3 +53,6 @@ abstract class _$UpdateEventController
     element.handleValue(ref, created);
   }
 }
+
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

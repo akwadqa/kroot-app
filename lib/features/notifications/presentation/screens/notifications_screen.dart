@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';import 'package:kroot_app/features/notifications/presentation/controller/app_notifications_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kroot_app/features/notifications/presentation/controller/app_notifications_controller.dart';
 import 'package:kroot_app/features/notifications/presentation/widgets/notification_screen_list.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
@@ -13,7 +14,7 @@ class NotificationsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(appNotificationsControllerProvider);
     return Scaffold(
-      appBar: CustomAppbar(title: 'notifications'.tr()),
+      appBar: CustomAppbar(title: 'notifications'.tr(), withBackButton: false),
       body: controller.when(
         data: (data) => NotificationScreenList(notifications: data),
         error: (e, st) => AppErrorWidget(

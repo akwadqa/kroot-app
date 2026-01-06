@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'guests_controller.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
 
 @ProviderFor(GuestsController)
 const guestsControllerProvider = GuestsControllerProvider._();
@@ -24,7 +30,7 @@ final class GuestsControllerProvider
   GuestsController create() => GuestsController();
 }
 
-String _$guestsControllerHash() => r'6937ddb579cf66ba2551f3d99d3d447ff1c3fd6d';
+String _$guestsControllerHash() => r'6bc2e6020782007631a983380364f9187c84f765';
 
 abstract class _$GuestsController extends $AsyncNotifier<GuestsState> {
   FutureOr<GuestsState> build();
@@ -44,3 +50,6 @@ abstract class _$GuestsController extends $AsyncNotifier<GuestsState> {
     element.handleValue(ref, created);
   }
 }
+
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

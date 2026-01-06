@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'create_event_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _CreateEventResponse _$CreateEventResponseFromJson(Map<String, dynamic> json) =>
     _CreateEventResponse(

@@ -56,8 +56,8 @@ class BottomNavigationBarView extends ConsumerWidget {
                   width: 27,
                   height: 4,
                 ),
-                Spacer(),
 
+                Spacer(),
                 ColorFiltered(
                   colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                   child: iconList[i],
@@ -65,7 +65,7 @@ class BottomNavigationBarView extends ConsumerWidget {
 
                 Text(
                   labelList[i],
-                  style: TextStyle(fontSize: 12.sp, color: color),
+                  style: TextStyle(fontSize: 12, color: color),
                 ),
               ],
             );

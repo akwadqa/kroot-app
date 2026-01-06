@@ -1,4 +1,10 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'add_guests_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
 
 _AddGuestsResponse _$AddGuestsResponseFromJson(Map<String, dynamic> json) =>
     _AddGuestsResponse(
