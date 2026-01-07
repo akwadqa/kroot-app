@@ -19,7 +19,7 @@ class EventDetailsDate extends StatelessWidget {
     final deviceLocale = Localizations.localeOf(context).toString();
     final dataFormatter = date != null
         ? DateFormat(
-            'EEEE dd MMMM yyyy',
+            'EEE, dd MMM yyyy',
             deviceLocale,
           ).format(DateTime.parse(date!))
         : '';

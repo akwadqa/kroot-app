@@ -3,6 +3,7 @@ abstract class EndPoints {
   static String sendOtp = 'kroot.api.auth.send_otp';
   static String verifyOtp = 'kroot.api.auth.verify_otp';
   static String createAccount = 'kroot.api.auth.register';
+  static String deleteUser = 'kroot.api.auth.delete_user';
 
   static String getUtils = 'kroot.api.api.get_utility_data';
   static String getEvents = 'kroot.api.api.get_user_events';

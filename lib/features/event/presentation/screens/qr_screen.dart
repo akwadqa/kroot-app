@@ -57,7 +57,7 @@ class QrScreen extends ConsumerWidget {
         if (next.value?.isAddContact ?? false) {
           if (next is AsyncData) {
             context.pop();
-            AppToast.doneToast('Contact added!');
+            AppToast.doneToast('successfullyCompleted'.tr());
           }
 
           if (next is AsyncError) {

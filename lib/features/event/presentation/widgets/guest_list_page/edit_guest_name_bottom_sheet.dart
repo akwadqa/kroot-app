@@ -7,6 +7,7 @@ import 'package:kroot_app/features/auth/presentation/widgets/create_account_page
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_guest_number_filed.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -43,7 +44,10 @@ class _EditGuestNameBottomSheetState
     _lastNameController = TextEditingController(
       text: widget.contact.contact.name.last,
     );
-    _codeController = TextEditingController(text: widget.contact.code);
+    _codeController = TextEditingController(
+      text:
+          '${widget.contact.code}${widget.contact.contact.phones.first.number}',
+    );
   }
 
   @override
@@ -60,6 +64,7 @@ class _EditGuestNameBottomSheetState
           Form(
             key: _key,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -102,20 +107,23 @@ class _EditGuestNameBottomSheetState
                 ),
 
                 18.verticalSpace,
-                AppTextFormField(
-                  withIcon: false,
-                  controller: _codeController,
-                  hint: context.tr('countryCode'),
-                  label: context.tr('countryCode'),
-                  isRequired: false,
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return context.tr('required');
-                    }
-                    return null;
-                  },
-                ),
+                Text('phone_number'.tr(), style: AppTextStyle.rubikRegular18),
+                12.verticalSpace,
+                AddGuestNumberField(_codeController),
 
+                // AppTextFormField(
+                //   withIcon: false,
+                //   controller: _codeController,
+                //   hint: context.tr('countryCode'),
+                //   label: context.tr('countryCode'),
+                //   isRequired: false,
+                //   validator: (val) {
+                //     if (val == null || val.isEmpty) {
+                //       return context.tr('required');
+                //     }
+                //     return null;
+                //   },
+                // ),
                 20.verticalSpace,
                 CustomButtonWidget(
                   text: '',

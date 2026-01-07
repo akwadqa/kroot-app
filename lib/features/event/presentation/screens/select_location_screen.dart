@@ -71,54 +71,15 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
       },
     );
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          SelectLocationGoogleMap(_controller, widget.id),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 64.h),
-            child: Column(
+          Expanded(child: _buildMap(context)),
+
+          SizedBox(
+            height: 100.h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                LocationSearchBox(
-                  onSelect: (id, des) async {
-                    if (widget.id == null) {
-                      final notifier = ref.read(
-                        addEventControllerProvider.notifier,
-                      );
-
-                      final latLng = await notifier.getPlaceLocation(id);
-
-                      if (latLng != null) {
-                        final GoogleMapController mapController =
-                            await _controller.future;
-
-                        mapController.animateCamera(
-                          CameraUpdate.newLatLng(
-                            LatLng(latLng.lat, latLng.lng),
-                          ),
-                        );
-                      }
-                    } else {
-                      final notifier = ref.read(
-                        updateEventControllerProvider.notifier,
-                      );
-
-                      final latLng = await notifier.getPlaceLocation(id);
-
-                      if (latLng != null) {
-                        final GoogleMapController mapController =
-                            await _controller.future;
-
-                        mapController.animateCamera(
-                          CameraUpdate.newLatLng(
-                            LatLng(latLng.lat, latLng.lng),
-                          ),
-                        );
-                      }
-                    }
-                  },
-                ),
-                Spacer(),
-
                 CustomButtonWidget(
                   text: '',
                   onTap: () async {
@@ -140,14 +101,82 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
                     ),
                   ),
                   height: 44.h,
-                  width: 330.w,
+                  width: 270.w,
                   backgroundColor: AppColors.primary,
+                ),
+                12.horizontalSpace,
+                IconButton(
+                  
+                  onPressed: () {
+                    final location = ref
+                        .watch(addEventControllerProvider)
+                        .value!
+                        .initialLatLng;
+
+                    ref
+                        .read(addEventControllerProvider.notifier)
+                        .changeLatlng(location!.lat, location.lng);
+                    setState(() {});
+                  },
+                  icon: Icon(Icons.my_location_outlined),
                 ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Stack _buildMap(BuildContext context) {
+    return Stack(
+      children: [
+        SelectLocationGoogleMap(_controller, widget.id),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 64.h),
+          child: Column(
+            children: [
+              LocationSearchBox(
+                onSelect: (id, des) async {
+                  if (widget.id == null) {
+                    final notifier = ref.read(
+                      addEventControllerProvider.notifier,
+                    );
+
+                    final latLng = await notifier.getPlaceLocation(id);
+
+                    if (latLng != null) {
+                      final GoogleMapController mapController =
+                          await _controller.future;
+
+                      mapController.animateCamera(
+                        CameraUpdate.newLatLng(LatLng(latLng.lat, latLng.lng)),
+                      );
+                    }
+                  } else {
+                    final notifier = ref.read(
+                      updateEventControllerProvider.notifier,
+                    );
+
+                    final latLng = await notifier.getPlaceLocation(id);
+
+                    if (latLng != null) {
+                      final GoogleMapController mapController =
+                          await _controller.future;
+
+                      mapController.animateCamera(
+                        CameraUpdate.newLatLng(LatLng(latLng.lat, latLng.lng)),
+                      );
+                    }
+                  }
+                },
+              ),
+
+              // Spacer(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

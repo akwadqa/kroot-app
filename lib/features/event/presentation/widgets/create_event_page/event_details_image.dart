@@ -40,133 +40,125 @@ class EventDetailsImage extends StatelessWidget {
     return AnimatedSize(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
-      child: DottedBorder(
-        options: RoundedRectDottedBorderOptions(
-          color: AppColors.primary,
-          strokeWidth: 2,
-          radius: Radius.circular(7.r),
-          dashPattern: [6, 3],
-        ),
-        child: GestureDetector(
-          onTap: () async {
-            final newImage = await pickImage();
-            if (newImage != null) {
-              onImageSelect(newImage);
-            }
-          },
-          child: image == null
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(7.r),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: imageUrl != null && imageUrl!.isNotEmpty
-                          ? 0
-                          : 16.w,
-                      vertical: imageUrl != null && imageUrl!.isNotEmpty
-                          ? 0
-                          : 13.h,
-                    ),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.grayField,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.grayBorder,
-                          offset: Offset(0, 1),
-                          blurRadius: 4,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: (imageUrl != null && imageUrl!.isNotEmpty)
-                        ? SizedBox(
-                            width: double.infinity,
-                            height: 182.h,
+      child: GestureDetector(
+        onTap: () async {
+          final newImage = await pickImage();
+          if (newImage != null) {
+            onImageSelect(newImage);
+          }
+        },
+        child: image == null
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(7.r),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: imageUrl != null && imageUrl!.isNotEmpty
+                        ? 0
+                        : 16.w,
+                    vertical: imageUrl != null && imageUrl!.isNotEmpty
+                        ? 0
+                        : 13.h,
+                  ),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColors.grayField,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.grayBorder,
+                        offset: Offset(0, 1),
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: (imageUrl != null && imageUrl!.isNotEmpty)
+                      ? SizedBox(
+                          width: double.infinity,
+                          height: 182.h,
 
-                            child: Stack(
-                              children: [
-                                CachedNetworkImage(
-                                  fadeInCurve: Curves.linear,
-                                  placeholder: (context, url) =>
-                                      FadeCircleLoadingIndicator(),
-                                  imageUrl: resolveImageUrl()!,
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                ),
-                                Positioned(
-                                  top: 11.h,
-                                  width: 25.w,
-                                  height: 25.w,
-                                  right: 11.h,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (deleteLink != null) {
-                                        deleteLink!();
-                                      }
-                                    },
-                                    child: Assets.icons.deleteImageIc.svg(
-                                      height: 22.w,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : Row(
+                          child: Stack(
                             children: [
-                              Text(
-                                context.tr('uploadImage'),
-                                style: AppTextStyle.rubikRegular16.copyWith(
-                                  color: AppColors.grayHint,
+                              CachedNetworkImage(
+                                fadeInCurve: Curves.linear,
+                                placeholder: (context, url) =>
+                                    FadeCircleLoadingIndicator(),
+                                imageUrl: resolveImageUrl()!,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              ),
+                              Positioned(
+                                top: 11.h,
+                                width: 25.w,
+                                height: 25.w,
+                                right: 11.h,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    if (deleteLink != null) {
+                                      deleteLink!();
+                                    }
+                                  },
+                                  child: Assets.icons.deleteImageIc.svg(
+                                    height: 22.w,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                  ),
-                )
-              : ClipRRect(
-                  borderRadius: BorderRadius.circular(7.r),
-                  child: Center(
-                    child: AnimatedSwitcher(
-                      duration: Duration(milliseconds: 300),
-                      switchInCurve: Curves.easeIn,
-                      switchOutCurve: Curves.easeOut,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 182.h,
-                        child: Stack(
+                        )
+                      : Row(
                           children: [
-                            Image.file(
-                              image!,
-                              width: double.infinity,
-                              height: double.infinity,
-                              key: ValueKey(image!.path),
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              top: 11.h,
-                              width: 25.w,
-                              height: 25.w,
-                              right: 11.h,
-                              child: GestureDetector(
-                                onTap: () {
-                                  if (deleteFile != null) {
-                                    deleteFile!();
-                                  }
-                                },
-                                child: Assets.icons.deleteImageIc.svg(
-                                  height: 22.w,
-                                ),
+                            Text(
+                              context.tr('uploadImage'),
+                              style: AppTextStyle.rubikRegular16.copyWith(
+                                color: AppColors.grayHint,
                               ),
                             ),
                           ],
                         ),
+                ),
+              )
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(7.r),
+                child: Center(
+                  child: AnimatedSwitcher(
+                    duration: Duration(milliseconds: 300),
+                    switchInCurve: Curves.easeIn,
+                    switchOutCurve: Curves.easeOut,
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 182.h,
+                      child: Stack(
+                        children: [
+                          Image.file(
+                            image!,
+                            width: double.infinity,
+                            height: double.infinity,
+                            key: ValueKey(image!.path),
+                            fit: BoxFit.cover,
+                          ),
+                          Positioned(
+                            top: 11.h,
+                            width: 25.w,
+                            height: 25.w,
+                            right: 11.h,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (deleteFile != null) {
+                                  deleteFile!();
+                                }
+                              },
+                              child: Assets.icons.deleteImageIc.svg(
+                                height: 22.w,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                 ),
-        ),
+              ),
       ),
     );
   }

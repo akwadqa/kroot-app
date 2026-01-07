@@ -33,7 +33,7 @@ class SendInviteScreen extends ConsumerWidget {
 
         if (next is AsyncData) {
           ctx.pop();
-          AppToast.doneToast('Event confirmed succesfuly');
+          AppToast.doneToast('successfullyCompleted'.tr());
           context.pop();
           ref
               .read(homeControllerProvider.notifier)

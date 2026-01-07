@@ -73,7 +73,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
         if (next is AsyncData && pre is AsyncLoading) {
           Navigator.of(context, rootNavigator: true).pop();
 
-          AppToast.doneToast('Your event deleted successfuly!');
+          AppToast.doneToast('successfullyCompleted'.tr());
           context.pushReplacement(Routes.main);
           ref.read(homeControllerProvider.notifier).getUserEvents(page: 1);
         }

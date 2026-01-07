@@ -14,6 +14,7 @@ import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
+import 'package:kroot_app/src/utils/app_toast.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -21,6 +22,32 @@ class ProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     late BuildContext ctx;
+
+    ref.listen(
+      profileControllerProvider.select((val) => val.value!.deleteUser),
+      (prev, next) {
+        if (next is AsyncLoading) {
+          Future.delayed(Duration(milliseconds: 300), () {
+            AppAlert.showLoadingDialog(
+              Navigator.of(context, rootNavigator: true).context,
+            );
+          });
+        }
+
+        if (next is AsyncData && prev is AsyncLoading) {
+          Navigator.of(context, rootNavigator: true).pop();
+
+          AppToast.doneToast('successfullyCompleted'.tr());
+          context.pushReplacement(Routes.main);
+          ref.read(homeControllerProvider.notifier).getUserEvents(page: 1);
+        }
+
+        if (next is AsyncError) {
+          Navigator.of(context, rootNavigator: true).pop();
+          AppToast.errorToast(next.error.toString());
+        }
+      },
+    );
     ref.listen(profileControllerProvider, (pre, next) {
       if (next.value!.isLogout ?? false) {
         if (next is AsyncLoading) {
@@ -81,7 +108,9 @@ class ProfileScreen extends ConsumerWidget {
                         color: AppColors.primary,
                       ),
                     ),
-                    onSubmit: () {},
+                    onSubmit: () {
+                      ref.read(profileControllerProvider.notifier).deleteUser();
+                    },
                   );
                 },
               ),

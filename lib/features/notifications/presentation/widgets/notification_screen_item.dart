@@ -21,6 +21,7 @@ class NotificationScreenItem extends StatelessWidget {
         border: Border.all(color: AppColors.primary.withValues(alpha: .25)),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 10.h,
         children: [
           Row(

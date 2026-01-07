@@ -45,8 +45,13 @@ class _AddContactManuallBottomSheetState
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 700.h,
-      padding: EdgeInsets.all(22.w),
+      // height: 700.h,
+      padding: EdgeInsets.fromLTRB(
+        22.w,
+        22.w,
+        22.w,
+        MediaQuery.of(context).viewInsets.bottom + 22.w,
+      ),
       child: Form(
         key: _key,
         child: SingleChildScrollView(
@@ -64,7 +69,12 @@ class _AddContactManuallBottomSheetState
                   Spacer(),
 
                   GestureDetector(
-                    onTap: () => context.pop(),
+                    onTap: () {
+                      if (FocusManager.instance.primaryFocus != null) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                      }
+                      context.pop();
+                    },
                     child: Assets.icons.closeIc.svg(),
                   ),
                 ],
@@ -108,7 +118,7 @@ class _AddContactManuallBottomSheetState
 
               AddGuestNumberField(number),
 
-              150.verticalSpace,
+              20.verticalSpace,
               Consumer(
                 builder: (context, ref, child) {
                   final isLoading = ref.read(homeControllerProvider);
@@ -120,6 +130,9 @@ class _AddContactManuallBottomSheetState
                     onTap: () {
                       if (_key.currentState!.validate()) {
                         if (widget.id == null) {
+                          if (FocusManager.instance.primaryFocus != null) {
+                            FocusManager.instance.primaryFocus!.unfocus();
+                          }
                           ref
                               .read(addEventControllerProvider.notifier)
                               .addNewContact(
@@ -170,6 +183,9 @@ class _AddContactManuallBottomSheetState
               CustomButtonWidget(
                 text: '',
                 onTap: () {
+                  if (FocusManager.instance.primaryFocus != null) {
+                    FocusManager.instance.primaryFocus!.unfocus();
+                  }
                   context.pop();
                 },
                 isFiled: false,

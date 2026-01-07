@@ -146,7 +146,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                           (val) => val.value!.updatedEvent?.image,
                         ),
                       );
-           
+
                       return EventDetailsImage(
                         image: image,
                         deleteFile: null,
@@ -220,30 +220,29 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
 
                   20.verticalSpace,
 
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final lang = ref.watch(
-                        updateEventControllerProvider.select(
-                          (val) => val.value!.updatedEvent?.language,
-                        ),
-                      );
-                      return EventDetailsLanguage(
-                        value: lang,
-                        onLangChang: (val) {
-                          ref
-                              .read(updateEventControllerProvider.notifier)
-                              .updateDataForEvent(
-                                EventModel(language: val),
-                                widget.eventModel.occasionId ?? widget.id!,
-                              );
-                        },
-                      );
-                    },
-                  ),
-                  20.verticalSpace,
+                  // Consumer(
+                  //   builder: (context, ref, child) {
+                  //     final lang = ref.watch(
+                  //       updateEventControllerProvider.select(
+                  //         (val) => val.value!.updatedEvent?.language,
+                  //       ),
+                  //     );
+                  //     return EventDetailsLanguage(
+                  //       value: lang,
+                  //       onLangChang: (val) {
+                  //         ref
+                  //             .read(updateEventControllerProvider.notifier)
+                  //             .updateDataForEvent(
+                  //               EventModel(language: val),
+                  //               widget.eventModel.occasionId ?? widget.id!,
+                  //             );
+                  //       },
+                  //     );
+                  //   },
+                  // ),
+                  // 20.verticalSpace,
 
-                  20.verticalSpace,
-
+                  // 20.verticalSpace,
                   Text(
                     context.tr('eventLocation'),
                     style: AppTextStyle.rubikRegular18.copyWith(

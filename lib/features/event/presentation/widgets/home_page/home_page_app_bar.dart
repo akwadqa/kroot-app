@@ -25,11 +25,8 @@ class HomePageAppBar extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          DateFormat('EEEE dd MMMM yyyy', local).format(DateTime.now()),
-          style: AppTextStyle.rubikMedium14.copyWith(color: AppColors.primary),
-        ),
-        12.verticalSpace,
+    
+        32.verticalSpace,
         Row(
           children: [
             Text(

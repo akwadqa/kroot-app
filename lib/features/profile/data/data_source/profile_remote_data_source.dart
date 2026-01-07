@@ -25,4 +25,27 @@ class ProfileRemoteDataSource {
       return ApiResponse.error(message: e.toString());
     }
   }
+
+  Future<ApiResponse<void>> deleteUser(String id) async {
+    try {
+      final data = FormData.fromMap({'user_id': id});
+      final response = await _networkService.post(
+        EndPoints.deleteUser,
+        data: data,
+        // queryParameters: {},
+      );
+
+      if (response.data == null || response.statusCode != 200) {
+        throw Exception('Request failed');
+      }
+
+      return ApiResponse.fromJson(
+        response.data as Map<String, dynamic>,
+        (json) {},
+      );
+    } catch (e) {
+      // Dev.logLine('Error in submitData: e');
+      rethrow;
+    }
+  }
 }

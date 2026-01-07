@@ -199,7 +199,7 @@ class ScanScreenItem extends StatelessWidget {
                     Spacer(),
                     Text(
                       DateFormat(
-                        'EEEE dd MMMM yyyy',
+                        'EEE, dd MMM yyyy',
                         deviceLocale,
                       ).format(DateTime.parse(event.date ?? '')),
                       style: AppTextStyle.rubikRegular12.copyWith(

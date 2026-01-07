@@ -113,7 +113,7 @@ class _AddGuestManuallBotomSheetState
                             .subscriber!
                             .mobile;
                         if (number.text.contains(userNumber!)) {
-                          AppToast.errorToast('You can\'t add your number');
+                          AppToast.errorToast('can\'t_add_your_number'.tr());
                         } else {
                           widget.onFinish(number.text);
                         }

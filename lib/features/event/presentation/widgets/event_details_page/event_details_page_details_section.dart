@@ -25,7 +25,7 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${DateFormat('EEEE dd MMMM yyyy', deviceLocale).format(DateTime.parse(event.date ?? ''))} • ${DateFormat.jm(deviceLocale).format(DateTime.parse(event.date ?? ''))}',
+                '${DateFormat('EEE, dd MMM yyyy', deviceLocale).format(DateTime.parse(event.date ?? ''))} • ${DateFormat.jm(deviceLocale).format(DateTime.parse(event.date ?? ''))}',
 
                 style: AppTextStyle.rubikRegular12.copyWith(
                   color: AppColors.blackText,

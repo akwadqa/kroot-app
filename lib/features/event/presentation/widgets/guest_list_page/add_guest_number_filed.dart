@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:kroot_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -24,6 +25,19 @@ class _AddGuestNumberFieldState extends ConsumerState<AddGuestNumberField> {
   void initState() {
     super.initState();
     _nationalController = TextEditingController();
+
+    final fullPhone = widget.fullPhoneController.text;
+
+    if (fullPhone.isNotEmpty) {
+      final country = countries.firstWhere(
+        (c) => fullPhone.startsWith(c.dialCode),
+        orElse: () => countries.first,
+      );
+
+      _initialCountryCode = country.code; // ISO code
+      _nationalController.text = fullPhone.substring(country.dialCode.length);
+      widget.fullPhoneController.clear();
+    }
   }
 
   @override
@@ -41,6 +55,8 @@ class _AddGuestNumberFieldState extends ConsumerState<AddGuestNumberField> {
     );
   }
 
+  String _initialCountryCode = 'QA';
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -49,7 +65,7 @@ class _AddGuestNumberFieldState extends ConsumerState<AddGuestNumberField> {
         autovalidateMode: AutovalidateMode.disabled,
         invalidNumberMessage: context.tr('invalidNumber'),
         controller: _nationalController,
-        initialCountryCode: 'QA',
+        initialCountryCode: _initialCountryCode,
         onChanged: (phone) {
           _updateFullPhone(phone.countryCode);
 

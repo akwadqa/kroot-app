@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -70,7 +71,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
         ref.read(bottomNavIndexProvider.notifier).setIndex(0);
         ref.read(homeControllerProvider.notifier).getUtils();
         context.go(Routes.main);
-        AppToast.doneToast('Payment succeeded');
+        AppToast.doneToast('successfullyCompleted'.tr());
       } else {
         debugPrint("⚠️ Payment failed or unknown response: $parsed");
 

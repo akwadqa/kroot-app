@@ -141,7 +141,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           context.pop();
           context.pop();
           ref.read(homeControllerProvider.notifier).getEventDetails(widget.id!);
-          AppToast.doneToast('Your guests updated');
+          AppToast.doneToast('successfullyCompleted'.tr());
         }
         if (next is AsyncError) {
           context.pop();
@@ -180,7 +180,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
         //? This listener for add new contact :
         if (next.value?.isAddContact ?? false) {
           if (next is AsyncData) {
-            AppToast.doneToast('Contact added!');
+            AppToast.doneToast('successfullyCompleted'.tr());
           }
 
           if (next is AsyncError) {

@@ -330,7 +330,7 @@ class HomePageEventItemDetails extends StatelessWidget {
             width: 148.w,
             child: Text(
               DateFormat(
-                'EEEE dd MMMM yyyy',
+                'EEE, dd MMM yyyy',
                 deviceLocale,
               ).format(DateTime.parse(event.date!)),
 
@@ -380,7 +380,7 @@ class HomePageEventItemDetails extends StatelessWidget {
               Expanded(
                 child: CustomButtonWidget(
                   content: Text(
-                    event.status ?? 'status',
+                    event.status?.tr() ?? 'status',
                     style: AppTextStyle.rubikRegular14.copyWith(
                       color: AppColors.white,
                     ),

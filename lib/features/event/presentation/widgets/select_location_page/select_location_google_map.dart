@@ -14,21 +14,51 @@ class SelectLocationGoogleMap extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    LatLng lanlng = id == null
-        ? ref.watch(addEventControllerProvider).value!.latLng
-        : ref.watch(
-            updateEventControllerProvider.select((val) {
-              final lat = val.value!.updatedEvent!.mapLatitude;
-              final lng = val.value!.updatedEvent!.mapLongitude;
-              return LatLng(lat: double.parse(lat!), lng: double.parse(lng!));
-            }),
-          );
+    ref.listen(addEventControllerProvider, (previous, next) async {
+      if (next?.value == null) return;
+
+      final latLng = next!.value!.latLng;
+      final controller = await mapController.future;
+
+      controller.animateCamera(
+        google.CameraUpdate.newLatLng(google.LatLng(latLng.lat, latLng.lng)),
+      );
+    });
+
+    final lat = id == null
+        ? ref.watch(addEventControllerProvider).value!.latLng.lat
+        : ref
+              .watch(updateEventControllerProvider)
+              .value!
+              .updatedEvent!
+              .mapLatitude!;
+    final lng = id == null
+        ? ref.watch(addEventControllerProvider).value!.latLng.lng
+        : ref
+              .watch(updateEventControllerProvider)
+              .value!
+              .updatedEvent!
+              .mapLongitude!;
+    LatLng lanlng = LatLng(
+      lat: double.parse(lat.toString()),
+      lng: double.parse(lng.toString()),
+    );
+    // LatLng lanlng = id == null
+    //     ? ref.watch(addEventControllerProvider).value!.latLng
+    //     : ref.watch(
+    //         updateEventControllerProvider.select((val) {
+    //           final lat = val.value!.updatedEvent!.mapLatitude;
+    //           final lng = val.value!.updatedEvent!.mapLongitude;
+    //           return LatLng(lat: double.parse(lat!), lng: double.parse(lng!));
+    //         }),
+    //       );
     final qatarLocation = google.CameraPosition(
       target: google.LatLng(lanlng.lat, lanlng.lng),
       zoom: 14.4746,
     );
     return google.GoogleMap(
-      myLocationEnabled: true,
+      myLocationEnabled: false,
+      myLocationButtonEnabled: false,
       onTap: (position) {
         id == null
             ? ref

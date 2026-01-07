@@ -33,4 +33,15 @@ class ProfileRespository {
       rethrow;
     }
   }
+
+  Future<ApiResponse<void>> deleteUser(String id) async {
+    try {
+      final response = await _remoteDataSource.deleteUser(id);
+      return response;
+    } on DioException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

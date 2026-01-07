@@ -41,7 +41,8 @@ class AddEventController extends _$AddEventController {
     Contact contact,
     String firstName,
     String lastName,
-    String code,
+    // String code,
+    String number,
     int count,
   ) {
     final currentState = state.value!;
@@ -51,9 +52,10 @@ class AddEventController extends _$AddEventController {
         final updatedContact = Contact(
           id: sc.contact.id,
           name: Name(first: firstName, last: lastName),
-          phones: sc.contact.phones
-              .map((p) => Phone(p.number, label: p.label))
-              .toList(),
+          phones: [Phone(number.substring(4))],
+          // phones: sc.contact.phones
+          //     .map((p) => Phone(p.number, label: p.label))
+          //     .toList(),
           emails: sc.contact.emails
               .map((e) => Email(e.address, label: e.label))
               .toList(),
@@ -62,7 +64,7 @@ class AddEventController extends _$AddEventController {
 
         return SelectedContact(
           contact: updatedContact,
-          code: code,
+          code: number.substring(1, 4),
           id: sc.id,
           count: count,
         );
@@ -383,8 +385,10 @@ class AddEventController extends _$AddEventController {
   }) async {
     try {
       state = AsyncData(state.value!.copyWith(isAddContact: true));
+      final id = Uuid().v4();
 
       final newContact = Contact(
+        id: id,
         name: Name(first: firstName, last: lastName),
         phones: [Phone(phoneNumber.substring(1))],
         displayName: "$firstName $lastName",
@@ -633,7 +637,6 @@ class AddEventController extends _$AddEventController {
           mapLongitude: lng.toString(),
         ),
       );
-   
 
       state = AsyncData(
         state.value!.copyWith(

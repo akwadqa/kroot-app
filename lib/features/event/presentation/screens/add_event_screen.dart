@@ -224,25 +224,24 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
 
                       20.verticalSpace,
 
-                      Consumer(
-                        builder: (context, ref, child) {
-                          final lang = ref.watch(
-                            addEventControllerProvider.select(
-                              (val) => val.value!.eventModel?.language,
-                            ),
-                          );
-                          return EventDetailsLanguage(
-                            value: lang ?? 'Arabic',
-                            onLangChang: (val) {
-                              ref
-                                  .read(addEventControllerProvider.notifier)
-                                  .updateEvent(EventModel(language: val));
-                            },
-                          );
-                        },
-                      ),
-                      20.verticalSpace,
-
+                      // Consumer(
+                      //   builder: (context, ref, child) {
+                      //     final lang = ref.watch(
+                      //       addEventControllerProvider.select(
+                      //         (val) => val.value!.eventModel?.language,
+                      //       ),
+                      //     );
+                      //     return EventDetailsLanguage(
+                      //       value: lang ?? 'Arabic',
+                      //       onLangChang: (val) {
+                      //         ref
+                      //             .read(addEventControllerProvider.notifier)
+                      //             .updateEvent(EventModel(language: val));
+                      //       },
+                      //     );
+                      //   },
+                      // ),
+                      // 20.verticalSpace,
                       Text(
                         context.tr('eventLocation'),
                         style: AppTextStyle.rubikRegular18.copyWith(

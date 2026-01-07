@@ -156,14 +156,14 @@ class BundlePageBundleItem extends ConsumerWidget {
             ),
             10.verticalSpace,
             Text(
-              '${bundleModel.price} QAR',
+              '${bundleModel.price} ${'with_currency'.tr()}',
               style: AppTextStyle.rubikRegular18.copyWith(
                 color: AppColors.black,
               ),
             ),
             Spacer(),
             Text(
-              '${bundleModel.amount} Kroot',
+              '${bundleModel.amount} ${'cards'.tr()}',
               style: AppTextStyle.rubikRegular14.copyWith(
                 color: selectedBundle?.price == bundleModel.price
                     ? AppColors.black

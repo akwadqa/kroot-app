@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/profile/data/repository/profile_respository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
@@ -47,6 +49,42 @@ class ProfileController extends _$ProfileController {
     } catch (e, st) {
       state = AsyncData(state.value!.copyWith(paymentLink: AsyncError(e, st)));
       return null;
+    }
+  }
+
+  Future<void> deleteUser() async {
+    try {
+      final id = ref
+          .read(homeControllerProvider)
+          .value!
+          .utilsResponse!
+          .value!
+          .subscriber!
+          .email!;
+      state = AsyncData(state.value!.copyWith(deleteUser: AsyncLoading()));
+      final repo = ref.read(profileRespositoryProvider);
+      final response = await repo.deleteUser(id);
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            deleteUser: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+
+        return;
+      }
+
+      state = AsyncData(
+        state.value!.copyWith(deleteUser: AsyncData(VoidCallbackAction)),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(state.value!.copyWith(deleteUser: AsyncError(e, st)));
+      return;
     }
   }
 

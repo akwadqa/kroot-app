@@ -5,6 +5,7 @@ class ProfileState {
   final int index;
   final bool? isLogout;
   final AsyncValue<String>? paymentLink;
+  final AsyncValue<void>? deleteUser;
 
   final BundleModel? bundleModel;
 
@@ -12,19 +13,22 @@ class ProfileState {
     this.bundleModel,
     required this.index,
     this.isLogout,
+    this.deleteUser,
     this.paymentLink,
   });
 
   factory ProfileState.init() =>
-      ProfileState(index: 0, isLogout: false, paymentLink: null);
+      ProfileState(index: 0, isLogout: false, paymentLink: null,deleteUser: null);
 
   ProfileState copyWith({
     int? index,
     bool? isLogout,
     AsyncValue<String>? paymentLink,
+    AsyncValue<void>? deleteUser,
     BundleModel? bundleModel,
   }) {
     return ProfileState(
+      deleteUser: deleteUser ?? this.deleteUser,
       index: index ?? this.index,
       isLogout: isLogout,
       bundleModel: bundleModel ?? this.bundleModel,

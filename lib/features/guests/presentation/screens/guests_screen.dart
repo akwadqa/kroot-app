@@ -109,10 +109,9 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
       ),
       body: Column(
         children: [
-          HomePageSearchField(
-            hint: context.tr('search'),
-          ).symmetricPadding(horizontal: 22.w, vertical: 23.h),
-
+          // HomePageSearchField(
+          //   hint: context.tr('search'),
+          // ).symmetricPadding(horizontal: 22.w, vertical: 23.h),
           GuestsScreenTabBar(),
 
           controller.when(

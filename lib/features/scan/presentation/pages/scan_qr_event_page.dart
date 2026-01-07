@@ -107,7 +107,7 @@ class _ScanQrEventPageState extends ConsumerState<ScanQrEventPage> {
 
       if (next is AsyncData) {
         context.pop();
-        AppToast.doneToast('Check-in successful');
+        AppToast.doneToast('successfullyCompleted'.tr());
       }
       if (next is AsyncError) {
         context.pop();

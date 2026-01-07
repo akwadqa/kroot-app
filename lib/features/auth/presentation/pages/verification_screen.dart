@@ -83,7 +83,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
         ref
             .read(authUiControllerProvider.notifier)
             .makeResendButtonVisibleOrNo(false);
-        AppToast.doneToast('Code resend!');
+        AppToast.doneToast('successfullyCompleted'.tr());
       }
     });
 

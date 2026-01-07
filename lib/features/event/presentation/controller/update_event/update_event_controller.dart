@@ -299,7 +299,6 @@ class UpdateEventController extends _$UpdateEventController {
             .toList(),
       );
 
-    
       selectedList = [
         ...selectedList,
         SelectedContact(
@@ -433,8 +432,10 @@ class UpdateEventController extends _$UpdateEventController {
   }) async {
     try {
       state = AsyncData(state.value!.copyWith(isAddContact: true));
+      final id = Uuid().v4();
 
       final newContact = Contact(
+        id: id,
         name: Name(first: firstName, last: lastName),
         phones: [Phone(phoneNumber.substring(1))],
         displayName: "$firstName $lastName",
