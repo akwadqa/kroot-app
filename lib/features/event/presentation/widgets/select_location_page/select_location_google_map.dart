@@ -58,6 +58,7 @@ class SelectLocationGoogleMap extends ConsumerWidget {
     );
     return google.GoogleMap(
       myLocationEnabled: false,
+      zoomControlsEnabled: false,
       myLocationButtonEnabled: false,
       onTap: (position) {
         id == null

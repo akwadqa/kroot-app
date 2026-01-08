@@ -10,10 +10,14 @@ import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 
 class AddGuestNumberField extends ConsumerStatefulWidget {
-  const AddGuestNumberField(this.fullPhoneController, {super.key,  this.focusNode});
+  const AddGuestNumberField(
+    this.fullPhoneController, {
+    super.key,
+    this.focusNode,
+  });
 
   final TextEditingController fullPhoneController;
-final FocusNode? focusNode;
+  final FocusNode? focusNode;
   @override
   ConsumerState<AddGuestNumberField> createState() =>
       _AddGuestNumberFieldState();
@@ -62,7 +66,7 @@ class _AddGuestNumberFieldState extends ConsumerState<AddGuestNumberField> {
     return Directionality(
       textDirection: ui.TextDirection.ltr,
       child: IntlPhoneField(
-        focusNode:widget. focusNode,
+        focusNode: widget.focusNode,
         autovalidateMode: AutovalidateMode.disabled,
         invalidNumberMessage: context.tr('invalidNumber'),
         controller: _nationalController,
