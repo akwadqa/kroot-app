@@ -1,5 +1,4 @@
-// import 'package:auto_route/auto_route.dart';
-// import 'package:easy_localization/easy_localization.dart' as local;
+//  // import 'package:easy_localization/easy_localization.dart' as local;
 // import 'package:flutter/material.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +17,7 @@
 // import '../../widgets/text_form_fields/email_text_form_field.dart';
 // import '../../widgets/phone_number_field/phone_number_field.dart';
 
-// @RoutePage()
+//
 // class SignupScreen extends StatefulWidget {
 //   const SignupScreen({super.key});
 

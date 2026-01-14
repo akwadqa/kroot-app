@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:wedding_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 
 import '../theme/app_colors.dart';
 
@@ -10,12 +10,14 @@ class CustomButtonWidget extends StatelessWidget {
   final Color? backgroundColor;
   final Color? color;
   final VoidCallback? onTap;
+  final BoxDecoration? boxDecoration;
   final bool isFiled;
   final double height;
   final double width;
   final double? radius;
   final double? topPading;
   const CustomButtonWidget({
+    this.boxDecoration,
     super.key,
     required this.text,
     this.backgroundColor,
@@ -31,30 +33,35 @@ class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
+    return Container(
+      decoration:boxDecoration ,
+      width: width,
+      height: height,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
           padding: EdgeInsets.zero,
           backgroundColor: backgroundColor ?? Colors.transparent,
           foregroundColor: AppColors.black900,
-          fixedSize: Size(
-            width,
-            height,
-          ),
+          fixedSize: Size(width, height),
           shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: color ?? backgroundColor ?? Colors.transparent),
-              borderRadius: BorderRadius.circular(radius ?? 10))),
-      onPressed: 
-        onTap
-      ,
-      child: 
-      content??
-      Text(context.tr(text),
+            side: BorderSide(
+              color: color ?? backgroundColor ?? Colors.transparent,
+            ),
+            borderRadius: BorderRadius.circular(radius ?? 10),
+          ),
+        ),
+        onPressed: onTap,
+        child:
+            content ??
+            Text(
+              context.tr(text),
               style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                  fontSize: 16,
-                  color: isFiled ? Colors.white : Colors.black,
-                  fontWeight: FontWeight.w500))
-          .centered(),
-    ).onlyPadding(top: topPading ?? 0);
+                fontSize: 16,
+                color: isFiled ? Colors.white : Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ).centered(),
+      ).onlyPadding(top: topPading ?? 0),
+    );
   }
 }

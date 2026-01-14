@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "920093808864",
+    "project_id": "kroot-app-478114",
+    "storage_bucket": "kroot-app-478114.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920093808864:android:0ffe3edf4309d134f5d885",
+        "android_client_info": {
+          "package_name": "qa.app.kroot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEjf6Ws1iC62rYGFYGNT10UHQZDmOjyWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

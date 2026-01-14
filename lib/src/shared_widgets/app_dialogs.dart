@@ -1,19 +1,15 @@
 import 'dart:async';
-import 'dart:ui';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wedding_app/features/auth/application/auth_service.dart';
-import 'package:wedding_app/src/extenssions/int_extenssion.dart';
-import 'package:wedding_app/src/extenssions/widget_extensions.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
-import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:kroot_app/features/auth/application/auth_service.dart';
+import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import '../../gen/assets.gen.dart';
 import '../theme/app_colors.dart';
 // app_dialogs.dart
-import 'package:flutter/material.dart';
 
 class AppDialogs {
   AppDialogs._();
@@ -27,9 +23,7 @@ class AppDialogs {
       context: context,
       barrierDismissible: dismissible,
       useRootNavigator: true,
-      builder: (_) => const Center(
-        child: _LoadingIndicator(),
-      ),
+      builder: (_) => const Center(child: _LoadingIndicator()),
     );
   }
 
@@ -56,8 +50,8 @@ class AppDialogs {
         icon: const Icon(Icons.check_circle, color: Colors.green, size: 24),
         title: title,
         message: message,
-        child: child,
         okText: okText,
+        child: child,
       ),
     );
   }
@@ -78,8 +72,8 @@ class AppDialogs {
         icon: const Icon(Icons.cancel, color: Colors.red, size: 24),
         title: title,
         message: message,
-        child: child,
         okText: okText,
+        child: child,
       ),
     );
   }
@@ -101,10 +95,10 @@ class AppDialogs {
       builder: (_) => _ConfirmDialog(
         title: title,
         message: message,
-        child: child,
         cancelText: cancelText,
         confirmText: confirmText,
         destructive: destructive,
+        child: child,
       ),
     );
     return result ?? false;
@@ -128,10 +122,10 @@ class _LoadingIndicator extends StatelessWidget {
             color: bg,
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const SizedBox(
+          child: SizedBox(
             width: 48,
             height: 48,
-            child: CircularProgressIndicator(strokeWidth: 3),
+            child: Assets.images.animationLoading.image(),
           ),
         ),
       ),
@@ -404,7 +398,6 @@ Dialog showYesNowChoicesDialog(
   );
 }
 
-
 void showLogoutDialog(BuildContext context) {
   showDialog(
     context: context,
@@ -419,8 +412,8 @@ void showLogoutDialog(BuildContext context) {
               dsc: "logout_confirmation".tr(),
               yesButton: () async {
                 Navigator.pop(context);
-                await userData.removeData();
-                context.router.replaceAll([const LoginRoute()]);
+                // await userData.removeData();
+                // context.router.replaceAll([const LoginRoute()]);
 
                 // Navigator.pop(context);
               },
@@ -432,7 +425,7 @@ void showLogoutDialog(BuildContext context) {
   );
 }
 
-showErrorDialog(BuildContext context, String message) {
+Future<void> showErrorDialog(BuildContext context, String message) {
   return showCustomDialog(
     context: context,
     title: Text(message),
@@ -440,7 +433,7 @@ showErrorDialog(BuildContext context, String message) {
   );
 }
 
-showAboutInfoDialog(
+Future<void> showAboutInfoDialog(
   BuildContext context,
   String message, {
   IconData? icon,

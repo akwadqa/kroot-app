@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../gen/fonts.gen.dart';
@@ -31,8 +30,8 @@ abstract class AppTheme {
         selectionColor: AppColors.primary,
         selectionHandleColor: AppColors.primary,
       ),
-      colorScheme:
-          ColorScheme.fromSwatch(primarySwatch:Colors.brown),
+      // colorScheme:
+      //     ColorScheme.fromSwatch(primarySwatch:AppColors.primarySwatch),
       fontFamily: FontFamily.cairo,
       textTheme: TextTheme(
         displayLarge: _baseTextStyle.copyWith(fontSize: 24),

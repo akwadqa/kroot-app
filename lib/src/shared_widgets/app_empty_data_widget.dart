@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wedding_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 
 import '../../assets.gen.dart';
 

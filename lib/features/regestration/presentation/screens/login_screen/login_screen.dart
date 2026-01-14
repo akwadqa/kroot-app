@@ -1,5 +1,4 @@
-// import 'package:auto_route/auto_route.dart';
-// import 'package:easy_localization/easy_localization.dart' as local;
+//  // import 'package:easy_localization/easy_localization.dart' as local;
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +17,7 @@
 // import '../../controller/auth_controller/auth_controller.dart';
 // import '../../widgets/auth_text/auth_text.dart';
 
-// @RoutePage()
+//
 // class LoginScreen extends StatefulWidget {
 //   const LoginScreen({super.key});
 

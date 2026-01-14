@@ -5,16 +5,22 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+
    
 
 
     <application
         android:label="Kroot"
-        android:supportsRtl="true"
         android:name="${applicationName}"
-        android:enableOnBackInvokedCallback="true"
 
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true"

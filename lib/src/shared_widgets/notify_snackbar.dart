@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 void notifyUser({
   required BuildContext context,

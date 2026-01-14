@@ -10,7 +10,7 @@ part of 'guests_controller.dart';
 const guestsControllerProvider = GuestsControllerProvider._();
 
 final class GuestsControllerProvider
-    extends $AsyncNotifierProvider<GuestsController, List<GuestModel>> {
+    extends $AsyncNotifierProvider<GuestsController, GuestsState> {
   const GuestsControllerProvider._()
     : super(
         from: null,
@@ -30,21 +30,20 @@ final class GuestsControllerProvider
   GuestsController create() => GuestsController();
 }
 
-String _$guestsControllerHash() => r'cd3ed863e5febd4beecf15c0a535112029cfccf8';
+String _$guestsControllerHash() => r'6937ddb579cf66ba2551f3d99d3d447ff1c3fd6d';
 
-abstract class _$GuestsController extends $AsyncNotifier<List<GuestModel>> {
-  FutureOr<List<GuestModel>> build();
+abstract class _$GuestsController extends $AsyncNotifier<GuestsState> {
+  FutureOr<GuestsState> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref =
-        this.ref as $Ref<AsyncValue<List<GuestModel>>, List<GuestModel>>;
+    final ref = this.ref as $Ref<AsyncValue<GuestsState>, GuestsState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<GuestModel>>, List<GuestModel>>,
-              AsyncValue<List<GuestModel>>,
+              AnyNotifier<AsyncValue<GuestsState>, GuestsState>,
+              AsyncValue<GuestsState>,
               Object?,
               Object?
             >;

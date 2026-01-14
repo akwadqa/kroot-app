@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:queen_validators/queen_validators.dart';
-import 'package:wedding_app/src/extenssions/int_extenssion.dart';
-import 'package:wedding_app/src/extenssions/widget_extensions.dart';
-import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:kroot_app/src/theme/app_colors.dart';
 
 
 class EmailTextFormField extends StatelessWidget {

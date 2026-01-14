@@ -1,9 +1,9 @@
 
-import 'package:wedding_app/features/scan_qr_code/domain/model/checkin_models.dart';
-import 'package:wedding_app/features/scan_qr_code/domain/model/gates_info_model.dart';
-import 'package:wedding_app/src/constants/Api/api_response.dart';
-import 'package:wedding_app/src/constants/Api/end_points.dart';
-import 'package:wedding_app/src/network/services/network_service.dart';
+import 'package:kroot_app/features/scan_qr_code/domain/model/checkin_models.dart';
+import 'package:kroot_app/features/scan_qr_code/domain/model/gates_info_model.dart';
+import 'package:kroot_app/src/constants/Api/api_response.dart';
+import 'package:kroot_app/src/constants/Api/end_points.dart';
+import 'package:kroot_app/src/network/services/network_service.dart';
 
 class ScanDriveQrDatasource {
   final NetworkService _networkService;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
 class AppMessages {
-  static showSuccess({
+  static void showSuccess({
     required String message,
     Color color = const Color(0xFF222222),
   }) {
@@ -23,7 +23,7 @@ class AppMessages {
     );
   }
 
-  static showError({
+  static void showError({
     required String message,
     Color color = const Color(0xFFF91717),
   }) {
@@ -39,7 +39,7 @@ class AppMessages {
     );
   }
 
-  static showMessage({
+  static void showMessage({
     required String message,
     Color color = const Color(0xFF222222),
     Color textColor = Colors.white,

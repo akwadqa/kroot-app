@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:wedding_app/features/auth/application/auth_service.dart';
+import 'package:kroot_app/features/auth/application/auth_service.dart';
+import 'package:kroot_app/src/routing/go_router_app.dart';
+import 'package:kroot_app/src/routing/routes.dart';
 
 import '../../constants/Api/api_response.dart';
 import '../../localization/current_language.dart';
+
 class RemoteInterceptor extends Interceptor {
   final Ref ref;
   RemoteInterceptor(this.ref);
@@ -16,8 +19,14 @@ class RemoteInterceptor extends Interceptor {
     final user = ref.read(userDataProvider);
     final language = ref.read(currentLanguageProvider);
 
-    if (user?.$1 != null) {
-      options.headers['Authorization'] =  user!.$1;
+    //? I removed the name and id here :
+    // if (user?.$1 != null) {
+    //   options.headers['Authorization'] =  user!.$1;
+    //   // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
+    // }
+    if (user != null) {
+      options.headers['Authorization'] = 'token $user';
+      // options.headers['Authorization'] =  'token 8076a272ef22208:0fc27caa720cc39';
       // options.headers['Authorization'] = "token 9999a8c4f69c387:0f3facf56d417ce";
     }
 
@@ -48,16 +57,51 @@ class RemoteInterceptor extends Interceptor {
     debugPrint("⛔️ ${err.type} for ${request.method} ${request.uri}");
     debugPrint("📥 Response data: ${_prettyJson(err.response)}");
     debugPrint("📥 Response data: ${err.response}");
+
+    final statusCode = err.response?.statusCode;
+    final responseData = err.response?.data;
+
     // debugPrint("🧵 Stack trace: ${err.error}");
+    final isUnauthorized =
+        (statusCode == 401 &&
+            // (responseData is Map &&
+            //     (responseData['message']?.toString().toLowerCase().contains(
+            //           "unauthorized",
+            //         )) ==
+            //         true &&
+            (responseData['message']?.toString().toLowerCase().contains(
+                  "otp",
+                )) ==
+                false) ||
+        (responseData['exc_type']?.toString().contains(
+              'AuthenticationError',
+            )) ==
+            true;
+
+    if (isUnauthorized) {
+      debugPrint("🚪 Session expired → redirect to Login");
+
+      //? Clear the token :
+      ref.read(userDataProvider.notifier).removeData();
+
+      //? Navigate to login screen :
+      ref.read(goRouterProvider).go(Routes.login);
+      // Future.delayed(Duration.zero, () {
+      //   final router = ref.read(goRouterProvider);
+      //   router.go(Routes.login);
+      // });
+    }
 
     final apiResponse = _handleErrorResponse(err);
-  handler.resolve(
-    Response(
-      requestOptions: err.requestOptions,
-      data: apiResponse.toJson(),
-      statusCode: err.response?.statusCode ?? 500,
-    ),
-  );
+    handler.resolve(
+      Response(
+        requestOptions: err.requestOptions,
+        data: err.response?.data,
+        //? This :
+        // data: apiResponse.toJson(),
+        statusCode: err.response?.statusCode ?? 500,
+      ),
+    );
   }
 
   ApiResponse _handleErrorResponse(DioException err) {
@@ -70,7 +114,8 @@ class RemoteInterceptor extends Interceptor {
     if (data is Map && data['message'] != null) {
       message = data['message'].toString();
     } else {
-      message = _getDefaultMessageForStatusCode(statusCode) ??
+      message =
+          _getDefaultMessageForStatusCode(statusCode) ??
           err.message ??
           'Unexpected error occurred';
     }
