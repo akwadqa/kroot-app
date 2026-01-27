@@ -65,7 +65,7 @@ class ScanController extends _$ScanController {
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
       if (page == 1) {
-        _eventsList = List.from(response.data!.events );
+        _eventsList = List.from(response.data!.events);
       } else {
         _eventsList.addAll(
           (response.data?.events ?? []) as Iterable<EventModel>,
@@ -81,7 +81,9 @@ class ScanController extends _$ScanController {
             ),
           ),
         );
-        throw Exception(response.message);
+        //TODO:
+        // throw Exception(response.message);
+        return null;
       }
       final eventResponse = UserScanEventResponse(events: _eventsList);
 

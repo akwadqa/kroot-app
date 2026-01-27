@@ -62,9 +62,9 @@ dependencies:
   google_maps_flutter: ^2.14.0
   google_places_flutter: ^2.1.1
   flutter_google_places_sdk: ^0.4.2+1
+  geolocator: ^14.0.2
   firebase_messaging: ^15.2.10
   flutter_local_notifications: ^19.5.0
-  geolocator: ^14.0.2
   fcm_config: ^3.6.5
   quickalert: ^1.1.0
   keyboard_actions: ^4.2.1

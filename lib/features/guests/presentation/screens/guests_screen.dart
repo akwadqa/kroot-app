@@ -268,7 +268,7 @@ class GuestsScreenGuestItem extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(32.r),
               ),
               child: Text(
-                guest!.rsvpStatus ?? 'Not Sent',
+                guest!.rsvpStatus?.toLowerCase().tr() ?? 'Not Sent',
                 style: AppTextStyle.rubikRegular14.copyWith(
                   color: AppColors.white,
                 ),

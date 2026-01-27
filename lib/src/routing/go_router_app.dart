@@ -212,8 +212,8 @@ class GoRouterApp {
       GoRoute(
         path: Routes.qrScreen,
         pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
           child: QrScreen(id: state.extra as String?),
+          key: state.pageKey,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

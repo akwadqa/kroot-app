@@ -187,7 +187,8 @@ class InviteTemplateScreen extends ConsumerWidget {
                       (e) => DropdownMenuItem(
                         value: e.name,
                         child: Text(
-                          '${e.name}  ${e.language}',
+                          // '${e.name}  ${e.language}',
+                          e.name ?? '',
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.grayHint,
                           ),

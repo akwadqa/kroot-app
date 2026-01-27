@@ -143,6 +143,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                       .read(addEventControllerProvider.notifier)
                       .updateEvent(EventModel());
                   context.pop();
+                  context.pop();
                 } else {
                   ref.read(updateEventControllerProvider.notifier)
                     ..updateDataForEvent(EventModel(), widget.id!)

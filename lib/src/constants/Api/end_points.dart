@@ -13,6 +13,7 @@ abstract class EndPoints {
   static String addGuestToEvent = 'kroot.api.api.add_guest';
   static String updateEvent = 'kroot.api.api.update_occasion';
   static String confirmEvent = 'kroot.api.api.confirm_event';
+  static String resendFailed = 'kroot.api.api.resend_failed_invites';
 
   static String updateHandlers = 'kroot.api.api.update_handler_list';
   static String deleteHandlers = 'kroot.api.api.remove_handlers';

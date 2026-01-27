@@ -82,7 +82,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
           return Column(
             children: [
               HomePageSearchField(
-                onSubmit: (val) {
+                onChange: (val) {
                   ref
                       .read(addEventControllerProvider.notifier)
                       .getContacts(val);
@@ -96,7 +96,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                     if (data.contacts.isEmpty) {
                       return Center(
                         child: Text(
-                          context.tr('emptyContacts'),
+                          context.tr('emptyContacts1'),
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.black,
                           ),
@@ -133,6 +133,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
               CustomButtonWidget(
                 text: '',
                 onTap: () {
+                  context.pop();
                   context.pop();
                 },
                 isFiled: true,

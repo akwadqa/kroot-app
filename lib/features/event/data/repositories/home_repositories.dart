@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
+import 'package:kroot_app/features/event/data/models/retry_bulk_response/retry_bulk_response.dart';
 import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -40,6 +41,17 @@ class HomeRepositories {
   Future<ApiResponse<void>> deleteEvent(String occasionId) async {
     try {
       final respone = await _dataSource.deleteEvent(occasionId);
+      return respone;
+    } on DioException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ApiResponse<RetryBulkResponse>> resendFailure(String occasionId) async {
+    try {
+      final respone = await _dataSource.resendFailue(occasionId);
       return respone;
     } on DioException {
       rethrow;

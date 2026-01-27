@@ -97,7 +97,7 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
                     if (data.contacts.isEmpty) {
                       return Center(
                         child: Text(
-                          context.tr('emptyContacts'),
+                          context.tr('emptyContacts1'),
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.black,
                           ),

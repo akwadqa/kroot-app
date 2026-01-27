@@ -61,7 +61,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
             HomePageSearchField(
               hint: context.tr('findEventHere'),
-              onSubmit: (val) {
+              onChange: (val) {
                 ref
                     .read(homeControllerProvider.notifier)
                     .getUserEvents(page: 1, search: val);

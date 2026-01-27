@@ -52,6 +52,7 @@ class EventDetailsDate extends StatelessWidget {
             ),
             child: child!,
           ),
+          confirmText: 'continue'.tr(),
           context: context,
           firstDate: DateTime.now(),
           lastDate: DateTime(2100),

@@ -41,7 +41,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
     number = TextEditingController();
   }
 
-  void _openSheetForSelectAdd(BuildContext context) {
+  void _openSheetForSelectAdd(BuildContext context, String? id) {
     showModalBottomSheet(
       context: context,
       builder: (context) => SizedBox(
@@ -83,19 +83,20 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             Divider(color: AppColors.grayBorder),
 
             //? Invite someone :
-            ListTile(
-              onTap: () {
-                context.push(Routes.manageAccess);
-              },
-              title: Text(
-                context.tr('inviteSomeoneToManageGuests'),
-                style: AppTextStyle.rubikMedium16.copyWith(
-                  color: AppColors.primary,
+            if (id == null)
+              ListTile(
+                onTap: () {
+                  context.push(Routes.manageAccess);
+                },
+                title: Text(
+                  context.tr('inviteSomeoneToManageGuests'),
+                  style: AppTextStyle.rubikMedium16.copyWith(
+                    color: AppColors.primary,
+                  ),
                 ),
+                leading: Assets.icons.invieToManageGuestsIc.svg(),
               ),
-              leading: Assets.icons.invieToManageGuestsIc.svg(),
-            ),
-            Divider(color: AppColors.grayBorder),
+            if (id == null) Divider(color: AppColors.grayBorder),
           ],
         ),
       ),
@@ -222,12 +223,16 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
         ? ref.watch(updateEventControllerProvider).value!.selectedContacts
         : ref.watch(addEventControllerProvider).value!.selectedContacts;
 
+    final isChanged = ref.watch(
+      updateEventControllerProvider.select((val) => val.value!.isChanged),
+    );
+
     return Scaffold(
       appBar: CustomAppbar(
         title: context.tr('guestList'),
         actionButton: GestureDetector(
           onTap: () {
-            _openSheetForSelectAdd(context);
+            _openSheetForSelectAdd(context, widget.id);
           },
 
           child: Assets.icons.addContactIc.svg(width: 30.w),
@@ -253,16 +258,50 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                 child: items!.isEmpty
                     ?
                       //? Empty :
-                      Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 22.w),
-                          child: Text(
-                            context.tr('emptyContacts'),
-                            textAlign: TextAlign.center,
-                            style: AppTextStyle.rubikRegular16.copyWith(
-                              color: AppColors.black,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 22.w),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              widget.id == null
+                                  ? context.tr('emptyContacts1')
+                                  : context.tr('emptyContacts1forUpdate'),
+                              textAlign: TextAlign.center,
+                              style: AppTextStyle.rubikRegular18.copyWith(
+                                color: AppColors.black,
+                              ),
                             ),
-                          ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              spacing: 4,
+                              children: [
+                                Text(
+                                  context.tr('emptyContacts2'),
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyle.rubikRegular18.copyWith(
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                                Assets.icons.addContactIc.svg(),
+                                Text(
+                                  context.tr('emptyContacts3'),
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyle.rubikRegular18.copyWith(
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              context.tr('emptyContacts4'),
+                              textAlign: TextAlign.center,
+                              style: AppTextStyle.rubikRegular18.copyWith(
+                                color: AppColors.black,
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     : ListView.separated(
@@ -307,7 +346,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
               ),
 
               //? This for update Guest List :
-              if (widget.id != null)
+              if (widget.id != null && isChanged!)
                 //? Update guest :
                 CustomButtonWidget(
                   text: '',

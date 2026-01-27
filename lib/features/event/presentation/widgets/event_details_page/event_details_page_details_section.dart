@@ -43,7 +43,7 @@ class EventDetailsPageDetailsSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(32.r),
                 ),
                 child: Text(
-                  event.status ?? '',
+                  event.status?.tr() ?? '',
                   style: AppTextStyle.rubikRegular14.copyWith(
                     color: AppColors.white,
                   ),

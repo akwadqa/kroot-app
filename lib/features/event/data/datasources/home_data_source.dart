@@ -5,6 +5,7 @@ import 'package:kroot_app/features/event/data/models/add_guests_response/add_gue
 import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
 import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/data/models/retry_bulk_response/retry_bulk_response.dart';
 import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
@@ -98,6 +99,22 @@ class HomeDataSource {
         data: data,
       );
       return ApiResponse.fromJson(response.data, (json) {});
+    } catch (e) {
+      return ApiResponse.error(message: e.toString());
+    }
+  }
+
+  Future<ApiResponse<RetryBulkResponse>> resendFailue(String occasionId) async {
+    try {
+      final data = FormData.fromMap({'occasion_id': occasionId});
+      final response = await _networkService.post(
+        EndPoints.resendFailed,
+        data: data,
+      );
+      return ApiResponse.fromJson(
+        response.data,
+        (json) => RetryBulkResponse.fromJson(json as Map<String, dynamic>),
+      );
     } catch (e) {
       return ApiResponse.error(message: e.toString());
     }

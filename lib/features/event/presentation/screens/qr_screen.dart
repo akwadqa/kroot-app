@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -97,6 +99,13 @@ class QrScreen extends ConsumerWidget {
       });
     }
 
+    final guests = ref
+        .read(addEventControllerProvider)
+        .value!
+        .selectedContacts!
+        .length
+        .toString();
+
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('qrPreview')),
 
@@ -130,7 +139,7 @@ class QrScreen extends ConsumerWidget {
                         height: 44.h,
                         color: AppColors.primary,
                         child: Text(
-                          context.tr('personalAccessCard'),
+                          context.tr('appTitle'),
                           style: AppTextStyle.rubikSemiBold18.copyWith(
                             color: AppColors.white,
                           ),
@@ -145,38 +154,36 @@ class QrScreen extends ConsumerWidget {
                       ),
                       20.verticalSpace,
                       Assets.images.qrCodeImage.image(),
-                      20.verticalSpace,
-                      Assets.images.krootInviteImage.image(),
-                      10.verticalSpace,
+                      30.verticalSpace,
+                      // Assets.images.krootInviteImage.image(),
                       Container(
                         alignment: Alignment.center,
                         width: double.infinity,
                         height: 44.h,
                         color: AppColors.primary,
-                        child: Row(
-                          children: [
-                            14.horizontalSpace,
-                            Text(
-                              context.tr('guests'),
-                              style: AppTextStyle.rubikSemiBold18.copyWith(
-                                color: AppColors.white,
+                        child: Directionality(
+                          textDirection: ui.TextDirection.ltr,
+                          child: Row(
+                            children: [
+                              14.horizontalSpace,
+                              Text(
+                                // '${context.tr('guests')} : $guests',
+                                'Guests : $guests',
+                                style: AppTextStyle.rubikSemiBold18.copyWith(
+                                  color: AppColors.white,
+                                ),
                               ),
-                            ),
-                            Text(
-                              ': 1 ',
-                              style: AppTextStyle.rubikSemiBold18.copyWith(
-                                color: AppColors.white,
+
+                              Spacer(),
+                              Text(
+                                'www.kroot.com',
+                                style: AppTextStyle.rubikRegular14.copyWith(
+                                  color: AppColors.white,
+                                ),
                               ),
-                            ),
-                            Spacer(),
-                            Text(
-                              'www.kroot.com',
-                              style: AppTextStyle.rubikRegular14.copyWith(
-                                color: AppColors.white,
-                              ),
-                            ),
-                            14.horizontalSpace,
-                          ],
+                              14.horizontalSpace,
+                            ],
+                          ),
                         ),
                       ),
                     ],

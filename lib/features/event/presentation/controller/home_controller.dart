@@ -1,3 +1,4 @@
+import 'package:kroot_app/features/event/data/models/retry_bulk_response/retry_bulk_response.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
@@ -185,6 +186,38 @@ class HomeController extends _$HomeController {
     } catch (e, st) {
       state = AsyncData(
         state.value!.copyWith(confirmEventResponse: AsyncError(e, st)),
+      );
+      return null;
+    }
+  }
+
+  Future<RetryBulkResponse?> retryFailed(String occasionId) async {
+    try {
+      state = AsyncData(
+        state.value!.copyWith(retryFailue: AsyncLoading()),
+      );
+      final repo = ref.read(homeRepositoryProvider);
+      final response = await repo.resendFailure(occasionId);
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            retryFailue: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+        return null;
+      }
+
+      state = AsyncData(
+        state.value!.copyWith(retryFailue: AsyncData(response.data!)),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(
+        state.value!.copyWith(retryFailue: AsyncError(e, st)),
       );
       return null;
     }

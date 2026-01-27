@@ -32,7 +32,9 @@ class UpdateEventController extends _$UpdateEventController {
         .value
         ?.occasionModel
         ?.value
-        ?.guests;
+        ?.guests
+        ?.where((guest) => guest.rsvpStatus == 'Not Sent')
+        .toList();
 
     final operators = ref
         .watch(homeControllerProvider)
@@ -57,6 +59,64 @@ class UpdateEventController extends _$UpdateEventController {
     } else {
       return UpdateEventState.init();
     }
+  }
+
+  bool _checkSelectedContactsChanged(List<SelectedContact> currentSelected) {
+    final originalGuests = ref
+        .read(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value
+        ?.guests;
+
+    if (originalGuests == null) return false;
+
+    final originalSelected = originalGuests.map((g) {
+      final first = g.firstName ?? '';
+      final last = g.lastName ?? '';
+      final fullNumber = g.whatsappNumber ?? '';
+
+      final code = fullNumber.length > 3 ? fullNumber.substring(0, 3) : '';
+      final number = fullNumber.length > 3 ? fullNumber.substring(3) : '';
+
+      return SelectedContact(
+        id: 'original',
+        code: code,
+        count: g.partySize ?? 0,
+        contact: Contact(
+          id: 'original',
+          name: Name(first: first, last: last),
+          displayName: '$first $last'.trim(),
+          phones: [Phone(number)],
+        ),
+      );
+    }).toList();
+
+    bool same(SelectedContact a, SelectedContact b) {
+      final aNum = '${a.code}${a.contact.phones.first.number}'.replaceAll(
+        ' ',
+        '',
+      );
+      final bNum = '${b.code}${b.contact.phones.first.number}'.replaceAll(
+        ' ',
+        '',
+      );
+
+      return aNum == bNum &&
+          a.count == b.count &&
+          a.contact.name.first == b.contact.name.first &&
+          a.contact.name.last == b.contact.name.last;
+    }
+
+    if (originalSelected.length != currentSelected.length) return true;
+
+    for (final o in originalSelected) {
+      if (!currentSelected.any((c) => same(o, c))) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   void updateEventDate(DateTime newDate, String id) {
@@ -310,7 +370,12 @@ class UpdateEventController extends _$UpdateEventController {
       ];
     }
 
-    state = AsyncData(currentState.copyWith(selectedContacts: selectedList));
+    state = AsyncData(
+      currentState.copyWith(
+        selectedContacts: selectedList,
+        isChanged: _checkSelectedContactsChanged(selectedList),
+      ),
+    );
   }
 
   Future<CreateEventResponse?> updateEventToServer(String id) async {
@@ -379,7 +444,8 @@ class UpdateEventController extends _$UpdateEventController {
     Contact contact,
     String firstName,
     String lastName,
-    String code,
+    // String code,
+    String number,
     int count,
   ) {
     final currentState = state.value!;
@@ -389,9 +455,10 @@ class UpdateEventController extends _$UpdateEventController {
         final updatedContact = Contact(
           id: sc.contact.id,
           name: Name(first: firstName, last: lastName),
-          phones: sc.contact.phones
-              .map((p) => Phone(p.number, label: p.label))
-              .toList(),
+          phones: [Phone(number.substring(4))],
+          // phones: sc.contact.phones
+          //     .map((p) => Phone(p.number, label: p.label))
+          //     .toList(),
           emails: sc.contact.emails
               .map((e) => Email(e.address, label: e.label))
               .toList(),
@@ -400,7 +467,7 @@ class UpdateEventController extends _$UpdateEventController {
 
         return SelectedContact(
           contact: updatedContact,
-          code: code,
+          code: number.substring(1, 4),
           id: sc.id,
           count: count,
         );
@@ -421,7 +488,12 @@ class UpdateEventController extends _$UpdateEventController {
         .where((sc) => sc.contact.id != contact.id)
         .toList();
 
-    state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+    state = AsyncData(
+      currentState.copyWith(
+        selectedContacts: updatedList,
+        isChanged: _checkSelectedContactsChanged(updatedList),
+      ),
+    );
   }
 
   Future<void> addNewContact({
@@ -452,6 +524,7 @@ class UpdateEventController extends _$UpdateEventController {
         state.value!.copyWith(
           selectedContacts: updatedSelected,
           isAddContact: false,
+          isChanged: _checkSelectedContactsChanged(updatedSelected),
         ),
       );
     } catch (e, st) {
@@ -468,7 +541,12 @@ class UpdateEventController extends _$UpdateEventController {
       return sc;
     }).toList();
 
-    state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+    state = AsyncData(
+      currentState.copyWith(
+        selectedContacts: updatedList,
+        isChanged: _checkSelectedContactsChanged(updatedList!),
+      ),
+    );
   }
 
   void decrementCount(SelectedContact contact) {
@@ -480,7 +558,12 @@ class UpdateEventController extends _$UpdateEventController {
       return sc;
     }).toList();
 
-    state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+    state = AsyncData(
+      currentState.copyWith(
+        selectedContacts: updatedList,
+        isChanged: _checkSelectedContactsChanged(updatedList!),
+      ),
+    );
   }
 
   void updateDataForEvent(EventModel newData, String id) {

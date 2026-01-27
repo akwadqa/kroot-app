@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,6 +15,7 @@ class UpdateEventState {
   final List<SelectedContact>? selectedContacts;
   final bool? isAddContact;
   final bool? isUpdateEvent;
+  final bool? isChanged;
   final List<Contact> contacts;
 
   final AsyncValue<List<AutocompletePrediction>>? predictions;
@@ -31,6 +33,7 @@ class UpdateEventState {
 
   UpdateEventState({
     required this.updatedEvent,
+    required this.isChanged,
 
     required this.selectedPlace,
     required this.msg,
@@ -51,6 +54,7 @@ class UpdateEventState {
     updatedEvent: EventModel(),
     selectedPlace: null,
     selectedContacts: [],
+    isChanged: false,
 
     predictions: null,
     msg: '',
@@ -68,6 +72,7 @@ class UpdateEventState {
     EventModel? updatedEvent,
     List<SelectedContact>? selectedContacts,
     bool? isAddContact,
+    bool? isChanged,
     bool? isUpdateEvent,
     List<Contact>? contacts,
     CreateEventResponse? createEventResponse,
@@ -90,6 +95,7 @@ class UpdateEventState {
       msg: msg ?? this.msg,
       operators: operators ?? this.operators,
       handlers: handlers ?? this.handlers,
+      isChanged: isChanged ?? this.isChanged,
       selectedPlace: selectedPlace ?? this.selectedPlace,
       isUpdateEvent: isUpdateEvent,
       updatedEvent: updatedEvent ?? this.updatedEvent,
@@ -99,4 +105,22 @@ class UpdateEventState {
       createEventResponse: createEventResponse ?? this.createEventResponse,
     );
   }
+}
+
+class ComparableGuest extends Equatable {
+  final String number;
+  final int partySize;
+  final String? firstName;
+  final String? lastName;
+
+  ComparableGuest({
+    required this.number,
+    required this.partySize,
+    this.firstName,
+    this.lastName,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [number, partySize, firstName, lastName];
 }

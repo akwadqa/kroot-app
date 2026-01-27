@@ -363,6 +363,7 @@ class AddEventController extends _$AddEventController {
     }).toList();
 
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+    updateEvent(EventModel());
   }
 
   void decrementCount(SelectedContact contact) {
@@ -375,6 +376,7 @@ class AddEventController extends _$AddEventController {
     }).toList();
 
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
+    updateEvent(EventModel());
   }
 
   Future<void> addNewContact({

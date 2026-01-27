@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/data/data.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_bottom_sheet.dart';
@@ -59,6 +60,24 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
     final controller = ref.watch(
       homeControllerProvider.select((val) => val.value!.occasionModel),
     );
+
+    ref.listen(homeControllerProvider.select((val) => val.value!.retryFailue), (
+      prev,
+      next,
+    ) {
+      if (next is AsyncLoading) {
+        AppAlert.showLoadingDialog(context);
+      }
+      if (next is AsyncError) {
+        context.pop();
+        AppToast.errorToast(next!.error.toString());
+      }
+      if (next is AsyncData) {
+        context.pop();
+        AppToast.doneToast('successfullyCompleted'.tr());
+        context.go(Routes.eventDetails, extra: {'id': widget.id});
+      }
+    });
 
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent != null) {
@@ -412,8 +431,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
 
         20.verticalSpace,
 
-        if ((widget.eventModel?.status == 'Draft' || event.status == 'Draft') &&
-            event.role == 'owner')
+        // if ((widget.eventModel?.status != 'Confirmed' ||
+        if (event.status != 'Confirmed' && event.role == 'owner')
           CustomButtonWidget(
             text: '',
             onTap: () {
@@ -424,7 +443,9 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             },
             isFiled: true,
             content: Text(
-              context.tr('confirmEvent'),
+              event.status == 'Confirmed'
+                  ? context.tr('confirmEvent')
+                  : context.tr('reConfirm'),
               style: AppTextStyle.nunitoBold16.copyWith(color: AppColors.white),
             ),
             height: 44.h,
@@ -432,11 +453,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             backgroundColor: AppColors.primary,
           ).symmetricPadding(horizontal: 22.w),
 
-        if (widget.eventModel?.status == 'Draft' || event.status == 'Draft')
-          20.verticalSpace,
-
-        if ((widget.eventModel?.status == 'Draft' || event.status == 'Draft') &&
-            event.role != 'operator')
+        20.verticalSpace,
+        if (event.role != 'operator')
           CustomButtonWidget(
             text: '',
             onTap: () {
@@ -456,6 +474,34 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
               style: AppTextStyle.nunitoBold16.copyWith(
                 color: AppColors.primary,
               ),
+            ),
+            boxDecoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 4,
+                  color: AppColors.primary.withValues(alpha: .25),
+                ),
+              ],
+            ),
+            height: 44.h,
+            width: 330.w,
+            backgroundColor: AppColors.white,
+          ).symmetricPadding(horizontal: 22.w),
+
+        20.verticalSpace,
+        if (event.role != 'operator')
+          CustomButtonWidget(
+            text: '',
+            onTap: () {
+              ref
+                  .read(homeControllerProvider.notifier)
+                  .retryFailed(event.occasionId!);
+            },
+            isFiled: true,
+            content: Text(
+              context.tr('resendInvitation'),
+              style: AppTextStyle.nunitoBold16.copyWith(color: AppColors.black),
             ),
             boxDecoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.r),

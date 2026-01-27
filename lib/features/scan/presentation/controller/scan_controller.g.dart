@@ -30,7 +30,7 @@ final class ScanControllerProvider
   ScanController create() => ScanController();
 }
 
-String _$scanControllerHash() => r'55071ec488dc66af87f71cfb7c989a2a64252dea';
+String _$scanControllerHash() => r'252416a3d41b05918fb2b9b46618f13b96617b8e';
 
 abstract class _$ScanController extends $AsyncNotifier<ScanState> {
   FutureOr<ScanState> build();

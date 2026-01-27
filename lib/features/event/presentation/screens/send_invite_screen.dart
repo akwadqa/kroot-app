@@ -55,6 +55,10 @@ class SendInviteScreen extends ConsumerWidget {
       },
     );
 
+    final guest = eventModel.guests
+        ?.where((guest) => guest.rsvpStatus == 'Not Sent')
+        .toList();
+
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('send'), withBackButton: true),
       body: Builder(
@@ -82,17 +86,17 @@ class SendInviteScreen extends ConsumerWidget {
 
               Consumer(
                 builder: (context, ref, child) {
-
                   return Expanded(
                     child: ListView.separated(
                       separatorBuilder: (context, index) =>
                           Divider(color: AppColors.grayBorder),
                       padding: EdgeInsets.zero,
-                      itemCount: eventModel.guests?.length ?? 0,
+                      // itemCount: eventModel.guests?.length ?? 0,
+                      itemCount: guest?.length ?? 0,
 
                       itemBuilder: (context, index) => ListTile(
                         title: Text(
-                          eventModel.guests![index].fullName!,
+                          guest![index].fullName!,
                           style: AppTextStyle.rubikRegular16.copyWith(
                             color: AppColors.black,
                           ),

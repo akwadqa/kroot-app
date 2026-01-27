@@ -31,7 +31,7 @@ final class AddEventControllerProvider
 }
 
 String _$addEventControllerHash() =>
-    r'd9f6526d90e48d4042899b982109813faa2ab2db';
+    r'd550d490782f144074eca62015fbfc3dc55bcf13';
 
 abstract class _$AddEventController extends $AsyncNotifier<AddEventState> {
   FutureOr<AddEventState> build();
