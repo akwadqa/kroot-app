@@ -300,6 +300,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
   }
 
   Widget _buildBody(BuildContext context, EventModel event, WidgetRef ref) {
+    final isFailed =
+        event.guestReport?.failed != null && event.guestReport!.failed! > 0;
     return SliverList(
       delegate: SliverChildListDelegate([
         20.verticalSpace,
@@ -443,7 +445,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             },
             isFiled: true,
             content: Text(
-              event.status == 'Confirmed'
+              event.status == 'Draft'
                   ? context.tr('confirmEvent')
                   : context.tr('reConfirm'),
               style: AppTextStyle.nunitoBold16.copyWith(color: AppColors.white),
@@ -488,9 +490,9 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             width: 330.w,
             backgroundColor: AppColors.white,
           ).symmetricPadding(horizontal: 22.w),
-
-        20.verticalSpace,
-        if (event.role != 'operator')
+          
+        if (event.role != 'operator' && isFailed) 20.verticalSpace,
+        if (event.role != 'operator' && isFailed)
           CustomButtonWidget(
             text: '',
             onTap: () {

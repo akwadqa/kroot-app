@@ -249,7 +249,7 @@
     "Updated": "Updated",
     "can't_add_your_number": "You can't add your number",
     "eventTime": "Event Time",
-    "reConfirm": "Re-confirm Event",
+    "reConfirm": "Send to new / modified list",
     "not sent" : "Not Sent",
     "resendInvitation" : "Resend Invitations"
 }

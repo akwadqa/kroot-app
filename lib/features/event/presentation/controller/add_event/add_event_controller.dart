@@ -327,7 +327,9 @@ class AddEventController extends _$AddEventController {
           contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(4)
-          : contact.phones.first.number.replaceAll(' ', '').substring(1);
+          : contact.phones.first.number.startsWith('0')
+          ? contact.phones.first.number.replaceAll(' ', '').substring(1)
+          : contact.phones.first.number;
 
       final newContact = Contact(
         id: contact.id,
@@ -392,7 +394,7 @@ class AddEventController extends _$AddEventController {
       final newContact = Contact(
         id: id,
         name: Name(first: firstName, last: lastName),
-        phones: [Phone(phoneNumber.substring(1))],
+        phones: [Phone(phoneNumber)],
         displayName: "$firstName $lastName",
       );
 
@@ -400,7 +402,7 @@ class AddEventController extends _$AddEventController {
 
       final updatedSelected = [
         ...?currentSelected,
-        SelectedContact(contact: newContact, id: const Uuid().v4(), code: code),
+        SelectedContact(contact: newContact, id: const Uuid().v4(), code: ''),
       ];
 
       state = AsyncData(

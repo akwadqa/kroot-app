@@ -51,8 +51,13 @@ class _AddGuestNumberFieldState extends ConsumerState<AddGuestNumberField> {
   }
 
   void _updateFullPhone(String countryCode) {
-    final number = _nationalController.text;
-    final full = '$countryCode$number';
+    final number = _nationalController.text.startsWith('0')
+        ? _nationalController.text.substring(1)
+        : _nationalController.text;
+    final code = countryCode.startsWith('+')
+        ? countryCode.substring(1)
+        : countryCode;
+    final full = '$code$number';
     widget.fullPhoneController.value = TextEditingValue(
       text: full,
       selection: TextSelection.collapsed(offset: full.length),
