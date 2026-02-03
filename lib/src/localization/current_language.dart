@@ -26,3 +26,4 @@ class CurrentLanguage extends _$CurrentLanguage {
     state = languageCode;
   }
 }
+

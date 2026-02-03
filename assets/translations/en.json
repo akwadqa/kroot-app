@@ -251,5 +251,6 @@
     "eventTime": "Event Time",
     "reConfirm": "Send to new / modified list",
     "not sent" : "Not Sent",
-    "resendInvitation" : "Resend Invitations"
+    "resendInvitation" : "Resend Invitations",
+    "Unkown error occured" : "Unkown error occured"
 }

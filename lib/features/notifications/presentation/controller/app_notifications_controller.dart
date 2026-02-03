@@ -12,10 +12,11 @@ class AppNotificationsController extends _$AppNotificationsController {
 
   @override
   FutureOr<List<AppNotificationsModel>> build() async {
-    return await fetchOrdersOffersNotifications(page: 1);
+    final result = await fetchOrdersOffersNotifications(page: 1);
+    return result!;
   }
 
-  Future<List<AppNotificationsModel>> fetchOrdersOffersNotifications({
+  Future<List<AppNotificationsModel>?> fetchOrdersOffersNotifications({
     required int page,
     bool showLoading = true,
   }) async {
@@ -25,29 +26,32 @@ class AppNotificationsController extends _$AppNotificationsController {
       final repo = ref.read(notificationsRepositoryProvider);
       final response = await repo.getAllOrdersNotifications(page: page);
 
-      _currentPage = response.pagination!.currentPage;
-      _totalPages = response.pagination!.totalPages;
-
-      if (page == 1) {
-        _notifications = List.from(response.data!);
-      } else {
-        _notifications.addAll(response.data!);
+      // فحص شامل: هل الرد ككل نول؟ هل السيرفر أبلغ عن فشل؟ هل الداتا نول؟
+      if (response == null || response.hasFailed || response.data == null) {
+        final errorMessage =
+            response?.message ?? "حدث خطأ غير متوقع في السيرفر";
+        state = AsyncError(errorMessage, StackTrace.current);
+        return null;
       }
 
-      if (response.hasFailed ||
-          response.data == null ||
-          response.pagination == null) {
-        state = AsyncError(
-          response.message ?? '',
-          StackTrace.fromString(response.message ?? ''),
-        );
+      // هنا نحن متأكدون أن البيانات موجودة
+      _currentPage = response.pagination?.currentPage ?? 1;
+      _totalPages = response.pagination?.totalPages ?? 1;
+
+      final List<AppNotificationsModel> newData = List.from(response.data!);
+
+      if (page == 1) {
+        _notifications = newData;
+      } else {
+        _notifications = [..._notifications, ...newData];
       }
 
       state = AsyncData(_notifications);
       return _notifications;
     } catch (e, st) {
+      // في حال حدوث Null Check Operator used on a null value أو Cast error
       state = AsyncError(e, st);
-      return [];
+      return null;
     }
   }
 
@@ -58,7 +62,7 @@ class AppNotificationsController extends _$AppNotificationsController {
       page: nextPage,
       showLoading: false,
     );
-    return result.isNotEmpty;
+    return result?.isNotEmpty ?? false;
   }
 
   Future<bool> refreshOrders() async {

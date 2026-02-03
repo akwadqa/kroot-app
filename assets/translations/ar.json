@@ -271,5 +271,6 @@
     "reConfirm" : "الارسال للقائمة الجديده/المعدله",
     "Updated" : "معدل",
     "not sent" : "لم ترسل",
-    "resendInvitation" : "اعادة ارسال الدعوات"
+    "resendInvitation" : "اعادة ارسال الدعوات",
+    "Unkown error occured" : "حدث خطأ غير معروف"
 }

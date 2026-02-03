@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:kroot_app/features/notifications/data/datasources/notifications_dataSource.dart';
 import 'package:kroot_app/features/notifications/domain/model/app_notifications_model.dart';
 import 'package:kroot_app/src/network/services/dio_client.dart';
@@ -23,17 +24,15 @@ class NotificationsRepository {
     String? quickOrderOfferId,
   }) async {
     try {
-      final result = await _remoteDataSource.getAllNotification(
+      final respone = await _remoteDataSource.getAllNotification(
         page,
         quickOrderOfferId,
       );
-      if (result.hasFailed) {
-        throw Exception(result.message ?? 'Failed to fetch NOtifications');
-      }
-
-      return result;
+      return respone;
+    } on DioException {
+      rethrow;
     } catch (e) {
-      throw Exception('Failed to Get NOtifications: $e');
+      rethrow;
     }
   }
 }

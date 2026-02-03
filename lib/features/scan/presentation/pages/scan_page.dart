@@ -46,7 +46,16 @@ class _ScanPageState extends ConsumerState<ScanPage> {
       body: controller?.when(
         data: (data) {
           if (data.events.isEmpty) {
-            return Center(child: Assets.icons.emptyIc.svg());
+            return RefreshIndicator(
+              onRefresh: () async {
+                ref
+                    .read(scanControllerProvider.notifier)
+                    .getUserScanEvent(page: 1);
+              },
+              child: ListView(
+                children: [50.verticalSpace, Assets.icons.emptyIc.svg()],
+              ),
+            );
           }
           return _buildBody(data.events);
         },
