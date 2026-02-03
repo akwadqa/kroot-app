@@ -1,5 +1,5 @@
 import java.util.Properties
-
+import java.io.File
 plugins {
     id("com.android.application")
     
@@ -10,13 +10,25 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
+
+/* ---------- Local properties ---------- */
 val localProperties = Properties()
 val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
-    localPropertiesFile.reader(Charsets.UTF_8).use { reader ->
-        localProperties.load(reader)
+    localPropertiesFile.inputStream().use {
+        localProperties.load(it)
     }
 }
+
+/* ---------- Keystore properties ---------- */
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.inputStream().use {
+        keystoreProperties.load(it)
+    }
+}
+
 android {
     namespace = "qa.app.kroot"
     compileSdk = flutter.compileSdkVersion
@@ -47,11 +59,19 @@ android {
         manifestPlaceholders["MAPS_API_KEY"] = project.findProperty("MAPS_API_KEY") ?: ""
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storePassword = keystoreProperties["storePassword"] as String
+            storeFile = File(keystoreProperties["storeFile"] as String)
+        }
+    }
     buildTypes {
-        release {
-            
-            
-            signingConfig = signingConfigs.getByName("debug")
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false
+            isShrinkResources = false
         }
     }
 }

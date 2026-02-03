@@ -77,50 +77,57 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
 
   SizedBox _buildConfirmButton(BuildContext context) {
     return SizedBox(
-      height: 100.h,
+      // height: 100.h,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomButtonWidget(
-            text: '',
-            onTap: () async {
-              if (widget.id == null) {
-                await ref
-                    .read(addEventControllerProvider.notifier)
-                    .getPlaceInfoFromLatLng();
-              } else {
-                await ref
-                    .read(updateEventControllerProvider.notifier)
-                    .getPlaceInfoFromLatLng(widget.id!);
-              }
-            },
-            isFiled: true,
-            content: Text(
-              context.tr('confirm'),
-              style: AppTextStyle.nunitoBold16.copyWith(color: AppColors.white),
+          Flexible(
+            flex: 7,
+            child: CustomButtonWidget(
+              text: '',
+              onTap: () async {
+                if (widget.id == null) {
+                  await ref
+                      .read(addEventControllerProvider.notifier)
+                      .getPlaceInfoFromLatLng();
+                } else {
+                  await ref
+                      .read(updateEventControllerProvider.notifier)
+                      .getPlaceInfoFromLatLng(widget.id!);
+                }
+              },
+              isFiled: true,
+              content: Text(
+                context.tr('confirm'),
+                style: AppTextStyle.nunitoBold16.copyWith(color: AppColors.white),
+              ),
+              height: 44.h,
+              width: 260.w,
+              backgroundColor: AppColors.primary,
             ),
-            height: 44.h,
-            width: 260.w,
-            backgroundColor: AppColors.primary,
           ),
           // 12.horizontalSpace,
           Spacer(),
-          IconButton(
-            style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(AppColors.white),
-            ),
-            onPressed: () {
-              final location = ref
-                  .watch(addEventControllerProvider)
-                  .value!
-                  .initialLatLng;
+          Flexible(
+            flex: 1,
 
-              ref
-                  .read(addEventControllerProvider.notifier)
-                  .changeLatlng(location!.lat, location.lng);
-              setState(() {});
-            },
-            icon: Icon(Icons.my_location_outlined),
+            child: IconButton(
+              style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(AppColors.white),
+              ),
+              onPressed: () {
+                final location = ref
+                    .watch(addEventControllerProvider)
+                    .value!
+                    .initialLatLng;
+            
+                ref
+                    .read(addEventControllerProvider.notifier)
+                    .changeLatlng(location!.lat, location.lng);
+                setState(() {});
+              },
+              icon: Icon(Icons.my_location_outlined),
+            ),
           ),
         ],
       ),

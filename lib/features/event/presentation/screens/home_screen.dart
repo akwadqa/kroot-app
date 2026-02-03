@@ -180,7 +180,7 @@ class HomePageAvailableBalance extends ConsumerWidget {
               key: const ValueKey("balance-loaded"),
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
               width: double.infinity,
-              height: 78.h,
+              height: 95.h,
               decoration: BoxDecoration(
                 color: AppColors.primary,
                 borderRadius: BorderRadius.circular(10.r),
@@ -199,7 +199,7 @@ class HomePageAvailableBalance extends ConsumerWidget {
                       ),
                       Text(
                         '${data.subscriber?.remainingBalance} ${context.tr('invitaion')}',
-                        style: AppTextStyle.rubikMedium14.copyWith(
+                        style: AppTextStyle.rubikRegular12.copyWith(
                           color: AppColors.white,
                         ),
                       ),

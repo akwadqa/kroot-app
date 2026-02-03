@@ -63,8 +63,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           }
         },
         child: Container(
-          width: 70.w,
-          height: 70.w,
+          width: 40.w,
+          height: 40.w,
           decoration: BoxDecoration(
             color: Color(0xff15294B),
             shape: BoxShape.circle,
