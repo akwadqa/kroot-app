@@ -234,7 +234,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                                     .read(addEventControllerProvider.notifier)
                                     .addHandler(
                                       HandlerModel(
-                                        whatsappNumber: number.substring(1),
+                                        whatsappNumber: number,
                                         editEventAccess: 0,
                                         guestListAccess: 1,
                                         scanAccess: 0,
@@ -247,7 +247,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                                     )
                                     .addHandler(
                                       HandlerModel(
-                                        whatsappNumber: number.substring(1),
+                                        whatsappNumber: number,
                                         editEventAccess: 0,
                                         guestListAccess: 1,
                                         scanAccess: 0,
@@ -398,7 +398,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                               .read(addEventControllerProvider.notifier)
                               .addOperator(
                                 HandlerModel(
-                                  whatsappNumber: number.substring(1),
+                                  whatsappNumber: number,
                                   scanAccess: 1,
                                   editEventAccess: 0,
                                   guestListAccess: 0,
@@ -409,7 +409,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                               .read(updateEventControllerProvider.notifier)
                               .addOperator(
                                 HandlerModel(
-                                  whatsappNumber: number.substring(1),
+                                  whatsappNumber: number,
                                   scanAccess: 1,
                                   editEventAccess: 0,
                                   guestListAccess: 0,
