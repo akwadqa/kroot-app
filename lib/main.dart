@@ -12,7 +12,7 @@ Future<void> main() async {
   await handleSplashScreen(container);
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => UncontrolledProviderScope(
         container: container,
         child: EasyLocalization(

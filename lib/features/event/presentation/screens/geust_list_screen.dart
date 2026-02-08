@@ -284,7 +284,14 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                                     color: AppColors.black,
                                   ),
                                 ),
-                                Assets.icons.addContactIc.svg(),
+                                // Assets.icons.addContactIc.svg(),
+                                CircleAvatar(
+                                  backgroundColor: AppColors.primary,
+                                  child: Icon(
+                                    Icons.add,
+                                    color: AppColors.white,
+                                  ),
+                                ),
                                 Text(
                                   context.tr('emptyContacts3'),
                                   textAlign: TextAlign.center,

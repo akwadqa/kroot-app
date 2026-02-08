@@ -48,6 +48,7 @@ class _AddContactManuallBottomSheetState
   Widget build(BuildContext context) {
     return Container(
       height: 600.h,
+      width: double.infinity,
       padding: EdgeInsets.fromLTRB(
         22.w,
         22.w,
