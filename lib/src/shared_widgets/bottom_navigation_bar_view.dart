@@ -40,7 +40,7 @@ class BottomNavigationBarView extends ConsumerWidget {
             final color = isActive ? AppColors.primary : AppColors.black400;
 
             return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               spacing: 5,
               children: [
                 SizedBox(height: 3),
@@ -57,7 +57,7 @@ class BottomNavigationBarView extends ConsumerWidget {
                   height: 4,
                 ),
 
-                Spacer(),
+                // Spacer(),
                 ColorFiltered(
                   colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
                   child: iconList[i],

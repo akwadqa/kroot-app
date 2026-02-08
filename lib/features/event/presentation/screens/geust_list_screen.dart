@@ -44,6 +44,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
   void _openSheetForSelectAdd(BuildContext context, String? id) {
     showModalBottomSheet(
       context: context,
+      constraints: BoxConstraints(minWidth: double.infinity),
       builder: (context) => SizedBox(
         width: double.infinity,
         height: 375.h,
@@ -70,7 +71,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             ListTile(
               onTap: () {
                 context.pop();
-                _openSheetForAddMan(context);
+                _openSheetForAddManually(context);
               },
               title: Text(
                 context.tr('addManually'),
@@ -117,10 +118,11 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
     );
   }
 
-  void _openSheetForAddMan(BuildContext context) {
+  void _openSheetForAddManually(BuildContext context) {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
+      constraints: BoxConstraints(minWidth: double.infinity),
       builder: (context) => AddContactManuallBottomSheet(id: widget.id),
     );
   }
