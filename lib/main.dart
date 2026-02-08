@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ Future<void> main() async {
         container: container,
         child: EasyLocalization(
           supportedLocales: const [Locale('en'), Locale('ar')],
-          useOnlyLangCode: true, 
+          useOnlyLangCode: true,
           path: 'assets/translations',
           child: const App(),
         ),
