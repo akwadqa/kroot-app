@@ -114,9 +114,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     : null,
               ),
 
-              15.verticalSpace,
-
-              20.verticalSpace,
+              35.verticalSpace,
 
               LoginPageTermsSection(),
               20.verticalSpace,

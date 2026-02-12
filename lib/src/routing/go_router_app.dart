@@ -34,9 +34,11 @@ part 'go_router_app.g.dart';
 GoRouter goRouter(Ref ref) {
   return GoRouterApp().routes;
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class GoRouterApp {
   GoRouter get routes => GoRouter(
+    navigatorKey: navigatorKey,
     routes: [
       GoRoute(
         path: Routes.start,

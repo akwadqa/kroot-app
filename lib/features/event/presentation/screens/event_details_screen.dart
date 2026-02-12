@@ -120,6 +120,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
+        if (didPop) return;
+
         if (context.canPop()) {
           context.pop();
         } else {
@@ -490,7 +492,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             width: 330.w,
             backgroundColor: AppColors.white,
           ).symmetricPadding(horizontal: 22.w),
-          
+
         if (event.role != 'operator' && isFailed) 20.verticalSpace,
         if (event.role != 'operator' && isFailed)
           CustomButtonWidget(
