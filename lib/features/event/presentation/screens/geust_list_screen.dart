@@ -122,7 +122,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      constraints: BoxConstraints(minWidth: double.infinity),
+      constraints: BoxConstraints(maxWidth: double.infinity),
       builder: (context) => AddContactManuallBottomSheet(id: widget.id),
     );
   }
