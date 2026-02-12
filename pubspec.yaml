@@ -4,7 +4,7 @@ description: "A new Flutter project about wddings and events common."
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+2
+version: 1.0.2+1
 
 environment:
   sdk: ^3.8.1
@@ -68,6 +68,8 @@ dependencies:
   fcm_config: ^3.6.5
   quickalert: ^1.1.0
   keyboard_actions: ^4.2.1
+  package_info_plus: ^9.0.0
+
 
 
 
