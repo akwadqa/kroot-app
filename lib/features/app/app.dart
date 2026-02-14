@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/app/app_service.dart';
+import 'package:kroot_app/features/app/presentation/controller/app_controller.dart';
 import 'package:toastification/toastification.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 
@@ -21,9 +22,6 @@ class _AppState extends ConsumerState<App> {
   void initState() {
     Future(() {
       ref.read(currentLanguageProvider.notifier).getLanguage(context);
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        await ref.read(appServiceProvider.notifier).checkAppVersion({});
-      });
     });
 
     super.initState();

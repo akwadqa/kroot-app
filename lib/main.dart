@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/app/app.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:kroot_app/features/app/presentation/controller/app_controller.dart';
 import 'src/utils/app_initializer.dart';
 
 Future<void> main() async {
@@ -24,4 +25,7 @@ Future<void> main() async {
       ),
     ),
   );
+   WidgetsBinding.instance.addPostFrameCallback((_)async {
+   await container.read(appControllerProvider.notifier).checkAppVersion();
+  });
 }

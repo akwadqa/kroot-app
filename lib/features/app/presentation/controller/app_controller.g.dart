@@ -1,56 +1,49 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'app_service.dart';
+part of 'app_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(AppService)
-const appServiceProvider = AppServiceProvider._();
+@ProviderFor(AppController)
+const appControllerProvider = AppControllerProvider._();
 
-final class AppServiceProvider extends $NotifierProvider<AppService, void> {
-  const AppServiceProvider._()
+final class AppControllerProvider
+    extends $AsyncNotifierProvider<AppController, void> {
+  const AppControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'appServiceProvider',
-        isAutoDispose: true,
+        name: r'appControllerProvider',
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$appServiceHash();
+  String debugGetCreateSourceHash() => _$appControllerHash();
 
   @$internal
   @override
-  AppService create() => AppService();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(void value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<void>(value),
-    );
-  }
+  AppController create() => AppController();
 }
 
-String _$appServiceHash() => r'f425b468afc8b8d8c47072f3ccf2bd72285ee879';
+String _$appControllerHash() => r'f365272ce3ed52ea52a189db0d3cf744b3d865fd';
 
-abstract class _$AppService extends $Notifier<void> {
-  void build();
+abstract class _$AppController extends $AsyncNotifier<void> {
+  FutureOr<void> build();
   @$mustCallSuper
   @override
   void runBuild() {
     build();
-    final ref = this.ref as $Ref<void, void>;
+    final ref = this.ref as $Ref<AsyncValue<void>, void>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
               Object?,
               Object?
             >;

@@ -165,7 +165,7 @@
     "selectContacts": "تحديد جهات الاتصال",
     "searchContactHere": "ابحث عن جهات الاتصال هنا",
     "emptyContacts1": "لا يوجد ضيوف حتى الآن,",
-    "emptyContacts1forUpdate" : "لا يوجد ضيوف قابلين للتعديل بعد,",
+    "emptyContacts1forUpdate": "لا يوجد ضيوف قابلين للتعديل بعد,",
     "emptyContacts2": " انقر على زر",
     "emptyContacts3": " في الأعلى",
     "emptyContacts4": "لبدء الإضافة",
@@ -268,9 +268,14 @@
     "Confirmed": "مؤكد",
     "Draft": "مسودة",
     "can't_add_your_number": "لا يمكنك اضافة رقمك",
-    "reConfirm" : "الارسال للقائمة الجديده/المعدله",
-    "Updated" : "معدل",
-    "not sent" : "لم ترسل",
-    "resendInvitation" : "اعادة ارسال الدعوات",
-    "Unkown error occured" : "حدث خطأ غير معروف"
+    "reConfirm": "الارسال للقائمة الجديده/المعدله",
+    "Updated": "معدل",
+    "not sent": "لم ترسل",
+    "resendInvitation": "اعادة ارسال الدعوات",
+    "Unkown error occured": "حدث خطأ غير معروف",
+    "update_title_required": "تحديث مطلوب",
+    "update_title_optional": "تحديث متاح",
+    "update_message_required": "نسخة جديدة مطلوبة للاستمرار في استخدام التطبيق.",
+    "update_message_optional": "هناك تحديث جديد متاح.",
+    "could_not_open_link": "تعذر فتح الرابط."
 }

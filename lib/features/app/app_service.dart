@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:kroot_app/features/app/domain/version_update.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 import 'package:kroot_app/src/shared_widgets/app_dialogs.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -14,9 +15,9 @@ class AppService extends _$AppService {
   void build() {}
   Future<void> checkAppVersion(
     // BuildContext context,
-    dynamic versionUpdate,
+    VersionUpdate versionUpdate,
   ) async {
-    final appRouter = ref.watch(goRouterProvider);
+    // final appRouter = ref.watch(goRouterProvider);
     final currentContext = navigatorKey.currentContext!;
     debugPrint("VERSION NUMBER${versionUpdate.appAndroidVersion}");
     debugPrint("NEED UPDATE VERSION NUMBER ${versionUpdate.appUpdateRequired}");
@@ -69,7 +70,7 @@ class AppService extends _$AppService {
     for (var i = 0; i < currParts.length; i++) {
       if (i >= latestParts.length) return false;
       if (currParts[i] < latestParts[i]) return true;
-      if (currParts[i] > latestParts[i]) return false;
+      if (currParts[i] > latestParts[i]) return true;
     }
     return currParts.length < latestParts.length;
   }

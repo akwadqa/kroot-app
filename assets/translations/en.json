@@ -250,7 +250,12 @@
     "can't_add_your_number": "You can't add your number",
     "eventTime": "Event Time",
     "reConfirm": "Send to new / modified list",
-    "not sent" : "Not Sent",
-    "resendInvitation" : "Resend Invitations",
-    "Unkown error occured" : "Unkown error occured"
+    "not sent": "Not Sent",
+    "resendInvitation": "Resend Invitations",
+    "Unkown error occured": "Unkown error occured",
+    "update_title_required": "Update Required",
+    "update_title_optional": "Update Available",
+    "update_message_required": "A new version is required to continue using the app.",
+    "update_message_optional": "A new update is available.",
+    "could_not_open_link": "Could not open the link."
 }

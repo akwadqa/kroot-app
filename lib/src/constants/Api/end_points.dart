@@ -6,6 +6,7 @@ abstract class EndPoints {
   static String deleteUser = 'kroot.api.auth.delete_user';
 
   static String getUtils = 'kroot.api.api.get_utility_data';
+  static String getVersion = 'kroot.api.api.get_app_versions';
   static String getEvents = 'kroot.api.api.get_user_events';
   static String createEvent = 'kroot.api.api.create_event';
   static String getEventDetails = 'kroot.api.api.get_event';
