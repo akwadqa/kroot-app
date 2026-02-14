@@ -64,13 +64,14 @@ class AppService extends _$AppService {
     }
   }
 
+  
   bool _isVersionLower(String current, String latest) {
     final currParts = current.split('.').map(int.parse).toList();
     final latestParts = latest.split('.').map(int.parse).toList();
     for (var i = 0; i < currParts.length; i++) {
       if (i >= latestParts.length) return false;
       if (currParts[i] < latestParts[i]) return true;
-      if (currParts[i] > latestParts[i]) return true;
+      if (currParts[i] > latestParts[i]) return false;
     }
     return currParts.length < latestParts.length;
   }
