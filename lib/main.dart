@@ -25,7 +25,7 @@ Future<void> main() async {
       ),
     ),
   );
-   WidgetsBinding.instance.addPostFrameCallback((_)async {
-   await container.read(appControllerProvider.notifier).checkAppVersion();
-  });
+  //  WidgetsBinding.instance.addPostFrameCallback((_)async {
+  //  await container.read(appControllerProvider.notifier).checkAppVersion();
+  // });
 }

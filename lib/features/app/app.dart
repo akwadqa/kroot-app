@@ -22,6 +22,8 @@ class _AppState extends ConsumerState<App> {
   void initState() {
     Future(() {
       ref.read(currentLanguageProvider.notifier).getLanguage(context);
+          ref.read(appControllerProvider.notifier).checkAppVersion();
+
     });
 
     super.initState();
