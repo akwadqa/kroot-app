@@ -33,7 +33,7 @@ class VerificationPagePin extends StatelessWidget {
           }
           return null;
         },
-        readOnly: true,
+        readOnly: false,
         controller: controller,
         showCursor: false,
         preFilledWidget: Text(

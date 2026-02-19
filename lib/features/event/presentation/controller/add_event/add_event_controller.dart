@@ -598,6 +598,7 @@ class AddEventController extends _$AddEventController {
 
     return LatLng(lat: loc.lat, lng: loc.lng);
   }
+  
 
   void changeLatlng(double lat, double lng) {
     state = AsyncData(

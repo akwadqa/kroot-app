@@ -21,6 +21,26 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mq = MediaQuery.of(context);
+
+    final logicalWidth = mq.size.width;
+    final logicalHeight = mq.size.height;
+    final dpr = mq.devicePixelRatio;
+
+    final physicalWidth = logicalWidth * dpr;
+    final physicalHeight = logicalHeight * dpr;
+
+    debugPrint("========== DEVICE INFO ==========");
+    debugPrint(
+      "Logical Size: ${logicalWidth.toStringAsFixed(2)} x ${logicalHeight.toStringAsFixed(2)}",
+    );
+    debugPrint("Device Pixel Ratio: ${dpr.toStringAsFixed(3)}");
+    debugPrint(
+      "Physical Size: ${physicalWidth.toStringAsFixed(0)} x ${physicalHeight.toStringAsFixed(0)}",
+    );
+    debugPrint("Text Scale Factor: ${mq.textScaleFactor}");
+    debugPrint("=================================");
+
     late BuildContext ctx;
 
     ref.listen(

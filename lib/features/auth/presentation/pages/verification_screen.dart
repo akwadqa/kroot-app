@@ -192,58 +192,58 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
             ),
             Spacer(),
 
-            Directionality(
-              textDirection: ui.TextDirection.ltr,
-              child: SizedBox(
-                width: double.infinity,
-                height: 216.h,
-                child: GridView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 6.w),
-                  itemCount: keys.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 117 / 46,
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 6.w,
-                    mainAxisSpacing: 7.h,
-                  ),
-                  itemBuilder: (context, index) {
-                    if (index == 9) {
-                      return VerificationPageInputButton.delet(() {
-                        if (controller.text.isNotEmpty) {
-                          controller.text = controller.text.substring(
-                            0,
-                            controller.text.length - 1,
-                          );
-                        }
-                      });
-                    }
+            // Directionality(
+            //   textDirection: ui.TextDirection.ltr,
+            //   child: SizedBox(
+            //     width: double.infinity,
+            //     height: 216.h,
+            //     child: GridView.builder(
+            //       padding: EdgeInsets.symmetric(horizontal: 6.w),
+            //       itemCount: keys.length,
+            //       physics: NeverScrollableScrollPhysics(),
+            //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //         childAspectRatio: 117 / 46,
+            //         crossAxisCount: 3,
+            //         crossAxisSpacing: 6.w,
+            //         mainAxisSpacing: 7.h,
+            //       ),
+            //       itemBuilder: (context, index) {
+            //         if (index == 9) {
+            //           return VerificationPageInputButton.delet(() {
+            //             if (controller.text.isNotEmpty) {
+            //               controller.text = controller.text.substring(
+            //                 0,
+            //                 controller.text.length - 1,
+            //               );
+            //             }
+            //           });
+            //         }
 
-                    if (index == 11) {
-                      return VerificationPageInputButton.done(
-                        !ref.read(authUiControllerProvider).isResendVisible
-                            ? () {
-                                if (_key.currentState!.validate()) {
-                                  ref
-                                      .read(authControllerProvider.notifier)
-                                      .verifyOtp(
-                                        controller.text,
-                                        widget.number,
-                                      );
-                                }
-                              }
-                            : null,
-                      );
-                    }
-                    return VerificationPageInputButton.label(keys[index], () {
-                      if (controller.text.length < 4) {
-                        controller.text += keys[index];
-                      }
-                    });
-                  },
-                ),
-              ),
-            ),
+            //         if (index == 11) {
+            //           return VerificationPageInputButton.done(
+            //             !ref.read(authUiControllerProvider).isResendVisible
+            //                 ? () {
+            //                     if (_key.currentState!.validate()) {
+            //                       ref
+            //                           .read(authControllerProvider.notifier)
+            //                           .verifyOtp(
+            //                             controller.text,
+            //                             widget.number,
+            //                           );
+            //                     }
+            //                   }
+            //                 : null,
+            //           );
+            //         }
+            //         return VerificationPageInputButton.label(keys[index], () {
+            //           if (controller.text.length < 4) {
+            //             controller.text += keys[index];
+            //           }
+            //         });
+            //       },
+            //     ),
+            //   ),
+            // ),
             8.verticalSpace,
           ],
         ),

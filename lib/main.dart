@@ -13,7 +13,7 @@ Future<void> main() async {
   await handleSplashScreen(container);
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: kDebugMode,
       builder: (context) => UncontrolledProviderScope(
         container: container,
         child: EasyLocalization(
@@ -25,7 +25,5 @@ Future<void> main() async {
       ),
     ),
   );
-  //  WidgetsBinding.instance.addPostFrameCallback((_)async {
-  //  await container.read(appControllerProvider.notifier).checkAppVersion();
-  // });
+
 }

@@ -14,12 +14,12 @@ class AddEventState {
 
   final CreateEventResponse? createEventResponse;
 
-  final AsyncValue<List<AutocompletePrediction>>? predictions;
   final LatLng latLng;
 
   final bool? isGetContacts;
 
   final bool? isAddEvent;
+  final AsyncValue<List<AutocompletePrediction>>? predictions;
 
   final AsyncValue<SelectedPlace>? selectedPlace;
 
