@@ -92,8 +92,19 @@ class ProfileController extends _$ProfileController {
     try {
       state = AsyncData(state.value!.copyWith(isLogout: true));
       state = const AsyncLoading();
-      ref.read(userDataProvider.notifier).removeData();
-      state = AsyncData(state.value!.copyWith(isLogout: false));
+      final repo = ref.read(profileRespositoryProvider);
+      final response = await repo.logout();
+      if (response.hasFailed) {
+        state = AsyncError(
+          response.message ?? 'Error , try again',
+          StackTrace.current,
+        );
+        state = AsyncData(state.value!.copyWith(isLogout: true));
+
+        return;
+      }
+
+      state = AsyncData(state.value!.copyWith(isLogout: true));
     } catch (e, st) {
       state = AsyncError(e, st);
       state = AsyncData(state.value!.copyWith(isLogout: false));

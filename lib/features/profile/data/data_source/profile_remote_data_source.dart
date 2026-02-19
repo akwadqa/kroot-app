@@ -48,4 +48,25 @@ class ProfileRemoteDataSource {
       rethrow;
     }
   }
+
+  Future<ApiResponse<void>> logout() async {
+    try {
+      final response = await _networkService.post(
+        EndPoints.logout,
+        // queryParameters: {},
+      );
+
+      if (response.data == null || response.statusCode != 200) {
+        throw Exception('Request failed');
+      }
+
+      return ApiResponse.fromJson(
+        response.data as Map<String, dynamic>,
+        (json) {},
+      );
+    } catch (e) {
+      // Dev.logLine('Error in submitData: e');
+      rethrow;
+    }
+  }
 }

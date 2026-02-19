@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/profile/presentation/controller/profile_controller.dart';
 import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/change_language_bottom_sheet.dart';
@@ -21,26 +22,6 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mq = MediaQuery.of(context);
-
-    final logicalWidth = mq.size.width;
-    final logicalHeight = mq.size.height;
-    final dpr = mq.devicePixelRatio;
-
-    final physicalWidth = logicalWidth * dpr;
-    final physicalHeight = logicalHeight * dpr;
-
-    debugPrint("========== DEVICE INFO ==========");
-    debugPrint(
-      "Logical Size: ${logicalWidth.toStringAsFixed(2)} x ${logicalHeight.toStringAsFixed(2)}",
-    );
-    debugPrint("Device Pixel Ratio: ${dpr.toStringAsFixed(3)}");
-    debugPrint(
-      "Physical Size: ${physicalWidth.toStringAsFixed(0)} x ${physicalHeight.toStringAsFixed(0)}",
-    );
-    debugPrint("Text Scale Factor: ${mq.textScaleFactor}");
-    debugPrint("=================================");
-
     late BuildContext ctx;
 
     ref.listen(
@@ -74,10 +55,15 @@ class ProfileScreen extends ConsumerWidget {
           AppAlert.showLoadingDialog(ctx);
         }
 
-        if (next is AsyncData) {
+        if (next is AsyncData && pre is AsyncLoading) {
           ctx.pop();
-          ref.invalidate(homeControllerProvider);
+          ref.read(userDataProvider.notifier).removeData();
+          // ref.invalidate(homeControllerProvider);
           context.go(Routes.login);
+        }
+        if (next is AsyncError) {
+          ctx.pop();
+          AppToast.errorToast(next.error!.toString());
         }
       }
     });
@@ -129,6 +115,7 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                     ),
                     onSubmit: () {
+                      context.pop();
                       ref.read(profileControllerProvider.notifier).deleteUser();
                     },
                   );

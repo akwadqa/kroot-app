@@ -4,6 +4,7 @@ abstract class EndPoints {
   static String verifyOtp = 'kroot.api.auth.verify_otp';
   static String createAccount = 'kroot.api.auth.register';
   static String deleteUser = 'kroot.api.auth.delete_user';
+  static String logout = 'kroot.api.auth.logout';
 
   static String getUtils = 'kroot.api.api.get_utility_data';
   static String getVersion = 'kroot.api.api.get_app_versions';

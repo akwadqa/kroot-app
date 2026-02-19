@@ -44,4 +44,15 @@ class ProfileRespository {
       rethrow;
     }
   }
+
+  Future<ApiResponse<void>> logout() async {
+    try {
+      final response = await _remoteDataSource.logout();
+      return response;
+    } on DioException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

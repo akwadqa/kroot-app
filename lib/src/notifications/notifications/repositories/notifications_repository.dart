@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/constants/Api/end_points.dart';
@@ -10,15 +9,14 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'notifications_repository.g.dart';
 
 @riverpod
-NotificationsRepository notificationsRepository(
-    Ref ref) {
+NotificationsRepository notificationsRepository(Ref ref) {
   final dio = ref.watch(dioProvider);
-  final newDio = Dio(dio.options.copyWith(baseUrl:       ServicesUrls.baseUrl
-));
+  final newDio = Dio(dio.options.copyWith(baseUrl: ServicesUrls.baseUrl));
   newDio.interceptors.addAll(dio.interceptors);
 
-  final NetworkService networkService =
-      ref.watch(networkServiceProvider(newDio));
+  final NetworkService networkService = ref.watch(
+    networkServiceProvider(newDio),
+  );
 
   return NotificationsRepository(networkService);
 }
@@ -30,10 +28,14 @@ class NotificationsRepository {
 
   Future<void> sendFCMToken(String token, String userId) async {
     final response = await _networkService.post(
-EndPoints.sendFcmToken,data: {'device_token': token, 'user_id': userId});
+      EndPoints.sendFcmToken,
+      data: {'device_token': token, 'user_id': userId},
+    );
 
-    final ApiResponse appResponse =
-        ApiResponse.fromJson(response.data, (json) => null);
+    final ApiResponse appResponse = ApiResponse.fromJson(
+      response.data,
+      (json) => null,
+    );
 
     if (appResponse.error == 1) {
       throw AppException(appResponse.message);
