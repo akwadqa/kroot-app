@@ -54,7 +54,9 @@ class RemoteInterceptor extends Interceptor {
   handler.resolve(
     Response(
       requestOptions: err.requestOptions,
-      data: apiResponse.toJson(),
+      data: err.response?.data,
+      //? This :
+      // data: apiResponse.toJson(),
       statusCode: err.response?.statusCode ?? 500,
     ),
   );

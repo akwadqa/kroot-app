@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:wedding_app/features/home/presentation/screens/home_screen.dart';
 import 'package:wedding_app/features/profile/presentation/pages/profile_page.dart';
 import 'package:wedding_app/gen/assets.gen.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
 import 'package:wedding_app/src/theme/app_colors.dart';
 
 import '../widgets/bottom_navigation_bar.dart';
@@ -69,7 +68,7 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
 
           // TODO: navigate to Scan page
-          context.router.push(ScanQrCodeRoute());
+          // context.router.push(ScanQrCodeRoute());
         },
         child: Assets.icons.qr.svg(color: Colors.white),
       ),
@@ -79,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
         onScanPressed: () {
-          context.router.push(ScanQrCodeRoute());
+          // context.router.push(ScanQrCodeRoute());
           // You can also trigger scan here if you prefer
         },
       ),

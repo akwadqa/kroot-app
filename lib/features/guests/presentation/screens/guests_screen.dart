@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/assets.gen.dart';
 import 'package:wedding_app/features/guests/presentation/widgets/search_field.dart';
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
 import 'package:wedding_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
 import 'package:wedding_app/src/shared_widgets/fade_circle_loading_indicator.dart';
@@ -94,7 +93,7 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
                   return GuestTile(
                     guest: g,
                     onTap: () => {
-                      context.pushRoute(GuestDetailsRoute(guest: g))
+                      // context.pushRoute(GuestDetailsRoute(guest: g))
                       //   Navigator.of(context).push(
                       //   MaterialPageRoute(
                       //     builder: (_) => GuestDetailsPage(guestId: g.id),

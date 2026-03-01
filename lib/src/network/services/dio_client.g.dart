@@ -44,7 +44,7 @@ final class DioProvider extends $FunctionalProvider<Dio, Dio, Dio>
   }
 }
 
-String _$dioHash() => r'b2c8d0ea919b9569d954884c6b6d80548387d8a2';
+String _$dioHash() => r'8ff24bd544ed027741e611e68c5ccbacaf207138';
 
 /// NetworkService injection
 @ProviderFor(networkService)

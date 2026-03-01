@@ -49,7 +49,7 @@ final class GuestDetailsControllerProvider
 }
 
 String _$guestDetailsControllerHash() =>
-    r'5f534f351580b1e19e5dc31c31a65a36fedb84ff';
+    r'2d620b6ab143e9ee68f82d2a5bfbabd74105fdf7';
 
 final class GuestDetailsControllerFamily extends $Family
     with

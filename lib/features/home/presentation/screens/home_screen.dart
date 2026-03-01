@@ -2,103 +2,184 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedding_app/src/shared_widgets/bottom_navigation_bar_view.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
+import 'package:wedding_app/features/home/presentation/widgets/home_page/home_page_app_bar.dart';
+import 'package:wedding_app/features/home/presentation/widgets/home_page/home_page_search_field.dart';
+import 'package:wedding_app/gen/assets.gen.dart';
 import 'package:wedding_app/src/shared_widgets/custom_appbar.dart';
+import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
+import 'package:wedding_app/src/theme/app_colors.dart';
+import 'package:wedding_app/src/theme/app_text_style.dart';
 
-@RoutePage()
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    final user=ref.watch(userDataProvider);
-    return SafeArea(
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size(double.infinity, 55),
-          child: CustomAppbar(title: context.tr('home'),withBackButton:false),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Greeting card
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      tr('welcome',args: [user?.$2??"بالمضيف"]), // add "welcome": "Welcome," in your locale files
-                      style: const TextStyle(fontSize: 16, color: Colors.black54),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      tr('bride_groom'), // e.g. "Bride & Groom"
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Quick actions grid
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  children: [
-                    GestureDetector(
-                      onTap: ()=> context.pushRoute(GuestsRoute()),
-                      child: _buildCard(Icons.people, tr('guests'))),
-                    _buildCard(Icons.mail, tr('invitations')),
-                    _buildCard(Icons.event, tr('timeline')),
-                    _buildCard(Icons.store, tr('vendors')),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  static Widget _buildCard(IconData icon, String title) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey.shade200,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Center(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      bottomNavigationBar: BottomNavigationBarView(),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 22.w),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 36, color: Colors.black87),
-            const SizedBox(height: 8),
+            44.verticalSpace,
+
+            //? App bar :
+            HomePageAppBar(),
+            12.verticalSpace,
+
+            //? Search field :
+            HomePageSearchField(),
+            20.verticalSpace,
+
+            //? Title :
             Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
+              context.tr('allEvents'),
+              style: AppTextStyle.rubikSemiBold18.copyWith(
+                color: AppColors.primary,
+              ),
+            ),
+            12.verticalSpace,
+            Expanded(
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                separatorBuilder: (context, index) => 12.verticalSpace,
+                itemCount: 6,
+                itemBuilder: (context, index) => HomePageEventItem(),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class HomePageEventItem extends StatelessWidget {
+  const HomePageEventItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 161.h,
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.r),
+        color: AppColors.grayField,
+      ),
+      child: Row(
+        children: [
+          //? Image section :
+          Container(
+            width: 116.w,
+            height: 137.h,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(0, 4),
+                  blurRadius: 4,
+                  spreadRadius: 0,
+                  color: AppColors.black.withValues(alpha: .25),
+                ),
+              ],
+              image: DecorationImage(
+                image: Assets.images.weddingImage.provider(),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(10.r),
+            ),
+          ),
+          12.horizontalSpace,
+
+          //? Details :
+          HomePageEventItemDetails(),
+        ],
+      ),
+    );
+  }
+}
+
+class HomePageEventItemDetails extends StatelessWidget {
+  const HomePageEventItemDetails({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        4.verticalSpace,
+        Text(
+          'Wed, 1-10-2025 08:00PM',
+          style: AppTextStyle.rubikRegular12.copyWith(
+            color: AppColors.blackText,
+          ),
+        ),
+        Spacer(),
+
+        //? Type :
+        Text(
+          'Wedding',
+          style: AppTextStyle.rubikSemiBold16.copyWith(
+            color: AppColors.primary,
+          ),
+        ),
+        Spacer(),
+
+        //? Names :
+        Row(
+          children: [
+            Text(
+              'Mohammed',
+              style: AppTextStyle.rubikRegular14.copyWith(
+                color: AppColors.blackText,
+              ),
+            ),
+            3.horizontalSpace,
+            Assets.images.ringsImage.image(width: 28.w),
+            3.horizontalSpace,
+            Text(
+              'Nour',
+              style: AppTextStyle.rubikRegular14.copyWith(
+                color: AppColors.blackText,
+              ),
+            ),
+          ],
+        ),
+        Spacer(),
+
+        //? Location :
+        Row(
+          children: [
+            Assets.icons.locationIc.svg(),
+            5.horizontalSpace,
+            Text(
+              'Riffa Halls Hall No. 15',
+              style: AppTextStyle.rubikRegular12.copyWith(
+                color: AppColors.blackText,
+              ),
+            ),
+          ],
+        ),
+        Spacer(),
+        CustomButtonWidget(
+          content: Text(
+            'Confirmed',
+            style: AppTextStyle.rubikRegular14.copyWith(color: AppColors.white),
+          ),
+          backgroundColor: AppColors.primary,
+          text: '',
+          radius: 32.r,
+          onTap: () {},
+          isFiled: false,
+          height: 25.h,
+          width: 83.w,
+          topPading: 0,
+        ),
+      ],
     );
   }
 }

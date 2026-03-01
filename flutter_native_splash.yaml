@@ -1,15 +1,15 @@
 flutter_native_splash:
   android: true
-  ios: true
+  ios: false
 
-  color: "#FFFFFF"                   
+  color: "#1E2E4F"                   
 
  
-  image: assets/images/im_wedding.png
+  image: assets/images/splash.png
 
   
   android_12:
-    color: "#FFFFFF"
-    image: assets/images/im_wedding.png
+    color: "#1E2E4F"
+    image: assets/images/splash.png
     
-    fullscreen: true    
+    # fullscreen: true    

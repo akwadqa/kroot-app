@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
 import 'package:wedding_app/src/extenssions/int_extenssion.dart';
 import 'package:wedding_app/src/extenssions/widget_extensions.dart';
-import 'package:wedding_app/src/routing/app_router.gr.dart';
 import 'package:wedding_app/src/shared_widgets/custom_button_widget.dart';
 import '../../gen/assets.gen.dart';
 import '../theme/app_colors.dart';
@@ -420,7 +419,7 @@ void showLogoutDialog(BuildContext context) {
               yesButton: () async {
                 Navigator.pop(context);
                 await userData.removeData();
-                context.router.replaceAll([const LoginRoute()]);
+                // context.router.replaceAll([const LoginRoute()]);
 
                 // Navigator.pop(context);
               },

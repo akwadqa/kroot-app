@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wedding_app/features/app/app.dart';
 import 'package:wedding_app/features/auth/application/auth_service.dart';
@@ -12,7 +13,7 @@ import 'src/utils/app_initializer.dart';
 
 Future<void> main() async {
   await AppInitializer.init();
-
+  await dotenv.load(fileName: ".env");
   final container = await initializeProviders();
   await handleSplashScreen(container);
 
@@ -46,7 +47,8 @@ Future<void> handleSplashScreen(ProviderContainer container) async {
 
   if (loadDuration < minSplashDuration) {
     await Future.delayed(
-        Duration(milliseconds: minSplashDuration - loadDuration));
+      Duration(milliseconds: minSplashDuration - loadDuration),
+    );
   }
 
   FlutterNativeSplash.remove();
