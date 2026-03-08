@@ -12,28 +12,42 @@ Future<SharedPreferences> sharedPreferences(Ref ref) async =>
 @Riverpod(keepAlive: true)
 class UserData extends _$UserData {
   @override
-  String? build() {
+  UserSession? build() {
     final sharedPrefs = ref.watch(sharedPreferencesProvider).requireValue;
+
     final token = sharedPrefs.getString(Keys.token);
-     if(token != null){
-      return sharedPrefs.getString(Keys.token)!;
+    final freeSubscribe = sharedPrefs.getInt(Keys.freeSubscribe);
+
+    if (token != null && freeSubscribe != null) {
+      return UserSession(
+        token: token,
+        freeSubscribe: freeSubscribe,
+      );
     }
+
     return null;
   }
 
+
+
   Future<void> setData(
     String token,
+    int isFreeSubscribe,
   ) async {
     final sharedPrefs = ref.read(sharedPreferencesProvider).requireValue;
     await sharedPrefs.setString(Keys.token, token);
-    state = token
-  
-    ;
+    await sharedPrefs.setInt(Keys.freeSubscribe, isFreeSubscribe);
+      state = UserSession(
+      token: token,
+      freeSubscribe: isFreeSubscribe,
+    );
   }
 
   Future<void> removeData() async {
     final sharedPrefs = ref.read(sharedPreferencesProvider).requireValue;
     await sharedPrefs.remove(Keys.token);
+        await sharedPrefs.remove(Keys.freeSubscribe);
+
     state = null;
   }
 }
@@ -41,4 +55,13 @@ class UserData extends _$UserData {
 @riverpod
 bool isAuthinticated(Ref ref) {
   return ref.watch(userDataProvider) != null;
+}
+class UserSession {
+  final String token;
+  final int freeSubscribe;
+
+  const UserSession({
+    required this.token,
+    required this.freeSubscribe,
+  });
 }

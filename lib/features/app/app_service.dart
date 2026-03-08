@@ -38,8 +38,8 @@ class AppService extends _$AppService {
           : "update_title_optional";
       //  versionUpdate.appNewUpdateTitle ?? "Update Available";
       final message = updateRequired
-          ? "update_message_required"
-          : "update_message_optional";
+          ?versionUpdate.appUpdateMessage?? "update_message_required"
+          :versionUpdate.appUpdateMessage?? "update_message_optional";
       // ? (versionUpdate.appUpdateRequiredMessage ??
       //       "A new version is required to continue using the app.")
       // : (versionUpdate.appUpdateMessage ??

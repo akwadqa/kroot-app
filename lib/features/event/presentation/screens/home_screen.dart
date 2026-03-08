@@ -5,6 +5,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/auth/application/auth_service.dart';
+import 'package:kroot_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
@@ -38,6 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userData=ref.watch(userDataProvider);
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent == false ||
           pre?.value?.isDeleteEvent == false) {
@@ -90,6 +93,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if(userData?.freeSubscribe==0)
                           HomePageAvailableBalance(),
                           20.verticalSpace,
                           Text(

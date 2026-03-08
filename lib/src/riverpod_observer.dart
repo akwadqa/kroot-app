@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RiverpodObserver extends ProviderObserver {
+base class RiverpodObserver extends ProviderObserver {
   @override
   void didAddProvider(ProviderObserverContext context, Object? value) {
     debugPrint('Provider ${context.provider} was initialized with $value');

@@ -6,21 +6,24 @@ part of 'profile_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(ProfileController)
 const profileControllerProvider = ProfileControllerProvider._();
 
 final class ProfileControllerProvider
     extends $AsyncNotifierProvider<ProfileController, ProfileState> {
   const ProfileControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'profileControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'profileControllerProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$profileControllerHash();
@@ -30,7 +33,7 @@ final class ProfileControllerProvider
   ProfileController create() => ProfileController();
 }
 
-String _$profileControllerHash() => r'0da96152a33dbb5f1d8aa6d0d22f5b57716bcc95';
+String _$profileControllerHash() => r'60201ab4265cfd8dc2fb194958cff1c7e1b1a3c2';
 
 abstract class _$ProfileController extends $AsyncNotifier<ProfileState> {
   FutureOr<ProfileState> build();
@@ -39,17 +42,11 @@ abstract class _$ProfileController extends $AsyncNotifier<ProfileState> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<AsyncValue<ProfileState>, ProfileState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<ProfileState>, ProfileState>,
-              AsyncValue<ProfileState>,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<ProfileState>, ProfileState>,
+        AsyncValue<ProfileState>,
+        Object?,
+        Object?>;
     element.handleValue(ref, created);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

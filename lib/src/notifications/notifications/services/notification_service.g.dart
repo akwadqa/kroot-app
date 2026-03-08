@@ -6,27 +6,26 @@ part of 'notification_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(notificationsService)
 const notificationsServiceProvider = NotificationsServiceProvider._();
 
-final class NotificationsServiceProvider
-    extends
-        $FunctionalProvider<
-          NotificationsService,
-          NotificationsService,
-          NotificationsService
-        >
-    with $Provider<NotificationsService> {
+final class NotificationsServiceProvider extends $FunctionalProvider<
+    NotificationsService,
+    NotificationsService,
+    NotificationsService> with $Provider<NotificationsService> {
   const NotificationsServiceProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'notificationsServiceProvider',
-        isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'notificationsServiceProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$notificationsServiceHash();
@@ -34,8 +33,8 @@ final class NotificationsServiceProvider
   @$internal
   @override
   $ProviderElement<NotificationsService> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   NotificationsService create(Ref ref) {
@@ -60,15 +59,15 @@ const deviceTokenControllerProvider = DeviceTokenControllerProvider._();
 final class DeviceTokenControllerProvider
     extends $AsyncNotifierProvider<DeviceTokenController, void> {
   const DeviceTokenControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'deviceTokenControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'deviceTokenControllerProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$deviceTokenControllerHash();
@@ -88,17 +87,11 @@ abstract class _$DeviceTokenController extends $AsyncNotifier<void> {
   void runBuild() {
     build();
     final ref = this.ref as $Ref<AsyncValue<void>, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<void>, void>,
-              AsyncValue<void>,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<void>, void>,
+        AsyncValue<void>,
+        Object?,
+        Object?>;
     element.handleValue(ref, null);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

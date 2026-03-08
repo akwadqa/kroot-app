@@ -76,7 +76,7 @@ class BundlesScreen extends ConsumerWidget {
               child: ListView.separated(
                 itemBuilder: (context, index) =>
                     BundlePageBundleItem(bundleModel: bundles[index]),
-                separatorBuilder: (_, _) => 20.verticalSpace,
+                separatorBuilder: (_, __) => 20.verticalSpace,
                 itemCount: bundles.length,
               ),
             ),

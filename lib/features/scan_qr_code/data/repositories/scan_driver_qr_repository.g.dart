@@ -6,27 +6,26 @@ part of 'scan_driver_qr_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(scanDriverQrRepository)
 const scanDriverQrRepositoryProvider = ScanDriverQrRepositoryProvider._();
 
-final class ScanDriverQrRepositoryProvider
-    extends
-        $FunctionalProvider<
-          ScanDriverQrRepository,
-          ScanDriverQrRepository,
-          ScanDriverQrRepository
-        >
-    with $Provider<ScanDriverQrRepository> {
+final class ScanDriverQrRepositoryProvider extends $FunctionalProvider<
+    ScanDriverQrRepository,
+    ScanDriverQrRepository,
+    ScanDriverQrRepository> with $Provider<ScanDriverQrRepository> {
   const ScanDriverQrRepositoryProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'scanDriverQrRepositoryProvider',
-        isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'scanDriverQrRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$scanDriverQrRepositoryHash();
@@ -34,8 +33,8 @@ final class ScanDriverQrRepositoryProvider
   @$internal
   @override
   $ProviderElement<ScanDriverQrRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
+          $ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   ScanDriverQrRepository create(Ref ref) {
@@ -53,6 +52,3 @@ final class ScanDriverQrRepositoryProvider
 
 String _$scanDriverQrRepositoryHash() =>
     r'87f60017fd8dfa0e6887465d704a959d752193c6';
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

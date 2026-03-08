@@ -6,21 +6,24 @@ part of 'guests_controller.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(GuestsController)
 const guestsControllerProvider = GuestsControllerProvider._();
 
 final class GuestsControllerProvider
     extends $AsyncNotifierProvider<GuestsController, GuestsState> {
   const GuestsControllerProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'guestsControllerProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'guestsControllerProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$guestsControllerHash();
@@ -39,17 +42,11 @@ abstract class _$GuestsController extends $AsyncNotifier<GuestsState> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<AsyncValue<GuestsState>, GuestsState>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<GuestsState>, GuestsState>,
-              AsyncValue<GuestsState>,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<AsyncValue<GuestsState>, GuestsState>,
+        AsyncValue<GuestsState>,
+        Object?,
+        Object?>;
     element.handleValue(ref, created);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

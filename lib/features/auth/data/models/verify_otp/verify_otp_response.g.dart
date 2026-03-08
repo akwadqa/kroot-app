@@ -17,6 +17,7 @@ _VerifyOtpResponse _$VerifyOtpResponseFromJson(Map<String, dynamic> json) =>
       validation: json['validation'] == null
           ? null
           : ValidationData.fromJson(json['validation'] as Map<String, dynamic>),
+      isFreeSubscriber: (json['is_free_subscriber'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$VerifyOtpResponseToJson(_VerifyOtpResponse instance) =>
@@ -28,6 +29,7 @@ Map<String, dynamic> _$VerifyOtpResponseToJson(_VerifyOtpResponse instance) =>
       'mobileNo': instance.mobileNo,
       'token': instance.token,
       'validation': instance.validation,
+      'is_free_subscriber': instance.isFreeSubscriber,
     };
 
 _ValidationData _$ValidationDataFromJson(Map<String, dynamic> json) =>

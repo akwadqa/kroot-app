@@ -7,24 +7,24 @@ part of 'update_guest_list_response.dart';
 // **************************************************************************
 
 _UpdateGuestListRespone _$UpdateGuestListResponeFromJson(
-  Map<String, dynamic> json,
-) => _UpdateGuestListRespone(
-  occasionId: json['occasion_id'] as String,
-  addedCount: (json['added_count'] as num).toInt(),
-  skippedCount: (json['skipped_count'] as num).toInt(),
-  addedInvitees: (json['added_invitees'] as List<dynamic>)
-      .map((e) => AddedInvitee.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
+        Map<String, dynamic> json) =>
+    _UpdateGuestListRespone(
+      occasionId: json['occasion_id'] as String,
+      addedCount: (json['added_count'] as num).toInt(),
+      skippedCount: (json['skipped_count'] as num).toInt(),
+      addedInvitees: (json['added_invitees'] as List<dynamic>)
+          .map((e) => AddedInvitee.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$UpdateGuestListResponeToJson(
-  _UpdateGuestListRespone instance,
-) => <String, dynamic>{
-  'occasion_id': instance.occasionId,
-  'added_count': instance.addedCount,
-  'skipped_count': instance.skippedCount,
-  'added_invitees': instance.addedInvitees,
-};
+        _UpdateGuestListRespone instance) =>
+    <String, dynamic>{
+      'occasion_id': instance.occasionId,
+      'added_count': instance.addedCount,
+      'skipped_count': instance.skippedCount,
+      'added_invitees': instance.addedInvitees,
+    };
 
 _AddedInvitee _$AddedInviteeFromJson(Map<String, dynamic> json) =>
     _AddedInvitee(

@@ -6,20 +6,23 @@ part of 'app_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(AppService)
 const appServiceProvider = AppServiceProvider._();
 
 final class AppServiceProvider extends $NotifierProvider<AppService, void> {
   const AppServiceProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'appServiceProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'appServiceProvider',
+          isAutoDispose: true,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$appServiceHash();
@@ -37,7 +40,7 @@ final class AppServiceProvider extends $NotifierProvider<AppService, void> {
   }
 }
 
-String _$appServiceHash() => r'f425b468afc8b8d8c47072f3ccf2bd72285ee879';
+String _$appServiceHash() => r'37a81eebee59f265fabea5a8c601ad9d79e1542f';
 
 abstract class _$AppService extends $Notifier<void> {
   void build();
@@ -46,17 +49,8 @@ abstract class _$AppService extends $Notifier<void> {
   void runBuild() {
     build();
     final ref = this.ref as $Ref<void, void>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<void, void>,
-              void,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<
+        AnyNotifier<void, void>, void, Object?, Object?>;
     element.handleValue(ref, null);
   }
 }
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -14,8 +14,7 @@ _SendOtpResponse _$SendOtpResponseFromJson(Map<String, dynamic> json) =>
       validation: json['validation'] == null
           ? null
           : ValidationModel.fromJson(
-              json['validation'] as Map<String, dynamic>,
-            ),
+              json['validation'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$SendOtpResponseToJson(_SendOtpResponse instance) =>

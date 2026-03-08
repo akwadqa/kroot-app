@@ -34,7 +34,7 @@ class AuthController extends _$AuthController {
         state = AsyncError(result.message ?? '', StackTrace.current);
         return;
       }
-      await ref.read(userDataProvider.notifier).setData(result.data!.token!);
+      await ref.read(userDataProvider.notifier).setData(result.data!.token!,result.data!.isFreeSubscriber!);
       await ref
           .read(notificationsServiceProvider)
           .sendDeviceToken(result.data!.email!);

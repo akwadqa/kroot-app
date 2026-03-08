@@ -23,11 +23,11 @@ Map<String, dynamic> _$AddGuestsResponseToJson(_AddGuestsResponse instance) =>
     };
 
 _Invitee _$InviteeFromJson(Map<String, dynamic> json) => _Invitee(
-  inviteeId: json['invitee_id'] as String,
-  fullName: json['full_name'] as String,
-);
+      inviteeId: json['invitee_id'] as String,
+      fullName: json['full_name'] as String,
+    );
 
 Map<String, dynamic> _$InviteeToJson(_Invitee instance) => <String, dynamic>{
-  'invitee_id': instance.inviteeId,
-  'full_name': instance.fullName,
-};
+      'invitee_id': instance.inviteeId,
+      'full_name': instance.fullName,
+    };

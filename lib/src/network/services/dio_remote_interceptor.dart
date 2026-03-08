@@ -16,11 +16,11 @@ class RemoteInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final user = ref.read(userDataProvider);
+    final token = ref.read(userDataProvider)?.token;
     final language = ref.read(currentLanguageProvider);
 
-    if (user != null) {
-      options.headers['Authorization'] = 'token $user';
+    if (token != null) {
+      options.headers['Authorization'] = 'token $token';
     }
 
     options.headers['Accept-Language'] = language;

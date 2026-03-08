@@ -6,27 +6,26 @@ part of 'guests_repository.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
 @ProviderFor(guestsRepository)
 const guestsRepositoryProvider = GuestsRepositoryProvider._();
 
-final class GuestsRepositoryProvider
-    extends
-        $FunctionalProvider<
-          GuestsRepository,
-          GuestsRepository,
-          GuestsRepository
-        >
-    with $Provider<GuestsRepository> {
+final class GuestsRepositoryProvider extends $FunctionalProvider<
+    GuestsRepository,
+    GuestsRepository,
+    GuestsRepository> with $Provider<GuestsRepository> {
   const GuestsRepositoryProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'guestsRepositoryProvider',
-        isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
+      : super(
+          from: null,
+          argument: null,
+          retry: null,
+          name: r'guestsRepositoryProvider',
+          isAutoDispose: false,
+          dependencies: null,
+          $allTransitiveDependencies: null,
+        );
 
   @override
   String debugGetCreateSourceHash() => _$guestsRepositoryHash();
@@ -51,6 +50,3 @@ final class GuestsRepositoryProvider
 }
 
 String _$guestsRepositoryHash() => r'32db35441167d3ba7760a90a76e2cac474b1cc9b';
-
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

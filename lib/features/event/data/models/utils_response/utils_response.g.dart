@@ -11,8 +11,7 @@ _UtilsResponse _$UtilsResponseFromJson(Map<String, dynamic> json) =>
       subscriber: json['subscriber'] == null
           ? null
           : SubscriberModel.fromJson(
-              json['subscriber'] as Map<String, dynamic>,
-            ),
+              json['subscriber'] as Map<String, dynamic>),
       eventTypes: (json['event_types'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -81,10 +80,10 @@ Map<String, dynamic> _$SubscriptionModelToJson(_SubscriptionModel instance) =>
     };
 
 _BundleModel _$BundleModelFromJson(Map<String, dynamic> json) => _BundleModel(
-  name: json['name'] as String?,
-  price: (json['price'] as num?)?.toDouble(),
-  amount: (json['amount'] as num?)?.toInt(),
-);
+      name: json['name'] as String?,
+      price: (json['price'] as num?)?.toDouble(),
+      amount: (json['amount'] as num?)?.toInt(),
+    );
 
 Map<String, dynamic> _$BundleModelToJson(_BundleModel instance) =>
     <String, dynamic>{

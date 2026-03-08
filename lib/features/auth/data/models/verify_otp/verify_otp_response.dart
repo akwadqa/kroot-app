@@ -13,6 +13,7 @@ abstract class VerifyOtpResponse with _$VerifyOtpResponse {
     String? mobileNo,
     String? token,
     @JsonKey(name: 'validation') ValidationData? validation,
+    @JsonKey(name: 'is_free_subscriber') int? isFreeSubscriber,
   }) = _VerifyOtpResponse;
 
   factory VerifyOtpResponse.fromJson(Map<String, dynamic> json) =>

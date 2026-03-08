@@ -291,78 +291,78 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
-    addContactIc,
-    addEventIc,
-    addFromContactIc,
-    addIc,
-    addManuallyIc,
-    agreeTermsCorrectIc,
-    appleIc,
-    arrowIc,
-    backWhiteIc,
-    category,
-    changeLanguageIc,
-    closeIc,
-    confirmedIc,
-    contactNameIc,
-    contactNumberIc,
-    contactWhatsappIc,
-    correctIc,
-    coupon,
-    creditCardIc,
-    creditCardIcn,
-    deleteContactIc,
-    deleteEventIc,
-    deleteIc,
-    deleteImageIc,
-    deleteUserIc,
-    documentIc,
-    editContactIc,
-    editEventIc,
-    emailIc,
-    emptyIc,
-    enterEmailIc,
-    eventNameIc,
-    eventSearchIc,
-    firstNamePersonIc,
-    googleIc,
-    home,
-    homeIc,
-    importCsvFileIc,
-    invieToManageGuestsIc,
-    invitedIc,
-    languageIc,
-    lastNamePersonIc,
-    locationIc,
-    logoutIc,
-    manageAccessIc,
-    messagesIc,
-    mobileIc,
-    notificationsCartIc,
-    notificationsIc,
-    optionsIc,
-    phoneIc,
-    pricingCorrectIc,
-    pricingIc,
-    profile,
-    profileIc,
-    qr,
-    rejectedIc,
-    scanIc,
-    scanQrFirstIc,
-    scanQrIc,
-    scanQrSecondIc,
-    scanQrThirdIc,
-    scannedIc,
-    selectedDateIc,
-    settings,
-    uploadImageIc,
-    verificationArrowBackIc,
-    verifiedCheckIc,
-    waitingIc,
-    whatsappIc,
-    xGuestIc,
-  ];
+        addContactIc,
+        addEventIc,
+        addFromContactIc,
+        addIc,
+        addManuallyIc,
+        agreeTermsCorrectIc,
+        appleIc,
+        arrowIc,
+        backWhiteIc,
+        category,
+        changeLanguageIc,
+        closeIc,
+        confirmedIc,
+        contactNameIc,
+        contactNumberIc,
+        contactWhatsappIc,
+        correctIc,
+        coupon,
+        creditCardIc,
+        creditCardIcn,
+        deleteContactIc,
+        deleteEventIc,
+        deleteIc,
+        deleteImageIc,
+        deleteUserIc,
+        documentIc,
+        editContactIc,
+        editEventIc,
+        emailIc,
+        emptyIc,
+        enterEmailIc,
+        eventNameIc,
+        eventSearchIc,
+        firstNamePersonIc,
+        googleIc,
+        home,
+        homeIc,
+        importCsvFileIc,
+        invieToManageGuestsIc,
+        invitedIc,
+        languageIc,
+        lastNamePersonIc,
+        locationIc,
+        logoutIc,
+        manageAccessIc,
+        messagesIc,
+        mobileIc,
+        notificationsCartIc,
+        notificationsIc,
+        optionsIc,
+        phoneIc,
+        pricingCorrectIc,
+        pricingIc,
+        profile,
+        profileIc,
+        qr,
+        rejectedIc,
+        scanIc,
+        scanQrFirstIc,
+        scanQrIc,
+        scanQrSecondIc,
+        scanQrThirdIc,
+        scannedIc,
+        selectedDateIc,
+        settings,
+        uploadImageIc,
+        verificationArrowBackIc,
+        verifiedCheckIc,
+        waitingIc,
+        whatsappIc,
+        xGuestIc
+      ];
 }
 
 class $AssetsImagesGen {
@@ -393,13 +393,13 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-    imErrorScreen,
-    krootIcon,
-    krootInviteImage,
-    qrCodeImage,
-    splash,
-    splashScreen,
-  ];
+        imErrorScreen,
+        krootIcon,
+        krootInviteImage,
+        qrCodeImage,
+        splash,
+        splashScreen
+      ];
 }
 
 class $AssetsTranslationsGen {
@@ -495,8 +495,15 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({AssetBundle? bundle, String? package}) {
-    return AssetImage(_assetName, bundle: bundle, package: package);
+  ImageProvider provider({
+    AssetBundle? bundle,
+    String? package,
+  }) {
+    return AssetImage(
+      _assetName,
+      bundle: bundle,
+      package: package,
+    );
   }
 
   String get path => _assetName;
@@ -517,11 +524,17 @@ class AssetGenImageAnimation {
 }
 
 class SvgGenImage {
-  const SvgGenImage(this._assetName, {this.size, this.flavors = const {}})
-    : _isVecFormat = false;
+  const SvgGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  }) : _isVecFormat = false;
 
-  const SvgGenImage.vec(this._assetName, {this.size, this.flavors = const {}})
-    : _isVecFormat = true;
+  const SvgGenImage.vec(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  }) : _isVecFormat = true;
 
   final String _assetName;
   final Size? size;
@@ -577,8 +590,7 @@ class SvgGenImage {
       placeholderBuilder: placeholderBuilder,
       semanticsLabel: semanticsLabel,
       excludeFromSemantics: excludeFromSemantics,
-      colorFilter:
-          colorFilter ??
+      colorFilter: colorFilter ??
           (color == null ? null : ColorFilter.mode(color, colorBlendMode)),
       clipBehavior: clipBehavior,
       cacheColorFilter: cacheColorFilter,

@@ -13,8 +13,8 @@ _UpdateGuestResponse _$UpdateGuestResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$UpdateGuestResponseToJson(
-  _UpdateGuestResponse instance,
-) => <String, dynamic>{
-  'invitee_id': instance.inviteeId,
-  'full_name': instance.fullName,
-};
+        _UpdateGuestResponse instance) =>
+    <String, dynamic>{
+      'invitee_id': instance.inviteeId,
+      'full_name': instance.fullName,
+    };
