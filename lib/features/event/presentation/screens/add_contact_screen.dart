@@ -50,7 +50,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
 
         if (next is AsyncData && prev is AsyncLoading) {
           ctx.pop();
-          AppToast.doneToast("successfullyCompleted".tr());
+          // AppToast.doneToast("successfullyCompleted".tr());
 
           ref.read(homeControllerProvider.notifier)
             ..getUserEvents(page: 1)

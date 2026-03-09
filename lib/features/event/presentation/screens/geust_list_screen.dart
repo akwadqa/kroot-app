@@ -109,12 +109,10 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
       id: original.id,
       displayName: original.displayName,
       name: original.name,
-      phones: original.phones
-          .map((p) => Phone(p.number, label: p.label))
-          .toList(),
-      emails: original.emails
-          .map((e) => Email(e.address, label: e.label))
-          .toList(),
+      phones:
+          original.phones.map((p) => Phone(p.number, label: p.label)).toList(),
+      emails:
+          original.emails.map((e) => Email(e.address, label: e.label)).toList(),
     );
   }
 
@@ -166,7 +164,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
 
-            AppToast.doneToast("successfullyCompleted".tr());
+            // AppToast.doneToast("successfullyCompleted".tr());
             context.go(
               Routes.eventDetails,
               extra: {'id': next.value!.createEventResponse?.eventId},
@@ -236,11 +234,9 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
           onTap: () {
             _openSheetForSelectAdd(context, widget.id);
           },
-
           child: Assets.icons.addContactIc.svg(width: 30.w),
         ),
       ),
-
       body: Builder(
         builder: (context) {
           ctx = context;
@@ -259,8 +255,8 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
               Expanded(
                 child: items!.isEmpty
                     ?
-                      //? Empty :
-                      Padding(
+                    //? Empty :
+                    Padding(
                         padding: EdgeInsets.symmetric(horizontal: 22.w),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -321,30 +317,28 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                             decreament: () {
                               widget.id != null
                                   ? ref
-                                        .read(
-                                          updateEventControllerProvider
-                                              .notifier,
-                                        )
-                                        .decrementCount(items[index])
+                                      .read(
+                                        updateEventControllerProvider.notifier,
+                                      )
+                                      .decrementCount(items[index])
                                   : ref
-                                        .read(
-                                          addEventControllerProvider.notifier,
-                                        )
-                                        .decrementCount(items[index]);
+                                      .read(
+                                        addEventControllerProvider.notifier,
+                                      )
+                                      .decrementCount(items[index]);
                             },
                             increament: () {
                               widget.id != null
                                   ? ref
-                                        .read(
-                                          updateEventControllerProvider
-                                              .notifier,
-                                        )
-                                        .incrementCount(items[index])
+                                      .read(
+                                        updateEventControllerProvider.notifier,
+                                      )
+                                      .incrementCount(items[index])
                                   : ref
-                                        .read(
-                                          addEventControllerProvider.notifier,
-                                        )
-                                        .incrementCount(items[index]);
+                                      .read(
+                                        addEventControllerProvider.notifier,
+                                      )
+                                      .incrementCount(items[index]);
                             },
                           );
                         },
@@ -387,13 +381,13 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                         onTap: () {
                           widget.id == null
                               ? ref
-                                    .read(addEventControllerProvider.notifier)
-                                    .createEvent()
+                                  .read(addEventControllerProvider.notifier)
+                                  .createEvent()
                               : ref
-                                    .read(
-                                      updateEventControllerProvider.notifier,
-                                    )
-                                    .updateEventToServer(widget.id!);
+                                  .read(
+                                    updateEventControllerProvider.notifier,
+                                  )
+                                  .updateEventToServer(widget.id!);
                         },
                         isSubmit: false,
                         child: Text(
@@ -403,60 +397,58 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                           ),
                         ),
                       ),
-
                       AddEventPageBotton(
                         onTap: widget.id != null
                             ? ref
-                                      .watch(updateEventControllerProvider)
-                                      .value!
-                                      .selectedContacts!
-                                      .isEmpty
-                                  ? null
-                                  : () {
-                                      context.push(
-                                        Routes.inviteTemplate,
-                                        extra: widget.id,
-                                      );
-                                    }
+                                    .watch(updateEventControllerProvider)
+                                    .value!
+                                    .selectedContacts!
+                                    .isEmpty
+                                ? null
+                                : () {
+                                    context.push(
+                                      Routes.inviteTemplate,
+                                      extra: widget.id,
+                                    );
+                                  }
                             : ref
-                                  .watch(addEventControllerProvider)
-                                  .value!
-                                  .selectedContacts!
-                                  .isEmpty
-                            ? null
-                            : () {
-                                context.push(Routes.inviteTemplate);
-                              },
+                                    .watch(addEventControllerProvider)
+                                    .value!
+                                    .selectedContacts!
+                                    .isEmpty
+                                ? null
+                                : () {
+                                    context.push(Routes.inviteTemplate);
+                                  },
                         isSubmit: widget.id != null
                             ? ref
-                                  .read(updateEventControllerProvider)
-                                  .value!
-                                  .selectedContacts!
-                                  .isNotEmpty
+                                .read(updateEventControllerProvider)
+                                .value!
+                                .selectedContacts!
+                                .isNotEmpty
                             : ref
-                                  .read(addEventControllerProvider)
-                                  .value!
-                                  .selectedContacts!
-                                  .isNotEmpty,
-
+                                .read(addEventControllerProvider)
+                                .value!
+                                .selectedContacts!
+                                .isNotEmpty,
                         child: Text(
                           context.tr('continue'),
                           style: AppTextStyle.rubikSemiBold18.copyWith(
                             color: widget.id != null
                                 ? ref
-                                          .watch(updateEventControllerProvider)
-                                          .value!
-                                          .selectedContacts!
-                                          .isEmpty
-                                      ? AppColors.primary
-                                      : AppColors.white
+                                        .watch(updateEventControllerProvider)
+                                        .value!
+                                        .selectedContacts!
+                                        .isEmpty
+                                    ? AppColors.primary
+                                    : AppColors.white
                                 : ref
-                                      .watch(addEventControllerProvider)
-                                      .value!
-                                      .selectedContacts!
-                                      .isEmpty
-                                ? AppColors.primary
-                                : AppColors.white,
+                                        .watch(addEventControllerProvider)
+                                        .value!
+                                        .selectedContacts!
+                                        .isEmpty
+                                    ? AppColors.primary
+                                    : AppColors.white,
                           ),
                         ),
                       ),

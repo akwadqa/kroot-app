@@ -235,9 +235,7 @@ class AddEventController extends _$AddEventController {
           mapLongitude: newData.mapLongitude ?? current.mapLongitude,
           operators: newData.operators ?? state.value!.operators,
           handlers: newData.handlers ?? state.value!.handlers,
-
-          inviteTemplate:
-              newData.inviteTemplate ??
+          inviteTemplate: newData.inviteTemplate ??
               current.inviteTemplate ??
               firsTemplate?.name,
           guests: setGuestListFromContacts() ?? current.guests,
@@ -251,14 +249,13 @@ class AddEventController extends _$AddEventController {
     return selectedContacts?.map((s) {
       final nameParts = (s.contact.displayName).split(' ');
       final firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      final lastName = nameParts.length > 1
-          ? nameParts.sublist(1).join(' ')
-          : null;
+      final lastName =
+          nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
 
       final number = (s.contact.phones.isNotEmpty)
           ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
-                ? s.contact.phones.first.number.replaceAll(' ', '')
-                : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
+              ? s.contact.phones.first.number.replaceAll(' ', '')
+              : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
           : null;
 
       return GuestModel(
@@ -295,14 +292,14 @@ class AddEventController extends _$AddEventController {
         contacts: search == null
             ? contacts
             : contacts
-                  .where(
-                    (c) =>
-                        c.displayName.toLowerCase().contains(
-                          search.toLowerCase(),
-                        ) ||
-                        c.phones.any((p) => p.number.contains(search)),
-                  )
-                  .toList(),
+                .where(
+                  (c) =>
+                      c.displayName.toLowerCase().contains(
+                            search.toLowerCase(),
+                          ) ||
+                      c.phones.any((p) => p.number.contains(search)),
+                )
+                .toList(),
       ),
     );
   }
@@ -313,23 +310,20 @@ class AddEventController extends _$AddEventController {
     final exists = selectedList.any((c) => c.contact.id == contact.id);
 
     if (exists) {
-      selectedList = selectedList
-          .where((c) => c.contact.id != contact.id)
-          .toList();
+      selectedList =
+          selectedList.where((c) => c.contact.id != contact.id).toList();
     } else {
-      final code =
-          contact.phones.first.number.startsWith('+') ||
+      final code = contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(1, 4)
           : '974';
 
-      final number =
-          contact.phones.first.number.startsWith('+') ||
+      final number = contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(4)
           : contact.phones.first.number.startsWith('0')
-          ? contact.phones.first.number.replaceAll(' ', '').substring(1)
-          : contact.phones.first.number;
+              ? contact.phones.first.number.replaceAll(' ', '').substring(1)
+              : contact.phones.first.number;
 
       final newContact = Contact(
         id: contact.id,
@@ -506,9 +500,9 @@ class AddEventController extends _$AddEventController {
 
       final cleanHeader = rows.first.map((e) {
         return e.toString().trim().toLowerCase().replaceAll(
-          RegExp(r'[\ufeff\s]'),
-          '',
-        );
+              RegExp(r'[\ufeff\s]'),
+              '',
+            );
       }).toList();
 
       const requiredCols = [
@@ -598,7 +592,6 @@ class AddEventController extends _$AddEventController {
 
     return LatLng(lat: loc.lat, lng: loc.lng);
   }
-  
 
   void changeLatlng(double lat, double lng) {
     state = AsyncData(
@@ -733,8 +726,7 @@ class AddEventController extends _$AddEventController {
       state = AsyncData(
         state.value!.copyWith(
           latLng: LatLng(lat: double.parse(lat), lng: double.parse(lng)),
-          initialLatLng:
-              state.value!.initialLatLng ??
+          initialLatLng: state.value!.initialLatLng ??
               LatLng(lat: double.parse(lat), lng: double.parse(lng)),
           selectedPlace: AsyncData(
             SelectedPlace(

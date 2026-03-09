@@ -31,7 +31,6 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
                 ),
               ),
               Spacer(),
-
               GestureDetector(
                 onTap: () => context.pop(),
                 child: Assets.icons.closeIc.svg(),
@@ -39,10 +38,10 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
             ],
           ),
           33.verticalSpace,
-
           if (event.role == 'owner')
             ListTile(
               onTap: () {
+                context.pop();
                 context.push(Routes.manageAccess, extra: event.occasionId);
               },
               contentPadding: EdgeInsets.zero,
@@ -56,10 +55,11 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
             ),
           if (event.role == 'owner')
             Divider(color: AppColors.lightGray02, height: 0),
-
           if (event.status == 'Draft')
             ListTile(
               onTap: () {
+                context.pop();
+
                 context.push(Routes.updateEvent, extra: {'model': event});
               },
               contentPadding: EdgeInsets.zero,
@@ -72,10 +72,10 @@ class EventDetailsPageBottomSheet extends ConsumerWidget {
               ),
             ),
           Divider(color: AppColors.lightGray02, height: 0),
-
           if (event.role == 'owner')
             ListTile(
               onTap: () {
+                // context.pop();
                 AppAlert.showGlobalDialog(
                   context: context,
                   title: context.tr('deleteEvent'),

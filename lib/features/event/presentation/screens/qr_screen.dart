@@ -36,7 +36,7 @@ class QrScreen extends ConsumerWidget {
 
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
-            AppToast.doneToast("successfullyCompleted".tr());
+            // AppToast.doneToast("successfullyCompleted".tr());
 
             ref.read(homeControllerProvider.notifier)
               ..getUserEvents(page: 1)
@@ -44,7 +44,6 @@ class QrScreen extends ConsumerWidget {
 
             context.go(
               Routes.eventDetails,
-
               extra: {'id': next.value!.createEventResponse?.eventId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
@@ -59,7 +58,7 @@ class QrScreen extends ConsumerWidget {
         if (next.value?.isAddContact ?? false) {
           if (next is AsyncData) {
             context.pop();
-            AppToast.doneToast('successfullyCompleted'.tr());
+            // AppToast.doneToast('successfullyCompleted'.tr());
           }
 
           if (next is AsyncError) {
@@ -85,7 +84,6 @@ class QrScreen extends ConsumerWidget {
 
             context.go(
               Routes.eventDetails,
-
               extra: {'id': next.value!.updatedEvent?.occasionId},
             );
             ref.read(addEventControllerProvider.notifier).clearEventScreen();
@@ -108,7 +106,6 @@ class QrScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('qrPreview')),
-
       body: Builder(
         builder: (context) {
           ctx = context;
@@ -173,7 +170,6 @@ class QrScreen extends ConsumerWidget {
                                   color: AppColors.white,
                                 ),
                               ),
-
                               Spacer(),
                               Text(
                                 'www.kroot.com',
@@ -190,7 +186,6 @@ class QrScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-
               Spacer(),
               CustomButtonWidget(
                 text: '',

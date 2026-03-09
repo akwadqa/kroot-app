@@ -52,9 +52,8 @@ class InviteTemplateScreen extends ConsumerWidget {
       if (imagePath == null || imagePath.isEmpty) return null;
       if (imagePath.startsWith('http')) return imagePath;
       final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-      final path = imagePath.startsWith('/')
-          ? imagePath.substring(1)
-          : imagePath;
+      final path =
+          imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
       return '$base$path';
     }
 
@@ -68,7 +67,7 @@ class InviteTemplateScreen extends ConsumerWidget {
 
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
-            AppToast.doneToast("successfullyCompleted".tr());
+            // AppToast.doneToast("successfullyCompleted".tr());
             ref.read(homeControllerProvider.notifier)
               ..getUserEvents(page: 1)
               ..getUtils();
@@ -107,7 +106,7 @@ class InviteTemplateScreen extends ConsumerWidget {
 
           if (next is AsyncData && prev is AsyncLoading) {
             ctx.pop();
-            AppToast.doneToast("successfullyCompleted".tr());
+            // AppToast.doneToast("successfullyCompleted".tr());
             ref.read(homeControllerProvider.notifier)
               ..getUserEvents(page: 1)
               ..getUtils();
@@ -149,8 +148,7 @@ class InviteTemplateScreen extends ConsumerWidget {
             }),
           );
 
-    final lang =
-        templates
+    final lang = templates
             .firstWhere((template) => template.name == selectedTemplate)
             .language ??
         deviceLocale;
@@ -162,7 +160,6 @@ class InviteTemplateScreen extends ConsumerWidget {
           ctx = context;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-
             children: [
               30.verticalSpace,
               CreateEventPageSelectLanguageField(
@@ -197,7 +194,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                     )
                     .toList(),
               ),
-
               10.verticalSpace,
               Text(
                 context.tr('preview'),
@@ -213,7 +209,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                 ),
               ),
               20.verticalSpace,
-
               Expanded(
                 child: SingleChildScrollView(
                   child: ClipRRect(
@@ -240,55 +235,53 @@ class InviteTemplateScreen extends ConsumerWidget {
                           children: [
                             id != null
                                 ? resolveImageUrl() != null
-                                      ? SizedBox(
-                                          width: double.infinity,
-                                          height: 182.h,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: CachedNetworkImage(
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                              fit: BoxFit.cover,
-                                              fadeInCurve: Curves.linear,
-                                              placeholder: (context, url) =>
-                                                  FadeCircleLoadingIndicator(),
-                                              imageUrl: resolveImageUrl()!,
-                                            ),
-                                          ),
-                                        )
-                                      : image != null
-                                      ? SizedBox(
-                                          width: double.infinity,
-                                          height: 182.h,
-                                          child: Align(
-                                            alignment: Alignment.center,
-                                            child: Image.file(
-                                              image,
-                                              fit: BoxFit.cover,
-                                              width: double.infinity,
-                                              height: double.infinity,
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox.shrink()
-                                : image != null
-                                ? SizedBox(
-                                    width: double.infinity,
-                                    height: 182.h,
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Image.file(
-                                        image,
-                                        fit: BoxFit.cover,
+                                    ? SizedBox(
                                         width: double.infinity,
-                                        height: double.infinity,
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox.shrink(),
-
+                                        height: 182.h,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: CachedNetworkImage(
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                            fit: BoxFit.cover,
+                                            fadeInCurve: Curves.linear,
+                                            placeholder: (context, url) =>
+                                                FadeCircleLoadingIndicator(),
+                                            imageUrl: resolveImageUrl()!,
+                                          ),
+                                        ),
+                                      )
+                                    : image != null
+                                        ? SizedBox(
+                                            width: double.infinity,
+                                            height: 182.h,
+                                            child: Align(
+                                              alignment: Alignment.center,
+                                              child: Image.file(
+                                                image,
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox.shrink()
+                                : image != null
+                                    ? SizedBox(
+                                        width: double.infinity,
+                                        height: 182.h,
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Image.file(
+                                            image,
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                            height: double.infinity,
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox.shrink(),
                             18.verticalSpace,
-
                             Text(
                               getTemplateMessage(
                                 templates,
@@ -300,9 +293,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                                 color: AppColors.black,
                               ),
                             ).onlyPadding(start: 18.w),
-
                             18.verticalSpace,
-
                             Localizations.override(
                               context: context,
                               locale: Locale(lang),
@@ -340,7 +331,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                                     backgroundColor: AppColors.white,
                                     content: Text(
                                       lang == 'en' ? 'Declined' : 'رفض',
-
                                       style: AppTextStyle.rubikRegular18
                                           .copyWith(color: AppColors.black),
                                     ),
@@ -361,7 +351,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                                     height: 44.h,
                                     width: 125.w,
                                   ),
-
                                   Spacer(),
                                 ],
                               ),
@@ -401,7 +390,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-
               if (id != null)
                 CustomButtonWidget(
                   text: '',
@@ -421,7 +409,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                   width: 330.w,
                   backgroundColor: AppColors.primary,
                 ).symmetricPadding(horizontal: 22.w),
-
               if (id == null)
                 Align(
                   alignment: Alignment.center,
@@ -432,13 +419,13 @@ class InviteTemplateScreen extends ConsumerWidget {
                         onTap: () {
                           id != null
                               ? ref
-                                    .read(
-                                      updateEventControllerProvider.notifier,
-                                    )
-                                    .updateEventToServer(id!)
+                                  .read(
+                                    updateEventControllerProvider.notifier,
+                                  )
+                                  .updateEventToServer(id!)
                               : ref
-                                    .read(addEventControllerProvider.notifier)
-                                    .createEvent();
+                                  .read(addEventControllerProvider.notifier)
+                                  .createEvent();
                         },
                         isSubmit: false,
                         child: Text(
@@ -448,7 +435,6 @@ class InviteTemplateScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
-
                       AddEventPageBotton(
                         onTap: () {
                           context.push(Routes.qrScreen, extra: id);
@@ -478,8 +464,7 @@ class InviteTemplateScreen extends ConsumerWidget {
     WidgetRef ref,
     String? id,
   ) {
-    final title =
-        templates
+    final title = templates
             .firstWhere((template) => template.name == selectedTemplate)
             .template ??
         '';

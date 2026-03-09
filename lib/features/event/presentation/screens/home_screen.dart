@@ -40,7 +40,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userData=ref.watch(userDataProvider);
+    final userData = ref.watch(userDataProvider);
     ref.listen(homeControllerProvider, (pre, next) {
       if (next.value?.isDeleteEvent == false ||
           pre?.value?.isDeleteEvent == false) {
@@ -58,10 +58,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             44.verticalSpace,
-
             HomePageAppBar(),
             12.verticalSpace,
-
             HomePageSearchField(
               hint: context.tr('findEventHere'),
               onChange: (val) {
@@ -71,7 +69,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               },
             ),
             20.verticalSpace,
-
             Expanded(
               child: AppPaginationWidget(
                 enablePullDown: true,
@@ -93,8 +90,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if(userData?.freeSubscribe==0)
-                          HomePageAvailableBalance(),
+                          if (userData?.freeSubscribe == 0)
+                            HomePageAvailableBalance(),
                           20.verticalSpace,
                           Text(
                             context.tr('allEvents'),
@@ -106,7 +103,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ],
                       ),
                     ),
-
                     eventsController!.when(
                       data: (data) {
                         if ((data.events ?? []).isEmpty) {
@@ -147,7 +143,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                     ),
-
                     SliverToBoxAdapter(child: 80.verticalSpace),
                   ],
                 ),
@@ -285,7 +280,6 @@ class HomePageEventItem extends StatelessWidget {
                         color: AppColors.black.withValues(alpha: .25),
                       ),
                     ],
-
                     borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: (event.imageUrl != null && resolveImageUrl() != null)
@@ -305,7 +299,6 @@ class HomePageEventItem extends StatelessWidget {
                         ),
                 ),
                 10.horizontalSpace,
-
                 HomePageEventItemDetails(event: event),
               ],
             ),
@@ -329,7 +322,6 @@ class HomePageEventItemDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           4.verticalSpace,
-
           SizedBox(
             width: 148.w,
             child: Text(
@@ -337,15 +329,12 @@ class HomePageEventItemDetails extends StatelessWidget {
                 'EEE, dd MMM yyyy',
                 deviceLocale,
               ).format(DateTime.parse(event.date!)),
-
               style: AppTextStyle.rubikRegular12.copyWith(
                 color: AppColors.blackText,
               ),
             ),
           ),
-
           Spacer(),
-
           SizedBox(
             width: 160.w,
             child: Text(
@@ -358,7 +347,6 @@ class HomePageEventItemDetails extends StatelessWidget {
             ),
           ),
           Spacer(),
-
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -370,7 +358,6 @@ class HomePageEventItemDetails extends StatelessWidget {
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   event.locationName ?? 'location',
-
                   style: AppTextStyle.rubikRegular12.copyWith(
                     color: AppColors.blackText,
                   ),
@@ -402,12 +389,10 @@ class HomePageEventItemDetails extends StatelessWidget {
                 ),
               ),
               10.horizontalSpace,
-
               if (event.role == 'operator')
                 CustomButtonWidget(
                   content: Text(
                     context.tr('operator'),
-
                     style: AppTextStyle.rubikRegular14.copyWith(
                       color: AppColors.black,
                     ),
@@ -421,13 +406,11 @@ class HomePageEventItemDetails extends StatelessWidget {
                   width: 70.w,
                   topPading: 0,
                 ),
-
               if (event.role == 'handler_edit' || event.role == 'handler')
                 Expanded(
                   child: CustomButtonWidget(
                     content: Text(
                       context.tr('authorized'),
-
                       style: AppTextStyle.rubikRegular14.copyWith(
                         color: AppColors.black,
                       ),
@@ -442,7 +425,6 @@ class HomePageEventItemDetails extends StatelessWidget {
                     topPading: 0,
                   ),
                 ),
-
               if (event.role == 'owner') Expanded(child: SizedBox()),
             ],
           ),
