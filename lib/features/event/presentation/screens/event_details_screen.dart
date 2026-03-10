@@ -28,7 +28,6 @@ import 'package:kroot_app/src/utils/app_toast.dart';
 class EventDetailsScreen extends ConsumerStatefulWidget {
   const EventDetailsScreen({
     super.key,
-
     required this.eventModel,
     required this.id,
   });
@@ -109,9 +108,8 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
       if (imagePath == null || imagePath.isEmpty) return null;
       if (imagePath.startsWith('http')) return imagePath;
       final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-      final path = imagePath.startsWith('/')
-          ? imagePath.substring(1)
-          : imagePath;
+      final path =
+          imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
       return '$base$path';
     }
 
@@ -136,7 +134,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
               backgroundColor: AppColors.white,
               surfaceTintColor: AppColors.white,
               title: const SizedBox.shrink(),
-
               leadingWidth: 74.w,
               leading: context.locale.languageCode == 'ar'
                   ? controller!.maybeWhen(
@@ -182,9 +179,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                         },
                       ),
               ],
-
               expandedHeight: expandedH,
-
               flexibleSpace: LayoutBuilder(
                 builder: (context, constraints) {
                   final double top = constraints.biggest.height;
@@ -205,7 +200,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                     fit: StackFit.expand,
                     children: [
                       Container(color: AppColors.white),
-
                       if (resolveImageUrl(image) != null)
                         Opacity(
                           opacity: t,
@@ -217,14 +211,12 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                             fit: BoxFit.cover,
                           ),
                         ),
-
                       IgnorePointer(
                         ignoring: true,
                         child: Container(
                           color: AppColors.white.withOpacity((1 - t) * 0.10),
                         ),
                       ),
-
                       Positioned(
                         left: 0,
                         right: 0,
@@ -258,7 +250,6 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                 },
               ),
             ),
-
             controller!.when(
               data: (event) => _buildBody(context, event, ref),
               error: (e, st) => SliverToBoxAdapter(
@@ -302,6 +293,9 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
   }
 
   Widget _buildBody(BuildContext context, EventModel event, WidgetRef ref) {
+    final isReview = ref.watch(homeControllerProvider
+        .select((val) => val.value?.utilsResponse?.value?.appleReview));
+
     final isFailed =
         event.guestReport?.failed != null && event.guestReport!.failed! > 0;
     return SliverList(
@@ -458,7 +452,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
           ).symmetricPadding(horizontal: 22.w),
 
         20.verticalSpace,
-        if (event.role != 'operator')
+        if (event.role != 'operator' && isReview != 1)
           CustomButtonWidget(
             text: '',
             onTap: () {
@@ -493,8 +487,9 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
             backgroundColor: AppColors.white,
           ).symmetricPadding(horizontal: 22.w),
 
-        if (event.role != 'operator' && isFailed) 20.verticalSpace,
-        if (event.role != 'operator' && isFailed)
+        if (event.role != 'operator' && isFailed && isReview != 1)
+          20.verticalSpace,
+        if (event.role != 'operator' && isFailed && isReview != 1)
           CustomButtonWidget(
             text: '',
             onTap: () {

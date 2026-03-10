@@ -21,6 +21,7 @@ _UtilsResponse _$UtilsResponseFromJson(Map<String, dynamic> json) =>
       templates: (json['invite_templates'] as List<dynamic>?)
           ?.map((e) => TemplateModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      appleReview: (json['apple_review'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$UtilsResponseToJson(_UtilsResponse instance) =>
@@ -29,6 +30,7 @@ Map<String, dynamic> _$UtilsResponseToJson(_UtilsResponse instance) =>
       'event_types': instance.eventTypes,
       'bundles': instance.bundles,
       'invite_templates': instance.templates,
+      'apple_review': instance.appleReview,
     };
 
 _SubscriberModel _$SubscriberModelFromJson(Map<String, dynamic> json) =>

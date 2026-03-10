@@ -21,6 +21,8 @@ mixin _$UtilsResponse {
   List<BundleModel>? get bundles;
   @JsonKey(name: 'invite_templates')
   List<TemplateModel>? get templates;
+  @JsonKey(name: 'apple_review')
+  int? get appleReview;
 
   /// Create a copy of UtilsResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -43,7 +45,9 @@ mixin _$UtilsResponse {
             const DeepCollectionEquality()
                 .equals(other.eventTypes, eventTypes) &&
             const DeepCollectionEquality().equals(other.bundles, bundles) &&
-            const DeepCollectionEquality().equals(other.templates, templates));
+            const DeepCollectionEquality().equals(other.templates, templates) &&
+            (identical(other.appleReview, appleReview) ||
+                other.appleReview == appleReview));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -53,11 +57,12 @@ mixin _$UtilsResponse {
       subscriber,
       const DeepCollectionEquality().hash(eventTypes),
       const DeepCollectionEquality().hash(bundles),
-      const DeepCollectionEquality().hash(templates));
+      const DeepCollectionEquality().hash(templates),
+      appleReview);
 
   @override
   String toString() {
-    return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, bundles: $bundles, templates: $templates)';
+    return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, bundles: $bundles, templates: $templates, appleReview: $appleReview)';
   }
 }
 
@@ -71,7 +76,8 @@ abstract mixin class $UtilsResponseCopyWith<$Res> {
       {SubscriberModel? subscriber,
       @JsonKey(name: 'event_types') List<String>? eventTypes,
       @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-      @JsonKey(name: 'invite_templates') List<TemplateModel>? templates});
+      @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+      @JsonKey(name: 'apple_review') int? appleReview});
 
   $SubscriberModelCopyWith<$Res>? get subscriber;
 }
@@ -93,6 +99,7 @@ class _$UtilsResponseCopyWithImpl<$Res>
     Object? eventTypes = freezed,
     Object? bundles = freezed,
     Object? templates = freezed,
+    Object? appleReview = freezed,
   }) {
     return _then(_self.copyWith(
       subscriber: freezed == subscriber
@@ -111,6 +118,10 @@ class _$UtilsResponseCopyWithImpl<$Res>
           ? _self.templates
           : templates // ignore: cast_nullable_to_non_nullable
               as List<TemplateModel>?,
+      appleReview: freezed == appleReview
+          ? _self.appleReview
+          : appleReview // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 
@@ -226,15 +237,16 @@ extension UtilsResponsePatterns on UtilsResponse {
             SubscriberModel? subscriber,
             @JsonKey(name: 'event_types') List<String>? eventTypes,
             @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates)?
+            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+            @JsonKey(name: 'apple_review') int? appleReview)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UtilsResponse() when $default != null:
-        return $default(
-            _that.subscriber, _that.eventTypes, _that.bundles, _that.templates);
+        return $default(_that.subscriber, _that.eventTypes, _that.bundles,
+            _that.templates, _that.appleReview);
       case _:
         return orElse();
     }
@@ -259,14 +271,15 @@ extension UtilsResponsePatterns on UtilsResponse {
             SubscriberModel? subscriber,
             @JsonKey(name: 'event_types') List<String>? eventTypes,
             @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates)
+            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+            @JsonKey(name: 'apple_review') int? appleReview)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UtilsResponse():
-        return $default(
-            _that.subscriber, _that.eventTypes, _that.bundles, _that.templates);
+        return $default(_that.subscriber, _that.eventTypes, _that.bundles,
+            _that.templates, _that.appleReview);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -290,14 +303,15 @@ extension UtilsResponsePatterns on UtilsResponse {
             SubscriberModel? subscriber,
             @JsonKey(name: 'event_types') List<String>? eventTypes,
             @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates)?
+            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+            @JsonKey(name: 'apple_review') int? appleReview)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UtilsResponse() when $default != null:
-        return $default(
-            _that.subscriber, _that.eventTypes, _that.bundles, _that.templates);
+        return $default(_that.subscriber, _that.eventTypes, _that.bundles,
+            _that.templates, _that.appleReview);
       case _:
         return null;
     }
@@ -311,7 +325,8 @@ class _UtilsResponse implements UtilsResponse {
       {this.subscriber,
       @JsonKey(name: 'event_types') final List<String>? eventTypes,
       @JsonKey(name: 'bundles') final List<BundleModel>? bundles,
-      @JsonKey(name: 'invite_templates') final List<TemplateModel>? templates})
+      @JsonKey(name: 'invite_templates') final List<TemplateModel>? templates,
+      @JsonKey(name: 'apple_review') this.appleReview})
       : _eventTypes = eventTypes,
         _bundles = bundles,
         _templates = templates;
@@ -353,6 +368,10 @@ class _UtilsResponse implements UtilsResponse {
     return EqualUnmodifiableListView(value);
   }
 
+  @override
+  @JsonKey(name: 'apple_review')
+  final int? appleReview;
+
   /// Create a copy of UtilsResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
@@ -379,7 +398,9 @@ class _UtilsResponse implements UtilsResponse {
                 .equals(other._eventTypes, _eventTypes) &&
             const DeepCollectionEquality().equals(other._bundles, _bundles) &&
             const DeepCollectionEquality()
-                .equals(other._templates, _templates));
+                .equals(other._templates, _templates) &&
+            (identical(other.appleReview, appleReview) ||
+                other.appleReview == appleReview));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -389,11 +410,12 @@ class _UtilsResponse implements UtilsResponse {
       subscriber,
       const DeepCollectionEquality().hash(_eventTypes),
       const DeepCollectionEquality().hash(_bundles),
-      const DeepCollectionEquality().hash(_templates));
+      const DeepCollectionEquality().hash(_templates),
+      appleReview);
 
   @override
   String toString() {
-    return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, bundles: $bundles, templates: $templates)';
+    return 'UtilsResponse(subscriber: $subscriber, eventTypes: $eventTypes, bundles: $bundles, templates: $templates, appleReview: $appleReview)';
   }
 }
 
@@ -409,7 +431,8 @@ abstract mixin class _$UtilsResponseCopyWith<$Res>
       {SubscriberModel? subscriber,
       @JsonKey(name: 'event_types') List<String>? eventTypes,
       @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-      @JsonKey(name: 'invite_templates') List<TemplateModel>? templates});
+      @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+      @JsonKey(name: 'apple_review') int? appleReview});
 
   @override
   $SubscriberModelCopyWith<$Res>? get subscriber;
@@ -432,6 +455,7 @@ class __$UtilsResponseCopyWithImpl<$Res>
     Object? eventTypes = freezed,
     Object? bundles = freezed,
     Object? templates = freezed,
+    Object? appleReview = freezed,
   }) {
     return _then(_UtilsResponse(
       subscriber: freezed == subscriber
@@ -450,6 +474,10 @@ class __$UtilsResponseCopyWithImpl<$Res>
           ? _self._templates
           : templates // ignore: cast_nullable_to_non_nullable
               as List<TemplateModel>?,
+      appleReview: freezed == appleReview
+          ? _self.appleReview
+          : appleReview // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 

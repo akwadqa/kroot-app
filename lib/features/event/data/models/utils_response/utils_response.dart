@@ -16,6 +16,9 @@ abstract class UtilsResponse with _$UtilsResponse {
 
     @JsonKey(name: 'invite_templates')
     List<TemplateModel>? templates,
+
+    @JsonKey(name : 'apple_review')
+    int? appleReview
   }) = _UtilsResponse;
 
   factory UtilsResponse.fromJson(Map<String, dynamic> json) =>
