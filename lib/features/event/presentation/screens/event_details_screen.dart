@@ -293,6 +293,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
   }
 
   Widget _buildBody(BuildContext context, EventModel event, WidgetRef ref) {
+    // final isReview = 0;
     final isReview = ref.watch(homeControllerProvider
         .select((val) => val.value?.utilsResponse?.value?.appleReview));
 
