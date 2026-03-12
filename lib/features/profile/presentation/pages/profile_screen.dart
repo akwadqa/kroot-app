@@ -16,6 +16,7 @@ import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
+import 'package:kroot_app/src/utils/functions.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -75,7 +76,6 @@ class ProfileScreen extends ConsumerWidget {
           return Column(
             children: [
               20.verticalSpace,
-
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 9.h),
@@ -87,9 +87,7 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-
               10.verticalSpace,
-
               ProfilePageUserSectionItem(
                 title: context.tr('changeLanguage'),
                 icon: Assets.icons.changeLanguageIc,
@@ -100,7 +98,6 @@ class ProfileScreen extends ConsumerWidget {
                   );
                 },
               ),
-
               ProfilePageUserSectionItem(
                 title: context.tr('deleteUser'),
                 icon: Assets.icons.deleteUserIc,
@@ -121,7 +118,6 @@ class ProfileScreen extends ConsumerWidget {
                   );
                 },
               ),
-
               ProfilePageUserSectionItem(
                 title: context.tr('logout'),
                 icon: Assets.icons.logoutIc,
@@ -143,7 +139,6 @@ class ProfileScreen extends ConsumerWidget {
                 },
               ),
               10.verticalSpace,
-
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 9.h),
@@ -156,10 +151,10 @@ class ProfileScreen extends ConsumerWidget {
                 ),
               ),
               10.verticalSpace,
-
               ProfilePageUserSectionItem(
                 title: context.tr('+974 555 666'),
                 icon: Assets.icons.contactWhatsappIc,
+                onTap: () => openWhatsApp('+974 555 666'),
               ),
             ],
           );

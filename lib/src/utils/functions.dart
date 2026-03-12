@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashedLineVerticalPainter extends CustomPainter {
   @override
@@ -66,4 +67,23 @@ String processEtaValue(String? etaResponse, int mode) {
   }
 
   return '';
+}
+
+Future<void> openWhatsApp (String phoneNumber) async {
+  final cleanNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+  
+  final Uri whatsappUrl = Uri.parse("https://wa.me/$cleanNumber");
+
+  try {
+    if (await canLaunchUrl(whatsappUrl)) {
+      await launchUrl(
+        whatsappUrl,
+        mode: LaunchMode.externalApplication, 
+      );
+    } else {
+      throw 'Could not launch $whatsappUrl';
+    }
+  } catch (e) {
+    print("Error opening WhatsApp: $e");
+  }
 }
