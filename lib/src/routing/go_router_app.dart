@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/cards/presentation/screens/custumize_card_screen.dart';
+import 'package:kroot_app/features/cards/presentation/screens/final_preview_screen.dart';
+import 'package:kroot_app/features/cards/presentation/screens/occasion_cards_screen.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/screens/manage_access_page.dart';
 import 'package:kroot_app/features/profile/presentation/pages/bundles_screen.dart';
@@ -302,6 +305,36 @@ class GoRouterApp {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: PaymentScreen(paymentUrl: state.extra as String),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+      GoRoute(
+        path: Routes.occasionCards,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: OccasionCardsScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+      GoRoute(
+        path: Routes.customizeCard,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: CustumizeCardScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+      GoRoute(
+        path: Routes.finalPreview,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: FinalPreviewScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

@@ -8,10 +8,10 @@ class EventDetailsDate extends StatelessWidget {
   const EventDetailsDate({
     super.key,
     required this.date,
-
-    required this.onSelectDate,
+    required this.onSelectDate, this.title,
   });
   final String? date;
+  final String? title;
   final void Function(DateTime date) onSelectDate;
 
   @override
@@ -25,7 +25,6 @@ class EventDetailsDate extends StatelessWidget {
         : '';
     return AppTextFormField(
       controller: TextEditingController(text: dataFormatter),
-
       validator: (val) {
         if (val == null || val.isEmpty) {
           return context.tr('required');
@@ -34,7 +33,7 @@ class EventDetailsDate extends StatelessWidget {
       },
       hint: context.tr('selectDate'),
       isRequired: false,
-      label: context.tr('eventDate'),
+      label: title ?? context.tr('eventDate'),
       icon: Assets.icons.selectedDateIc,
       isReadOnly: true,
       onTap: () async {

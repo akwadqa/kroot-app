@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/cards/presentation/screens/my_occasions_screen.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/screens/home_screen.dart';
 import 'package:kroot_app/features/notifications/presentation/screens/notifications_screen.dart';
@@ -29,8 +30,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
 
       ScanPage(),
 
-      NotificationsScreen(),
+      // NotificationsScreen(),
       ProfileScreen(),
+      MyOccasionsScreen()
     ];
     final index = ref.watch(bottomNavIndexProvider);
     final controller = ref.watch(
@@ -40,7 +42,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return Scaffold(
       extendBody: true,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
       floatingActionButton: GestureDetector(
         onTap: () {
           if (controller?.error != null) {

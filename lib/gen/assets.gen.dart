@@ -66,6 +66,10 @@ class $AssetsIconsGen {
   SvgGenImage get backWhiteIc =>
       const SvgGenImage('assets/icons/back_white_ic.svg');
 
+  /// File path: assets/icons/card_location_ic.svg
+  SvgGenImage get cardLocationIc =>
+      const SvgGenImage('assets/icons/card_location_ic.svg');
+
   /// File path: assets/icons/category.svg
   SvgGenImage get category => const SvgGenImage('assets/icons/category.svg');
 
@@ -205,6 +209,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/mobile_ic.svg
   SvgGenImage get mobileIc => const SvgGenImage('assets/icons/mobile_ic.svg');
 
+  /// File path: assets/icons/my_occasion_ic.svg
+  SvgGenImage get myOccasionIc =>
+      const SvgGenImage('assets/icons/my_occasion_ic.svg');
+
   /// File path: assets/icons/notifications_cart_ic.svg
   SvgGenImage get notificationsCartIc =>
       const SvgGenImage('assets/icons/notifications_cart_ic.svg');
@@ -300,6 +308,7 @@ class $AssetsIconsGen {
         appleIc,
         arrowIc,
         backWhiteIc,
+        cardLocationIc,
         category,
         changeLanguageIc,
         closeIc,
@@ -338,6 +347,7 @@ class $AssetsIconsGen {
         manageAccessIc,
         messagesIc,
         mobileIc,
+        myOccasionIc,
         notificationsCartIc,
         notificationsIc,
         optionsIc,
@@ -380,6 +390,10 @@ class $AssetsImagesGen {
   AssetGenImage get krootInviteImage =>
       const AssetGenImage('assets/images/kroot_invite_image.png');
 
+  /// File path: assets/images/occasion_card_image.jpg
+  AssetGenImage get occasionCardImage =>
+      const AssetGenImage('assets/images/occasion_card_image.jpg');
+
   /// File path: assets/images/qr_code_image.png
   AssetGenImage get qrCodeImage =>
       const AssetGenImage('assets/images/qr_code_image.png');
@@ -396,6 +410,7 @@ class $AssetsImagesGen {
         imErrorScreen,
         krootIcon,
         krootInviteImage,
+        occasionCardImage,
         qrCodeImage,
         splash,
         splashScreen

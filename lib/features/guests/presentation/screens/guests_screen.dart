@@ -102,7 +102,6 @@ class _GuestsScreenState extends ConsumerState<GuestsScreen> {
                 onTap: () {
                   context.push(Routes.guestList, extra: event?.occasionId);
                 },
-
                 child: Assets.icons.addContactIc.svg(width: 30.w),
               )
             : null,
@@ -205,17 +204,15 @@ class GuestsScreenGuestItem extends ConsumerWidget {
                   context: context,
                   title: context.tr('deleteGuest'),
                   onSubmit: () {
-                    ref
-                        .read(guestsControllerProvider.notifier)
-                        .deleteGuest(
-                          guests: [guest!],
-                          occasionId: ref
-                              .read(homeControllerProvider)
-                              .value!
-                              .occasionModel!
-                              .value!
-                              .occasionId!,
-                        );
+                    ref.read(guestsControllerProvider.notifier).deleteGuest(
+                      guests: [guest!],
+                      occasionId: ref
+                          .read(homeControllerProvider)
+                          .value!
+                          .occasionModel!
+                          .value!
+                          .occasionId!,
+                    );
                   },
                   text: Text.rich(
                     textAlign: TextAlign.center,
@@ -247,6 +244,10 @@ class GuestsScreenGuestItem extends ConsumerWidget {
               child: Assets.icons.xGuestIc.svg(),
             )
           : null,
+      subtitle: Text(
+        guest?.whatsappNumber ?? '',
+        style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
+      ),
       title: Text(
         guest?.fullName ?? '',
         style: AppTextStyle.rubikRegular16.copyWith(color: AppColors.black),
@@ -258,13 +259,12 @@ class GuestsScreenGuestItem extends ConsumerWidget {
                 color: guest!.rsvpStatus == 'Confirmed'
                     ? AppColors.confirmGuest
                     : guest!.rsvpStatus == 'Pending' ||
-                          guest!.rsvpStatus == 'Not Sent' ||
-                          guest!.rsvpStatus == null
-                    ? AppColors.waitingGuest
-                    : guest!.rsvpStatus == 'Failed'
-                    ? AppColors.black400
-                    : AppColors.noticeRed,
-
+                            guest!.rsvpStatus == 'Not Sent' ||
+                            guest!.rsvpStatus == null
+                        ? AppColors.waitingGuest
+                        : guest!.rsvpStatus == 'Failed'
+                            ? AppColors.black400
+                            : AppColors.noticeRed,
                 borderRadius: BorderRadius.circular(32.r),
               ),
               child: Text(

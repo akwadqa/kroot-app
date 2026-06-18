@@ -8,10 +8,11 @@ class EventDetailsTime extends StatelessWidget {
   const EventDetailsTime({
     super.key,
     required this.dateTime,
-    required this.onSelectTime,
+    required this.onSelectTime, this.title,
   });
 
   final DateTime? dateTime;
+  final String? title;
 
   final void Function(TimeOfDay time) onSelectTime;
 
@@ -19,9 +20,8 @@ class EventDetailsTime extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceLocale = Localizations.localeOf(context).toString();
 
-    final formattedTime = dateTime != null
-        ? DateFormat.jm(deviceLocale).format(dateTime!)
-        : '';
+    final formattedTime =
+        dateTime != null ? DateFormat.jm(deviceLocale).format(dateTime!) : '';
 
     return AppTextFormField(
       controller: TextEditingController(text: formattedTime),
@@ -33,7 +33,7 @@ class EventDetailsTime extends StatelessWidget {
       },
       hint: context.tr('selectTime'),
       isRequired: false,
-      label: context.tr('eventTime'),
+      label:title ?? context.tr('eventTime'),
       icon: Assets.icons.selectedDateIc,
       isReadOnly: true,
       onTap: () async {

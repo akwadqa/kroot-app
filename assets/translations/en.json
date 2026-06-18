@@ -257,5 +257,18 @@
     "update_title_optional": "Update Available",
     "update_message_required": "A new version is required to continue using the app.",
     "update_message_optional": "A new update is available.",
-    "could_not_open_link": "Could not open the link."
+    "could_not_open_link": "Could not open the link.",
+    "my_cards" : "My Cards",
+    "my_occasions" : "My Occasions",
+    "select_event_type" : "Select the type of event",
+    "customize_card" : "Customize Card",
+    "price" : "Price",
+    "enter_details_below" : "Enter the details below",
+    "time" : "Time",
+    "date" : "Date",
+    "location" : "Location",
+    "enter_location" : "Enter the location",
+    "final_preview" : "Final Preview",
+    "pay_now" : "Pay Now"
+
 }

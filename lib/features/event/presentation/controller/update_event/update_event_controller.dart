@@ -42,12 +42,8 @@ class UpdateEventController extends _$UpdateEventController {
         ?.occasionModel
         ?.value
         ?.operators;
-    final handlers = ref
-        .watch(homeControllerProvider)
-        .value
-        ?.occasionModel
-        ?.value
-        ?.handlers;
+    final handlers =
+        ref.watch(homeControllerProvider).value?.occasionModel?.value?.handlers;
     if (list != null) {
       final selected = convertGuestModelsToSelectedContacts(list);
 
@@ -62,12 +58,8 @@ class UpdateEventController extends _$UpdateEventController {
   }
 
   bool _checkSelectedContactsChanged(List<SelectedContact> currentSelected) {
-    final originalGuests = ref
-        .read(homeControllerProvider)
-        .value
-        ?.occasionModel
-        ?.value
-        ?.guests;
+    final originalGuests =
+        ref.read(homeControllerProvider).value?.occasionModel?.value?.guests;
 
     if (originalGuests == null) return false;
 
@@ -306,7 +298,6 @@ class UpdateEventController extends _$UpdateEventController {
         id: const Uuid().v4(),
         name: Name(first: first ?? "", last: last ?? ""),
         phones: [Phone(number.substring(3))],
-
         displayName: "${first ?? ''} ${last ?? ''}".trim(),
       );
 
@@ -333,23 +324,20 @@ class UpdateEventController extends _$UpdateEventController {
     final exists = selectedList.any((c) => c.contact.id == contact.id);
 
     if (exists) {
-      selectedList = selectedList
-          .where((c) => c.contact.id != contact.id)
-          .toList();
+      selectedList =
+          selectedList.where((c) => c.contact.id != contact.id).toList();
     } else {
-      final code =
-          contact.phones.first.number.startsWith('+') ||
+      final code = contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(1, 4)
           : '974';
 
-      final number =
-          contact.phones.first.number.startsWith('+') ||
+      final number = contact.phones.first.number.startsWith('+') ||
               contact.phones.first.number.replaceAll(' ', '').length > 11
           ? contact.phones.first.number.replaceAll(' ', '').substring(4)
           : contact.phones.first.number.startsWith('0')
-          ? contact.phones.first.number.replaceAll(' ', '').substring(1)
-          : contact.phones.first.number;
+              ? contact.phones.first.number.replaceAll(' ', '').substring(1)
+              : contact.phones.first.number;
 
       final newContact = Contact(
         id: contact.id,
@@ -413,11 +401,8 @@ class UpdateEventController extends _$UpdateEventController {
 
   void deleteImage(String id) {
     final current = state.value?.updatedEvent;
-    final currentEvent = ref
-        .read(homeControllerProvider)
-        .value
-        ?.occasionModel
-        ?.value;
+    final currentEvent =
+        ref.read(homeControllerProvider).value?.occasionModel?.value;
 
     state = AsyncData(
       state.value!.copyWith(
@@ -427,7 +412,6 @@ class UpdateEventController extends _$UpdateEventController {
           title: current?.title ?? currentEvent?.title,
           date: current?.date ?? currentEvent?.date,
           language: current?.language ?? currentEvent?.language,
-
           image: null,
           imageUrl: null,
           inviteTemplate:
@@ -457,7 +441,7 @@ class UpdateEventController extends _$UpdateEventController {
         final updatedContact = Contact(
           id: sc.contact.id,
           name: Name(first: firstName, last: lastName),
-          phones: [Phone(number.substring(4))],
+          phones: [Phone(number.substring(3))],
           // phones: sc.contact.phones
           //     .map((p) => Phone(p.number, label: p.label))
           //     .toList(),
@@ -469,7 +453,7 @@ class UpdateEventController extends _$UpdateEventController {
 
         return SelectedContact(
           contact: updatedContact,
-          code: number.substring(1, 4),
+          code: number.substring(0, 3),
           id: sc.id,
           count: count,
         );
@@ -589,7 +573,6 @@ class UpdateEventController extends _$UpdateEventController {
           locationName: newData.locationName ?? current!.locationName,
           date: newData.date ?? current?.date,
           language: newData.language ?? current?.language,
-
           image: newData.image ?? current?.image,
           imageUrl: newData.imageUrl ?? current?.imageUrl,
           inviteTemplate: newData.inviteTemplate ?? current?.inviteTemplate,
@@ -619,7 +602,6 @@ class UpdateEventController extends _$UpdateEventController {
         id: const Uuid().v4(),
         contact: contact,
         count: g.partySize ?? 0,
-
         code: '9',
       );
     }).toList();
@@ -632,14 +614,13 @@ class UpdateEventController extends _$UpdateEventController {
     return selectedContacts?.map((s) {
       final nameParts = (s.contact.displayName).split(' ');
       final firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      final lastName = nameParts.length > 1
-          ? nameParts.sublist(1).join(' ')
-          : null;
+      final lastName =
+          nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
 
       final number = (s.contact.phones.isNotEmpty)
           ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
-                ? s.contact.phones.first.number.replaceAll(' ', '')
-                : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
+              ? s.contact.phones.first.number.replaceAll(' ', '')
+              : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
           : null;
 
       return GuestModel(
@@ -711,9 +692,9 @@ class UpdateEventController extends _$UpdateEventController {
 
       final cleanHeader = rows.first.map((e) {
         return e.toString().trim().toLowerCase().replaceAll(
-          RegExp(r'[\ufeff\s]'),
-          '',
-        );
+              RegExp(r'[\ufeff\s]'),
+              '',
+            );
       }).toList();
 
       const requiredCols = [
@@ -827,7 +808,6 @@ class UpdateEventController extends _$UpdateEventController {
           mapLatitude: lat.toString(),
           mapLongitude: lng.toString(),
         ),
-
         id,
       );
 

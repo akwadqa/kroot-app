@@ -54,10 +54,22 @@ class _AddGuestNumberFieldState extends ConsumerState<AddGuestNumberField> {
     final number = _nationalController.text.startsWith('0')
         ? _nationalController.text.substring(1)
         : _nationalController.text;
-    final code = countryCode.startsWith('+')
-        ? countryCode.substring(1)
-        : countryCode;
+    final code =
+        countryCode.startsWith('+') ? countryCode.substring(1) : countryCode;
     final full = '$code$number';
+
+    print('''مش
+    
+      number : $number,
+
+      country : $countryCode
+
+      code : $code,
+
+
+      full : $full
+
+    ''');
     widget.fullPhoneController.value = TextEditingValue(
       text: full,
       selection: TextSelection.collapsed(offset: full.length),
@@ -97,7 +109,6 @@ class _AddGuestNumberFieldState extends ConsumerState<AddGuestNumberField> {
 
           return null;
         },
-
         dropdownIcon: Icon(
           Icons.arrow_drop_down_rounded,
           color: AppColors.primary,

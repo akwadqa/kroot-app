@@ -277,5 +277,15 @@
     "update_title_optional": "تحديث متاح",
     "update_message_required": "نسخة جديدة مطلوبة للاستمرار في استخدام التطبيق.",
     "update_message_optional": "هناك تحديث جديد متاح.",
-    "could_not_open_link": "تعذر فتح الرابط."
+    "could_not_open_link": "تعذر فتح الرابط.",
+    "my_occasions" : "مناسباتي",
+    "my_cards" : "كروتي",
+    "customize_card" : "تخصيص الكرت",
+    "price" : "السعر",
+    "enter_details_below" : "أدخل التفاصيل أدناه",
+    "time" : "الوقت",
+    "date" : "التاريخ",
+    "enter_location" : "أدخل الموقع",
+    "final_preview" : "المعاينة النهائية",
+    "pay_now" : "ادفع الآن"
 }

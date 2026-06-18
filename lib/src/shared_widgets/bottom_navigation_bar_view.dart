@@ -19,15 +19,15 @@ class BottomNavigationBarView extends ConsumerWidget {
     final iconList = [
       Assets.icons.homeIc.svg(),
       Assets.icons.scanIc.svg(),
-      Assets.icons.notificationsIc.svg(),
       Assets.icons.profileIc.svg(),
+      Assets.icons.myOccasionIc.svg(),
     ];
 
     final labelList = [
       context.tr('home'),
       context.tr('scan'),
-      context.tr('notifications'),
       context.tr('profile'),
+      context.tr('my_cards'),
     ];
 
     return Directionality(
@@ -48,7 +48,6 @@ class BottomNavigationBarView extends ConsumerWidget {
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
                   duration: Duration(milliseconds: 300),
-
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.r),
                     color: index == i ? AppColors.primary : Colors.transparent,
