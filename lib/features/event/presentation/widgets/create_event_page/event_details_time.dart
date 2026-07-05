@@ -8,11 +8,18 @@ class EventDetailsTime extends StatelessWidget {
   const EventDetailsTime({
     super.key,
     required this.dateTime,
-    required this.onSelectTime, this.title,
+    required this.onSelectTime,
+    this.title,
+    this.hint,
+    this.isRequired,
+    this.validator,
   });
 
-  final DateTime? dateTime;
-  final String? title;
+  final String? dateTime;
+  final String? title, hint;
+  final bool? isRequired;
+
+  final String? Function(String?)? validator;
 
   final void Function(TimeOfDay time) onSelectTime;
 
@@ -20,25 +27,22 @@ class EventDetailsTime extends StatelessWidget {
   Widget build(BuildContext context) {
     final deviceLocale = Localizations.localeOf(context).toString();
 
-    final formattedTime =
-        dateTime != null ? DateFormat.jm(deviceLocale).format(dateTime!) : '';
+    // final formattedTime = dateTime != null
+    //     ? DateFormat.jm(deviceLocale).format(DateTime.parse(dateTime!))
+    //     : '';
 
     return AppTextFormField(
-      controller: TextEditingController(text: formattedTime),
-      validator: (val) {
-        if (val == null || val.isEmpty) {
-          return context.tr('required');
-        }
-        return null;
-      },
-      hint: context.tr('selectTime'),
-      isRequired: false,
-      label:title ?? context.tr('eventTime'),
+      // controller: TextEditingController(text: formattedTime),
+      validator: validator,
+      hint: hint ?? context.tr('selectTime'),
+      isRequired: isRequired ?? false,
+      label: title ?? context.tr('eventTime'),
       icon: Assets.icons.selectedDateIc,
+      value: dateTime,
       isReadOnly: true,
       onTap: () async {
         final initialTime = dateTime != null
-            ? TimeOfDay.fromDateTime(dateTime!)
+            ? TimeOfDay.fromDateTime(DateTime.parse(dateTime!))
             : TimeOfDay.now();
 
         final time = await showTimePicker(

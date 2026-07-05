@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
+import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/screens/custumize_card_screen.dart';
 import 'package:kroot_app/features/cards/presentation/screens/final_preview_screen.dart';
 import 'package:kroot_app/features/cards/presentation/screens/occasion_cards_screen.dart';
@@ -314,7 +316,7 @@ class GoRouterApp {
         path: Routes.occasionCards,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: OccasionCardsScreen(),
+          child: OccasionCardsScreen(category: state.extra as TemplateCategoriesModel),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -324,7 +326,7 @@ class GoRouterApp {
         path: Routes.customizeCard,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: CustumizeCardScreen(),
+          child: CustumizeCardScreen(template: state.extra as InvitationTemplateModel),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

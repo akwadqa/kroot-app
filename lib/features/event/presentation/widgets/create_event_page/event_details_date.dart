@@ -8,11 +8,17 @@ class EventDetailsDate extends StatelessWidget {
   const EventDetailsDate({
     super.key,
     required this.date,
-    required this.onSelectDate, this.title,
+    required this.onSelectDate,
+    this.title,
+    this.isRequired,
+    this.validator,
+    this.hint,
   });
-  final String? date;
+  final String? date, hint;
+  final bool? isRequired;
   final String? title;
   final void Function(DateTime date) onSelectDate;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +30,12 @@ class EventDetailsDate extends StatelessWidget {
           ).format(DateTime.parse(date!))
         : '';
     return AppTextFormField(
-      controller: TextEditingController(text: dataFormatter),
-      validator: (val) {
-        if (val == null || val.isEmpty) {
-          return context.tr('required');
-        }
-        return null;
-      },
-      hint: context.tr('selectDate'),
-      isRequired: false,
+      // controller: TextEditingController(text: dataFormatter),
+      validator: validator,
+      hint: hint ?? context.tr('selectDate'),
+      isRequired: isRequired ?? false,
       label: title ?? context.tr('eventDate'),
+      value: date,
       icon: Assets.icons.selectedDateIc,
       isReadOnly: true,
       onTap: () async {

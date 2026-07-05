@@ -1,17 +1,19 @@
-
 import 'package:flutter/material.dart';
+import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/my_occasions_screen_occasion_item.dart';
 
 class MyOccasionsScreenOccasionsGrid extends StatelessWidget {
   const MyOccasionsScreenOccasionsGrid({
     super.key,
+    required this.categories,
   });
+  final List<TemplateCategoriesModel> categories;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GridView.builder(
-        itemCount: 10,
+        itemCount: categories.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 20,
@@ -19,7 +21,9 @@ class MyOccasionsScreenOccasionsGrid extends StatelessWidget {
           childAspectRatio: 1,
         ),
         itemBuilder: (context, index) {
-          return MyOccasionsScreenOccasionItem();
+          return MyOccasionsScreenOccasionItem(
+            category: categories[index],
+          );
         },
       ),
     );

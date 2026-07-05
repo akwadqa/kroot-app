@@ -1,17 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
+import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
+import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
+import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 
 class CardsState {
   final String selectedFiltre;
+  final AsyncValue<List<TemplateCategoriesModel>> categories;
+  final AsyncValue<List<InvitationTemplateModel>> templates;
 
-  CardsState({required this.selectedFiltre});
+  final List<Filter> filters;
+  final List<Map<String, String>> selectedOptions;
+  final List<Map<String, dynamic>> fieldsValues;
+  final AsyncValue<List<TemplateFieldModel>> templateFields;
+  // final List<Filter> selectedOptions;
+
+  CardsState(
+      {required this.selectedFiltre,
+      required this.categories,
+      required this.templates,
+      required this.filters,
+      required this.selectedOptions,
+      required this.fieldsValues,
+      required this.templateFields});
 
   factory CardsState.initial() {
-    return CardsState(selectedFiltre: 'All');
+    return CardsState(
+        selectedFiltre: 'All',
+        categories: AsyncLoading(),
+        templates: AsyncLoading(),
+        filters: [],
+        selectedOptions: [],
+        fieldsValues: [],
+        templateFields: AsyncLoading());
   }
 
-   CardsState copyWith({String? selectedFiltre}) {
+  CardsState copyWith(
+      {String? selectedFiltre,
+      AsyncValue<List<TemplateCategoriesModel>>? categories,
+      AsyncValue<List<InvitationTemplateModel>>? templates,
+      List<Filter>? filters,
+      List<Map<String, String>>? selectedOptions,
+      List<Map<String, dynamic>>? fieldsValues,
+      AsyncValue<List<TemplateFieldModel>>? templateFields}) {
     return CardsState(
       selectedFiltre: selectedFiltre ?? this.selectedFiltre,
+      categories: categories ?? this.categories,
+      templates: templates ?? this.templates,
+      filters: filters ?? this.filters,
+      selectedOptions: selectedOptions ?? this.selectedOptions,
+      fieldsValues: fieldsValues ?? this.fieldsValues,
+      templateFields: templateFields ?? this.templateFields,
     );
+  }
+}
+
+class FilterSearchModel {
+  final String filter_label;
+  final String option_value;
+
+  FilterSearchModel({required this.filter_label, required this.option_value});
+
+  Map<String, String> toJson() {
+    return {
+      'filter_label': filter_label,
+      'option_value': option_value,
+    };
   }
 }

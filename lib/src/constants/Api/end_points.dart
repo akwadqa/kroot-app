@@ -38,4 +38,9 @@ abstract class EndPoints {
 
   static const String appNotifications =
       'fcm_frappe.notifications.app_messages';
+
+  static const String templatesCategories = 'kroot.api.invitation.categories';
+  static const String templates = 'kroot.api.invitation.templates';
+  static const String getFields = 'kroot.api.invitation.template_fields';
+    
 }

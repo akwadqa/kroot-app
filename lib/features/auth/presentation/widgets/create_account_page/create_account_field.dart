@@ -19,6 +19,7 @@ class AppTextFormField extends StatelessWidget {
     this.validator,
     this.inputType = TextInputType.text,
     this.value,
+    this.onChanged,
   });
   final void Function()? onTap;
   final String? value;
@@ -27,6 +28,7 @@ class AppTextFormField extends StatelessWidget {
   final TextInputType? inputType;
   final bool isRequired, isReadOnly, withIcon;
   final TextEditingController? controller;
+  final void Function(String)? onChanged;
   final String? Function(String?)? validator;
 
   String? requiredVal(String? val, BuildContext context) {
@@ -71,12 +73,13 @@ class AppTextFormField extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
           ),
           child: TextFormField(
+            onChanged: onChanged,
             onTap: onTap,
             keyboardType: inputType,
             readOnly: isReadOnly,
+            initialValue: value,
             controller: controller,
-            validator:
-                validator ??
+            validator: validator ??
                 (val) => isRequired
                     ? requiredVal(val, context)
                     : emailVal(val, context),
@@ -97,7 +100,6 @@ class AppTextFormField extends StatelessWidget {
               hintStyle: AppTextStyle.rubikRegular16.copyWith(
                 color: AppColors.grayHint,
               ),
-
               contentPadding: withIcon
                   ? EdgeInsets.zero
                   : EdgeInsets.symmetric(horizontal: 16.w),
@@ -107,7 +109,6 @@ class AppTextFormField extends StatelessWidget {
                       child: icon!.svg(),
                     )
                   : null,
-
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.r),
                 borderSide: BorderSide(color: AppColors.primary),

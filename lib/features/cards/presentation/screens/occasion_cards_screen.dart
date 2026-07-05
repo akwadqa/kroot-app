@@ -1,105 +1,114 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
+import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
+import 'package:kroot_app/features/cards/presentation/widgets/occastion_cards/occasion_card_screen_filter.dart';
+import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
+import 'package:kroot_app/src/utils/app_alert.dart';
 
 class OccasionCardsScreen extends StatelessWidget {
-  const OccasionCardsScreen({super.key});
+  const OccasionCardsScreen({super.key, required this.category});
+  final TemplateCategoriesModel category;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppbar(title: 'Graduation'),
-        body: _OccasionCardsScreenBody());
+        appBar: CustomAppbar(title: category.categoryName ?? ''),
+        body: _OccasionCardsScreenBody(category: category));
   }
 }
 
-class _OccasionCardsScreenBody extends ConsumerWidget {
-  const _OccasionCardsScreenBody();
+class _OccasionCardsScreenBody extends ConsumerStatefulWidget {
+  const _OccasionCardsScreenBody({required this.category});
+
+  final TemplateCategoriesModel category;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      spacing: 22,
-      children: [
-        //? Filters :
-        OccasionCardsScreenFilters(),
+  ConsumerState<_OccasionCardsScreenBody> createState() =>
+      _OccasionCardsScreenBodyState();
+}
 
-        Expanded(
-          child: GridView.builder(
-            itemCount: 10,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 20,
-                crossAxisSpacing: 11,
-                childAspectRatio: 1 / 1.6),
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () {
-                context.push(Routes.customizeCard);
-              },
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child:
-                      Assets.images.occasionCardImage.image(fit: BoxFit.cover)),
-            ),
-          ),
+class _OccasionCardsScreenBodyState
+    extends ConsumerState<_OccasionCardsScreenBody> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future(() {
+      ref
+          .read(cardsControllerProvider.notifier)
+          .getTemplates(widget.category.categoryName ?? '');
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final templates = ref
+        .watch(cardsControllerProvider.select((val) => val.value!.templates));
+    return PopScope(
+      onPopInvoked: (didPop) =>
+          ref.read(cardsControllerProvider.notifier).cleanFilters(),
+      child: Column(
+        spacing: 22,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //? Filters :
+          ...widget.category.filters.map((filter) => OccasionCardsScreenFilters(
+                templateFilters: filter,
+                categoryName: widget.category.categoryName ?? '',
+              )),
+          // OccasionCardsScreenFilters(),
+
+          templates.when(
+            data: (data) => _buildTempatesGrid(data),
+            error: (error, st) => AppErrorWidget(onTap: () {
+              ref
+                  .read(cardsControllerProvider.notifier)
+                  .getTemplateCategories();
+            }),
+            loading: () => Center(child: MailPulseAnimation()),
+          )
+
+          // _buildTempatesGrid(),
+        ],
+      ).symmetricPadding(horizontal: 18),
+    );
+  }
+
+  Expanded _buildTempatesGrid(List<InvitationTemplateModel> templates) {
+    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+
+    return Expanded(
+      child: GridView.builder(
+        itemCount: templates.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 20,
+            crossAxisSpacing: 11,
+            childAspectRatio: 1 / 1.6),
+        itemBuilder: (context, index) => GestureDetector(
+          onTap: () {
+            context.push(Routes.customizeCard , extra: templates[index]);
+          },
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              // child: Assets.images.occasionCardImage.image(fit: BoxFit.cover)),
+              child: CachedNetworkImage(
+                  imageUrl: baseUrl + templates[index].sampleImage,
+                  fit: BoxFit.cover)),
         ),
-      ],
-    ).symmetricPadding(horizontal: 18);
-  }
-}
-
-class OccasionCardsScreenFilters extends ConsumerWidget {
-  const OccasionCardsScreenFilters({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> filters = ['All', 'Boys', 'Girls'];
-
-    final selectedFilter = ref.watch(
-        cardsControllerProvider.select((val) => val.value!.selectedFiltre));
-    return Row(
-      spacing: 15,
-      children: filters
-          .map((filter) => GestureDetector(
-                onTap: () {
-                  ref
-                      .read(cardsControllerProvider.notifier)
-                      .changeFilterType(filter);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: filter == selectedFilter
-                        ? AppColors.primary
-                        : AppColors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.25),
-                        blurRadius: 4,
-                        offset: Offset(0, 0),
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    filter,
-                    style: AppTextStyle.rubikRegular16.copyWith(
-                        color: filter == selectedFilter
-                            ? AppColors.white
-                            : AppColors.black),
-                  ),
-                ),
-              ))
-          .toList(),
+      ),
     );
   }
 }

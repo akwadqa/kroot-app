@@ -202,9 +202,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                         ),
                       );
                       return EventDetailsTime(
-                        dateTime: DateTime.parse(
-                          date ?? DateTime.now().toString(),
-                        ),
+                        dateTime: date ?? DateTime.now().toString(),
                         onSelectTime: (date) {
                           ref
                               .read(updateEventControllerProvider.notifier)
