@@ -42,5 +42,7 @@ abstract class EndPoints {
   static const String templatesCategories = 'kroot.api.invitation.categories';
   static const String templates = 'kroot.api.invitation.templates';
   static const String getFields = 'kroot.api.invitation.template_fields';
+  static const String getPreviewCard = 'kroot.api.invitation.preview_card';
+  static const String confirmPreviewCard = 'kroot.api.invitation.confirm_card';
     
 }

@@ -21,6 +21,7 @@ import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart'
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
+import 'package:kroot_app/src/utils/download_image.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

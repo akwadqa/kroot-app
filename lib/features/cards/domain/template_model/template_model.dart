@@ -7,6 +7,7 @@ part 'template_model.g.dart';
 abstract class InvitationTemplateModel with _$InvitationTemplateModel {
   const factory InvitationTemplateModel({
     required String name,
+    required num price,
     @JsonKey(name: 'template_name') required String templateName,
     @JsonKey(name: 'sample_image') required String sampleImage,
   }) = _InvitationTemplateModel;

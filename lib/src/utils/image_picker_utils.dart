@@ -21,29 +21,34 @@ Future<File?> showImageSourcePicker(BuildContext context) async {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading:  Icon(Icons.camera_alt,color: AppColors.grey600),
-              title:  Text('take_photo'.tr(),
-                 style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
-       ),
+              leading: Icon(Icons.camera_alt, color: AppColors.grey600),
+              title: Text(
+                'take_photo'.tr(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
               onTap: () async {
-                final image = await picker.pickImage(source: ImageSource.camera);
+                final image =
+                    await picker.pickImage(source: ImageSource.camera);
                 if (image != null) pickedFile = File(image.path);
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: const Icon(Icons.photo_library,color: AppColors.grey600),
-              title:  Text('Choose_from_gallery'.tr(),
-                 style: Theme.of(context)
-              .textTheme
-              .titleMedium!
-              .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
-       ),
+              leading:
+                  const Icon(Icons.photo_library, color: AppColors.grey600),
+              title: Text(
+                'Choose_from_gallery'.tr(),
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
               onTap: () async {
-                final image = await picker.pickImage(source: ImageSource.gallery);
+                final image =
+                    await picker.pickImage(source: ImageSource.gallery);
                 if (image != null) pickedFile = File(image.path);
                 Navigator.pop(context);
               },

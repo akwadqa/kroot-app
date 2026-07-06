@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
@@ -14,16 +15,19 @@ class CardsState {
   final List<Map<String, String>> selectedOptions;
   final List<Map<String, dynamic>> fieldsValues;
   final AsyncValue<List<TemplateFieldModel>> templateFields;
-  // final List<Filter> selectedOptions;
+  final AsyncValue<String> previewCardUrl;
+  final AsyncValue<ConfirmPreviewCardResponse>? confirmPreviewCardResponse;
 
   CardsState(
       {required this.selectedFiltre,
       required this.categories,
       required this.templates,
+       this.confirmPreviewCardResponse,
       required this.filters,
       required this.selectedOptions,
       required this.fieldsValues,
-      required this.templateFields});
+      required this.templateFields,
+      required this.previewCardUrl});
 
   factory CardsState.initial() {
     return CardsState(
@@ -33,7 +37,8 @@ class CardsState {
         filters: [],
         selectedOptions: [],
         fieldsValues: [],
-        templateFields: AsyncLoading());
+        templateFields: AsyncLoading(),
+        previewCardUrl: AsyncLoading());
   }
 
   CardsState copyWith(
@@ -42,8 +47,10 @@ class CardsState {
       AsyncValue<List<InvitationTemplateModel>>? templates,
       List<Filter>? filters,
       List<Map<String, String>>? selectedOptions,
+      AsyncValue<ConfirmPreviewCardResponse>? confirmPreviewCardResponse,
       List<Map<String, dynamic>>? fieldsValues,
-      AsyncValue<List<TemplateFieldModel>>? templateFields}) {
+      AsyncValue<List<TemplateFieldModel>>? templateFields,
+      AsyncValue<String>? previewCardUrl}) {
     return CardsState(
       selectedFiltre: selectedFiltre ?? this.selectedFiltre,
       categories: categories ?? this.categories,
@@ -52,6 +59,9 @@ class CardsState {
       selectedOptions: selectedOptions ?? this.selectedOptions,
       fieldsValues: fieldsValues ?? this.fieldsValues,
       templateFields: templateFields ?? this.templateFields,
+      confirmPreviewCardResponse:
+          confirmPreviewCardResponse ?? this.confirmPreviewCardResponse,
+      previewCardUrl: previewCardUrl ?? this.previewCardUrl,
     );
   }
 }

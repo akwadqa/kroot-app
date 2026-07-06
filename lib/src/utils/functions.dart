@@ -1,6 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:kroot_app/src/network/services/dio_client.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DashedLineVerticalPainter extends CustomPainter {
   @override
@@ -69,21 +74,50 @@ String processEtaValue(String? etaResponse, int mode) {
   return '';
 }
 
-Future<void> openWhatsApp (String phoneNumber) async {
+Future<void> openWhatsApp(String phoneNumber) async {
   final cleanNumber = phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
-  
+
   final Uri whatsappUrl = Uri.parse("https://wa.me/$cleanNumber");
 
   try {
     if (await canLaunchUrl(whatsappUrl)) {
       await launchUrl(
         whatsappUrl,
-        mode: LaunchMode.externalApplication, 
+        mode: LaunchMode.externalApplication,
       );
     } else {
       throw 'Could not launch $whatsappUrl';
     }
   } catch (e) {
     print("Error opening WhatsApp: $e");
+  }
+}
+
+Future<void> sharePost({
+  // required String title,
+  // required String price,
+  // required String postId,
+  required WidgetRef ref,
+  required String? imageUrl,
+}) async {
+  try {
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      final directory = await getTemporaryDirectory();
+      final String imagePath = '${directory.path}/shared_product_image.png';
+
+      final dio = ref.read(dioProvider);
+      await dio.download(imageUrl, imagePath);
+
+      await Share.shareXFiles(
+        [XFile(imagePath)],
+      );
+    } else {
+      //? Share message if the image was empty :
+      // await Share.share(message);
+    }
+  } catch (e) {
+    //? For weak internet or any issue :
+    // await Share.share('');
+    print("Error during sharing: $e");
   }
 }

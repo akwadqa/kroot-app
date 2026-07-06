@@ -15,6 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$InvitationTemplateModel {
   String get name;
+  num get price;
   @JsonKey(name: 'template_name')
   String get templateName;
   @JsonKey(name: 'sample_image')
@@ -37,6 +38,7 @@ mixin _$InvitationTemplateModel {
         (other.runtimeType == runtimeType &&
             other is InvitationTemplateModel &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.templateName, templateName) ||
                 other.templateName == templateName) &&
             (identical(other.sampleImage, sampleImage) ||
@@ -45,11 +47,12 @@ mixin _$InvitationTemplateModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, templateName, sampleImage);
+  int get hashCode =>
+      Object.hash(runtimeType, name, price, templateName, sampleImage);
 
   @override
   String toString() {
-    return 'InvitationTemplateModel(name: $name, templateName: $templateName, sampleImage: $sampleImage)';
+    return 'InvitationTemplateModel(name: $name, price: $price, templateName: $templateName, sampleImage: $sampleImage)';
   }
 }
 
@@ -61,6 +64,7 @@ abstract mixin class $InvitationTemplateModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
+      num price,
       @JsonKey(name: 'template_name') String templateName,
       @JsonKey(name: 'sample_image') String sampleImage});
 }
@@ -79,6 +83,7 @@ class _$InvitationTemplateModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? price = null,
     Object? templateName = null,
     Object? sampleImage = null,
   }) {
@@ -87,6 +92,10 @@ class _$InvitationTemplateModelCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      price: null == price
+          ? _self.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as num,
       templateName: null == templateName
           ? _self.templateName
           : templateName // ignore: cast_nullable_to_non_nullable
@@ -194,6 +203,7 @@ extension InvitationTemplateModelPatterns on InvitationTemplateModel {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             String name,
+            num price,
             @JsonKey(name: 'template_name') String templateName,
             @JsonKey(name: 'sample_image') String sampleImage)?
         $default, {
@@ -202,7 +212,8 @@ extension InvitationTemplateModelPatterns on InvitationTemplateModel {
     final _that = this;
     switch (_that) {
       case _InvitationTemplateModel() when $default != null:
-        return $default(_that.name, _that.templateName, _that.sampleImage);
+        return $default(
+            _that.name, _that.price, _that.templateName, _that.sampleImage);
       case _:
         return orElse();
     }
@@ -225,6 +236,7 @@ extension InvitationTemplateModelPatterns on InvitationTemplateModel {
   TResult when<TResult extends Object?>(
     TResult Function(
             String name,
+            num price,
             @JsonKey(name: 'template_name') String templateName,
             @JsonKey(name: 'sample_image') String sampleImage)
         $default,
@@ -232,7 +244,8 @@ extension InvitationTemplateModelPatterns on InvitationTemplateModel {
     final _that = this;
     switch (_that) {
       case _InvitationTemplateModel():
-        return $default(_that.name, _that.templateName, _that.sampleImage);
+        return $default(
+            _that.name, _that.price, _that.templateName, _that.sampleImage);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -254,6 +267,7 @@ extension InvitationTemplateModelPatterns on InvitationTemplateModel {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             String name,
+            num price,
             @JsonKey(name: 'template_name') String templateName,
             @JsonKey(name: 'sample_image') String sampleImage)?
         $default,
@@ -261,7 +275,8 @@ extension InvitationTemplateModelPatterns on InvitationTemplateModel {
     final _that = this;
     switch (_that) {
       case _InvitationTemplateModel() when $default != null:
-        return $default(_that.name, _that.templateName, _that.sampleImage);
+        return $default(
+            _that.name, _that.price, _that.templateName, _that.sampleImage);
       case _:
         return null;
     }
@@ -273,6 +288,7 @@ extension InvitationTemplateModelPatterns on InvitationTemplateModel {
 class _InvitationTemplateModel implements InvitationTemplateModel {
   const _InvitationTemplateModel(
       {required this.name,
+      required this.price,
       @JsonKey(name: 'template_name') required this.templateName,
       @JsonKey(name: 'sample_image') required this.sampleImage});
   factory _InvitationTemplateModel.fromJson(Map<String, dynamic> json) =>
@@ -280,6 +296,8 @@ class _InvitationTemplateModel implements InvitationTemplateModel {
 
   @override
   final String name;
+  @override
+  final num price;
   @override
   @JsonKey(name: 'template_name')
   final String templateName;
@@ -309,6 +327,7 @@ class _InvitationTemplateModel implements InvitationTemplateModel {
         (other.runtimeType == runtimeType &&
             other is _InvitationTemplateModel &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.price, price) || other.price == price) &&
             (identical(other.templateName, templateName) ||
                 other.templateName == templateName) &&
             (identical(other.sampleImage, sampleImage) ||
@@ -317,11 +336,12 @@ class _InvitationTemplateModel implements InvitationTemplateModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, templateName, sampleImage);
+  int get hashCode =>
+      Object.hash(runtimeType, name, price, templateName, sampleImage);
 
   @override
   String toString() {
-    return 'InvitationTemplateModel(name: $name, templateName: $templateName, sampleImage: $sampleImage)';
+    return 'InvitationTemplateModel(name: $name, price: $price, templateName: $templateName, sampleImage: $sampleImage)';
   }
 }
 
@@ -335,6 +355,7 @@ abstract mixin class _$InvitationTemplateModelCopyWith<$Res>
   @useResult
   $Res call(
       {String name,
+      num price,
       @JsonKey(name: 'template_name') String templateName,
       @JsonKey(name: 'sample_image') String sampleImage});
 }
@@ -353,6 +374,7 @@ class __$InvitationTemplateModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? name = null,
+    Object? price = null,
     Object? templateName = null,
     Object? sampleImage = null,
   }) {
@@ -361,6 +383,10 @@ class __$InvitationTemplateModelCopyWithImpl<$Res>
           ? _self.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      price: null == price
+          ? _self.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as num,
       templateName: null == templateName
           ? _self.templateName
           : templateName // ignore: cast_nullable_to_non_nullable

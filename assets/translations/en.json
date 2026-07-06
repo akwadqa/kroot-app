@@ -269,6 +269,12 @@
     "location" : "Location",
     "enter_location" : "Enter the location",
     "final_preview" : "Final Preview",
-    "pay_now" : "Pay Now"
+    "pay_now" : "Pay Now",
+    "share" : "Share",
+    "download" : "Download",
+    "back_to_home" : "Back to Home",
+    "balance_title" : "Insufficient Balance",
+    "balance_error" : "You do not have enough balance to complete this action. Do you want to add some Kroot to your account?",
+    "permission_denied" : "Storage permissions are denied"
 
 }

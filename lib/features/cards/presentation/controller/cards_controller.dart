@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:kroot_app/features/cards/data/repository/cards_repository.dart';
+import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
@@ -78,6 +79,68 @@ class CardsController extends _$CardsController {
     }
   }
 
+  Future<String?> previewCard(String templateName) async {
+    try {
+      state = AsyncData(state.value!.copyWith(previewCardUrl: AsyncLoading()));
+      final repo = ref.read(cardsRepositoryProvider);
+      final filters = state.value!.fieldsValues;
+      final response = await repo.previewCard(templateName, filters);
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            previewCardUrl: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+        throw Exception(response.message);
+      }
+
+      state = AsyncData(
+        state.value!.copyWith(previewCardUrl: AsyncData(response.data!)),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(
+        state.value!.copyWith(previewCardUrl: AsyncError(e, st)),
+      );
+      return null;
+    }
+  }
+  
+  Future<ConfirmPreviewCardResponse?> confirmPreviewCard(String templateName) async {
+    try {
+      state = AsyncData(state.value!.copyWith(confirmPreviewCardResponse: AsyncLoading()));
+      final repo = ref.read(cardsRepositoryProvider);
+      final filters = state.value!.fieldsValues;
+      final response = await repo.confirmPreviewCard(templateName, filters);
+
+      if (response.hasFailed) {
+        state = AsyncData(
+          state.value!.copyWith(
+            confirmPreviewCardResponse: AsyncError(
+              response.message ?? '',
+              StackTrace.fromString(response.message ?? ''),
+            ),
+          ),
+        );
+        throw Exception(response.message);
+      }
+
+      state = AsyncData(
+        state.value!.copyWith(confirmPreviewCardResponse: AsyncData(response.data!)),
+      );
+      return response.data;
+    } catch (e, st) {
+      state = AsyncData(
+        state.value!.copyWith(confirmPreviewCardResponse: AsyncError(e, st)),
+      );
+      return null;
+    }
+  }
+
   Future<List<InvitationTemplateModel>?> getTemplates(String category) async {
     try {
       state = AsyncData(state.value!.copyWith(templates: AsyncLoading()));
@@ -90,7 +153,8 @@ class CardsController extends _$CardsController {
         return FilterSearchModel(
             filter_label: filter.keys.first, option_value: filter.values.first);
       }).toList();
-      final response = await repo.getTemplates(category, filters);
+      final response = await repo.getTemplates(category,
+          filters.where((filter) => filter.option_value != '').toList());
 
       if (response.hasFailed) {
         state = AsyncData(

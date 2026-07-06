@@ -30,4 +30,5 @@ class Routes {
   static String occasionCards = '/occasion-cards-page';
   static String customizeCard = '/customize-card-page';
   static String finalPreview = '/final-preview-page';
+  static String cardPreview = '/card-preview-page';
 }

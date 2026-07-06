@@ -71,11 +71,16 @@ class _OccasionCardsScreenBodyState
           // OccasionCardsScreenFilters(),
 
           templates.when(
-            data: (data) => _buildTempatesGrid(data),
+            data: (data) {
+              if (data.isEmpty) {
+                return Center(child: Assets.icons.emptyIc.svg());
+              }
+              return _buildTempatesGrid(data);
+            },
             error: (error, st) => AppErrorWidget(onTap: () {
               ref
                   .read(cardsControllerProvider.notifier)
-                  .getTemplateCategories();
+                  .getTemplates(widget.category.categoryName ?? '');
             }),
             loading: () => Center(child: MailPulseAnimation()),
           )
@@ -99,7 +104,7 @@ class _OccasionCardsScreenBodyState
             childAspectRatio: 1 / 1.6),
         itemBuilder: (context, index) => GestureDetector(
           onTap: () {
-            context.push(Routes.customizeCard , extra: templates[index]);
+            context.push(Routes.customizeCard, extra: templates[index]);
           },
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10),

@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
+import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_time.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/create_event_page_select_language_field.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_time.dart';
@@ -21,8 +22,10 @@ class CustomizeCardScreenForm extends ConsumerStatefulWidget {
   const CustomizeCardScreenForm({
     super.key,
     required this.fields,
+    required this.templateName,
   });
   final List<TemplateFieldModel> fields;
+  final String templateName;
 
   @override
   ConsumerState<CustomizeCardScreenForm> createState() =>
@@ -31,27 +34,26 @@ class CustomizeCardScreenForm extends ConsumerStatefulWidget {
 
 class _CustomizeCardScreenFormState
     extends ConsumerState<CustomizeCardScreenForm> {
-  late TextEditingController _title;
-  late TextEditingController _location;
-
-  @override
-  void initState() {
-    super.initState();
-    _title = TextEditingController();
-    _location = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _title.dispose();
-    _location.dispose();
-  }
-
+  final key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final key = GlobalKey<FormState>();
+    final time = ref
+        .watch(cardsControllerProvider)
+        .value!
+        .fieldsValues
+        .where((element) => element.keys.first == 'event_time')
+        .map((e) => e.values.first.toString())
+        .firstOrNull
+        ?.toString();
 
+    final date = ref
+        .watch(cardsControllerProvider)
+        .value!
+        .fieldsValues
+        .where((element) => element.keys.first == 'event_date')
+        .map((e) => e.values.first.toString())
+        .firstOrNull
+        ?.toString();
     return Form(
       key: key,
       child: Column(
@@ -91,13 +93,14 @@ class _CustomizeCardScreenFormState
                             }
                             return null;
                           }
-                        : null,
+                        : (val) => null,
                     label: currentField.fieldLabel ?? '',
                     icon: Assets.icons.eventNameIc,
                   );
 
                 case 'Date':
                   return EventDetailsDate(
+                    key: ValueKey(date),
                     isRequired: currentField.isRequired ?? false,
                     hint: currentField.placeholder ?? '',
                     validator: (currentField.isRequired ?? false)
@@ -109,15 +112,7 @@ class _CustomizeCardScreenFormState
                           }
                         : null,
                     // date: DateTime.now().toString(),
-                    date: ref
-                        .watch(cardsControllerProvider)
-                        .value!
-                        .fieldsValues
-                        .where((element) =>
-                            element.keys.first == currentField.fieldName)
-                        .map((e) => e.values.first.toString())
-                        .firstOrNull
-                        ?.toString(),
+                    date: date,
                     onSelectDate: (date) {
                       final formattedDate =
                           DateFormat('yyyy-MM-dd', 'en').format(date);
@@ -130,7 +125,8 @@ class _CustomizeCardScreenFormState
                   );
 
                 case 'Time':
-                  return EventDetailsTime(
+                  return CustomizeCardTime(
+                    key: ValueKey(time),
                     isRequired: currentField.isRequired ?? false,
                     hint: currentField.placeholder ?? '',
                     validator: (currentField.isRequired ?? false)
@@ -141,20 +137,18 @@ class _CustomizeCardScreenFormState
                             return null;
                           }
                         : null,
-                    dateTime: ref
-                        .watch(cardsControllerProvider)
-                        .value!
-                        .fieldsValues
-                        .where((element) =>
-                            element.keys.first == currentField.fieldName)
-                        .map((e) => e.values.first.toString())
-                        .firstOrNull
-                        ?.toString(),
+                    dateTime: time,
                     onSelectTime: (time) {
-                      log(time.format(context).toString());
+                      final now = DateTime.now();
+                      final dateTime = DateTime(
+                          now.year, now.month, now.day, time.hour, time.minute);
+
+                      final formattedTime =
+                          DateFormat('HH:mm', 'en').format(dateTime);
+
                       ref.read(cardsControllerProvider.notifier).addFieldValue(
                             fieldName: currentField.fieldName ?? '',
-                            fieldValue: time.format(context),
+                            fieldValue: formattedTime,
                           );
                     },
                     title: currentField.fieldLabel ?? '',
@@ -166,66 +160,7 @@ class _CustomizeCardScreenFormState
             },
             itemCount: widget.fields.length,
           ),
-          // AppTextFormField(
-          //   withIcon: false,
-          //   controller: _title,
-          //   isReadOnly: false,
-          //   hint: context.tr('name'),
-          //   isRequired: false,
-          //   validator: (val) {
-          //     if (val == null || val.isEmpty) {
-          //       return context.tr('required');
-          //     }
-          //     return null;
-          //   },
-          //   label: context.tr('name'),
-          //   icon: Assets.icons.eventNameIc,
-          // ),
-          // 18.verticalSpace,
 
-          // //? Time :
-          // EventDetailsTime(
-          //   dateTime: DateTime.now(),
-          //   onSelectTime: (time) {},
-          //   title: context.tr('time'),
-          // ),
-          // 18.verticalSpace,
-
-          // //? Date :
-          // EventDetailsDate(
-          //   date: DateTime.now().toString(),
-          //   onSelectDate: (date) {},
-          //   title: context.tr('date'),
-          // ),
-          // 18.verticalSpace,
-
-          // //? Location :
-          // AppTextFormField(
-          //   withIcon: true,
-          //   controller: _location,
-          //   isReadOnly: false,
-          //   hint: context.tr('enter_location'),
-          //   isRequired: false,
-          //   validator: (val) {
-          //     if (val == null || val.isEmpty) {
-          //       return context.tr('required');
-          //     }
-          //     return null;
-          //   },
-          //   label: context.tr('location'),
-          //   icon: Assets.icons.cardLocationIc,
-          // ),
-          // 18.verticalSpace,
-
-          // //? Other drop downs :
-          // CreateEventPageSelectLanguageField(
-          //   items: ['1', '2', '3']
-          //       .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-          //       .toList(),
-          //   value: '1',
-          //   onChanged: (val) {},
-          //   title: "title",
-          // ),
           18.verticalSpace,
 
           //? Confirm :
@@ -234,8 +169,9 @@ class _CustomizeCardScreenFormState
               backgroundColor: AppColors.primary,
               color: AppColors.white,
               onTap: () {
+                FocusScope.of(context).unfocus();
                 if (key.currentState!.validate()) {
-                  context.push(Routes.finalPreview);
+                  context.push(Routes.finalPreview, extra: widget.templateName);
                 }
               },
               isFiled: true,

@@ -69,7 +69,7 @@ class _CustumizeCardScreenBodyState
                     const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
                 children: [
                   //? Price card :
-                  CustomizeCardScreenPrice(),
+                  CustomizeCardScreenPrice(price: widget.template.price),
                   20.verticalSpace,
 
                   //? Card image :
@@ -84,6 +84,7 @@ class _CustumizeCardScreenBodyState
                   //? Details form :
                   CustomizeCardScreenForm(
                     fields: fields,
+                    templateName: widget.template.name,
                   )
                 ],
               )),

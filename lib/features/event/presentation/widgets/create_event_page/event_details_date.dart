@@ -39,6 +39,8 @@ class EventDetailsDate extends StatelessWidget {
       icon: Assets.icons.selectedDateIc,
       isReadOnly: true,
       onTap: () async {
+        FocusScope.of(context).unfocus();
+
         final date = await showDatePicker(
           builder: (context, child) => Theme(
             data: Theme.of(context).copyWith(

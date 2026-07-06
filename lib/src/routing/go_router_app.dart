@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
+import 'package:kroot_app/features/cards/presentation/screens/card_preview_screen.dart';
 import 'package:kroot_app/features/cards/presentation/screens/custumize_card_screen.dart';
 import 'package:kroot_app/features/cards/presentation/screens/final_preview_screen.dart';
 import 'package:kroot_app/features/cards/presentation/screens/occasion_cards_screen.dart';
@@ -336,7 +338,17 @@ class GoRouterApp {
         path: Routes.finalPreview,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: FinalPreviewScreen(),
+          child: FinalPreviewScreen(templateName: state.extra as String),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
+      GoRoute(
+        path: Routes.cardPreview,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: CardPreviewScreen(confirmPreviewCardResponse: state.extra as ConfirmPreviewCardResponse),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

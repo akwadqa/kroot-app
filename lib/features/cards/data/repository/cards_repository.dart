@@ -1,4 +1,5 @@
 import 'package:kroot_app/features/cards/data/data%20source/cards_remote_data_source.dart';
+import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
@@ -16,23 +17,27 @@ CardsRepository cardsRepository(Ref ref) {
   final networkService = ref.watch(networkServiceProvider());
   return CardsRepository(CardsRemoteDataSource(networkService));
 }
+
 class CardsRepository {
   final CardsRemoteDataSource _cardsRemoteDataSource;
 
   CardsRepository(this._cardsRemoteDataSource);
 
-  Future<ApiResponse<List<TemplateCategoriesModel>>> getTemplateCategories() async {
+  Future<ApiResponse<List<TemplateCategoriesModel>>>
+      getTemplateCategories() async {
     final response = await _cardsRemoteDataSource.getTemplateCategories();
-  
+
     if (response.status == 200) {
       return response;
     }
 
     throw AppException(response.message);
   }
+
   Future<ApiResponse<List<InvitationTemplateModel>>> getTemplates(
       String category, List<FilterSearchModel>? filters) async {
-    final response = await _cardsRemoteDataSource.getTemplates(category, filters);
+    final response =
+        await _cardsRemoteDataSource.getTemplates(category, filters);
 
     if (response.status == 200) {
       return response;
@@ -40,9 +45,34 @@ class CardsRepository {
 
     throw AppException(response.message);
   }
+
   Future<ApiResponse<List<TemplateFieldModel>>> getFields(
       String templateName) async {
     final response = await _cardsRemoteDataSource.getFields(templateName);
+
+    if (response.status == 200) {
+      return response;
+    }
+
+    throw AppException(response.message);
+  }
+
+  Future<ApiResponse<String>> previewCard(
+      String templateName, List<Map<String, dynamic>> filters) async {
+    final response =
+        await _cardsRemoteDataSource.previewCard(templateName, filters);
+
+    if (response.status == 200) {
+      return response;
+    }
+
+    throw AppException(response.message);
+  }
+
+  Future<ApiResponse<ConfirmPreviewCardResponse>> confirmPreviewCard(
+      String templateName, List<Map<String, dynamic>> filters) async {
+    final response =
+        await _cardsRemoteDataSource.confirmPreviewCard(templateName, filters);
 
     if (response.status == 200) {
       return response;
