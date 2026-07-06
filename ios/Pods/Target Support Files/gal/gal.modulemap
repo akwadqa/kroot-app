@@ -1,0 +1,6 @@
+framework module gal {
+  umbrella header "gal-umbrella.h"
+
+  export *
+  module * { export * }
+}

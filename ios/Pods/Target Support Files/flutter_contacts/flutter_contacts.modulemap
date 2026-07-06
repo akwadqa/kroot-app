@@ -1,0 +1,6 @@
+framework module flutter_contacts {
+  umbrella header "flutter_contacts-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "permission_handler_apple",
+  "version": "9.4.8",
+  "summary": "Permission plugin for Flutter.",
+  "description": "Permission plugin for Flutter. This plugin provides a cross-platform (iOS, Android) API to request and check permissions.",
+  "homepage": "https://github.com/baseflowit/flutter-permission-handler",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "Baseflow": "hello@baseflow.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "permission_handler_apple/Sources/permission_handler_apple/**/*.{h,m}",
+  "public_header_files": "permission_handler_apple/Sources/permission_handler_apple/include/**/*.h",
+  "dependencies": {
+    "Flutter": []
+  },
+  "platforms": {
+    "ios": "12.0"
+  },
+  "static_framework": true,
+  "resource_bundles": {
+    "permission_handler_apple_privacy": [
+      "permission_handler_apple/Sources/permission_handler_apple/PrivacyInfo.xcprivacy"
+    ]
+  }
+}
