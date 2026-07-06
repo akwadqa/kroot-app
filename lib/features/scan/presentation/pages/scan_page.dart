@@ -42,7 +42,6 @@ class _ScanPageState extends ConsumerState<ScanPage> {
     );
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('scan'), withBackButton: false),
-
       body: controller?.when(
         data: (data) {
           if (data.events.isEmpty) {
@@ -112,7 +111,6 @@ class ScanScreenItem extends StatelessWidget {
     final deviceLocale = Localizations.localeOf(context).toString();
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.r),
-
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.r),
@@ -158,7 +156,6 @@ class ScanScreenItem extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                     ),
-
                     Spacer(),
                   ],
                 ),
@@ -166,12 +163,10 @@ class ScanScreenItem extends StatelessWidget {
                 Row(
                   children: [
                     19.horizontalSpace,
-
                     if (event.role == 'operator')
                       CustomButtonWidget(
                         content: Text(
                           context.tr('operator'),
-
                           style: AppTextStyle.rubikRegular14.copyWith(
                             color: AppColors.black,
                           ),
@@ -185,12 +180,10 @@ class ScanScreenItem extends StatelessWidget {
                         width: 70.w,
                         topPading: 0,
                       ),
-
                     if (event.role == 'handler')
                       CustomButtonWidget(
                         content: Text(
                           context.tr('authorized'),
-
                           style: AppTextStyle.rubikRegular14.copyWith(
                             color: AppColors.black,
                           ),
@@ -204,7 +197,6 @@ class ScanScreenItem extends StatelessWidget {
                         width: 84.w,
                         topPading: 0,
                       ),
-
                     Spacer(),
                     Text(
                       DateFormat(

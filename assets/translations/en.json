@@ -275,6 +275,7 @@
     "back_to_home" : "Back to Home",
     "balance_title" : "Insufficient Balance",
     "balance_error" : "You do not have enough balance to complete this action. Do you want to add some Kroot to your account?",
-    "permission_denied" : "Storage permissions are denied"
+    "permission_denied" : "Storage permissions are denied",
+    "generating_image" : "Generating image..."
 
 }

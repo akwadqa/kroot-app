@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
+import 'package:kroot_app/features/cards/presentation/widgets/generating_card_loader.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
@@ -102,7 +103,7 @@ class _FinalPreviewScreenContentState
             .read(cardsControllerProvider.notifier)
             .previewCard(widget.templateName);
       }),
-      loading: () => Center(child: MailPulseAnimation()),
+      loading: () => GeneratingCardLoader(),
     );
     // return _buildBody();
   }

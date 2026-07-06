@@ -97,10 +97,12 @@ dependency_overrides:
 
 flutter_launcher_icons:
   android: true
-  ios: true
+  ios: false
   remove_alpha_ios: true 
 
   image_path: "assets/images/kroot_icon.png"
+  adaptive_icon_background: "#1E2E4F" # أو مسار صورة خلفية: "assets/images/bg.png"
+  adaptive_icon_foreground: "assets/images/kroot_icon.png"
   # adaptive_icon_background: "#1E2E4F"   # الخلفية التي تريدها
   # adaptive_icon_foreground: "assets/images/kroot_icon.png"
   android_12:
