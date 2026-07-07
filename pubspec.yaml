@@ -97,7 +97,7 @@ dependency_overrides:
 
 flutter_launcher_icons:
   android: true
-  ios: false
+  ios: true
   remove_alpha_ios: true 
 
   image_path: "assets/images/kroot_icon.png"

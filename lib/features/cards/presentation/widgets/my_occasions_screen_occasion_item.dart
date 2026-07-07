@@ -21,7 +21,7 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
     final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
 
     return GestureDetector(
-      onTap: () => context.push(Routes.occasionCards , extra: category),
+      onTap: () => context.push(Routes.occasionCards, extra: category),
       child: Container(
         // width: 200,
         // height: 200,
@@ -40,8 +40,19 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.network(baseUrl + (category.categoryIcon ?? ''),
-                width: 50, height: 50),
+            if (category.categoryIcon?.contains('svg') ?? false)
+              SvgPicture.network(baseUrl + category.categoryIcon!,
+                  width: 50, height: 50),
+            if (!(category.categoryIcon?.contains('svg') ?? false))
+              CachedNetworkImage(
+                placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                )),
+                imageUrl: baseUrl + (category.categoryIcon ?? ''),
+                width: 50,
+                height: 50,
+              ),
             // CircleAvatar(
             //   backgroundColor: AppColors.primarySwatch.withValues(alpha: 0.2),
             //   radius: 34,

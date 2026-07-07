@@ -120,6 +120,7 @@ class _CustomizeCardScreenFormState
                             fieldName: currentField.fieldName ?? '',
                             fieldValue: formattedDate,
                           );
+                    
                     },
                     title: currentField.fieldLabel ?? '',
                   );

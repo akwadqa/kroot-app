@@ -110,6 +110,10 @@ class _OccasionCardsScreenBodyState
               borderRadius: BorderRadius.circular(10),
               // child: Assets.images.occasionCardImage.image(fit: BoxFit.cover)),
               child: CachedNetworkImage(
+                  placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      )),
                   imageUrl: baseUrl + templates[index].sampleImage,
                   fit: BoxFit.cover)),
         ),

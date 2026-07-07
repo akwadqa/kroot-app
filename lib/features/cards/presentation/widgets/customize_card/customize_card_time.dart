@@ -65,7 +65,7 @@ class CustomizeCardTime extends StatelessWidget {
       //     : DateFormat('hh:mm', 'en').format(DateTime.parse(dateTime!)),
       isReadOnly: true,
       onTap: () async {
-        FocusScope.of(context).unfocus();
+        FocusScope.of(context).requestFocus(FocusNode());
         final initialTime = dateTime != null
             ? TimeOfDay.fromDateTime(getTime()!)
             : TimeOfDay.now();

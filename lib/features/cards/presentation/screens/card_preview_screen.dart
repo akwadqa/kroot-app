@@ -72,6 +72,10 @@ class _CardPreviewScreenScreenContentState
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
+                placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                )),
                 imageUrl: url,
                 height: 500,
               ),
@@ -102,8 +106,8 @@ class _CardPreviewScreenScreenContentState
               isFiled: true,
               content: Text(
                 context.tr('share'),
-                style:
-                    AppTextStyle.nunitoBold16.copyWith(color: AppColors.black),
+                style: AppTextStyle.rubikSemiBold16
+                    .copyWith(color: AppColors.primary),
               ),
               boxDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
@@ -128,8 +132,8 @@ class _CardPreviewScreenScreenContentState
               isFiled: true,
               content: Text(
                 context.tr('back_to_home'),
-                style: AppTextStyle.nunitoBold16
-                    .copyWith(color: AppColors.primary),
+                style: AppTextStyle.rubikSemiBold16
+                    .copyWith(color: AppColors.black),
               ),
               boxDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.r),
