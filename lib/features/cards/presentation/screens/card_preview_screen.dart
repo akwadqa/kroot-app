@@ -32,7 +32,7 @@ class CardPreviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: 'final_preview'.tr()),
+      appBar: CustomAppbar(title:confirmPreviewCardResponse.category == null ? 'final_preview'.tr() : 'card_details'.tr()),
       body: _CardPreviewScreenScreenContent(
           confirmPreviewCardResponse: confirmPreviewCardResponse),
     );
@@ -83,71 +83,102 @@ class _CardPreviewScreenScreenContentState
             30.verticalSpace,
 
             //? Confirm :
-            CustomButtonWidget(
-                text: 'download'.tr(),
-                backgroundColor: AppColors.primary,
-                color: AppColors.white,
+            Row(
+              spacing: 17,
+              children: [
+                Expanded(
+                  child: CustomButtonWidget(
+                      text: '',
+                      content: Row(
+                        spacing: 12,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Assets.icons.downloadIc.svg(),
+                          Text(
+                            context.tr('download'),
+                            style: AppTextStyle.rubikSemiBold16
+                                .copyWith(color: AppColors.white),
+                          ),
+                        ],
+                      ),
+                      backgroundColor: AppColors.primary,
+                      color: AppColors.white,
+                      onTap: () {
+                        FileDownloadService.downloadImageToDownloads(
+                            url,
+                            '${widget.confirmPreviewCardResponse.name}.png',
+                            ref);
+                      },
+                      isFiled: true,
+                      height: 50,
+                      width: double.infinity),
+                ),
+                20.verticalSpace,
+                Expanded(
+                  child: CustomButtonWidget(
+                    text: '',
+                    onTap: () {
+                      sharePost(
+                        ref: ref,
+                        imageUrl: url,
+                      );
+                    },
+                    isFiled: true,
+                    content: Row(
+                      spacing: 12,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Assets.icons.shareIc.svg(),
+                        Text(
+                          context.tr('share'),
+                          style: AppTextStyle.rubikSemiBold16
+                              .copyWith(color: AppColors.primary),
+                        ),
+                      ],
+                    ),
+                    boxDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 4,
+                          color: AppColors.primary.withValues(alpha: .25),
+                        ),
+                      ],
+                    ),
+                    height: 50,
+                    width: double.infinity,
+                    backgroundColor: AppColors.lightBlue4,
+                  ),
+                ),
+              ],
+            ),
+            20.verticalSpace,
+            if (widget.confirmPreviewCardResponse.category == null)
+              CustomButtonWidget(
+                text: '',
                 onTap: () {
-                  FileDownloadService.downloadImageToDownloads(url,
-                      '${widget.confirmPreviewCardResponse.name}.png', ref);
+                  ref.read(bottomNavIndexProvider.notifier).setIndex(0);
+                  context.go(Routes.main);
                 },
                 isFiled: true,
+                content: Text(
+                  context.tr('back_to_home'),
+                  style: AppTextStyle.rubikSemiBold16
+                      .copyWith(color: AppColors.black),
+                ),
+                boxDecoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.r),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: AppColors.primary.withValues(alpha: .25),
+                    ),
+                  ],
+                ),
                 height: 50,
-                width: double.infinity),
-            20.verticalSpace,
-            CustomButtonWidget(
-              text: '',
-              onTap: () {
-                sharePost(
-                  ref: ref,
-                  imageUrl: url,
-                );
-              },
-              isFiled: true,
-              content: Text(
-                context.tr('share'),
-                style: AppTextStyle.rubikSemiBold16
-                    .copyWith(color: AppColors.primary),
+                width: double.infinity,
+                backgroundColor: AppColors.white,
               ),
-              boxDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 4,
-                    color: AppColors.primary.withValues(alpha: .25),
-                  ),
-                ],
-              ),
-              height: 50,
-              width: double.infinity,
-              backgroundColor: AppColors.white,
-            ),
-            20.verticalSpace,
-            CustomButtonWidget(
-              text: '',
-              onTap: () {
-                ref.read(bottomNavIndexProvider.notifier).setIndex(0);
-                context.go(Routes.main);
-              },
-              isFiled: true,
-              content: Text(
-                context.tr('back_to_home'),
-                style: AppTextStyle.rubikSemiBold16
-                    .copyWith(color: AppColors.black),
-              ),
-              boxDecoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
-                boxShadow: [
-                  BoxShadow(
-                    blurRadius: 4,
-                    color: AppColors.primary.withValues(alpha: .25),
-                  ),
-                ],
-              ),
-              height: 50,
-              width: double.infinity,
-              backgroundColor: AppColors.white,
-            ),
             20.verticalSpace,
           ],
         ));

@@ -1,3 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
+import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/features/event/data/models/retry_bulk_response/retry_bulk_response.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -21,6 +24,7 @@ class HomeController extends _$HomeController {
   int _currentPage = 1;
   int _totalPages = 1;
   List<EventModel> _eventsList = [];
+  List<ConfirmPreviewCardResponse> _krootList = [];
 
   Future<UtilsResponse?> getUtils() async {
     try {
@@ -84,8 +88,11 @@ class HomeController extends _$HomeController {
 
   Future<bool> refreshEvents() async {
     _eventsList.clear();
+    _krootList.clear();
     _currentPage = 1;
     _totalPages = 1;
+
+   
     await getUserEvents(page: 1, showLoading: true);
     return true;
   }
@@ -100,15 +107,25 @@ class HomeController extends _$HomeController {
         state = AsyncData(state.value!.copyWith(eventResponse: AsyncLoading()));
       }
       final repo = ref.read(homeRepositoryProvider);
-      final response = await repo.getEvents(page, search);
+      final isCards =
+          ref.read(cardsControllerProvider.select((val) => val.value!.isCards));
+      final type = isCards ? 'kroot' : 'event';
+      final filter = ref
+          .read(cardsControllerProvider.select((val) => val.value!.filerValue));
+      final response = await repo.getEvents(page, search, type, filter);
 
       _currentPage = response.pagination?.currentPage ?? _currentPage;
       _totalPages = response.pagination?.totalPages ?? _totalPages;
 
       if (page == 1) {
-        _eventsList = List.from(response.data!.events!);
+        _eventsList = List.from(response.data!.events ?? []);
+        _krootList = List.from(response.data!.kroot ?? []);
       } else {
-        _eventsList = [..._eventsList, ...List.from(response.data!.events!)];
+        _eventsList = [
+          ..._eventsList,
+          ...List.from(response.data!.events ?? [])
+        ];
+        _krootList = [..._krootList, ...List.from(response.data!.kroot ?? [])];
       }
 
       if (response.hasFailed || response.data == null) {
@@ -122,10 +139,15 @@ class HomeController extends _$HomeController {
         );
         return null;
       }
-      final eventResponse = GetUserEventsModel(events: _eventsList);
+      final eventResponse = GetUserEventsModel(
+        events: _eventsList,
+        kroot: _krootList,
+      );
 
       state = AsyncData(
-        state.value!.copyWith(eventResponse: AsyncData(eventResponse)),
+        state.value!.copyWith(
+            eventResponse: AsyncData(eventResponse),
+            categoriesFilter: response.data?.categories ?? []),
       );
       return response.data;
     } catch (e, st) {
@@ -134,6 +156,12 @@ class HomeController extends _$HomeController {
       );
       return null;
     }
+  }
+
+  void makeCategoriesEmpty() {
+    state = AsyncData(
+      state.value!.copyWith(categoriesFilter: []),
+    );
   }
 
   Future<void> deleteEvent(String occasionId) async {

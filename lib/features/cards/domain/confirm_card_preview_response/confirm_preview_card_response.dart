@@ -8,7 +8,9 @@ abstract class ConfirmPreviewCardResponse with _$ConfirmPreviewCardResponse {
   const factory ConfirmPreviewCardResponse({
     required String name,
     @JsonKey(name: 'final_image') required String finalImage,
-    required num amount, // تم استخدام num لتشمل int أو double حسب مرونة الـ API
+     num? amount, 
+     String? category, 
+    @JsonKey(name: 'invitation_template') String? invitationTemplate, 
   }) = _ConfirmPreviewCardResponse;
 
   factory ConfirmPreviewCardResponse.fromJson(Map<String, dynamic> json) =>

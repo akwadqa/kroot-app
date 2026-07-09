@@ -12,6 +12,7 @@ import 'package:kroot_app/features/auth/presentation/widgets/verification_page/v
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_expired_timer.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_input_button.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_pin.dart';
+import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
@@ -47,7 +48,9 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authControllerProvider, (prev, next) {
+    ref.listen(
+        authControllerProvider.select((val) => val.value!.verifyOtpResponse),
+        (prev, next) {
       if (next is AsyncLoading) {
         AppAlert.showLoadingDialog(context);
       }
@@ -55,7 +58,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       if (next is AsyncError) {
         if (prev is AsyncLoading) context.pop();
         Future.delayed(const Duration(milliseconds: 100), () {
-          AppToast.errorToast(next.error.toString());
+          AppToast.errorToast(next?.error.toString() ?? 'error'.tr());
         });
       }
       if (next is AsyncData) {
@@ -64,10 +67,13 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
         ref.read(homeControllerProvider.notifier)
           ..getUserEvents(page: 1)
           ..getUtils();
+        ref.read(cardsControllerProvider.notifier).getTemplateCategories();
       }
     });
 
-    ref.listen(sendOtpControllerProvider, (prev, next) {
+    ref.listen(
+        authControllerProvider.select((val) => val.value!.resendOtpResponse),
+        (prev, next) {
       if (next is AsyncLoading) {
         AppAlert.showLoadingDialog(context);
       }
@@ -75,7 +81,7 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
       if (next is AsyncError) {
         if (prev is AsyncLoading) context.pop();
         Future.delayed(const Duration(milliseconds: 100), () {
-          AppToast.errorToast(next.error.toString());
+          AppToast.errorToast(next?.error.toString() ?? 'error'.tr());
         });
       }
       if (next is AsyncData) {
@@ -104,8 +110,8 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
                     context.pop();
                   },
                   child: Assets.icons.verificationArrowBackIc.svg().onlyPadding(
-                    start: 22.w,
-                  ),
+                        start: 22.w,
+                      ),
                 ),
               ),
             ),
@@ -173,14 +179,12 @@ class _VerificationScreenState extends ConsumerState<VerificationScreen> {
               visible: ref.watch(authUiControllerProvider).isResendVisible,
               child: TextButton(
                 onPressed: () {
-                  final number = ref
-                      .read(sendOtpControllerProvider)
-                      .value
-                      ?.mobile_number;
+                  final number =
+                      ref.read(sendOtpControllerProvider).value?.mobile_number;
 
                   ref
-                      .read(sendOtpControllerProvider.notifier)
-                      .sendOtp(number: widget.number ?? number ?? '');
+                      .read(authControllerProvider.notifier)
+                      .resendOtp(widget.number ?? number ?? '');
                 },
                 child: Text(
                   'Resend code',

@@ -31,8 +31,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       ScanPage(),
 
       // NotificationsScreen(),
+      MyOccasionsScreen(),
       ProfileScreen(),
-      MyOccasionsScreen()
     ];
     final index = ref.watch(bottomNavIndexProvider);
     final controller = ref.watch(

@@ -19,15 +19,15 @@ class BottomNavigationBarView extends ConsumerWidget {
     final iconList = [
       Assets.icons.homeIc.svg(),
       Assets.icons.scanIc.svg(),
-      Assets.icons.profileIc.svg(),
       Assets.icons.myOccasionIc.svg(),
+      Assets.icons.profileIc.svg(),
     ];
 
     final labelList = [
       context.tr('home'),
       context.tr('scan'),
-      context.tr('profile'),
       context.tr('my_cards'),
+      context.tr('profile'),
     ];
 
     return Directionality(

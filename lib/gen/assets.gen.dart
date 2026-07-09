@@ -133,6 +133,10 @@ class $AssetsIconsGen {
   SvgGenImage get documentIc =>
       const SvgGenImage('assets/icons/document_ic.svg');
 
+  /// File path: assets/icons/download_ic.svg
+  SvgGenImage get downloadIc =>
+      const SvgGenImage('assets/icons/download_ic.svg');
+
   /// File path: assets/icons/edit_contact_ic.svg
   SvgGenImage get editContactIc =>
       const SvgGenImage('assets/icons/edit_contact_ic.svg');
@@ -275,6 +279,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
 
+  /// File path: assets/icons/share_ic.svg
+  SvgGenImage get shareIc => const SvgGenImage('assets/icons/share_ic.svg');
+
   /// File path: assets/icons/upload_image_ic.svg
   SvgGenImage get uploadImageIc =>
       const SvgGenImage('assets/icons/upload_image_ic.svg');
@@ -326,6 +333,7 @@ class $AssetsIconsGen {
         deleteImageIc,
         deleteUserIc,
         documentIc,
+        downloadIc,
         editContactIc,
         editEventIc,
         emailIc,
@@ -366,6 +374,7 @@ class $AssetsIconsGen {
         scannedIc,
         selectedDateIc,
         settings,
+        shareIc,
         uploadImageIc,
         verificationArrowBackIc,
         verifiedCheckIc,

@@ -135,7 +135,7 @@
     "phone_number": "رقم الهاتف",
     "agreeWith": " أوافق على",
     "terms&conditions": "الشروط والأحكام",
-    "findEventHere": "ابحث عن حدث هنا",
+    "findEventHere": "ابحث عن حدث أو بطاقة هنا",
     "allEvents": "جميع المناسبات",
     "resendCode": "تم اعادة ارسال الرمز بنجاح",
     "add": "إضافة",
@@ -295,5 +295,7 @@
     "balance_error" : "ليس لديك رصيد كافٍ لإكمال هذا الإجراء. هل ترغب في إضافة بعض الكروت إلى حسابك؟",
     "permission_denied" : "تم رفض صلاحيات التخزين",
     "generating_image" : "جاري توليد الصورة...",
-    "select_event_type" : "اختر نوع المناسبة"
+    "select_event_type" : "اختر نوع المناسبة",
+    "the_cards" : "الكروت",
+    "card_details" : "تفاصيل الكرت"
 }

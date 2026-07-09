@@ -25,28 +25,28 @@ class HomePageAppBar extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-    
         32.verticalSpace,
-        Row(
-          children: [
-            Text(
-              context.tr('welcome'),
-              style: AppTextStyle.rubikSemiBold16.copyWith(
-                color: AppColors.primary,
-              ),
-            ),
-            12.horizontalSpace,
-            Directionality(
-              textDirection: ui.TextDirection.ltr,
-              child: Text(
-                name != null ? '+$name' : '',
+        if (name != null)
+          Row(
+            children: [
+              Text(
+                context.tr('welcome'),
                 style: AppTextStyle.rubikSemiBold16.copyWith(
                   color: AppColors.primary,
                 ),
               ),
-            ),
-          ],
-        ),
+              12.horizontalSpace,
+              Directionality(
+                textDirection: ui.TextDirection.ltr,
+                child: Text(
+                  name != null ? '+$name' : '',
+                  style: AppTextStyle.rubikSemiBold16.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ],
+          ),
       ],
     );
   }

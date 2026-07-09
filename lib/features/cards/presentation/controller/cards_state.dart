@@ -18,13 +18,18 @@ class CardsState {
   final AsyncValue<String> previewCardUrl;
   final AsyncValue<ConfirmPreviewCardResponse>? confirmPreviewCardResponse;
 
+  final bool isCards;
+  final String filerValue;
+
   CardsState(
       {required this.selectedFiltre,
       required this.categories,
+      required this.isCards,
       required this.templates,
-       this.confirmPreviewCardResponse,
+      this.confirmPreviewCardResponse,
       required this.filters,
       required this.selectedOptions,
+      required this.filerValue,
       required this.fieldsValues,
       required this.templateFields,
       required this.previewCardUrl});
@@ -35,6 +40,8 @@ class CardsState {
         categories: AsyncLoading(),
         templates: AsyncLoading(),
         filters: [],
+        filerValue: 'All',
+        isCards: false,
         selectedOptions: [],
         fieldsValues: [],
         templateFields: AsyncLoading(),
@@ -46,13 +53,17 @@ class CardsState {
       AsyncValue<List<TemplateCategoriesModel>>? categories,
       AsyncValue<List<InvitationTemplateModel>>? templates,
       List<Filter>? filters,
+      String? filerValue,
       List<Map<String, String>>? selectedOptions,
+      bool? isCards,
       AsyncValue<ConfirmPreviewCardResponse>? confirmPreviewCardResponse,
       List<Map<String, dynamic>>? fieldsValues,
       AsyncValue<List<TemplateFieldModel>>? templateFields,
       AsyncValue<String>? previewCardUrl}) {
     return CardsState(
       selectedFiltre: selectedFiltre ?? this.selectedFiltre,
+      filerValue: filerValue ?? this.filerValue,
+      isCards: isCards ?? this.isCards,
       categories: categories ?? this.categories,
       templates: templates ?? this.templates,
       filters: filters ?? this.filters,

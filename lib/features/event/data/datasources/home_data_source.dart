@@ -231,15 +231,18 @@ class HomeDataSource {
   }
 
   Future<ApiResponse<GetUserEventsModel>> getUserEvents(
-    int page,
-    String? search,
-  ) async {
+      int page, String? search, String type, String filter) async {
     try {
       final data = FormData.fromMap({
         'page_no': page.toString(),
         'search': search,
         'limit': 10,
+        'list_type': type,
+        if (filter.isNotEmpty && filter != 'All')
+          type == 'kroot' ? 'category' : 'status': filter,
       });
+
+      print(data.fields);
       final response = await _networkService.get(
         EndPoints.getEvents,
         data: data,

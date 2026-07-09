@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
+import 'package:kroot_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/login_page/login_page_number_field.dart';
@@ -59,10 +60,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             .read(authUiControllerProvider.notifier)
             .makeResendButtonVisibleOrNo(false);
 
-        if ((next.value?.allow_login_after != null)) {
-          context.push(Routes.verification);
+        if ((next.value?.validation?.user_exist == true)) {
+          if (prev?.value?.validation?.user_exist == true) {
+          } else {
+            context.push(Routes.verification);
+          }
         } else {
-          context.push(Routes.creataAccount, extra: _controller.text);
+          context.go(Routes.creataAccount, extra: _controller.text);
         }
       }
     });
@@ -77,10 +81,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               103.verticalSpace,
-
               Center(child: Assets.icons.whatsappIc.svg()),
               20.verticalSpace,
-
               Text(
                 context.tr('LogInUsingWhatsAppNumber'),
                 textAlign: TextAlign.center,
@@ -89,7 +91,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ).symmetricPadding(horizontal: 10.w),
               20.verticalSpace,
-
               Text(
                 context.tr('sendVerificationCode'),
                 textAlign: TextAlign.center,
@@ -98,14 +99,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ).symmetricPadding(horizontal: 34.w),
               20.verticalSpace,
-
               LoginPageNumberField(_controller, _formKey),
               40.verticalSpace,
-
               LoginPageSigninButton(
                 onTap: ref.watch(authUiControllerProvider).isPhoneFilled
                     ? () {
                         if (_formKey.currentState?.validate() ?? false) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           ref
                               .read(sendOtpControllerProvider.notifier)
                               .sendOtp(number: _controller.text);
@@ -113,9 +113,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       }
                     : null,
               ),
-
               35.verticalSpace,
-
               LoginPageTermsSection(),
               20.verticalSpace,
             ],

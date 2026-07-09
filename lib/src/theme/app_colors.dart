@@ -5,21 +5,22 @@ abstract class AppColors {
   static const Color lightBlue3 = Color(0xFFACBDE2);
   static const MaterialColor primarySwatch =
       MaterialColor(0xFFFD4057, <int, Color>{
-        50: Color(0xFFFFEBEE),
-        100: Color(0xFFFFCDD2),
-        200: Color(0xFFEF9A9A),
-        300: Color(0xFFE57373),
-        400: Color(0xFFEF5350),
-        500: Color(0xFFFD4057),
-        600: Color(0xFFE53935),
-        700: Color(0xFFD32F2F),
-        800: Color(0xFFC62828),
-        900: Color(0xFFB71C1C),
-      });
+    50: Color(0xFFFFEBEE),
+    100: Color(0xFFFFCDD2),
+    200: Color(0xFFEF9A9A),
+    300: Color(0xFFE57373),
+    400: Color(0xFFEF5350),
+    500: Color(0xFFFD4057),
+    600: Color(0xFFE53935),
+    700: Color(0xFFD32F2F),
+    800: Color(0xFFC62828),
+    900: Color(0xFFB71C1C),
+  });
   static const Color gray = Color(0xFF6C7278);
   static const Color cardTitle = Color(0xFF646669);
   static const Color grayField = Color(0xFFF5F5F5);
   static const Color blueLight = Color(0xFFA9C3F8);
+  static const Color lightBlue4 = Color(0xFFADE0FF);
   static const Color grayHint = Color(0xFF767676);
   static const Color grayLight = Color(0xFFccbbff);
   static const Color grayShadow = Color(0xffE4E5E7);
@@ -47,6 +48,7 @@ abstract class AppColors {
   static const Color lightPeach = Color(0xFFFFF5F1);
   static const Color dimGray = Color(0xFF555555);
   static const Color grayishCharcoal = Color(0xFF595959);
+  static const Color cardBackground = Color(0xFFece1f1);
 
   static const Color lighterGray = Color(0xFFF1F1F1);
   static const Color lightestGray = Color(0xFFD9D9D9);

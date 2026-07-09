@@ -4,15 +4,21 @@ import 'package:kroot_app/features/auth/presentation/widgets/create_account_page
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 
-class EventDetailsDate extends StatelessWidget {
-  const EventDetailsDate({
+class CustomizeCardDate extends StatelessWidget {
+  const CustomizeCardDate({
     super.key,
     required this.date,
-
     required this.onSelectDate,
+    this.title,
+    this.isRequired,
+    this.validator,
+    this.hint,
   });
-  final String? date;
+  final String? date, hint;
+  final bool? isRequired;
+  final String? title;
   final void Function(DateTime date) onSelectDate;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +30,16 @@ class EventDetailsDate extends StatelessWidget {
           ).format(DateTime.parse(date!))
         : '';
     return AppTextFormField(
-      controller: TextEditingController(text: dataFormatter),
-
-      validator: (val) {
-        if (val == null || val.isEmpty) {
-          return context.tr('required');
-        }
-        return null;
-      },
-      hint: context.tr('selectDate'),
-      isRequired: false,
-      label: context.tr('eventDate'),
+      // controller: TextEditingController(text: dataFormatter),
+      validator: validator,
+      hint: hint ?? context.tr('selectDate'),
+      isRequired: isRequired ?? false,
+      label: title ?? context.tr('eventDate'),
+      value: date,
       icon: Assets.icons.selectedDateIc,
       isReadOnly: true,
       onTap: () async {
+        FocusScope.of(context).requestFocus(FocusNode());
         final date = await showDatePicker(
           builder: (context, child) => Theme(
             data: Theme.of(context).copyWith(

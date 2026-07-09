@@ -11,7 +11,9 @@ _ConfirmPreviewCardResponse _$ConfirmPreviewCardResponseFromJson(
     _ConfirmPreviewCardResponse(
       name: json['name'] as String,
       finalImage: json['final_image'] as String,
-      amount: json['amount'] as num,
+      amount: json['amount'] as num?,
+      category: json['category'] as String?,
+      invitationTemplate: json['invitation_template'] as String?,
     );
 
 Map<String, dynamic> _$ConfirmPreviewCardResponseToJson(
@@ -20,4 +22,6 @@ Map<String, dynamic> _$ConfirmPreviewCardResponseToJson(
       'name': instance.name,
       'final_image': instance.finalImage,
       'amount': instance.amount,
+      'category': instance.category,
+      'invitation_template': instance.invitationTemplate,
     };

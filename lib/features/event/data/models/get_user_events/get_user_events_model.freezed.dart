@@ -14,8 +14,12 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$GetUserEventsModel {
-  @JsonKey(name: 'events')
+  @JsonKey(name: 'event')
   List<EventModel>? get events;
+  @JsonKey(name: 'kroot')
+  List<ConfirmPreviewCardResponse>? get kroot;
+  @JsonKey(name: 'categories')
+  List<String>? get categories;
 
   /// Create a copy of GetUserEventsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -33,17 +37,23 @@ mixin _$GetUserEventsModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is GetUserEventsModel &&
-            const DeepCollectionEquality().equals(other.events, events));
+            const DeepCollectionEquality().equals(other.events, events) &&
+            const DeepCollectionEquality().equals(other.kroot, kroot) &&
+            const DeepCollectionEquality()
+                .equals(other.categories, categories));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(events));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(events),
+      const DeepCollectionEquality().hash(kroot),
+      const DeepCollectionEquality().hash(categories));
 
   @override
   String toString() {
-    return 'GetUserEventsModel(events: $events)';
+    return 'GetUserEventsModel(events: $events, kroot: $kroot, categories: $categories)';
   }
 }
 
@@ -53,7 +63,10 @@ abstract mixin class $GetUserEventsModelCopyWith<$Res> {
           GetUserEventsModel value, $Res Function(GetUserEventsModel) _then) =
       _$GetUserEventsModelCopyWithImpl;
   @useResult
-  $Res call({@JsonKey(name: 'events') List<EventModel>? events});
+  $Res call(
+      {@JsonKey(name: 'event') List<EventModel>? events,
+      @JsonKey(name: 'kroot') List<ConfirmPreviewCardResponse>? kroot,
+      @JsonKey(name: 'categories') List<String>? categories});
 }
 
 /// @nodoc
@@ -70,12 +83,22 @@ class _$GetUserEventsModelCopyWithImpl<$Res>
   @override
   $Res call({
     Object? events = freezed,
+    Object? kroot = freezed,
+    Object? categories = freezed,
   }) {
     return _then(_self.copyWith(
       events: freezed == events
           ? _self.events
           : events // ignore: cast_nullable_to_non_nullable
               as List<EventModel>?,
+      kroot: freezed == kroot
+          ? _self.kroot
+          : kroot // ignore: cast_nullable_to_non_nullable
+              as List<ConfirmPreviewCardResponse>?,
+      categories: freezed == categories
+          ? _self.categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -173,14 +196,17 @@ extension GetUserEventsModelPatterns on GetUserEventsModel {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'events') List<EventModel>? events)?
+    TResult Function(
+            @JsonKey(name: 'event') List<EventModel>? events,
+            @JsonKey(name: 'kroot') List<ConfirmPreviewCardResponse>? kroot,
+            @JsonKey(name: 'categories') List<String>? categories)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _GetUserEventsModel() when $default != null:
-        return $default(_that.events);
+        return $default(_that.events, _that.kroot, _that.categories);
       case _:
         return orElse();
     }
@@ -201,13 +227,16 @@ extension GetUserEventsModelPatterns on GetUserEventsModel {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'events') List<EventModel>? events)
+    TResult Function(
+            @JsonKey(name: 'event') List<EventModel>? events,
+            @JsonKey(name: 'kroot') List<ConfirmPreviewCardResponse>? kroot,
+            @JsonKey(name: 'categories') List<String>? categories)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _GetUserEventsModel():
-        return $default(_that.events);
+        return $default(_that.events, _that.kroot, _that.categories);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -227,13 +256,16 @@ extension GetUserEventsModelPatterns on GetUserEventsModel {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(@JsonKey(name: 'events') List<EventModel>? events)?
+    TResult? Function(
+            @JsonKey(name: 'event') List<EventModel>? events,
+            @JsonKey(name: 'kroot') List<ConfirmPreviewCardResponse>? kroot,
+            @JsonKey(name: 'categories') List<String>? categories)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _GetUserEventsModel() when $default != null:
-        return $default(_that.events);
+        return $default(_that.events, _that.kroot, _that.categories);
       case _:
         return null;
     }
@@ -244,18 +276,44 @@ extension GetUserEventsModelPatterns on GetUserEventsModel {
 @JsonSerializable()
 class _GetUserEventsModel implements GetUserEventsModel {
   const _GetUserEventsModel(
-      {@JsonKey(name: 'events') final List<EventModel>? events})
-      : _events = events;
+      {@JsonKey(name: 'event') final List<EventModel>? events,
+      @JsonKey(name: 'kroot') final List<ConfirmPreviewCardResponse>? kroot,
+      @JsonKey(name: 'categories') final List<String>? categories})
+      : _events = events,
+        _kroot = kroot,
+        _categories = categories;
   factory _GetUserEventsModel.fromJson(Map<String, dynamic> json) =>
       _$GetUserEventsModelFromJson(json);
 
   final List<EventModel>? _events;
   @override
-  @JsonKey(name: 'events')
+  @JsonKey(name: 'event')
   List<EventModel>? get events {
     final value = _events;
     if (value == null) return null;
     if (_events is EqualUnmodifiableListView) return _events;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<ConfirmPreviewCardResponse>? _kroot;
+  @override
+  @JsonKey(name: 'kroot')
+  List<ConfirmPreviewCardResponse>? get kroot {
+    final value = _kroot;
+    if (value == null) return null;
+    if (_kroot is EqualUnmodifiableListView) return _kroot;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _categories;
+  @override
+  @JsonKey(name: 'categories')
+  List<String>? get categories {
+    final value = _categories;
+    if (value == null) return null;
+    if (_categories is EqualUnmodifiableListView) return _categories;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -280,17 +338,23 @@ class _GetUserEventsModel implements GetUserEventsModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _GetUserEventsModel &&
-            const DeepCollectionEquality().equals(other._events, _events));
+            const DeepCollectionEquality().equals(other._events, _events) &&
+            const DeepCollectionEquality().equals(other._kroot, _kroot) &&
+            const DeepCollectionEquality()
+                .equals(other._categories, _categories));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_events));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_events),
+      const DeepCollectionEquality().hash(_kroot),
+      const DeepCollectionEquality().hash(_categories));
 
   @override
   String toString() {
-    return 'GetUserEventsModel(events: $events)';
+    return 'GetUserEventsModel(events: $events, kroot: $kroot, categories: $categories)';
   }
 }
 
@@ -302,7 +366,10 @@ abstract mixin class _$GetUserEventsModelCopyWith<$Res>
       __$GetUserEventsModelCopyWithImpl;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'events') List<EventModel>? events});
+  $Res call(
+      {@JsonKey(name: 'event') List<EventModel>? events,
+      @JsonKey(name: 'kroot') List<ConfirmPreviewCardResponse>? kroot,
+      @JsonKey(name: 'categories') List<String>? categories});
 }
 
 /// @nodoc
@@ -319,12 +386,22 @@ class __$GetUserEventsModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? events = freezed,
+    Object? kroot = freezed,
+    Object? categories = freezed,
   }) {
     return _then(_GetUserEventsModel(
       events: freezed == events
           ? _self._events
           : events // ignore: cast_nullable_to_non_nullable
               as List<EventModel>?,
+      kroot: freezed == kroot
+          ? _self._kroot
+          : kroot // ignore: cast_nullable_to_non_nullable
+              as List<ConfirmPreviewCardResponse>?,
+      categories: freezed == categories
+          ? _self._categories
+          : categories // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }

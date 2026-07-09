@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/send_otp_controller.dart';
+import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_app_bar.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_page_confirm_button.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_terms.dart';
@@ -46,10 +49,10 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authControllerProvider, (prev, next) {
+    ref.listen(authControllerProvider.select((val)=>val.value!.createAccountResponse), (prev, next) {
       if (next is AsyncError) {
         context.pop();
-        AppToast.errorToast(next.error.toString());
+        AppToast.errorToast(next?.error.toString() ?? 'error'.tr());
       }
 
       if (next is AsyncLoading) {
@@ -74,12 +77,13 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
         ref
             .read(authUiControllerProvider.notifier)
             .makeResendButtonVisibleOrNo(false);
+
         context.push(Routes.verification, extra: widget.number);
       }
     });
 
     return Scaffold(
-      appBar: CustomAppbar(title: context.tr('newAccount')),
+      appBar: CreateAccountAppBar(title: context.tr('newAccount')),
       body: SingleChildScrollView(
         child: Form(
           key: _key,
@@ -87,16 +91,16 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               35.verticalSpace,
-
               Text(
                 context.tr('weCreateNewAccount'),
                 style: AppTextStyle.rubikRegular16.copyWith(
                   color: AppColors.primary,
                 ),
               ),
-              Text(widget.number, style: AppTextStyle.rubikSemiBold16),
+              Text(widget.number,
+                  textDirection: ui.TextDirection.ltr,
+                  style: AppTextStyle.rubikSemiBold16),
               21.verticalSpace,
-
               AppTextFormField(
                 controller: _firstNameController,
                 icon: Assets.icons.firstNamePersonIc,
@@ -105,7 +109,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                 label: context.tr('firstName'),
               ),
               20.verticalSpace,
-
               AppTextFormField(
                 controller: _lastNameController,
                 icon: Assets.icons.lastNamePersonIc,
@@ -114,7 +117,6 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                 label: context.tr('lastName'),
               ),
               20.verticalSpace,
-
               AppTextFormField(
                 controller: _emailController,
                 icon: Assets.icons.enterEmailIc,
@@ -123,16 +125,13 @@ class _CreateAccountScreenState extends ConsumerState<CreateAccountScreen> {
                 label: context.tr('email'),
               ),
               20.verticalSpace,
-
               CreateAccountTerms(),
               35.verticalSpace,
-
               CreateAccountPageConfirmButton(
                 onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
                   if (_key.currentState!.validate()) {
-                    ref
-                        .read(authControllerProvider.notifier)
-                        .creataAccount(
+                    ref.read(authControllerProvider.notifier).creataAccount(
                           number: widget.number,
                           firstName: _firstNameController.text,
                           lastName: _lastNameController.text,

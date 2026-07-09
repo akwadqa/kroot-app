@@ -8,19 +8,23 @@ import 'package:kroot_app/features/cards/domain/template_field_model/template_fi
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_state.dart';
 import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'cards_controller.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class CardsController extends _$CardsController {
   @override
-  FutureOr<CardsState> build() {
-    return CardsState.initial();
+  Future<CardsState> build() async {
+    final templates = await getTemplateCategories();
+    return CardsState.initial()
+        .copyWith(categories: AsyncData(templates ?? []));
   }
 
   Future<List<TemplateCategoriesModel>?> getTemplateCategories() async {
     try {
+      if (state.value == null) state = AsyncData(CardsState.initial());
       state = AsyncData(state.value!.copyWith(categories: AsyncLoading()));
       final repo = ref.read(cardsRepositoryProvider);
       final response = await repo.getTemplateCategories();
@@ -109,10 +113,12 @@ class CardsController extends _$CardsController {
       return null;
     }
   }
-  
-  Future<ConfirmPreviewCardResponse?> confirmPreviewCard(String templateName) async {
+
+  Future<ConfirmPreviewCardResponse?> confirmPreviewCard(
+      String templateName) async {
     try {
-      state = AsyncData(state.value!.copyWith(confirmPreviewCardResponse: AsyncLoading()));
+      state = AsyncData(
+          state.value!.copyWith(confirmPreviewCardResponse: AsyncLoading()));
       final repo = ref.read(cardsRepositoryProvider);
       final filters = state.value!.fieldsValues;
       final response = await repo.confirmPreviewCard(templateName, filters);
@@ -130,7 +136,8 @@ class CardsController extends _$CardsController {
       }
 
       state = AsyncData(
-        state.value!.copyWith(confirmPreviewCardResponse: AsyncData(response.data!)),
+        state.value!
+            .copyWith(confirmPreviewCardResponse: AsyncData(response.data!)),
       );
       return response.data;
     } catch (e, st) {
@@ -210,6 +217,15 @@ class CardsController extends _$CardsController {
 
   void clearFieldsValues() {
     state = AsyncData(state.value!.copyWith(fieldsValues: []));
+  }
+
+  void setIsCards(bool isCards) {
+    state = AsyncData(state.value!.copyWith(isCards: isCards));
+  }
+
+  void changeFilterValue(String value) {
+    state = AsyncData(state.value!.copyWith(filerValue: value));
+    ref.read(homeControllerProvider.notifier).refreshEvents();
   }
 
   void addFieldValue({required String fieldName, required dynamic fieldValue}) {

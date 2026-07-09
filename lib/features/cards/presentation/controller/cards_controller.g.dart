@@ -20,7 +20,7 @@ final class CardsControllerProvider
           argument: null,
           retry: null,
           name: r'cardsControllerProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -33,7 +33,7 @@ final class CardsControllerProvider
   CardsController create() => CardsController();
 }
 
-String _$cardsControllerHash() => r'd908d1a172671d163c6f9930e0756f6f89459acc';
+String _$cardsControllerHash() => r'ad4571a2fde1f48249822038e770a2b17e1137c4';
 
 abstract class _$CardsController extends $AsyncNotifier<CardsState> {
   FutureOr<CardsState> build();

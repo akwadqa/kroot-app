@@ -11,21 +11,19 @@ class MyOccasionsScreenOccasionsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-        itemCount: categories.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20,
-          crossAxisSpacing: 20,
-          childAspectRatio: 1,
-        ),
-        itemBuilder: (context, index) {
-          return MyOccasionsScreenOccasionItem(
-            category: categories[index],
-          );
-        },
+    return SliverGrid.builder(
+      itemCount: categories.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 20,
+        crossAxisSpacing: 20,
+        childAspectRatio: 1,
       ),
+      itemBuilder: (context, index) {
+        return MyOccasionsScreenOccasionItem(
+          category: categories[index],
+        );
+      },
     );
   }
 }

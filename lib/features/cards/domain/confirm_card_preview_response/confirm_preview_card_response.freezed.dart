@@ -17,7 +17,10 @@ mixin _$ConfirmPreviewCardResponse {
   String get name;
   @JsonKey(name: 'final_image')
   String get finalImage;
-  num get amount;
+  num? get amount;
+  String? get category;
+  @JsonKey(name: 'invitation_template')
+  String? get invitationTemplate;
 
   /// Create a copy of ConfirmPreviewCardResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -39,16 +42,21 @@ mixin _$ConfirmPreviewCardResponse {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.finalImage, finalImage) ||
                 other.finalImage == finalImage) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.invitationTemplate, invitationTemplate) ||
+                other.invitationTemplate == invitationTemplate));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, finalImage, amount);
+  int get hashCode => Object.hash(
+      runtimeType, name, finalImage, amount, category, invitationTemplate);
 
   @override
   String toString() {
-    return 'ConfirmPreviewCardResponse(name: $name, finalImage: $finalImage, amount: $amount)';
+    return 'ConfirmPreviewCardResponse(name: $name, finalImage: $finalImage, amount: $amount, category: $category, invitationTemplate: $invitationTemplate)';
   }
 }
 
@@ -61,7 +69,9 @@ abstract mixin class $ConfirmPreviewCardResponseCopyWith<$Res> {
   $Res call(
       {String name,
       @JsonKey(name: 'final_image') String finalImage,
-      num amount});
+      num? amount,
+      String? category,
+      @JsonKey(name: 'invitation_template') String? invitationTemplate});
 }
 
 /// @nodoc
@@ -79,7 +89,9 @@ class _$ConfirmPreviewCardResponseCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? finalImage = null,
-    Object? amount = null,
+    Object? amount = freezed,
+    Object? category = freezed,
+    Object? invitationTemplate = freezed,
   }) {
     return _then(_self.copyWith(
       name: null == name
@@ -90,10 +102,18 @@ class _$ConfirmPreviewCardResponseCopyWithImpl<$Res>
           ? _self.finalImage
           : finalImage // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
+      amount: freezed == amount
           ? _self.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as num,
+              as num?,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+      invitationTemplate: freezed == invitationTemplate
+          ? _self.invitationTemplate
+          : invitationTemplate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -191,15 +211,20 @@ extension ConfirmPreviewCardResponsePatterns on ConfirmPreviewCardResponse {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String name,
-            @JsonKey(name: 'final_image') String finalImage, num amount)?
+    TResult Function(
+            String name,
+            @JsonKey(name: 'final_image') String finalImage,
+            num? amount,
+            String? category,
+            @JsonKey(name: 'invitation_template') String? invitationTemplate)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _ConfirmPreviewCardResponse() when $default != null:
-        return $default(_that.name, _that.finalImage, _that.amount);
+        return $default(_that.name, _that.finalImage, _that.amount,
+            _that.category, _that.invitationTemplate);
       case _:
         return orElse();
     }
@@ -220,14 +245,19 @@ extension ConfirmPreviewCardResponsePatterns on ConfirmPreviewCardResponse {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String name,
-            @JsonKey(name: 'final_image') String finalImage, num amount)
+    TResult Function(
+            String name,
+            @JsonKey(name: 'final_image') String finalImage,
+            num? amount,
+            String? category,
+            @JsonKey(name: 'invitation_template') String? invitationTemplate)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ConfirmPreviewCardResponse():
-        return $default(_that.name, _that.finalImage, _that.amount);
+        return $default(_that.name, _that.finalImage, _that.amount,
+            _that.category, _that.invitationTemplate);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -247,14 +277,19 @@ extension ConfirmPreviewCardResponsePatterns on ConfirmPreviewCardResponse {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String name,
-            @JsonKey(name: 'final_image') String finalImage, num amount)?
+    TResult? Function(
+            String name,
+            @JsonKey(name: 'final_image') String finalImage,
+            num? amount,
+            String? category,
+            @JsonKey(name: 'invitation_template') String? invitationTemplate)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _ConfirmPreviewCardResponse() when $default != null:
-        return $default(_that.name, _that.finalImage, _that.amount);
+        return $default(_that.name, _that.finalImage, _that.amount,
+            _that.category, _that.invitationTemplate);
       case _:
         return null;
     }
@@ -267,7 +302,9 @@ class _ConfirmPreviewCardResponse implements ConfirmPreviewCardResponse {
   const _ConfirmPreviewCardResponse(
       {required this.name,
       @JsonKey(name: 'final_image') required this.finalImage,
-      required this.amount});
+      this.amount,
+      this.category,
+      @JsonKey(name: 'invitation_template') this.invitationTemplate});
   factory _ConfirmPreviewCardResponse.fromJson(Map<String, dynamic> json) =>
       _$ConfirmPreviewCardResponseFromJson(json);
 
@@ -277,7 +314,12 @@ class _ConfirmPreviewCardResponse implements ConfirmPreviewCardResponse {
   @JsonKey(name: 'final_image')
   final String finalImage;
   @override
-  final num amount;
+  final num? amount;
+  @override
+  final String? category;
+  @override
+  @JsonKey(name: 'invitation_template')
+  final String? invitationTemplate;
 
   /// Create a copy of ConfirmPreviewCardResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -303,16 +345,21 @@ class _ConfirmPreviewCardResponse implements ConfirmPreviewCardResponse {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.finalImage, finalImage) ||
                 other.finalImage == finalImage) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.invitationTemplate, invitationTemplate) ||
+                other.invitationTemplate == invitationTemplate));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, finalImage, amount);
+  int get hashCode => Object.hash(
+      runtimeType, name, finalImage, amount, category, invitationTemplate);
 
   @override
   String toString() {
-    return 'ConfirmPreviewCardResponse(name: $name, finalImage: $finalImage, amount: $amount)';
+    return 'ConfirmPreviewCardResponse(name: $name, finalImage: $finalImage, amount: $amount, category: $category, invitationTemplate: $invitationTemplate)';
   }
 }
 
@@ -328,7 +375,9 @@ abstract mixin class _$ConfirmPreviewCardResponseCopyWith<$Res>
   $Res call(
       {String name,
       @JsonKey(name: 'final_image') String finalImage,
-      num amount});
+      num? amount,
+      String? category,
+      @JsonKey(name: 'invitation_template') String? invitationTemplate});
 }
 
 /// @nodoc
@@ -346,7 +395,9 @@ class __$ConfirmPreviewCardResponseCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? finalImage = null,
-    Object? amount = null,
+    Object? amount = freezed,
+    Object? category = freezed,
+    Object? invitationTemplate = freezed,
   }) {
     return _then(_ConfirmPreviewCardResponse(
       name: null == name
@@ -357,10 +408,18 @@ class __$ConfirmPreviewCardResponseCopyWithImpl<$Res>
           ? _self.finalImage
           : finalImage // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
+      amount: freezed == amount
           ? _self.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as num,
+              as num?,
+      category: freezed == category
+          ? _self.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String?,
+      invitationTemplate: freezed == invitationTemplate
+          ? _self.invitationTemplate
+          : invitationTemplate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

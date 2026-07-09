@@ -7,6 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/features/auth/presentation/controller/auth_controller.dart';
+import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
+import 'package:kroot_app/features/cards/presentation/screens/occasion_cards_screen.dart';
+import 'package:kroot_app/features/cards/presentation/widgets/my_occasions_screen_occasion_grid.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
@@ -35,6 +38,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     Future(() {
       ref.read(homeControllerProvider);
+      ref.read(cardsControllerProvider);
     });
     super.initState();
   }
@@ -48,42 +52,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         if (context.canPop()) context.pop();
       }
     });
-    final eventsController = ref.watch(
-      homeControllerProvider.select((val) => val.value!.eventResponse),
-    );
+    final eventsController = ref
+        .watch(cardsControllerProvider.select((val) => val.value!.categories));
+    // final eventsController = ref.watch(
+    //   homeControllerProvider.select((val) => val.value!.eventResponse),
+    // );
 
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            44.verticalSpace,
-            HomePageAppBar(),
-            12.verticalSpace,
-            HomePageSearchField(
-              hint: context.tr('findEventHere'),
-              onChange: (val) {
-                ref
-                    .read(homeControllerProvider.notifier)
-                    .getUserEvents(page: 1, search: val);
-              },
-            ),
-            20.verticalSpace,
-            Expanded(
-              child: AppPaginationWidget(
-                enablePullDown: true,
-                onRefresh: () {
-                  ref.read(homeControllerProvider.notifier).getUtils();
-                  return ref
-                      .read(homeControllerProvider.notifier)
-                      .refreshEvents();
-                },
-                onLoading: (page) {
-                  return ref
-                      .read(homeControllerProvider.notifier)
-                      .onLoadMoreEvents();
-                },
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.read(cardsControllerProvider.notifier).getTemplateCategories();
+            ref.read(homeControllerProvider.notifier).getUtils();
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              44.verticalSpace,
+              HomePageAppBar(),
+              32.verticalSpace,
+              Expanded(
                 child: CustomScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   slivers: [
@@ -94,37 +83,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           if (userData?.freeSubscribe == 0)
                             HomePageAvailableBalance(),
                           20.verticalSpace,
-                          Text(
-                            context.tr('allEvents'),
-                            style: AppTextStyle.rubikSemiBold18.copyWith(
-                              color: AppColors.primary,
+                          if (eventsController.asData != null)
+                            Text(
+                              context.tr('select_event_type'),
+                              style: AppTextStyle.rubikSemiBold18.copyWith(
+                                color: AppColors.primary,
+                              ),
                             ),
-                          ),
                           12.verticalSpace,
                         ],
                       ),
                     ),
-                    eventsController!.when(
+                    eventsController.when(
                       data: (data) {
-                        if ((data.events ?? []).isEmpty) {
+                        if (data.isEmpty) {
                           return SliverFillRemaining(
                             hasScrollBody: false,
                             child: Center(child: Assets.icons.emptyIc.svg()),
                           );
                         }
+                        // return SliverToBoxAdapter();
+                        return MyOccasionsScreenOccasionsGrid(categories: data);
 
-                        return SliverList(
-                          delegate: SliverChildBuilderDelegate((
-                            context,
-                            index,
-                          ) {
-                            final event = data.events![index];
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 12.h),
-                              child: HomePageEventItem(event: event),
-                            );
-                          }, childCount: data.events!.length),
-                        );
+                        // return SliverList(
+                        //   delegate: SliverChildBuilderDelegate((
+                        //     context,
+                        //     index,
+                        //   ) {
+                        //     final event = data.events![index];
+                        //     return Padding(
+                        //       padding: EdgeInsets.only(bottom: 12.h),
+                        //       child: HomePageEventItem(event: event),
+                        //     );
+                        //   }, childCount: data.events!.length),
+                        // );
                       },
                       loading: () => SliverFillRemaining(
                         hasScrollBody: false,
@@ -137,19 +129,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         hasScrollBody: false,
                         child: AppErrorWidget(
                           onTap: () {
-                            ref.read(homeControllerProvider.notifier)
-                              ..getUserEvents(page: 1)
-                              ..getUtils();
+                            ref
+                                .read(homeControllerProvider.notifier)
+                                .getUtils();
+
+                            ref
+                                .read(cardsControllerProvider.notifier)
+                                .getTemplateCategories();
                           },
                         ),
                       ),
                     ),
-                    SliverToBoxAdapter(child: 80.verticalSpace),
+                    SliverToBoxAdapter(child: 100.verticalSpace),
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -377,9 +373,10 @@ class HomePageEventItemDetails extends StatelessWidget {
                       color: AppColors.white,
                     ),
                   ),
-                  backgroundColor: event.status == 'Confirmed'
-                      ? AppColors.primary
-                      : AppColors.gray,
+                  backgroundColor:
+                      (event.status == 'Confirmed' || event.status == 'مؤكد')
+                          ? AppColors.primary
+                          : AppColors.gray,
                   text: '',
                   radius: 32.r,
                   onTap: () {},

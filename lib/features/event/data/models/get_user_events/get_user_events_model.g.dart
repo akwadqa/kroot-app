@@ -8,14 +8,23 @@ part of 'get_user_events_model.dart';
 
 _GetUserEventsModel _$GetUserEventsModelFromJson(Map<String, dynamic> json) =>
     _GetUserEventsModel(
-      events: (json['events'] as List<dynamic>?)
+      events: (json['event'] as List<dynamic>?)
           ?.map((e) => EventModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kroot: (json['kroot'] as List<dynamic>?)
+          ?.map((e) =>
+              ConfirmPreviewCardResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$GetUserEventsModelToJson(_GetUserEventsModel instance) =>
     <String, dynamic>{
-      'events': instance.events,
+      'event': instance.events,
+      'kroot': instance.kroot,
+      'categories': instance.categories,
     };
 
 _EventModel _$EventModelFromJson(Map<String, dynamic> json) => _EventModel(

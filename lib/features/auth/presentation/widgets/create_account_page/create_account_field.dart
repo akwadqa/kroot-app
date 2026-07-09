@@ -98,7 +98,7 @@ class AppTextFormField extends StatelessWidget {
                   : null,
               hintText: hint,
               hintStyle: AppTextStyle.rubikRegular16.copyWith(
-                color: AppColors.grayHint,
+                color: AppColors.stoneGray,
               ),
               contentPadding: withIcon
                   ? EdgeInsets.zero

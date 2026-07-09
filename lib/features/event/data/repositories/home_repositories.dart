@@ -27,10 +27,12 @@ class HomeRepositories {
   Future<ApiResponse<GetUserEventsModel>> getEvents(
     int page,
     String? search,
+    String type,
+    String filter,
   ) async {
     try {
-      final respone = await _dataSource.getUserEvents(page, search);
-      return respone;
+      final response = await _dataSource.getUserEvents(page, search , type, filter);
+      return response;
     } on DioException {
       rethrow;
     } catch (e) {

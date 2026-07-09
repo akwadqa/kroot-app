@@ -18,11 +18,13 @@ class HomeState {
   final AsyncValue<RetryBulkResponse>? retryFailue;
 
   final bool? isDeleteEvent;
+  final List<String> categoriesFilter;
 
   final bool? isUpdateEvent;
 
   HomeState({
     required this.isUpdateEvent,
+    required this.categoriesFilter,
     required this.retryFailue,
     required this.confirmEventResponse,
     required this.selectedContactsForUpdate,
@@ -35,20 +37,22 @@ class HomeState {
   });
 
   factory HomeState.init() => HomeState(
-    updatedEvent: null,
-    selectedContactsForUpdate: [],
-    utilsResponse: null,
-    isDeleteEvent: false,
-    eventResponse: AsyncLoading(),
-    isUpdateEvent: false,
-    occasionModel: AsyncLoading(),
-    confirmEventResponse: null,
-    retryFailue : null,
-    gusetsList: [],
-  );
+        updatedEvent: null,
+        categoriesFilter: [],
+        selectedContactsForUpdate: [],
+        utilsResponse: null,
+        isDeleteEvent: false,
+        eventResponse: AsyncLoading(),
+        isUpdateEvent: false,
+        occasionModel: AsyncLoading(),
+        confirmEventResponse: null,
+        retryFailue: null,
+        gusetsList: [],
+      );
 
   HomeState copyWith({
     List<Contact>? contacts,
+    List<String>? categoriesFilter,
     List<SelectedContact>? selectedContacts,
     List<SelectedContact>? selectedContactsForUpdate,
     AsyncValue<GetUserEventsModel>? eventResponse,
@@ -66,6 +70,7 @@ class HomeState {
     AsyncValue<RetryBulkResponse>? retryFailue,
   }) {
     return HomeState(
+      categoriesFilter: categoriesFilter ?? this.categoriesFilter,
       utilsResponse: utilsResponse ?? this.utilsResponse,
       retryFailue: retryFailue ?? this.retryFailue,
       selectedContactsForUpdate:
@@ -89,10 +94,8 @@ class SelectedContact extends Equatable {
 
   SelectedContact({
     required this.contact,
-
     this.count = 0,
     this.code,
-
     required this.id,
   });
 

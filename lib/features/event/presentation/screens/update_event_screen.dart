@@ -66,7 +66,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
         if (next is AsyncData && prev is AsyncLoading) {
           context.pop();
 
-          // context.pop();
+          context.pop();
 
           context.pop();
           AppToast.doneToast(next.value!.msg);
@@ -121,6 +121,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                       }
                       return null;
                     },
+
                     label: context.tr('eventName'),
                     icon: Assets.icons.eventNameIc,
                   ),
@@ -202,7 +203,9 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                         ),
                       );
                       return EventDetailsTime(
-                        dateTime: date ?? DateTime.now().toString(),
+                        dateTime: DateTime.parse(
+                          date ?? DateTime.now().toString(),
+                        ),
                         onSelectTime: (date) {
                           ref
                               .read(updateEventControllerProvider.notifier)

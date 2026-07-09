@@ -22,7 +22,7 @@ class RemoteInterceptor extends Interceptor {
     if (token != null) {
       options.headers['Authorization'] = 'token $token';
     }
-      // options.headers['Authorization'] = 'token 81f75de95191a13:12841166da7d5f5';
+    // options.headers['Authorization'] = 'token 81f75de95191a13:12841166da7d5f5';
 
     options.headers['Accept-Language'] = language;
 
@@ -55,15 +55,14 @@ class RemoteInterceptor extends Interceptor {
     final statusCode = err.response?.statusCode;
     final responseData = err.response?.data;
 
-    final isUnauthorized =
-        (statusCode == 401 &&
+    final isUnauthorized = (statusCode == 401 &&
             (responseData['message']?.toString().toLowerCase().contains(
-                  "otp",
-                )) ==
+                      "otp",
+                    )) ==
                 false) ||
         (responseData['exc_type']?.toString().contains(
-              'AuthenticationError',
-            )) ==
+                  'AuthenticationError',
+                )) ==
             true;
 
     if (isUnauthorized) {
@@ -79,7 +78,6 @@ class RemoteInterceptor extends Interceptor {
       Response(
         requestOptions: err.requestOptions,
         data: err.response?.data,
-
         statusCode: err.response?.statusCode ?? 500,
       ),
     );
@@ -95,8 +93,7 @@ class RemoteInterceptor extends Interceptor {
     if (data is Map && data['message'] != null) {
       message = data['message'].toString();
     } else {
-      message =
-          _getDefaultMessageForStatusCode(statusCode) ??
+      message = _getDefaultMessageForStatusCode(statusCode) ??
           err.message ??
           'Unexpected error occurred';
     }

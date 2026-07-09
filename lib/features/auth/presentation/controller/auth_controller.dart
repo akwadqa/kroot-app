@@ -10,41 +10,68 @@ part 'auth_controller.g.dart';
 @Riverpod(keepAlive: true)
 class AuthController extends _$AuthController {
   @override
-  FutureOr<AuthControllerState?> build() => null;
+  FutureOr<AuthControllerState?> build() => AuthControllerState.initial();
 
   Future<void> verifyOtp(String otp, String? numberNull) async {
     try {
-      final number = ref
-          .read(sendOtpControllerProvider)
-          .asData
-          ?.value
-          ?.mobile_number;
-      state = AsyncLoading();
-      final result = await ref
-          .read(authRepositoryProvider)
-          .verifyOtp(
-            number:
-                numberNull?.replaceAll('+', '') ??
+      final number =
+          ref.read(sendOtpControllerProvider).asData?.value?.mobile_number;
+      state =
+          AsyncData(state.value!.copyWith(verifyOtpResponse: AsyncLoading()));
+      final result = await ref.read(authRepositoryProvider).verifyOtp(
+            number: numberNull?.replaceAll('+', '') ??
                 number?.replaceAll('+', '') ??
                 '',
             otp: otp,
           );
 
       if (result.hasFailed) {
-        state = AsyncError(result.message ?? '', StackTrace.current);
+        state = AsyncData(state.value!.copyWith(
+            verifyOtpResponse:
+                AsyncError(result.message ?? '', StackTrace.current)));
         return;
       }
-      await ref.read(userDataProvider.notifier).setData(result.data!.token!,result.data!.isFreeSubscriber!);
+      await ref
+          .read(userDataProvider.notifier)
+          .setData(result.data!.token!, result.data!.isFreeSubscriber!);
       await ref
           .read(notificationsServiceProvider)
           .sendDeviceToken(result.data!.email!);
 
       state = AsyncData(
-        state.value?.copyWith(verifyOtpResponse: result.data) ??
-            AuthControllerState(verifyOtpResponse: result.data),
+        state.value?.copyWith(verifyOtpResponse: AsyncData(result.data)),
       );
     } catch (e, st) {
-      state = AsyncError(e, st);
+      state = AsyncData(
+          state.value!.copyWith(verifyOtpResponse: AsyncError(e, st)));
+    }
+  }
+
+  Future<void> resendOtp(String? numberNull) async {
+    try {
+      final number =
+          ref.read(sendOtpControllerProvider).asData?.value?.mobile_number;
+      state =
+          AsyncData(state.value!.copyWith(resendOtpResponse: AsyncLoading()));
+      final result = await ref.read(authRepositoryProvider).sendOtp(
+            number: numberNull?.replaceAll('+', '') ??
+                number?.replaceAll('+', '') ??
+                '',
+          );
+
+      if (result.hasFailed) {
+        state = AsyncData(state.value!.copyWith(
+            resendOtpResponse:
+                AsyncError(result.message ?? '', StackTrace.current)));
+        return;
+      }
+
+      state = AsyncData(
+        state.value?.copyWith(resendOtpResponse: AsyncData(result.data)),
+      );
+    } catch (e, st) {
+      state = AsyncData(
+          state.value!.copyWith(resendOtpResponse: AsyncError(e, st)));
     }
   }
 
@@ -55,10 +82,9 @@ class AuthController extends _$AuthController {
     String? email,
   }) async {
     try {
-      state = const AsyncLoading();
-      final result = await ref
-          .read(authRepositoryProvider)
-          .createAccount(
+      state = AsyncData(
+          state.value!.copyWith(createAccountResponse: AsyncLoading()));
+      final result = await ref.read(authRepositoryProvider).createAccount(
             firstName: firstName,
             lastName: lastName,
             mobile: number.replaceAll('+', ''),
@@ -66,12 +92,13 @@ class AuthController extends _$AuthController {
           );
 
       if (result.hasFailed) {
-        state = AsyncError(result.message ?? '', StackTrace.current);
+        state = AsyncData(state.value!.copyWith(
+            createAccountResponse:
+                AsyncError(result.message ?? '', StackTrace.current)));
         return;
       }
       state = AsyncData(
-        state.value?.copyWith(createAccountResponse: result.data) ??
-            AuthControllerState(createAccountResponse: result.data),
+        state.value?.copyWith(createAccountResponse: AsyncData(result.data)),
       );
     } catch (e, st) {
       state = AsyncError(e, st);

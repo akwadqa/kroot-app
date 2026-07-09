@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
 
 part 'get_user_events_model.freezed.dart';
 part 'get_user_events_model.g.dart';
@@ -8,7 +9,9 @@ part 'get_user_events_model.g.dart';
 @freezed
 abstract class GetUserEventsModel with _$GetUserEventsModel {
   const factory GetUserEventsModel({
-    @JsonKey(name: 'events') List<EventModel>? events,
+    @JsonKey(name: 'event') List<EventModel>? events,
+    @JsonKey(name: 'kroot') List<ConfirmPreviewCardResponse>? kroot,
+    @JsonKey(name: 'categories') List<String>? categories,
   }) = _GetUserEventsModel;
 
   factory GetUserEventsModel.fromJson(Map<String, dynamic> json) =>

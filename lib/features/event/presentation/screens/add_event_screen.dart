@@ -209,9 +209,9 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                             ),
                           );
                           return EventDetailsTime(
-                            dateTime: 
+                            dateTime: DateTime.parse(
                               date ?? DateTime.now().toString(),
-                            
+                            ),
 
                             onSelectTime: (date) {
                               ref

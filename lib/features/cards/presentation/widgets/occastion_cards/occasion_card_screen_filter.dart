@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
@@ -30,6 +29,7 @@ class OccasionCardsScreenFilters extends ConsumerWidget {
         .values
         .first));
     return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 18),
       scrollDirection: Axis.horizontal,
       child: Row(
         spacing: 15,

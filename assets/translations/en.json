@@ -117,7 +117,7 @@
     "enterName": "Enter Your Name",
     "agreeWith": "Agree With ",
     "terms&conditions": "Terms & Condition",
-    "findEventHere": "Find Event Here",
+    "findEventHere": "Find Event Or Card Here",
     "allEvents": "All Events",
     "resendCode": "The code resend successful",
     "add": "Add",
@@ -276,6 +276,7 @@
     "balance_title" : "Insufficient Balance",
     "balance_error" : "You do not have enough balance to complete this action. Do you want to add some Kroot to your account?",
     "permission_denied" : "Storage permissions are denied",
-    "generating_image" : "Generating image..."
-
+    "generating_image" : "Generating image...",
+    "the_cards" : "Cards",
+    "card_details" : "Card Details"
 }

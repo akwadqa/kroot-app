@@ -13,6 +13,7 @@ import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
+import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
@@ -75,7 +76,7 @@ class _OccasionCardsScreenBodyState
               if (data.isEmpty) {
                 return Center(child: Assets.icons.emptyIc.svg());
               }
-              return _buildTempatesGrid(data);
+              return OccasionsCardsGrid(templates: data);
             },
             error: (error, st) => AppErrorWidget(onTap: () {
               ref
@@ -87,15 +88,26 @@ class _OccasionCardsScreenBodyState
 
           // _buildTempatesGrid(),
         ],
-      ).symmetricPadding(horizontal: 18),
+      ),
     );
   }
+}
 
-  Expanded _buildTempatesGrid(List<InvitationTemplateModel> templates) {
+class OccasionsCardsGrid extends StatelessWidget {
+  const OccasionsCardsGrid({
+    super.key,
+    required this.templates,
+  });
+
+  final List<InvitationTemplateModel> templates;
+
+  @override
+  Widget build(BuildContext context) {
     final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
 
     return Expanded(
       child: GridView.builder(
+        padding: EdgeInsets.symmetric(horizontal: 18),
         itemCount: templates.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -109,13 +121,16 @@ class _OccasionCardsScreenBodyState
           child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               // child: Assets.images.occasionCardImage.image(fit: BoxFit.cover)),
-              child: CachedNetworkImage(
-                  placeholder: (context, url) => Center(
-                          child: CircularProgressIndicator(
-                        color: AppColors.primary,
-                      )),
-                  imageUrl: baseUrl + templates[index].sampleImage,
-                  fit: BoxFit.cover)),
+              child: Container(
+                padding: EdgeInsets.all(1),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: AppColors.primary)),
+                child: CachedNetworkImage(
+                    placeholder: (context, url) => FadeCircleLoadingIndicator(),
+                    imageUrl: baseUrl + templates[index].sampleImage,
+                    fit: BoxFit.cover),
+              )),
         ),
       ),
     );

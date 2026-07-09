@@ -40,19 +40,30 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (category.categoryIcon?.contains('svg') ?? false)
-              SvgPicture.network(baseUrl + category.categoryIcon!,
-                  width: 50, height: 50),
-            if (!(category.categoryIcon?.contains('svg') ?? false))
-              CachedNetworkImage(
-                placeholder: (context, url) => Center(
-                    child: CircularProgressIndicator(
-                  color: AppColors.primary,
-                )),
-                imageUrl: baseUrl + (category.categoryIcon ?? ''),
-                width: 50,
-                height: 50,
+            Expanded(
+              flex: 4,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.cardBackground,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                ),
+                child: (category.categoryIcon?.contains('svg') ?? false)
+                    ? SvgPicture.network(baseUrl + category.categoryIcon!,
+                        width: 30, height: 30)
+                    : CachedNetworkImage(
+                        placeholder: (context, url) => Center(
+                            child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                        )),
+                        imageUrl: baseUrl + (category.categoryIcon ?? ''),
+                        width: 50,
+                        height: 50,
+                      ),
               ),
+            ),
+
             // CircleAvatar(
             //   backgroundColor: AppColors.primarySwatch.withValues(alpha: 0.2),
             //   radius: 34,
@@ -69,11 +80,16 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
             // ),
             // ),
             SizedBox(height: 10),
-            Text(
-              category.categoryName ?? 'name',
-              textAlign: TextAlign.center,
-              style: AppTextStyle.rubikRegular20
-                  .copyWith(color: AppColors.cardTitle),
+            Expanded(
+              flex: 1,
+              child: FittedBox(
+                child: Text(
+                  category.categoryName ?? 'name',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.rubikRegular12
+                      .copyWith(color: AppColors.cardTitle),
+                ),
+              ),
             ),
           ],
         ),

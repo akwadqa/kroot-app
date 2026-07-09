@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
+import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_date.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_time.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/create_event_page_select_language_field.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
@@ -99,7 +100,7 @@ class _CustomizeCardScreenFormState
                   );
 
                 case 'Date':
-                  return EventDetailsDate(
+                  return CustomizeCardDate(
                     key: ValueKey(date),
                     isRequired: currentField.isRequired ?? false,
                     hint: currentField.placeholder ?? '',
@@ -120,7 +121,6 @@ class _CustomizeCardScreenFormState
                             fieldName: currentField.fieldName ?? '',
                             fieldValue: formattedDate,
                           );
-                    
                     },
                     title: currentField.fieldLabel ?? '',
                   );
@@ -170,7 +170,7 @@ class _CustomizeCardScreenFormState
               backgroundColor: AppColors.primary,
               color: AppColors.white,
               onTap: () {
-                FocusScope.of(context).unfocus();
+                FocusScope.of(context).requestFocus(FocusNode());
                 if (key.currentState!.validate()) {
                   context.push(Routes.finalPreview, extra: widget.templateName);
                 }
