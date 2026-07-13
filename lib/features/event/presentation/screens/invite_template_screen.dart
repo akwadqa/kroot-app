@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -149,9 +151,14 @@ class InviteTemplateScreen extends ConsumerWidget {
           );
 
     final lang = templates
-            .firstWhere((template) => template.name == selectedTemplate)
-            .language ??
+            .where((template) => template.name == selectedTemplate)
+            .firstOrNull
+            ?.language ??
         deviceLocale;
+
+    log(templates.map((e) => e.name).toList().toString());
+    log(selectedTemplate.toString());
+    log(lang.toString());
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('createEvent')),
@@ -465,8 +472,9 @@ class InviteTemplateScreen extends ConsumerWidget {
     String? id,
   ) {
     final title = templates
-            .firstWhere((template) => template.name == selectedTemplate)
-            .template ??
+            .where((template) => template.name == selectedTemplate)
+            .firstOrNull
+            ?.template ??
         '';
 
     if (title.contains('{{1}}')) {

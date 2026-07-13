@@ -228,6 +228,14 @@ class CardsController extends _$CardsController {
     ref.read(homeControllerProvider.notifier).refreshEvents();
   }
 
+  void removeFieldValue({required String fieldName}) {
+    final fieldsValues =
+        List<Map<String, String>>.from(state.value!.fieldsValues);
+    fieldsValues.removeWhere((field) => field.keys.first == fieldName);
+
+    state = AsyncData(state.value!.copyWith(fieldsValues: fieldsValues));
+  }
+
   void addFieldValue({required String fieldName, required dynamic fieldValue}) {
     final fieldsValues =
         List<Map<String, String>>.from(state.value!.fieldsValues);

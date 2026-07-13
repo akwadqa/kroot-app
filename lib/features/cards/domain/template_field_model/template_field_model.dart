@@ -9,6 +9,7 @@ abstract class TemplateFieldModel with _$TemplateFieldModel {
     @JsonKey(name: 'field_name') String? fieldName,
     @JsonKey(name: 'field_type') String? fieldType,
     @JsonKey(name: 'field_label') String? fieldLabel,
+    @JsonKey(name: 'select_options') List<String>? selectOptions,
     @JsonKey(name: 'is_required') @JsonKeyTransform() bool? isRequired,
     String? placeholder,
   }) = _TemplateFieldModel;

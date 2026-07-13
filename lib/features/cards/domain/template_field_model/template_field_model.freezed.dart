@@ -20,6 +20,8 @@ mixin _$TemplateFieldModel {
   String? get fieldType;
   @JsonKey(name: 'field_label')
   String? get fieldLabel;
+  @JsonKey(name: 'select_options')
+  List<String>? get selectOptions;
   @JsonKey(name: 'is_required')
   @JsonKeyTransform()
   bool? get isRequired;
@@ -47,6 +49,8 @@ mixin _$TemplateFieldModel {
                 other.fieldType == fieldType) &&
             (identical(other.fieldLabel, fieldLabel) ||
                 other.fieldLabel == fieldLabel) &&
+            const DeepCollectionEquality()
+                .equals(other.selectOptions, selectOptions) &&
             (identical(other.isRequired, isRequired) ||
                 other.isRequired == isRequired) &&
             (identical(other.placeholder, placeholder) ||
@@ -56,11 +60,17 @@ mixin _$TemplateFieldModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, fieldName, fieldType, fieldLabel, isRequired, placeholder);
+      runtimeType,
+      fieldName,
+      fieldType,
+      fieldLabel,
+      const DeepCollectionEquality().hash(selectOptions),
+      isRequired,
+      placeholder);
 
   @override
   String toString() {
-    return 'TemplateFieldModel(fieldName: $fieldName, fieldType: $fieldType, fieldLabel: $fieldLabel, isRequired: $isRequired, placeholder: $placeholder)';
+    return 'TemplateFieldModel(fieldName: $fieldName, fieldType: $fieldType, fieldLabel: $fieldLabel, selectOptions: $selectOptions, isRequired: $isRequired, placeholder: $placeholder)';
   }
 }
 
@@ -74,6 +84,7 @@ abstract mixin class $TemplateFieldModelCopyWith<$Res> {
       {@JsonKey(name: 'field_name') String? fieldName,
       @JsonKey(name: 'field_type') String? fieldType,
       @JsonKey(name: 'field_label') String? fieldLabel,
+      @JsonKey(name: 'select_options') List<String>? selectOptions,
       @JsonKey(name: 'is_required') @JsonKeyTransform() bool? isRequired,
       String? placeholder});
 }
@@ -94,6 +105,7 @@ class _$TemplateFieldModelCopyWithImpl<$Res>
     Object? fieldName = freezed,
     Object? fieldType = freezed,
     Object? fieldLabel = freezed,
+    Object? selectOptions = freezed,
     Object? isRequired = freezed,
     Object? placeholder = freezed,
   }) {
@@ -110,6 +122,10 @@ class _$TemplateFieldModelCopyWithImpl<$Res>
           ? _self.fieldLabel
           : fieldLabel // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectOptions: freezed == selectOptions
+          ? _self.selectOptions
+          : selectOptions // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       isRequired: freezed == isRequired
           ? _self.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable
@@ -219,6 +235,7 @@ extension TemplateFieldModelPatterns on TemplateFieldModel {
             @JsonKey(name: 'field_name') String? fieldName,
             @JsonKey(name: 'field_type') String? fieldType,
             @JsonKey(name: 'field_label') String? fieldLabel,
+            @JsonKey(name: 'select_options') List<String>? selectOptions,
             @JsonKey(name: 'is_required') @JsonKeyTransform() bool? isRequired,
             String? placeholder)?
         $default, {
@@ -228,7 +245,7 @@ extension TemplateFieldModelPatterns on TemplateFieldModel {
     switch (_that) {
       case _TemplateFieldModel() when $default != null:
         return $default(_that.fieldName, _that.fieldType, _that.fieldLabel,
-            _that.isRequired, _that.placeholder);
+            _that.selectOptions, _that.isRequired, _that.placeholder);
       case _:
         return orElse();
     }
@@ -253,6 +270,7 @@ extension TemplateFieldModelPatterns on TemplateFieldModel {
             @JsonKey(name: 'field_name') String? fieldName,
             @JsonKey(name: 'field_type') String? fieldType,
             @JsonKey(name: 'field_label') String? fieldLabel,
+            @JsonKey(name: 'select_options') List<String>? selectOptions,
             @JsonKey(name: 'is_required') @JsonKeyTransform() bool? isRequired,
             String? placeholder)
         $default,
@@ -261,7 +279,7 @@ extension TemplateFieldModelPatterns on TemplateFieldModel {
     switch (_that) {
       case _TemplateFieldModel():
         return $default(_that.fieldName, _that.fieldType, _that.fieldLabel,
-            _that.isRequired, _that.placeholder);
+            _that.selectOptions, _that.isRequired, _that.placeholder);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -285,6 +303,7 @@ extension TemplateFieldModelPatterns on TemplateFieldModel {
             @JsonKey(name: 'field_name') String? fieldName,
             @JsonKey(name: 'field_type') String? fieldType,
             @JsonKey(name: 'field_label') String? fieldLabel,
+            @JsonKey(name: 'select_options') List<String>? selectOptions,
             @JsonKey(name: 'is_required') @JsonKeyTransform() bool? isRequired,
             String? placeholder)?
         $default,
@@ -293,7 +312,7 @@ extension TemplateFieldModelPatterns on TemplateFieldModel {
     switch (_that) {
       case _TemplateFieldModel() when $default != null:
         return $default(_that.fieldName, _that.fieldType, _that.fieldLabel,
-            _that.isRequired, _that.placeholder);
+            _that.selectOptions, _that.isRequired, _that.placeholder);
       case _:
         return null;
     }
@@ -307,8 +326,10 @@ class _TemplateFieldModel implements TemplateFieldModel {
       {@JsonKey(name: 'field_name') this.fieldName,
       @JsonKey(name: 'field_type') this.fieldType,
       @JsonKey(name: 'field_label') this.fieldLabel,
+      @JsonKey(name: 'select_options') final List<String>? selectOptions,
       @JsonKey(name: 'is_required') @JsonKeyTransform() this.isRequired,
-      this.placeholder});
+      this.placeholder})
+      : _selectOptions = selectOptions;
   factory _TemplateFieldModel.fromJson(Map<String, dynamic> json) =>
       _$TemplateFieldModelFromJson(json);
 
@@ -321,6 +342,17 @@ class _TemplateFieldModel implements TemplateFieldModel {
   @override
   @JsonKey(name: 'field_label')
   final String? fieldLabel;
+  final List<String>? _selectOptions;
+  @override
+  @JsonKey(name: 'select_options')
+  List<String>? get selectOptions {
+    final value = _selectOptions;
+    if (value == null) return null;
+    if (_selectOptions is EqualUnmodifiableListView) return _selectOptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   @JsonKey(name: 'is_required')
   @JsonKeyTransform()
@@ -354,6 +386,8 @@ class _TemplateFieldModel implements TemplateFieldModel {
                 other.fieldType == fieldType) &&
             (identical(other.fieldLabel, fieldLabel) ||
                 other.fieldLabel == fieldLabel) &&
+            const DeepCollectionEquality()
+                .equals(other._selectOptions, _selectOptions) &&
             (identical(other.isRequired, isRequired) ||
                 other.isRequired == isRequired) &&
             (identical(other.placeholder, placeholder) ||
@@ -363,11 +397,17 @@ class _TemplateFieldModel implements TemplateFieldModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-      runtimeType, fieldName, fieldType, fieldLabel, isRequired, placeholder);
+      runtimeType,
+      fieldName,
+      fieldType,
+      fieldLabel,
+      const DeepCollectionEquality().hash(_selectOptions),
+      isRequired,
+      placeholder);
 
   @override
   String toString() {
-    return 'TemplateFieldModel(fieldName: $fieldName, fieldType: $fieldType, fieldLabel: $fieldLabel, isRequired: $isRequired, placeholder: $placeholder)';
+    return 'TemplateFieldModel(fieldName: $fieldName, fieldType: $fieldType, fieldLabel: $fieldLabel, selectOptions: $selectOptions, isRequired: $isRequired, placeholder: $placeholder)';
   }
 }
 
@@ -383,6 +423,7 @@ abstract mixin class _$TemplateFieldModelCopyWith<$Res>
       {@JsonKey(name: 'field_name') String? fieldName,
       @JsonKey(name: 'field_type') String? fieldType,
       @JsonKey(name: 'field_label') String? fieldLabel,
+      @JsonKey(name: 'select_options') List<String>? selectOptions,
       @JsonKey(name: 'is_required') @JsonKeyTransform() bool? isRequired,
       String? placeholder});
 }
@@ -403,6 +444,7 @@ class __$TemplateFieldModelCopyWithImpl<$Res>
     Object? fieldName = freezed,
     Object? fieldType = freezed,
     Object? fieldLabel = freezed,
+    Object? selectOptions = freezed,
     Object? isRequired = freezed,
     Object? placeholder = freezed,
   }) {
@@ -419,6 +461,10 @@ class __$TemplateFieldModelCopyWithImpl<$Res>
           ? _self.fieldLabel
           : fieldLabel // ignore: cast_nullable_to_non_nullable
               as String?,
+      selectOptions: freezed == selectOptions
+          ? _self._selectOptions
+          : selectOptions // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       isRequired: freezed == isRequired
           ? _self.isRequired
           : isRequired // ignore: cast_nullable_to_non_nullable

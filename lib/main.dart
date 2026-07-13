@@ -16,7 +16,7 @@ Future<void> main() async {
       enabled: false,
       builder: (context) => UncontrolledProviderScope(
         container: container,
-        child: EasyLocalization(
+        child: EasyLocalization( 
           supportedLocales: const [Locale('en'), Locale('ar')],
           useOnlyLangCode: true,
           path: 'assets/translations',

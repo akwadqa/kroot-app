@@ -9,10 +9,12 @@ import 'package:kroot_app/src/theme/app_text_style.dart';
 class OccasionCardsScreenFilters extends ConsumerWidget {
   final Filter templateFilters;
   final String categoryName;
+  final String name;
   const OccasionCardsScreenFilters({
     super.key,
     required this.templateFilters,
     required this.categoryName,
+    required this.name,
   });
 
   @override
@@ -40,7 +42,7 @@ class OccasionCardsScreenFilters extends ConsumerWidget {
                       ..selectOptionFromFilter(
                           filterName: templateFilters.filterLabel,
                           optionName: filter)
-                      ..getTemplates(categoryName);
+                      ..getTemplates(name);
                   },
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 25, vertical: 6),

@@ -75,7 +75,89 @@ class _CustomizeCardScreenFormState
             itemBuilder: (context, index) {
               final currentField = widget.fields[index];
               switch (currentField.fieldType) {
+                case 'Select':
+                  return CreateEventPageSelectLanguageField(
+                    items: currentField.selectOptions
+                            ?.map(
+                              (option) => DropdownMenuItem<String>(
+                                value: option,
+                                child: Text(option),
+                              ),
+                            )
+                            .toList() ??
+                        [],
+                    onChanged: (String? value) {
+                      if (value != 'أخرى') {
+                        ref
+                            .read(cardsControllerProvider.notifier)
+                            .removeFieldValue(fieldName: 'predefined_text_2');
+                      }
+                      ref.read(cardsControllerProvider.notifier).addFieldValue(
+                            fieldName: currentField.fieldName ?? '',
+                            fieldValue: value ?? '',
+                          );
+                    },
+                    value: ref
+                        .watch(cardsControllerProvider)
+                        .value!
+                        .fieldsValues
+                        .where((element) =>
+                            element.keys.first == currentField.fieldName)
+                        .map((e) => e.values.first.toString())
+                        .firstOrNull,
+                    title: currentField.fieldLabel ?? '',
+                  );
                 case 'Text':
+                  if (currentField.fieldName?.contains('predefined_text') ??
+                      false) {
+                    final currentIndex = int.tryParse(
+                        currentField.fieldName?.split('_').last ?? '');
+                    final dropDownValue = ref
+                        .watch(cardsControllerProvider)
+                        .value!
+                        .fieldsValues
+                        .where((element) => element.keys.first
+                            .contains(currentIndex?.toString() ?? '0'))
+                        .map((e) => e.values.first.toString())
+                        .firstOrNull;
+                    if (dropDownValue == 'أخرى') {
+                      // if (currentField.fieldName == 'predefined_text_2') {
+                      //   final dropDownValue = ref
+                      //       .watch(cardsControllerProvider)
+                      //       .value!
+                      //       .fieldsValues
+                      //       .where((element) =>
+                      //           element.keys.first == 'predefined_text')
+                      //       .map((e) => e.values.first.toString())
+                      //       .firstOrNull;
+                      //   if (dropDownValue == 'أخرى') {
+                      return AppTextFormField(
+                        withIcon: false,
+                        onChanged: (value) {
+                          ref
+                              .read(cardsControllerProvider.notifier)
+                              .addFieldValue(
+                                fieldName: currentField.fieldName ?? '',
+                                fieldValue: value,
+                              );
+                        },
+                        isReadOnly: false,
+                        hint: currentField.placeholder ?? '',
+                        isRequired: currentField.isRequired ?? false,
+                        validator: (currentField.isRequired ?? false)
+                            ? (val) {
+                                if (val == null || val.isEmpty) {
+                                  return context.tr('required');
+                                }
+                                return null;
+                              }
+                            : (val) => null,
+                        label: currentField.fieldLabel ?? '',
+                        icon: Assets.icons.eventNameIc,
+                      );
+                    }
+                    return SizedBox.shrink();
+                  }
                   return AppTextFormField(
                     withIcon: false,
                     onChanged: (value) {

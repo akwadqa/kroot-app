@@ -49,7 +49,7 @@ class _OccasionCardsScreenBodyState
     Future(() {
       ref
           .read(cardsControllerProvider.notifier)
-          .getTemplates(widget.category.categoryName ?? '');
+          .getTemplates(widget.category.name ?? '');
     });
   }
 
@@ -68,6 +68,7 @@ class _OccasionCardsScreenBodyState
           ...widget.category.filters.map((filter) => OccasionCardsScreenFilters(
                 templateFilters: filter,
                 categoryName: widget.category.categoryName ?? '',
+                name: widget.category.name ?? '',
               )),
           // OccasionCardsScreenFilters(),
 
