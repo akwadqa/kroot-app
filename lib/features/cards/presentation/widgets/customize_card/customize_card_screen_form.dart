@@ -14,6 +14,7 @@ import 'package:kroot_app/features/event/presentation/widgets/create_event_page/
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_time.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
+import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -69,43 +70,81 @@ class _CustomizeCardScreenFormState
           20.verticalSpace,
 
           ListView.separated(
-            separatorBuilder: (context, index) => 18.verticalSpace,
+            separatorBuilder: (context, index) => SizedBox(),
+            // separatorBuilder: (context, index) => 18.verticalSpace,
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (context, index) {
               final currentField = widget.fields[index];
               switch (currentField.fieldType) {
                 case 'Select':
-                  return CreateEventPageSelectLanguageField(
-                    items: currentField.selectOptions
-                            ?.map(
-                              (option) => DropdownMenuItem<String>(
-                                value: option,
-                                child: Text(option),
-                              ),
-                            )
-                            .toList() ??
-                        [],
-                    onChanged: (String? value) {
-                      if (value != 'أخرى') {
-                        ref
-                            .read(cardsControllerProvider.notifier)
-                            .removeFieldValue(fieldName: 'predefined_text_2');
-                      }
-                      ref.read(cardsControllerProvider.notifier).addFieldValue(
-                            fieldName: currentField.fieldName ?? '',
-                            fieldValue: value ?? '',
-                          );
-                    },
-                    value: ref
-                        .watch(cardsControllerProvider)
-                        .value!
-                        .fieldsValues
-                        .where((element) =>
-                            element.keys.first == currentField.fieldName)
-                        .map((e) => e.values.first.toString())
-                        .firstOrNull,
-                    title: currentField.fieldLabel ?? '',
+                  final value = ref
+                      .watch(cardsControllerProvider)
+                      .value!
+                      .fieldsValues
+                      .where((element) =>
+                          element.keys.first == currentField.fieldName)
+                      .map((e) => e.values.first.toString())
+                      .firstOrNull;
+                  return Column(
+                    children: [
+                      CreateEventPageSelectLanguageField(
+                        items: currentField.selectOptions
+                                ?.map(
+                                  (option) => DropdownMenuItem<String>(
+                                    value: option,
+                                    child: Text(option),
+                                  ),
+                                )
+                                .toList() ??
+                            [],
+                        onChanged: (String? value) {
+                          ref
+                              .read(cardsControllerProvider.notifier)
+                              .addFieldValue(
+                                fieldName: currentField.fieldName ?? '',
+                                fieldValue: value ?? '',
+                              );
+                        },
+                        value: (currentField.selectOptions!.contains(value) ||
+                                value == null ||
+                                value.isEmpty)
+                            ? value
+                            // : 'أخرى',
+                            : currentField.selectOptions!.last,
+                        title: currentField.fieldLabel ?? '',
+                      ).onlyPadding(bottom: 18),
+                      if (value == 'أخرى' ||
+                          (!currentField.selectOptions!.contains(value) &&
+                              value != null &&
+                              value.isNotEmpty))
+                        AppTextFormField(
+                          withIcon: false,
+                          onChanged: (text_val) {
+                            if (text_val.isNotEmpty) {
+                              ref
+                                  .read(cardsControllerProvider.notifier)
+                                  .addFieldValue(
+                                    fieldName: currentField.fieldName ?? '',
+                                    fieldValue: text_val,
+                                  );
+                            }
+                          },
+                          isReadOnly: false,
+                          hint: currentField.placeholder ?? '',
+                          isRequired: currentField.isRequired ?? false,
+                          validator: (currentField.isRequired ?? false)
+                              ? (val) {
+                                  if (val == null || val.isEmpty) {
+                                    return context.tr('required');
+                                  }
+                                  return null;
+                                }
+                              : (val) => null,
+                          label: currentField.fieldLabel ?? '',
+                          icon: Assets.icons.eventNameIc,
+                        )
+                    ],
                   );
                 case 'Text':
                   if (currentField.fieldName?.contains('predefined_text') ??
@@ -154,7 +193,7 @@ class _CustomizeCardScreenFormState
                             : (val) => null,
                         label: currentField.fieldLabel ?? '',
                         icon: Assets.icons.eventNameIc,
-                      );
+                      ).onlyPadding(bottom: 18);
                     }
                     return SizedBox.shrink();
                   }
@@ -179,7 +218,7 @@ class _CustomizeCardScreenFormState
                         : (val) => null,
                     label: currentField.fieldLabel ?? '',
                     icon: Assets.icons.eventNameIc,
-                  );
+                  ).onlyPadding(bottom: 18);
 
                 case 'Date':
                   return CustomizeCardDate(
@@ -205,7 +244,7 @@ class _CustomizeCardScreenFormState
                           );
                     },
                     title: currentField.fieldLabel ?? '',
-                  );
+                  ).onlyPadding(bottom: 18);
 
                 case 'Time':
                   return CustomizeCardTime(
@@ -235,7 +274,7 @@ class _CustomizeCardScreenFormState
                           );
                     },
                     title: currentField.fieldLabel ?? '',
-                  );
+                  ).onlyPadding(bottom: 18);
 
                 default:
                   return SizedBox();

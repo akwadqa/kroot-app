@@ -100,31 +100,16 @@ class InviteTemplateScreen extends ConsumerWidget {
         }
       });
     } else {
-      ref.listen(updateEventControllerProvider, (prev, next) {
-        if (next.value!.isUpdateEvent != null) {
-          if (next is AsyncLoading) {
-            AppAlert.showLoadingDialog(ctx);
-          }
+      ref.listen(
+          updateEventControllerProvider
+              .select((val) => val.value!.updateEventResponse), (prev, next) {
+        if (next is AsyncData) {
+          // context.pop();
 
-          if (next is AsyncData && prev is AsyncLoading) {
-            ctx.pop();
-            // AppToast.doneToast("successfullyCompleted".tr());
-            ref.read(homeControllerProvider.notifier)
-              ..getUserEvents(page: 1)
-              ..getUtils();
-
-            context.go(
-              Routes.eventDetails,
-              extra: {'id': next.value!.updatedEvent?.occasionId},
-            );
-            ref.read(addEventControllerProvider.notifier).clearEventScreen();
-          }
-
-          if (next is AsyncError && prev is AsyncLoading) {
-            ctx.pop();
-            AppToast.errorToast(next.error.toString());
-          }
+          context.pop();
         }
+
+        // }
       });
     }
 
@@ -481,7 +466,7 @@ class InviteTemplateScreen extends ConsumerWidget {
       final eventTitle = id == null
           ? ref.read(addEventControllerProvider).value!.eventModel!.title
           : ref.read(updateEventControllerProvider).value!.updatedEvent!.title;
-      final newTitle = title.replaceAll('{{1}}', eventTitle!);
+      final newTitle = title.replaceAll('{{1}}', eventTitle ?? '');
 
       return newTitle;
     }

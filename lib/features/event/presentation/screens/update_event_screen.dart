@@ -57,31 +57,33 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
   Widget build(BuildContext context) {
     final key = GlobalKey<FormState>();
 
-    ref.listen(updateEventControllerProvider, (prev, next) {
-      if (next.value!.isUpdateEvent != null) {
-        if (next is AsyncLoading) {
-          AppAlert.showLoadingDialog(context);
-        }
-
-        if (next is AsyncData && prev is AsyncLoading) {
-          context.pop();
-
-          context.pop();
-
-          context.pop();
-          AppToast.doneToast(next.value!.msg);
-          ref
-              .read(homeControllerProvider.notifier)
-              .getEventDetails(widget.id ?? widget.eventModel.occasionId!);
-
-          ref.read(addEventControllerProvider.notifier).clearEventScreen();
-        }
-
-        if (next is AsyncError) {
-          context.pop();
-          AppToast.errorToast(next.error.toString());
-        }
+    ref.listen(
+        updateEventControllerProvider
+            .select((val) => val.value!.updateEventResponse), (prev, next) {
+      // if (next.value!.isUpdateEvent != null) {
+      if (next is AsyncLoading) {
+        AppAlert.showLoadingDialog(context);
       }
+
+      if (next is AsyncData) {
+        // context.pop();
+
+        context.pop();
+
+        context.pop();
+        AppToast.doneToast('successfullyCompleted'.tr());
+        ref
+            .read(homeControllerProvider.notifier)
+            .getEventDetails(widget.id ?? widget.eventModel.occasionId!);
+
+        ref.read(addEventControllerProvider.notifier).clearEventScreen();
+      }
+
+      if (next is AsyncError) {
+        context.pop();
+        AppToast.errorToast(next?.error.toString() ?? 'errorOccurred'.tr());
+      }
+      // }
     });
 
     return Scaffold(
@@ -121,7 +123,6 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                       }
                       return null;
                     },
-
                     label: context.tr('eventName'),
                     icon: Assets.icons.eventNameIc,
                   ),
@@ -252,10 +253,12 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   12.verticalSpace,
                   Consumer(
                     builder: (context, ref, child) {
+                      String? lat;
+                      String? lng;
                       final latlng = ref.watch(
                         updateEventControllerProvider.select((val) {
-                          final lat = val.value!.updatedEvent!.mapLatitude;
-                          final lng = val.value!.updatedEvent!.mapLongitude;
+                          lat = val.value!.updatedEvent!.mapLatitude;
+                          lng = val.value!.updatedEvent!.mapLongitude;
                           return LatLng(double.parse(lat!), double.parse(lng!));
                         }),
                       );

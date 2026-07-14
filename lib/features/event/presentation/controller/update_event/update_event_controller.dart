@@ -370,31 +370,30 @@ class UpdateEventController extends _$UpdateEventController {
 
   Future<CreateEventResponse?> updateEventToServer(String id) async {
     try {
-      state = AsyncData(state.value!.copyWith(isUpdateEvent: true));
+      state =
+          AsyncData(state.value!.copyWith(updateEventResponse: AsyncLoading()));
 
-      state = AsyncLoading();
       final repo = ref.read(homeRepositoryProvider);
       final response = await repo.updateEvent(state.value!.updatedEvent!, id);
 
       if (response.hasFailed) {
-        state = AsyncError(
-          response.message ?? '',
-          StackTrace.fromString(response.message ?? ''),
-        );
-        state = AsyncData(state.value!.copyWith(isUpdateEvent: false));
+        state = AsyncData(state.value!.copyWith(
+            updateEventResponse:
+                AsyncError(response.message ?? '', StackTrace.current)));
+        return null;
       }
 
       state = AsyncData(
         state.value!.copyWith(
           createEventResponse: response.data,
-          isUpdateEvent: false,
+          updateEventResponse: AsyncData(''),
           msg: response.message,
         ),
       );
       return response.data;
     } catch (e, st) {
-      state = AsyncError(e, st);
-      state = AsyncData(state.value!.copyWith(isUpdateEvent: false));
+      state = AsyncData(
+          state.value!.copyWith(updateEventResponse: AsyncError(e, st)));
       return null;
     }
   }
@@ -407,6 +406,8 @@ class UpdateEventController extends _$UpdateEventController {
     state = AsyncData(
       state.value!.copyWith(
         updatedEvent: EventModel(
+          mapLatitude: current?.mapLatitude ?? currentEvent?.mapLatitude,
+          mapLongitude: current?.mapLongitude ?? currentEvent?.mapLongitude,
           occasionId: id,
           type: current?.type ?? currentEvent?.type,
           title: current?.title ?? currentEvent?.title,

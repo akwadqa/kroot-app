@@ -28,10 +28,12 @@ class UpdateEventState {
 
   final List<HandlerModel> operators;
   final List<HandlerModel> handlers;
+  final AsyncValue<String>? updateEventResponse;
 
   final String msg;
 
   UpdateEventState({
+    
     required this.updatedEvent,
     required this.isChanged,
 
@@ -48,6 +50,7 @@ class UpdateEventState {
     required this.isAddContact,
     required this.contacts,
     required this.createEventResponse,
+    required this.updateEventResponse,
   });
 
   factory UpdateEventState.init() => UpdateEventState(
@@ -57,6 +60,7 @@ class UpdateEventState {
     isChanged: false,
 
     predictions: null,
+    updateEventResponse: null,
     msg: '',
     isAddContact: false,
     updateHandlersResponse: null,
@@ -76,6 +80,7 @@ class UpdateEventState {
     bool? isUpdateEvent,
     List<Contact>? contacts,
     CreateEventResponse? createEventResponse,
+    AsyncValue<String>? updateEventResponse,
 
     AsyncValue<List<AutocompletePrediction>>? predictions,
     AsyncValue<UpdateHandlersResponse>? updateHandlersResponse,
@@ -86,6 +91,7 @@ class UpdateEventState {
     String? msg,
   }) {
     return UpdateEventState(
+      updateEventResponse: updateEventResponse ?? this.updateEventResponse,
       deleteHandlersResponse:
           deleteHandlersResponse ?? this.deleteHandlersResponse,
 
