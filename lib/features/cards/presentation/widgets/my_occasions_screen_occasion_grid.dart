@@ -14,10 +14,10 @@ class MyOccasionsScreenOccasionsGrid extends StatelessWidget {
     return SliverGrid.builder(
       itemCount: categories.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+        crossAxisCount: 2,
         mainAxisSpacing: 20,
         crossAxisSpacing: 20,
-        childAspectRatio: 1,
+        childAspectRatio: 1.3,
       ),
       itemBuilder: (context, index) {
         return MyOccasionsScreenOccasionItem(

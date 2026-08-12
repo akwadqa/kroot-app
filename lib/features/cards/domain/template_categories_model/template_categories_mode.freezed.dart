@@ -21,6 +21,8 @@ mixin _$TemplateCategoriesModel {
   String? get categoryIcon;
   @JsonKey(name: 'display_order')
   int? get displayOrder;
+  @JsonKey(name: 'default_font_color')
+  String? get defaultFontColor;
   List<Filter> get filters;
 
   /// Create a copy of TemplateCategoriesModel
@@ -46,17 +48,25 @@ mixin _$TemplateCategoriesModel {
                 other.categoryIcon == categoryIcon) &&
             (identical(other.displayOrder, displayOrder) ||
                 other.displayOrder == displayOrder) &&
+            (identical(other.defaultFontColor, defaultFontColor) ||
+                other.defaultFontColor == defaultFontColor) &&
             const DeepCollectionEquality().equals(other.filters, filters));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, categoryName, categoryIcon,
-      displayOrder, const DeepCollectionEquality().hash(filters));
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      categoryName,
+      categoryIcon,
+      displayOrder,
+      defaultFontColor,
+      const DeepCollectionEquality().hash(filters));
 
   @override
   String toString() {
-    return 'TemplateCategoriesModel(name: $name, categoryName: $categoryName, categoryIcon: $categoryIcon, displayOrder: $displayOrder, filters: $filters)';
+    return 'TemplateCategoriesModel(name: $name, categoryName: $categoryName, categoryIcon: $categoryIcon, displayOrder: $displayOrder, defaultFontColor: $defaultFontColor, filters: $filters)';
   }
 }
 
@@ -71,6 +81,7 @@ abstract mixin class $TemplateCategoriesModelCopyWith<$Res> {
       @JsonKey(name: 'category_name') String? categoryName,
       @JsonKey(name: 'category_icon') String? categoryIcon,
       @JsonKey(name: 'display_order') int? displayOrder,
+      @JsonKey(name: 'default_font_color') String? defaultFontColor,
       List<Filter> filters});
 }
 
@@ -91,6 +102,7 @@ class _$TemplateCategoriesModelCopyWithImpl<$Res>
     Object? categoryName = freezed,
     Object? categoryIcon = freezed,
     Object? displayOrder = freezed,
+    Object? defaultFontColor = freezed,
     Object? filters = null,
   }) {
     return _then(_self.copyWith(
@@ -110,6 +122,10 @@ class _$TemplateCategoriesModelCopyWithImpl<$Res>
           ? _self.displayOrder
           : displayOrder // ignore: cast_nullable_to_non_nullable
               as int?,
+      defaultFontColor: freezed == defaultFontColor
+          ? _self.defaultFontColor
+          : defaultFontColor // ignore: cast_nullable_to_non_nullable
+              as String?,
       filters: null == filters
           ? _self.filters
           : filters // ignore: cast_nullable_to_non_nullable
@@ -216,6 +232,7 @@ extension TemplateCategoriesModelPatterns on TemplateCategoriesModel {
             @JsonKey(name: 'category_name') String? categoryName,
             @JsonKey(name: 'category_icon') String? categoryIcon,
             @JsonKey(name: 'display_order') int? displayOrder,
+            @JsonKey(name: 'default_font_color') String? defaultFontColor,
             List<Filter> filters)?
         $default, {
     required TResult orElse(),
@@ -224,7 +241,7 @@ extension TemplateCategoriesModelPatterns on TemplateCategoriesModel {
     switch (_that) {
       case _TemplateCategoriesModel() when $default != null:
         return $default(_that.name, _that.categoryName, _that.categoryIcon,
-            _that.displayOrder, _that.filters);
+            _that.displayOrder, _that.defaultFontColor, _that.filters);
       case _:
         return orElse();
     }
@@ -250,6 +267,7 @@ extension TemplateCategoriesModelPatterns on TemplateCategoriesModel {
             @JsonKey(name: 'category_name') String? categoryName,
             @JsonKey(name: 'category_icon') String? categoryIcon,
             @JsonKey(name: 'display_order') int? displayOrder,
+            @JsonKey(name: 'default_font_color') String? defaultFontColor,
             List<Filter> filters)
         $default,
   ) {
@@ -257,7 +275,7 @@ extension TemplateCategoriesModelPatterns on TemplateCategoriesModel {
     switch (_that) {
       case _TemplateCategoriesModel():
         return $default(_that.name, _that.categoryName, _that.categoryIcon,
-            _that.displayOrder, _that.filters);
+            _that.displayOrder, _that.defaultFontColor, _that.filters);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -282,6 +300,7 @@ extension TemplateCategoriesModelPatterns on TemplateCategoriesModel {
             @JsonKey(name: 'category_name') String? categoryName,
             @JsonKey(name: 'category_icon') String? categoryIcon,
             @JsonKey(name: 'display_order') int? displayOrder,
+            @JsonKey(name: 'default_font_color') String? defaultFontColor,
             List<Filter> filters)?
         $default,
   ) {
@@ -289,7 +308,7 @@ extension TemplateCategoriesModelPatterns on TemplateCategoriesModel {
     switch (_that) {
       case _TemplateCategoriesModel() when $default != null:
         return $default(_that.name, _that.categoryName, _that.categoryIcon,
-            _that.displayOrder, _that.filters);
+            _that.displayOrder, _that.defaultFontColor, _that.filters);
       case _:
         return null;
     }
@@ -304,6 +323,7 @@ class _TemplateCategoriesModel implements TemplateCategoriesModel {
       @JsonKey(name: 'category_name') this.categoryName,
       @JsonKey(name: 'category_icon') this.categoryIcon,
       @JsonKey(name: 'display_order') this.displayOrder,
+      @JsonKey(name: 'default_font_color') this.defaultFontColor,
       final List<Filter> filters = const []})
       : _filters = filters;
   factory _TemplateCategoriesModel.fromJson(Map<String, dynamic> json) =>
@@ -320,6 +340,9 @@ class _TemplateCategoriesModel implements TemplateCategoriesModel {
   @override
   @JsonKey(name: 'display_order')
   final int? displayOrder;
+  @override
+  @JsonKey(name: 'default_font_color')
+  final String? defaultFontColor;
   final List<Filter> _filters;
   @override
   @JsonKey()
@@ -357,17 +380,25 @@ class _TemplateCategoriesModel implements TemplateCategoriesModel {
                 other.categoryIcon == categoryIcon) &&
             (identical(other.displayOrder, displayOrder) ||
                 other.displayOrder == displayOrder) &&
+            (identical(other.defaultFontColor, defaultFontColor) ||
+                other.defaultFontColor == defaultFontColor) &&
             const DeepCollectionEquality().equals(other._filters, _filters));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, categoryName, categoryIcon,
-      displayOrder, const DeepCollectionEquality().hash(_filters));
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      categoryName,
+      categoryIcon,
+      displayOrder,
+      defaultFontColor,
+      const DeepCollectionEquality().hash(_filters));
 
   @override
   String toString() {
-    return 'TemplateCategoriesModel(name: $name, categoryName: $categoryName, categoryIcon: $categoryIcon, displayOrder: $displayOrder, filters: $filters)';
+    return 'TemplateCategoriesModel(name: $name, categoryName: $categoryName, categoryIcon: $categoryIcon, displayOrder: $displayOrder, defaultFontColor: $defaultFontColor, filters: $filters)';
   }
 }
 
@@ -384,6 +415,7 @@ abstract mixin class _$TemplateCategoriesModelCopyWith<$Res>
       @JsonKey(name: 'category_name') String? categoryName,
       @JsonKey(name: 'category_icon') String? categoryIcon,
       @JsonKey(name: 'display_order') int? displayOrder,
+      @JsonKey(name: 'default_font_color') String? defaultFontColor,
       List<Filter> filters});
 }
 
@@ -404,6 +436,7 @@ class __$TemplateCategoriesModelCopyWithImpl<$Res>
     Object? categoryName = freezed,
     Object? categoryIcon = freezed,
     Object? displayOrder = freezed,
+    Object? defaultFontColor = freezed,
     Object? filters = null,
   }) {
     return _then(_TemplateCategoriesModel(
@@ -423,6 +456,10 @@ class __$TemplateCategoriesModelCopyWithImpl<$Res>
           ? _self.displayOrder
           : displayOrder // ignore: cast_nullable_to_non_nullable
               as int?,
+      defaultFontColor: freezed == defaultFontColor
+          ? _self.defaultFontColor
+          : defaultFontColor // ignore: cast_nullable_to_non_nullable
+              as String?,
       filters: null == filters
           ? _self._filters
           : filters // ignore: cast_nullable_to_non_nullable

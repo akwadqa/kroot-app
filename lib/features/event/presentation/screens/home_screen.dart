@@ -54,6 +54,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
     final eventsController = ref
         .watch(cardsControllerProvider.select((val) => val.value!.categories));
+
+    final homeController = ref.watch(homeControllerProvider);
     // final eventsController = ref.watch(
     //   homeControllerProvider.select((val) => val.value!.eventResponse),
     // );
@@ -69,7 +71,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              44.verticalSpace,
+              20.verticalSpace,
               HomePageAppBar(),
               32.verticalSpace,
               Expanded(
@@ -78,17 +80,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   slivers: [
                     SliverToBoxAdapter(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           if (userData?.freeSubscribe == 0)
                             HomePageAvailableBalance(),
                           20.verticalSpace,
-                          if (eventsController.asData != null)
-                            Text(
-                              context.tr('select_event_type'),
-                              style: AppTextStyle.rubikSemiBold18.copyWith(
-                                color: AppColors.primary,
-                              ),
+                          if (eventsController.asData != null &&
+                              homeController.error == null)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              spacing: 5,
+                              children: [
+                                Assets.icons.starForth.svg(
+                                    width: 15,
+                                    colorFilter: ColorFilter.mode(
+                                        AppColors.primaryLight,
+                                        BlendMode.srcIn)),
+                                Text(
+                                  context.tr('select_event_type'),
+                                  style: AppTextStyle.rubikSemiBold18.copyWith(
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                                Assets.icons.starForth.svg(
+                                    width: 15,
+                                    colorFilter: ColorFilter.mode(
+                                        AppColors.primaryLight,
+                                        BlendMode.srcIn)),
+                              ],
                             ),
                           12.verticalSpace,
                         ],
@@ -194,7 +213,7 @@ class HomePageAvailableBalance extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        '${data.subscriber?.remainingBalance} ${context.tr('invitaion')}',
+                        '${data.subscriber?.remainingBalance} ${context.tr('card')}',
                         style: AppTextStyle.rubikRegular12.copyWith(
                           color: AppColors.white,
                         ),

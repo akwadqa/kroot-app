@@ -17,7 +17,7 @@ class RemoteInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final token = ref.read(userDataProvider)?.token;
-    final language = ref.read(currentLanguageProvider);
+    final language = ref.watch(currentLanguageProvider);
 
     if (token != null) {
       options.headers['Authorization'] = 'token $token';

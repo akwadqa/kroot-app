@@ -32,56 +32,70 @@ class BottomNavigationBarView extends ConsumerWidget {
 
     return Directionality(
       textDirection: ui.TextDirection.ltr,
-      child: SizedBox(
-        height: 105,
-        child: AnimatedBottomNavigationBar.builder(
-          itemCount: iconList.length,
-          tabBuilder: (int i, bool isActive) {
-            final color = isActive ? AppColors.primary : AppColors.black400;
+      // 1. أزلنا الـ SizedBox الخارجي تماماً
+      child: AnimatedBottomNavigationBar.builder(
+        // 2. استخدمنا ارتفاعاً ثابتاً ومثالياً (65 إلى 70 ممتاز جداً لنسبة وتناسب الـ FAB)
+        height: 68,
+        // 3. هذا السطر يحمي النص من لمس الخط السفلي للآيفون (Safe Area)
+        safeAreaValues: const SafeAreaValues(bottom: true),
+        itemCount: iconList.length,
+        tabBuilder: (int i, bool isActive) {
+          final color = isActive ? AppColors.primary : AppColors.black400;
 
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              spacing: 5,
+          return Padding(
+            // 4. إعطاء مساحة تنفس صغيرة من الأعلى والأسفل
+            padding: const EdgeInsets.symmetric(vertical: 6.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // لاحتواء العناصر بحجمها الطبيعي
               children: [
-                SizedBox(height: 3),
+                // --- المؤشر العلوي ---
                 AnimatedContainer(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.r),
                     color: index == i ? AppColors.primary : Colors.transparent,
                   ),
-                  width: 27,
-                  height: 4,
+                  width: 27.w,
+                  height: 4, // من الأفضل ترك الارتفاعات الصغيرة ثابتة بدون .h
                 ),
 
-                // Spacer(),
-                ColorFiltered(
-                  colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-                  child: iconList[i],
+                // --- الأيقونة (مغلفة بـ Expanded) ---
+                // الـ Expanded سيجبر الأيقونة على التوسط في المساحة المتبقية
+                // بدون أن تضغط على النص أو المؤشر وبدون Overflow
+                Expanded(
+                  child: Center(
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+                      child: iconList[i],
+                    ),
+                  ),
                 ),
 
+                // --- النص ---
                 Text(
                   labelList[i],
-                  style: TextStyle(fontSize: 12, color: color),
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    color: color,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 1, // لمنع أي Overflow في حال كان النص طويلاً
+                  overflow: TextOverflow.ellipsis,
                 ),
-                // SizedBox(),
-                // Spacer(),
               ],
-            );
-          },
-          gapLocation: GapLocation.center,
-          splashSpeedInMilliseconds: 1,
-          notchSmoothness: NotchSmoothness.smoothEdge,
-          activeIndex: index,
-          onTap: (i) => ref.read(bottomNavIndexProvider.notifier).setIndex(i),
-          backgroundColor: Colors.white,
-          shadow: Shadow(
-            blurRadius: 24,
-            offset: Offset(0, -5),
-            color: Colors.black.withOpacity(.12),
-          ),
+            ),
+          );
+        },
+        gapLocation: GapLocation.center,
+        splashSpeedInMilliseconds: 1,
+        notchSmoothness: NotchSmoothness.smoothEdge,
+        activeIndex: index,
+        onTap: (i) => ref.read(bottomNavIndexProvider.notifier).setIndex(i),
+        backgroundColor: Colors.white,
+        shadow: Shadow(
+          blurRadius: 24,
+          offset: const Offset(0, -5),
+          color: Colors.black.withOpacity(.12),
         ),
       ),
     );

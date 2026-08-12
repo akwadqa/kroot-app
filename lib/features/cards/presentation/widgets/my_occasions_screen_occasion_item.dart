@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/src/constants/Api/services_urls.dart';
 import 'package:kroot_app/src/routing/routes.dart';
+import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 
@@ -19,6 +20,10 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+    final color = (category.defaultFontColor != null &&
+            category.defaultFontColor!.isNotEmpty)
+        ? Color(int.parse(category.defaultFontColor!.replaceFirst('#', '0xff')))
+        : AppColors.white;
 
     return GestureDetector(
       onTap: () => context.push(Routes.occasionCards, extra: category),
@@ -26,8 +31,8 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
         // width: 200,
         // height: 200,
         decoration: BoxDecoration(
-          color: AppColors.white,
-          border: Border.all(color: AppColors.grayBorder2),
+          color: color,
+          border: Border.all(color: AppColors.primary, width: 2),
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
             BoxShadow(
@@ -40,23 +45,24 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Spacer(
+              flex: 1,
+            ),
             Expanded(
               flex: 4,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 50),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: AppColors.cardBackground,
+                  // color: AppColors.cardBackground,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
                 ),
                 child: (category.categoryIcon?.contains('svg') ?? false)
                     ? SvgPicture.network(baseUrl + category.categoryIcon!,
                         width: 30, height: 30)
                     : CachedNetworkImage(
-                        placeholder: (context, url) => Center(
-                            child: CircularProgressIndicator(
-                          color: AppColors.primary,
-                        )),
+                        placeholder: (context, url) =>
+                            Center(child: FadeCircleLoadingIndicator()),
                         imageUrl: baseUrl + (category.categoryIcon ?? ''),
                         width: 50,
                         height: 50,
@@ -87,10 +93,11 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
                   category.categoryName ?? 'name',
                   textAlign: TextAlign.center,
                   style: AppTextStyle.rubikRegular12
-                      .copyWith(color: AppColors.cardTitle),
+                      .copyWith(color: AppColors.primary),
                 ),
               ),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),

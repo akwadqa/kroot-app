@@ -282,6 +282,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/share_ic.svg
   SvgGenImage get shareIc => const SvgGenImage('assets/icons/share_ic.svg');
 
+  /// File path: assets/icons/star_forth.svg
+  SvgGenImage get starForth => const SvgGenImage('assets/icons/star_forth.svg');
+
   /// File path: assets/icons/upload_image_ic.svg
   SvgGenImage get uploadImageIc =>
       const SvgGenImage('assets/icons/upload_image_ic.svg');
@@ -375,6 +378,7 @@ class $AssetsIconsGen {
         selectedDateIc,
         settings,
         shareIc,
+        starForth,
         uploadImageIc,
         verificationArrowBackIc,
         verifiedCheckIc,

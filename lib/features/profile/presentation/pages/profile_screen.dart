@@ -68,6 +68,8 @@ class ProfileScreen extends ConsumerWidget {
         }
       }
     });
+    final phone = ref.watch(homeControllerProvider
+        .select((val) => val.value!.utilsResponse?.value?.phone));
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('profile'), withBackButton: false),
       body: Builder(
@@ -152,9 +154,10 @@ class ProfileScreen extends ConsumerWidget {
               ),
               10.verticalSpace,
               ProfilePageUserSectionItem(
-                title: context.tr('+974 555 666'),
+                // title: context.tr('+974 555 666'),
+                title: phone ?? context.tr('+974 555 666'),
                 icon: Assets.icons.contactWhatsappIc,
-                onTap: () => openWhatsApp('+974 555 666'),
+                onTap: () => openWhatsApp(phone ?? '+974 555 666'),
               ),
             ],
           );

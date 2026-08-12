@@ -1,7 +1,7 @@
 {
     "bride_groom": "العروس و العريس 👰🤵",
     "guests": "المدعوون",
-    "invitations": "الدعوات",
+    "invitations": "دعوات QR",
     "timeline": "الجدول",
     "vendors": "الموردون",
     "scan_code_msg": "ضع رمز QR داخل الإطار لمسحه, الرجاء تجنب الاهتزاز للحصول على النتيجة بسرعة",
@@ -246,7 +246,7 @@
     "enterEmail": "يرجى إدخال البريد الإلكتروني",
     "passwordMismatch": "كلمتا المرور غير متطابقتين",
     "send_a_message": "إرسال رسالة",
-    "with_currency": "ر.ق",
+    "with_currency": "ريال قطري",
     "emptyOperators": "لا يوجد مشغلون",
     "enterQuntryCode": "ادخل رمز الدولة",
     "countryCode": "رمز الدولة",
@@ -297,5 +297,6 @@
     "generating_image" : "جاري توليد الصورة...",
     "select_event_type" : "اختر نوع المناسبة",
     "the_cards" : "الكروت",
-    "card_details" : "تفاصيل الكرت"
+    "card_details" : "تفاصيل الكرت",
+    "card" : "كرت"
 }

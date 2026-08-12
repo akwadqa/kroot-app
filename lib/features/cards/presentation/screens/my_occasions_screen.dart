@@ -86,7 +86,7 @@ class _MyOccasionsScreenBodyState
             child: ListView(
               shrinkWrap: true,
               children: [
-                if (categriesFilter.isNotEmpty)
+                if (categriesFilter.isNotEmpty && isCards)
                   MyOccasionsScreenCategoriesFilter(
                       filters: filters, selectedFilter: selectedFilter),
                 20.verticalSpace,
@@ -298,7 +298,7 @@ class MyOccasionsScreenCardsEventsFilter extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(60),
                 ),
                 child: Text(
-                  'the_cards'.tr(),
+                  'appTitle'.tr(),
                   style: AppTextStyle.rubikSemiBold16.copyWith(
                       color: isCards ? AppColors.white : AppColors.primary),
                 ),

@@ -278,5 +278,6 @@
     "permission_denied" : "Storage permissions are denied",
     "generating_image" : "Generating image...",
     "the_cards" : "Cards",
-    "card_details" : "Card Details"
+    "card_details" : "Card Details",
+    "card" : "Card"
 }

@@ -13,6 +13,7 @@ _TemplateCategoriesModel _$TemplateCategoriesModelFromJson(
       categoryName: json['category_name'] as String?,
       categoryIcon: json['category_icon'] as String?,
       displayOrder: (json['display_order'] as num?)?.toInt(),
+      defaultFontColor: json['default_font_color'] as String?,
       filters: (json['filters'] as List<dynamic>?)
               ?.map((e) => Filter.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -26,6 +27,7 @@ Map<String, dynamic> _$TemplateCategoriesModelToJson(
       'category_name': instance.categoryName,
       'category_icon': instance.categoryIcon,
       'display_order': instance.displayOrder,
+      'default_font_color': instance.defaultFontColor,
       'filters': instance.filters,
     };
 

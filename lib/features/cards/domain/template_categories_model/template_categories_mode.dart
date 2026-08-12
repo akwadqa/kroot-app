@@ -10,6 +10,7 @@ abstract class TemplateCategoriesModel with _$TemplateCategoriesModel {
     @JsonKey(name: 'category_name')  String? categoryName,
     @JsonKey(name: 'category_icon')  String? categoryIcon,
     @JsonKey(name: 'display_order')  int? displayOrder,
+    @JsonKey(name: 'default_font_color')  String? defaultFontColor,
     @Default([]) List<Filter> filters,
   }) = _TemplateCategoriesModel;
 

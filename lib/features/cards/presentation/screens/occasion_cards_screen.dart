@@ -75,7 +75,8 @@ class _OccasionCardsScreenBodyState
           templates.when(
             data: (data) {
               if (data.isEmpty) {
-                return Center(child: Assets.icons.emptyIc.svg());
+                return Expanded(
+                    child: Center(child: Assets.icons.emptyIc.svg()));
               }
               return OccasionsCardsGrid(templates: data);
             },
@@ -84,7 +85,7 @@ class _OccasionCardsScreenBodyState
                   .read(cardsControllerProvider.notifier)
                   .getTemplates(widget.category.categoryName ?? '');
             }),
-            loading: () => Center(child: MailPulseAnimation()),
+            loading: () => Expanded(child: Center(child: MailPulseAnimation())),
           )
 
           // _buildTempatesGrid(),
