@@ -22,7 +22,7 @@ class _ChangeLanguageBottomSheetState
   void initState() {
     super.initState();
     Future(() {
-      ref.read(currentLanguageProvider.notifier).getLanguage(context);
+      // ref.read(currentLanguageProvider.notifier).getLanguage(context);
     });
   }
 

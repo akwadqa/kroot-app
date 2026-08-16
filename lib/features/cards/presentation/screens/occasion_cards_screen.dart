@@ -124,14 +124,18 @@ class OccasionsCardsGrid extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               // child: Assets.images.occasionCardImage.image(fit: BoxFit.cover)),
               child: Container(
-                padding: EdgeInsets.all(1),
+                // padding: EdgeInsets.all(1),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColors.primary)),
-                child: CachedNetworkImage(
-                    placeholder: (context, url) => FadeCircleLoadingIndicator(),
-                    imageUrl: baseUrl + templates[index].sampleImage,
-                    fit: BoxFit.cover),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: CachedNetworkImage(
+                      placeholder: (context, url) =>
+                          FadeCircleLoadingIndicator(),
+                      imageUrl: baseUrl + templates[index].sampleImage,
+                      fit: BoxFit.cover),
+                ),
               )),
         ),
       ),

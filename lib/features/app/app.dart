@@ -18,12 +18,30 @@ class App extends ConsumerStatefulWidget {
 }
 
 class _AppState extends ConsumerState<App> {
+  bool _isLanguageSynced = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // هذا الكود يتنفذ قبل أن تبدأ أي شاشة بطلب بيانات من الـ API
+    if (!_isLanguageSynced) {
+      // نقرأ اللغة المحفوظة في easy_localization مباشرة بشكل متزامن
+      final currentLang = context.locale.languageCode;
+
+      // نحدث حالة الـ Riverpod فوراً (نستخدم microtask لتجنب أخطاء بناء الواجهة)
+      Future.microtask(() {
+        ref.read(currentLanguageProvider.notifier).syncLanguage(currentLang);
+      });
+
+      _isLanguageSynced = true;
+    }
+  }
+
   @override
   void initState() {
-    Future(() {
-      ref.read(currentLanguageProvider.notifier).getLanguage(context);
-          ref.read(appControllerProvider.notifier).checkAppVersion();
-
+    Future.microtask(() {
+      ref.read(appControllerProvider.notifier).checkAppVersion();
     });
 
     super.initState();
