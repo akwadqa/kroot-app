@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -27,7 +26,7 @@ class EventDetailsImage extends StatelessWidget {
   });
   String? resolveImageUrl() {
     final imagePath = imageUrl;
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
     final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';

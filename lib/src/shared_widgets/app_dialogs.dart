@@ -8,7 +8,6 @@ import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../gen/assets.gen.dart';
 import '../theme/app_colors.dart';
 
 class AppDialogs {

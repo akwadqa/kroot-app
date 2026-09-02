@@ -10,7 +10,6 @@ import 'package:kroot_app/features/auth/presentation/controller/auth_ui_controll
 import 'package:kroot_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_confirm_button.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_expired_timer.dart';
-import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_input_button.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/verification_page/verification_page_pin.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';

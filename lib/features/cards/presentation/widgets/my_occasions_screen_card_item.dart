@@ -24,7 +24,7 @@ class MyOccasionsScreenCardItem extends ConsumerWidget {
   String? resolveImageUrl() {
     final imagePath = card.finalImage;
 
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
     final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -67,7 +67,7 @@ class MyOccasionsScreenCardItem extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(color: AppColors.primary),
               ),
-              child: (card.finalImage != null && resolveImageUrl() != null)
+              child: (resolveImageUrl() != null)
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(10.r),
                       child: CachedNetworkImage(

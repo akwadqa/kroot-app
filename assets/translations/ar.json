@@ -145,7 +145,7 @@
     "placeTheQRCodeInsideTheFrameToScanIt": "ضع رمز الاستجابة السريعة داخل الإطار لمسحه ضوئيًا, يرجى تجنب الاهتزاز للحصول على النتيجة بسرعة",
     "enterPhone": "الرجاء ادخال رقم الهاتف",
     "invalidNumber": "رقم الهاتف غير صحيح",
-    "createEvent": "انشاء حدث",
+    "createEvent": "انشاء مناسبة",
     "eventDetails": "تفاصيل المناسبة",
     "fillDetails": "يرجى تعبئة تفاصيل المناسبة بالكامل",
     "eventName": "اسم المناسبة",

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,8 +9,6 @@ import 'package:kroot_app/features/cards/presentation/controller/cards_controlle
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_date.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_time.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/create_event_page_select_language_field.dart';
-import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
-import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_time.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';

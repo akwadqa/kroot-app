@@ -27,9 +27,9 @@ class AppNotificationsController extends _$AppNotificationsController {
       final response = await repo.getAllOrdersNotifications(page: page);
 
       // فحص شامل: هل الرد ككل نول؟ هل السيرفر أبلغ عن فشل؟ هل الداتا نول؟
-      if (response == null || response.hasFailed || response.data == null) {
+      if (response.hasFailed || response.data == null) {
         final errorMessage =
-            response?.message ?? "حدث خطأ غير متوقع في السيرفر";
+            response.message ?? "حدث خطأ غير متوقع في السيرفر";
         state = AsyncError(errorMessage, StackTrace.current);
         return null;
       }

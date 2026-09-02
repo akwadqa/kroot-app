@@ -39,7 +39,7 @@ class HomePageAppBar extends ConsumerWidget {
               Directionality(
                 textDirection: ui.TextDirection.ltr,
                 child: Text(
-                  name != null ? '+$name' : '',
+                  '+$name',
                   style: AppTextStyle.rubikSemiBold16.copyWith(
                     color: AppColors.primary,
                   ),

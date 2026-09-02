@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 
 class CardsState {
   final String selectedFiltre;
@@ -41,7 +39,7 @@ class CardsState {
         templates: AsyncLoading(),
         filters: [],
         filerValue: 'All',
-        isCards: false,
+        isCards: true,
         selectedOptions: [],
         fieldsValues: [],
         templateFields: AsyncLoading(),

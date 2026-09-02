@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';

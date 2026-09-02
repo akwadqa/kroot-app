@@ -7,15 +7,12 @@ import 'package:kroot_app/features/cards/domain/template_categories_model/templa
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/occastion_cards/occasion_card_screen_filter.dart';
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
-import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
 
 class OccasionCardsScreen extends StatelessWidget {
@@ -105,7 +102,7 @@ class OccasionsCardsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
 
     return Expanded(
       child: GridView.builder(

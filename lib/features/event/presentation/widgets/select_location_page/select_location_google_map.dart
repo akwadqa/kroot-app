@@ -15,9 +15,9 @@ class SelectLocationGoogleMap extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(addEventControllerProvider, (previous, next) async {
-      if (next?.value == null) return;
+      if (next.value == null) return;
 
-      final latLng = next!.value!.latLng;
+      final latLng = next.value!.latLng;
       final controller = await mapController.future;
 
       controller.animateCamera(

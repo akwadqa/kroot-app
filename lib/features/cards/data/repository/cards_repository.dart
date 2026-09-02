@@ -4,7 +4,6 @@ import 'package:kroot_app/features/cards/domain/template_categories_model/templa
 import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_state.dart';
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/network/exception/dio_exceptions.dart';
 import 'package:kroot_app/src/network/services/dio_client.dart';

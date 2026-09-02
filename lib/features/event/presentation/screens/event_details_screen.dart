@@ -5,7 +5,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/data/data.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_bottom_sheet.dart';
@@ -39,6 +38,10 @@ class EventDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
+  // متغيرات لحفظ أبعاد الصورة وحالتها
+  double? _calculatedHeight;
+  String? _lastImageUrl;
+
   @override
   void initState() {
     super.initState();
@@ -47,6 +50,37 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
         ref.read(homeControllerProvider.notifier).getEventDetails(widget.id!);
       }
     });
+  }
+
+  // تم نقل الدالة هنا لتتمكن دالة حساب الأبعاد من استخدامها بسلاسة
+  String? resolveImageUrl(String? imagePath) {
+    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
+    if (imagePath == null || imagePath.isEmpty) return null;
+    if (imagePath.startsWith('http')) return imagePath;
+    final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
+    final path = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
+    return '$base$path';
+  }
+
+  // دالة حساب أبعاد الصورة في الخلفية
+  void _calculateImageHeight(String url) {
+    final ImageStream stream =
+        CachedNetworkImageProvider(url).resolve(const ImageConfiguration());
+
+    stream.addListener(
+      ImageStreamListener((ImageInfo info, bool _) {
+        final double width = info.image.width.toDouble();
+        final double height = info.image.height.toDouble();
+        final double aspectRatio = width / height;
+
+        if (mounted) {
+          setState(() {
+            // حساب الطول المناسب لعرض الشاشة الحالي
+            _calculatedHeight = MediaQuery.sizeOf(context).width / aspectRatio;
+          });
+        }
+      }),
+    );
   }
 
   @override
@@ -59,6 +93,14 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
     final controller = ref.watch(
       homeControllerProvider.select((val) => val.value!.occasionModel),
     );
+
+    // --- منطق تحديث أبعاد الصورة عند جلبها ---
+    final resolvedUrl = resolveImageUrl(image);
+    if (resolvedUrl != null && resolvedUrl != _lastImageUrl) {
+      _lastImageUrl = resolvedUrl;
+      _calculateImageHeight(resolvedUrl);
+    }
+    // -----------------------------------------
 
     ref.listen(homeControllerProvider.select((val) => val.value!.retryFailue), (
       prev,
@@ -103,17 +145,10 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
       }
     });
 
-    String? resolveImageUrl(String? imagePath) {
-      final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
-      if (imagePath == null || imagePath.isEmpty) return null;
-      if (imagePath.startsWith('http')) return imagePath;
-      final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-      final path =
-          imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
-      return '$base$path';
-    }
-
-    final double expandedH = (image != null && image.isNotEmpty) ? 213.h : 0;
+    // استخدام الطول المحسوب للصورة إذا اكتمل الحساب، وإلا نستخدم 213 كقيمة مبدئية، أو 0 إذا لم تكن هناك صورة
+    final double expandedH = (resolvedUrl != null && resolvedUrl.isNotEmpty)
+        ? (_calculatedHeight ?? 213.h)
+        : 0;
 
     return PopScope(
       canPop: false,
@@ -200,14 +235,17 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                     fit: StackFit.expand,
                     children: [
                       Container(color: AppColors.white),
-                      if (resolveImageUrl(image) != null)
+                      if (resolvedUrl != null)
                         Opacity(
                           opacity: t,
                           child: CachedNetworkImage(
                             fadeInCurve: Curves.linear,
                             placeholder: (context, url) =>
                                 FadeCircleLoadingIndicator(),
-                            imageUrl: resolveImageUrl(image) ?? '',
+                            imageUrl: resolvedUrl,
+                            // بما أننا قمنا بحساب الارتفاع بدقة بناءً على نسبة الأبعاد،
+                            // فإن استخدام BoxFit.cover لن يقوم بقص الصورة في وضعها الطبيعي،
+                            // وسيسمح لها بالتلاشي والقص بشكل أنيق وسلس عند السحب للأعلى
                             fit: BoxFit.cover,
                           ),
                         ),

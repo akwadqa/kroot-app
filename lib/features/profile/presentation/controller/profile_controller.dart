@@ -3,7 +3,6 @@ import 'package:kroot_app/features/event/data/models/utils_response/utils_respon
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/profile/data/repository/profile_respository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/features/profile/presentation/controller/profile_state.dart';
 
 part 'profile_controller.g.dart';

@@ -42,6 +42,7 @@ class CustomizeCardTime extends StatelessWidget {
 
       return combinedDateTime;
     }
+    return null;
   }
 
   @override

@@ -19,7 +19,12 @@ class AppToast {
       type: ToastificationType.error,
       showProgressBar: false,
       style: ToastificationStyle.flat,
-      description: Text(message),
+      description: Text(
+        message,
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+        ),
+      ),
     );
   }
 
@@ -32,7 +37,12 @@ class AppToast {
       showProgressBar: false,
       style: ToastificationStyle.flat,
       type: ToastificationType.success,
-      description: Text(message),
+      description: Text(
+        message,
+        style: TextStyle(
+          fontWeight: FontWeight.w700,
+        ),
+      ),
     );
   }
 }

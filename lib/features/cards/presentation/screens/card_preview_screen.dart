@@ -41,7 +41,7 @@ class CardPreviewScreen extends StatelessWidget {
 
 class _CardPreviewScreenScreenContent extends ConsumerStatefulWidget {
   const _CardPreviewScreenScreenContent(
-      {super.key, required this.confirmPreviewCardResponse});
+      {required this.confirmPreviewCardResponse});
   final ConfirmPreviewCardResponse confirmPreviewCardResponse;
 
   @override
@@ -58,7 +58,7 @@ class _CardPreviewScreenScreenContentState
 
   @override
   Widget build(BuildContext context) {
-    final base = dotenv.env['BASE_IMAGE'] ?? '';
+    final base = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
 
     return _buildBody(base + widget.confirmPreviewCardResponse.finalImage);
   }

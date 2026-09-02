@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
-import 'package:kroot_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/auth_ui_controller.dart';
 import 'package:kroot_app/features/auth/presentation/controller/send_otp_controller.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/login_page/login_page_number_field.dart';

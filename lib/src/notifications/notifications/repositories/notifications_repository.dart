@@ -11,7 +11,7 @@ part 'notifications_repository.g.dart';
 @riverpod
 NotificationsRepository notificationsRepository(Ref ref) {
   final dio = ref.watch(dioProvider);
-  final newDio = Dio(dio.options.copyWith(baseUrl: ServicesUrls.baseUrl));
+  final newDio = Dio(dio.options.copyWith(baseUrl: ServicesUrls.baseProductionUrl));
   newDio.interceptors.addAll(dio.interceptors);
 
   final NetworkService networkService = ref.watch(

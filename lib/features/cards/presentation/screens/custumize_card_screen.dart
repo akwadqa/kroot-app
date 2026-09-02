@@ -49,7 +49,7 @@ class _CustumizeCardScreenBodyState
 
   @override
   Widget build(BuildContext context) {
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
 
     final fields = ref.watch(
         cardsControllerProvider.select((val) => val.value!.templateFields));

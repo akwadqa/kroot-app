@@ -1,8 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';

@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/app/app_service.dart';
 import 'package:kroot_app/features/app/presentation/controller/app_controller.dart';
 import 'package:toastification/toastification.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';

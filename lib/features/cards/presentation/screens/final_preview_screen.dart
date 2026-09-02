@@ -34,7 +34,7 @@ class FinalPreviewScreen extends StatelessWidget {
 }
 
 class _FinalPreviewScreenContent extends ConsumerStatefulWidget {
-  const _FinalPreviewScreenContent({super.key, required this.templateName});
+  const _FinalPreviewScreenContent({required this.templateName});
   final String templateName;
 
   @override
@@ -88,7 +88,7 @@ class _FinalPreviewScreenContentState
           return;
         } else {
           context.pop();
-          AppToast.errorToast(next!.error.toString());
+          AppToast.errorToast(next.error.toString());
         }
       }
     });

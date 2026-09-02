@@ -11,7 +11,6 @@ import 'package:kroot_app/features/event/presentation/controller/home_controller
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
-import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_language.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_time.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_location_widget.dart';
 import 'package:kroot_app/gen/assets.gen.dart';

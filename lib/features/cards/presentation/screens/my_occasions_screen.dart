@@ -80,6 +80,10 @@ class _MyOccasionsScreenBodyState
         20.verticalSpace,
         Expanded(
           child: AppPaginationWidget(
+            enablePullDown: true,
+            onRefresh: () {
+              return ref.read(homeControllerProvider.notifier).refreshEvents();
+            },
             key: ValueKey<String>(selectedFilter),
             onLoading: (page) =>
                 ref.read(homeControllerProvider.notifier).onLoadMoreEvents(),
@@ -97,6 +101,7 @@ class _MyOccasionsScreenBodyState
                       if (currentList == null || currentList.isEmpty) {
                         return MyOccasionsScreenEmptyData(ref: ref);
                       }
+                      
 
                       return MyOccasionsScreenList(currentList: currentList);
                     },
@@ -285,7 +290,6 @@ class MyOccasionsScreenCardsEventsFilter extends ConsumerWidget {
                 ref.read(cardsControllerProvider.notifier)
                   ..setIsCards(true)
                   ..changeFilterValue('All');
-                ;
                 ref.read(homeControllerProvider.notifier)
                   ..makeCategoriesEmpty()
                   ..getUserEvents(page: 1);

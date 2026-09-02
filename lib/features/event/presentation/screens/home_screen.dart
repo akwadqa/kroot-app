@@ -6,25 +6,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
-import 'package:kroot_app/features/auth/presentation/controller/auth_controller.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
-import 'package:kroot_app/features/cards/presentation/screens/occasion_cards_screen.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/my_occasions_screen_occasion_grid.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
-import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_app_bar.dart';
-import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
-import 'package:kroot_app/src/utils/download_image.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -255,7 +250,7 @@ class HomePageEventItem extends StatelessWidget {
   String? resolveImageUrl() {
     final imagePath = event.imageUrl;
 
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
     final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';

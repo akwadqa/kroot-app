@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
-import 'package:kroot_app/src/constants/Api/services_urls.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -19,7 +18,7 @@ class MyOccasionsScreenOccasionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
     final color = (category.defaultFontColor != null &&
             category.defaultFontColor!.isNotEmpty)
         ? Color(int.parse(category.defaultFontColor!.replaceFirst('#', '0xff')))

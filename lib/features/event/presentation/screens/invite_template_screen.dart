@@ -50,7 +50,7 @@ class InviteTemplateScreen extends ConsumerWidget {
 
     String? resolveImageUrl() {
       final imagePath = imageUrl;
-      final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
+      final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
       if (imagePath == null || imagePath.isEmpty) return null;
       if (imagePath.startsWith('http')) return imagePath;
       final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -174,6 +174,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                 items: templates
                     .map(
                       (e) => DropdownMenuItem(
+                        //TODO : Here we need the template name :
                         value: e.name,
                         child: Text(
                           // '${e.name}  ${e.language}',
