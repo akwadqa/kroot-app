@@ -279,5 +279,7 @@
     "generating_image" : "Generating image...",
     "the_cards" : "Cards",
     "card_details" : "Card Details",
-    "card" : "Card"
+    "card" : "Card",
+    "qr_confirmation" : "QR Confirmation",
+    "qr_confirmation_message" : "Do you want to generate this template with Qr code or not?"
 }

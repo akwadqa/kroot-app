@@ -52,6 +52,7 @@ class _CustomizeCardScreenFormState
         .map((e) => e.values.first.toString())
         .firstOrNull
         ?.toString();
+        
     return Form(
       key: key,
       child: Column(

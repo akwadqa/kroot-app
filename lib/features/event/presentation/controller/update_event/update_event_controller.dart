@@ -581,6 +581,7 @@ class UpdateEventController extends _$UpdateEventController {
               newData.confirmedTemplate ?? current?.confirmedTemplate,
           declinedTemplate:
               newData.declinedTemplate ?? current?.declinedTemplate,
+          qrDelivery: newData.qrDelivery ?? current?.qrDelivery ?? 'Disabled',
           guests: setGuestListFromContacts() ?? current?.guests,
         ),
       ),

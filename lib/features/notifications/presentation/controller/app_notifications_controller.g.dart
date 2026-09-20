@@ -35,7 +35,7 @@ final class AppNotificationsControllerProvider extends $AsyncNotifierProvider<
 }
 
 String _$appNotificationsControllerHash() =>
-    r'cea1eb831b3b85145ba6e78d9aed8c4fe24925ef';
+    r'e30e9671c9620b1913fb72a0d2c8fd80fb3cb6dd';
 
 abstract class _$AppNotificationsController
     extends $AsyncNotifier<List<AppNotificationsModel>> {

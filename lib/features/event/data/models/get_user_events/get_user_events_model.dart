@@ -34,6 +34,7 @@ abstract class EventModel with _$EventModel {
 
     @JsonKey(name: 'show_qr') int? showQr,
     @JsonKey(name: 'image_url') String? imageUrl,
+    @JsonKey(name: 'qr_delivery') String? qrDelivery,
 
     @JsonKey(includeFromJson: false) File? image,
 

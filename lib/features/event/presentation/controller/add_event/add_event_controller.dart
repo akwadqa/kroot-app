@@ -52,7 +52,7 @@ class AddEventController extends _$AddEventController {
         final updatedContact = Contact(
           id: sc.contact.id,
           name: Name(first: firstName, last: lastName),
-          phones: [Phone(number.substring(4))],
+          phones: [Phone(number.substring(3))],
           // phones: sc.contact.phones
           //     .map((p) => Phone(p.number, label: p.label))
           //     .toList(),
@@ -64,7 +64,7 @@ class AddEventController extends _$AddEventController {
 
         return SelectedContact(
           contact: updatedContact,
-          code: number.substring(1, 4),
+          code: number.substring(0, 3),
           id: sc.id,
           count: count,
         );
@@ -238,6 +238,7 @@ class AddEventController extends _$AddEventController {
           inviteTemplate: newData.inviteTemplate ??
               current.inviteTemplate ??
               firsTemplate?.name,
+          qrDelivery: newData.qrDelivery ?? current.qrDelivery ?? 'Disabled',
           guests: setGuestListFromContacts() ?? current.guests,
         ),
       ),

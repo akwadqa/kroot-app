@@ -54,7 +54,7 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
 
   // تم نقل الدالة هنا لتتمكن دالة حساب الأبعاد من استخدامها بسلاسة
   String? resolveImageUrl(String? imagePath) {
-    final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
+    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
     if (imagePath == null || imagePath.isEmpty) return null;
     if (imagePath.startsWith('http')) return imagePath;
     final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';

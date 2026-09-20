@@ -425,6 +425,8 @@ mixin _$EventModel {
   int? get showQr;
   @JsonKey(name: 'image_url')
   String? get imageUrl;
+  @JsonKey(name: 'qr_delivery')
+  String? get qrDelivery;
   @JsonKey(includeFromJson: false)
   File? get image;
   @JsonKey(name: 'invite_template')
@@ -477,6 +479,8 @@ mixin _$EventModel {
             (identical(other.showQr, showQr) || other.showQr == showQr) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.qrDelivery, qrDelivery) ||
+                other.qrDelivery == qrDelivery) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.inviteTemplate, inviteTemplate) ||
                 other.inviteTemplate == inviteTemplate) &&
@@ -509,6 +513,7 @@ mixin _$EventModel {
         locationName,
         showQr,
         imageUrl,
+        qrDelivery,
         image,
         inviteTemplate,
         confirmedTemplate,
@@ -523,7 +528,7 @@ mixin _$EventModel {
 
   @override
   String toString() {
-    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
+    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, qrDelivery: $qrDelivery, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
   }
 }
 
@@ -545,6 +550,7 @@ abstract mixin class $EventModelCopyWith<$Res> {
       @JsonKey(name: 'location_name') String? locationName,
       @JsonKey(name: 'show_qr') int? showQr,
       @JsonKey(name: 'image_url') String? imageUrl,
+      @JsonKey(name: 'qr_delivery') String? qrDelivery,
       @JsonKey(includeFromJson: false) File? image,
       @JsonKey(name: 'invite_template') String? inviteTemplate,
       @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
@@ -582,6 +588,7 @@ class _$EventModelCopyWithImpl<$Res> implements $EventModelCopyWith<$Res> {
     Object? locationName = freezed,
     Object? showQr = freezed,
     Object? imageUrl = freezed,
+    Object? qrDelivery = freezed,
     Object? image = freezed,
     Object? inviteTemplate = freezed,
     Object? confirmedTemplate = freezed,
@@ -637,6 +644,10 @@ class _$EventModelCopyWithImpl<$Res> implements $EventModelCopyWith<$Res> {
       imageUrl: freezed == imageUrl
           ? _self.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      qrDelivery: freezed == qrDelivery
+          ? _self.qrDelivery
+          : qrDelivery // ignore: cast_nullable_to_non_nullable
               as String?,
       image: freezed == image
           ? _self.image
@@ -801,6 +812,7 @@ extension EventModelPatterns on EventModel {
             @JsonKey(name: 'location_name') String? locationName,
             @JsonKey(name: 'show_qr') int? showQr,
             @JsonKey(name: 'image_url') String? imageUrl,
+            @JsonKey(name: 'qr_delivery') String? qrDelivery,
             @JsonKey(includeFromJson: false) File? image,
             @JsonKey(name: 'invite_template') String? inviteTemplate,
             @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
@@ -829,6 +841,7 @@ extension EventModelPatterns on EventModel {
             _that.locationName,
             _that.showQr,
             _that.imageUrl,
+            _that.qrDelivery,
             _that.image,
             _that.inviteTemplate,
             _that.confirmedTemplate,
@@ -871,6 +884,7 @@ extension EventModelPatterns on EventModel {
             @JsonKey(name: 'location_name') String? locationName,
             @JsonKey(name: 'show_qr') int? showQr,
             @JsonKey(name: 'image_url') String? imageUrl,
+            @JsonKey(name: 'qr_delivery') String? qrDelivery,
             @JsonKey(includeFromJson: false) File? image,
             @JsonKey(name: 'invite_template') String? inviteTemplate,
             @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
@@ -898,6 +912,7 @@ extension EventModelPatterns on EventModel {
             _that.locationName,
             _that.showQr,
             _that.imageUrl,
+            _that.qrDelivery,
             _that.image,
             _that.inviteTemplate,
             _that.confirmedTemplate,
@@ -939,6 +954,7 @@ extension EventModelPatterns on EventModel {
             @JsonKey(name: 'location_name') String? locationName,
             @JsonKey(name: 'show_qr') int? showQr,
             @JsonKey(name: 'image_url') String? imageUrl,
+            @JsonKey(name: 'qr_delivery') String? qrDelivery,
             @JsonKey(includeFromJson: false) File? image,
             @JsonKey(name: 'invite_template') String? inviteTemplate,
             @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
@@ -966,6 +982,7 @@ extension EventModelPatterns on EventModel {
             _that.locationName,
             _that.showQr,
             _that.imageUrl,
+            _that.qrDelivery,
             _that.image,
             _that.inviteTemplate,
             _that.confirmedTemplate,
@@ -997,6 +1014,7 @@ class _EventModel implements EventModel {
       @JsonKey(name: 'location_name') this.locationName,
       @JsonKey(name: 'show_qr') this.showQr,
       @JsonKey(name: 'image_url') this.imageUrl,
+      @JsonKey(name: 'qr_delivery') this.qrDelivery,
       @JsonKey(includeFromJson: false) this.image,
       @JsonKey(name: 'invite_template') this.inviteTemplate,
       @JsonKey(name: 'confirmed_template') this.confirmedTemplate,
@@ -1041,6 +1059,9 @@ class _EventModel implements EventModel {
   @override
   @JsonKey(name: 'image_url')
   final String? imageUrl;
+  @override
+  @JsonKey(name: 'qr_delivery')
+  final String? qrDelivery;
   @override
   @JsonKey(includeFromJson: false)
   final File? image;
@@ -1131,6 +1152,8 @@ class _EventModel implements EventModel {
             (identical(other.showQr, showQr) || other.showQr == showQr) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
+            (identical(other.qrDelivery, qrDelivery) ||
+                other.qrDelivery == qrDelivery) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.inviteTemplate, inviteTemplate) ||
                 other.inviteTemplate == inviteTemplate) &&
@@ -1164,6 +1187,7 @@ class _EventModel implements EventModel {
         locationName,
         showQr,
         imageUrl,
+        qrDelivery,
         image,
         inviteTemplate,
         confirmedTemplate,
@@ -1178,7 +1202,7 @@ class _EventModel implements EventModel {
 
   @override
   String toString() {
-    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
+    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, qrDelivery: $qrDelivery, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
   }
 }
 
@@ -1202,6 +1226,7 @@ abstract mixin class _$EventModelCopyWith<$Res>
       @JsonKey(name: 'location_name') String? locationName,
       @JsonKey(name: 'show_qr') int? showQr,
       @JsonKey(name: 'image_url') String? imageUrl,
+      @JsonKey(name: 'qr_delivery') String? qrDelivery,
       @JsonKey(includeFromJson: false) File? image,
       @JsonKey(name: 'invite_template') String? inviteTemplate,
       @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
@@ -1240,6 +1265,7 @@ class __$EventModelCopyWithImpl<$Res> implements _$EventModelCopyWith<$Res> {
     Object? locationName = freezed,
     Object? showQr = freezed,
     Object? imageUrl = freezed,
+    Object? qrDelivery = freezed,
     Object? image = freezed,
     Object? inviteTemplate = freezed,
     Object? confirmedTemplate = freezed,
@@ -1295,6 +1321,10 @@ class __$EventModelCopyWithImpl<$Res> implements _$EventModelCopyWith<$Res> {
       imageUrl: freezed == imageUrl
           ? _self.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      qrDelivery: freezed == qrDelivery
+          ? _self.qrDelivery
+          : qrDelivery // ignore: cast_nullable_to_non_nullable
               as String?,
       image: freezed == image
           ? _self.image

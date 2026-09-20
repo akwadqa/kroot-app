@@ -100,19 +100,25 @@ abstract class TemplateModel with _$TemplateModel {
   const factory TemplateModel({
     String? name,
     String? template,
-
-    @JsonKey(name: 'sample_values')
-    String? sampleValues,
-
-    @JsonKey(name: 'for_doctype')
-    String? forDoctype,
-
-    @JsonKey(name: 'field_names')
-    String? fieldNames,
-
+    @JsonKey(name: 'sample_values') String? sampleValues,
+    @JsonKey(name: 'for_doctype') String? forDoctype,
+    @JsonKey(name: 'field_names') String? fieldNames,
     String? language,
+    @JsonKey(name: 'buttons_list') List<TemplateButtonModel>? buttonsList,
   }) = _TemplateModel;
 
   factory TemplateModel.fromJson(Map<String, dynamic> json) =>
       _$TemplateModelFromJson(json);
+}
+
+@freezed
+ abstract class TemplateButtonModel with _$TemplateButtonModel {
+  const factory TemplateButtonModel({
+    @JsonKey(name: 'button_label') String? buttonLabel,
+    @JsonKey(name: 'button_type') String? buttonType,
+    @JsonKey(name: 'action_type') String? actionType,
+  }) = _TemplateButtonModel;
+
+  factory TemplateButtonModel.fromJson(Map<String, dynamic> json) =>
+      _$TemplateButtonModelFromJson(json);
 }

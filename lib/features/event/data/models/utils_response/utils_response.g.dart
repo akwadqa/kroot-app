@@ -104,6 +104,9 @@ _TemplateModel _$TemplateModelFromJson(Map<String, dynamic> json) =>
       forDoctype: json['for_doctype'] as String?,
       fieldNames: json['field_names'] as String?,
       language: json['language'] as String?,
+      buttonsList: (json['buttons_list'] as List<dynamic>?)
+          ?.map((e) => TemplateButtonModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$TemplateModelToJson(_TemplateModel instance) =>
@@ -114,4 +117,20 @@ Map<String, dynamic> _$TemplateModelToJson(_TemplateModel instance) =>
       'for_doctype': instance.forDoctype,
       'field_names': instance.fieldNames,
       'language': instance.language,
+      'buttons_list': instance.buttonsList,
+    };
+
+_TemplateButtonModel _$TemplateButtonModelFromJson(Map<String, dynamic> json) =>
+    _TemplateButtonModel(
+      buttonLabel: json['button_label'] as String?,
+      buttonType: json['button_type'] as String?,
+      actionType: json['action_type'] as String?,
+    );
+
+Map<String, dynamic> _$TemplateButtonModelToJson(
+        _TemplateButtonModel instance) =>
+    <String, dynamic>{
+      'button_label': instance.buttonLabel,
+      'button_type': instance.buttonType,
+      'action_type': instance.actionType,
     };

@@ -36,10 +36,8 @@ class AppAlert {
                 ),
               ),
               20.verticalSpace,
-
               text,
               20.verticalSpace,
-
               CustomButtonWidget(
                 text: '',
                 content: Text(
@@ -55,7 +53,6 @@ class AppAlert {
                 width: double.infinity,
               ),
               20.verticalSpace,
-
               CustomButtonWidget(
                 text: '',
                 content: Text(
@@ -67,6 +64,86 @@ class AppAlert {
                 backgroundColor: AppColors.white,
                 onTap: () {
                   context.pop();
+                },
+                isFiled: true,
+                height: 44.h,
+                boxDecoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: AppColors.primary.withValues(alpha: .25),
+                    ),
+                  ],
+                ),
+                width: double.infinity,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Future<dynamic> showTemplateDialog({
+    required BuildContext context,
+    required void Function() onSubmit,
+    required void Function() onCancel,
+  }) {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: Container(
+          width: 330.w,
+          height: 297.h,
+          padding: EdgeInsets.symmetric(horizontal: 22.w),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                context.tr('qr_confirmation'),
+                style: AppTextStyle.rubikSemiBold18.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+              20.verticalSpace,
+              Text(
+                context.tr('qr_confirmation_message'),
+                style: AppTextStyle.rubikRegular14.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+              20.verticalSpace,
+              CustomButtonWidget(
+                text: '',
+                content: Text(
+                  context.tr('yes'),
+                  style: AppTextStyle.rubikSemiBold18.copyWith(
+                    color: AppColors.white,
+                  ),
+                ),
+                backgroundColor: AppColors.primary,
+                onTap: onSubmit,
+                isFiled: true,
+                height: 44.h,
+                width: double.infinity,
+              ),
+              20.verticalSpace,
+              CustomButtonWidget(
+                text: '',
+                content: Text(
+                  context.tr('no'),
+                  style: AppTextStyle.rubikSemiBold18.copyWith(
+                    color: AppColors.primary,
+                  ),
+                ),
+                backgroundColor: AppColors.white,
+                onTap: () {
+                  onCancel();
                 },
                 isFiled: true,
                 height: 44.h,

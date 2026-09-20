@@ -13,7 +13,6 @@ import 'package:kroot_app/features/event/presentation/controller/add_event/add_e
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
-import 'package:kroot_app/features/event/presentation/widgets/create_event_page/create_event_page_select_language_field.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
@@ -50,7 +49,7 @@ class InviteTemplateScreen extends ConsumerWidget {
 
     String? resolveImageUrl() {
       final imagePath = imageUrl;
-      final baseUrl = dotenv.env['API_PRODUCTION_BASE_IMAGE'] ?? '';
+      final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
       if (imagePath == null || imagePath.isEmpty) return null;
       if (imagePath.startsWith('http')) return imagePath;
       final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
@@ -134,16 +133,13 @@ class InviteTemplateScreen extends ConsumerWidget {
                   templates.first.name;
             }),
           );
-
-    final lang = templates
-            .where((template) => template.name == selectedTemplate)
-            .firstOrNull
-            ?.language ??
-        deviceLocale;
+    final currentTemplate = templates.firstWhere(
+      (template) => template.name == selectedTemplate,
+      orElse: () => templates.first,
+    );
 
     log(templates.map((e) => e.name).toList().toString());
     log(selectedTemplate.toString());
-    log(lang.toString());
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('createEvent')),
@@ -153,243 +149,297 @@ class InviteTemplateScreen extends ConsumerWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // تم إزالة DropDown من هنا
               30.verticalSpace,
-              CreateEventPageSelectLanguageField(
-                value: selectedTemplate,
-                onChanged: (val) {
-                  if (id == null) {
-                    ref
-                        .read(addEventControllerProvider.notifier)
-                        .updateEvent(EventModel(inviteTemplate: val));
-                  } else {
-                    ref
-                        .read(updateEventControllerProvider.notifier)
-                        .updateDataForEvent(
-                          EventModel(inviteTemplate: val),
-                          id!,
-                        );
-                  }
-                },
-                title: context.tr('eventTemplate'),
-                items: templates
-                    .map(
-                      (e) => DropdownMenuItem(
-                        //TODO : Here we need the template name :
-                        value: e.name,
-                        child: Text(
-                          // '${e.name}  ${e.language}',
-                          e.name ?? '',
-                          style: AppTextStyle.rubikRegular16.copyWith(
-                            color: AppColors.grayHint,
-                          ),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-              10.verticalSpace,
               Text(
                 context.tr('preview'),
                 style: AppTextStyle.rubikSemiBold18.copyWith(
                   color: AppColors.primary,
                 ),
-              ),
+              ).symmetricPadding(horizontal: 18.w),
               12.verticalSpace,
               Text(
                 context.tr('inviteLooks'),
                 style: AppTextStyle.rubikRegular14.copyWith(
                   color: AppColors.primary,
                 ),
-              ),
+              ).symmetricPadding(horizontal: 18.w),
               20.verticalSpace,
               Expanded(
-                child: SingleChildScrollView(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20.r),
-                    child: Localizations.override(
-                      context: context,
-                      locale: Locale(lang),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.white,
-                          border: Border.all(color: AppColors.grayBorder),
+                child: PageView.builder(
+                  // التحكم في الـ PageView ليظهر جزء من البطاقات المجاورة
+                  controller: PageController(viewportFraction: 0.88),
+                  itemCount: templates.length,
+                  itemBuilder: (context, index) {
+                    final currentTemplate = templates[index];
+                    final currentTemplateName = currentTemplate.name ?? '';
+                    final itemLang = currentTemplate.language ?? deviceLocale;
+                    final isSelected = selectedTemplate == currentTemplateName;
+                    final isWithConfirm = currentTemplate.buttonsList
+                        ?.where((element) =>
+                            element.actionType?.toLowerCase() == 'confirm')
+                        .isNotEmpty;
+
+                    final isWithDecline = currentTemplate.buttonsList
+                        ?.where((element) =>
+                            element.actionType?.toLowerCase() == 'decline')
+                        .isNotEmpty;
+
+                    final isWithLocation = currentTemplate.buttonsList
+                        ?.where((element) =>
+                            element.actionType?.toLowerCase() == 'location')
+                        .isNotEmpty;
+
+                    return GestureDetector(
+                      onTap: () {
+                        // نفس منطق الحفظ الذي كان موجوداً في الـ DropDown
+                        if (id == null) {
+                          ref
+                              .read(addEventControllerProvider.notifier)
+                              .updateEvent(EventModel(
+                                  inviteTemplate: currentTemplateName));
+                        } else {
+                          ref
+                              .read(updateEventControllerProvider.notifier)
+                              .updateDataForEvent(
+                                EventModel(inviteTemplate: currentTemplateName),
+                                id!,
+                              );
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 10.h),
+                        child: ClipRRect(
                           borderRadius: BorderRadius.circular(20.r),
-                          boxShadow: [
-                            BoxShadow(
-                              offset: Offset(0, 2),
-                              blurRadius: 4,
-                              color: AppColors.primary.withValues(alpha: .25),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            id != null
-                                ? resolveImageUrl() != null
-                                    ? SizedBox(
-                                        width: double.infinity,
-                                        height: 182.h,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: CachedNetworkImage(
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                            fit: BoxFit.cover,
-                                            fadeInCurve: Curves.linear,
-                                            placeholder: (context, url) =>
-                                                FadeCircleLoadingIndicator(),
-                                            imageUrl: resolveImageUrl()!,
-                                          ),
-                                        ),
-                                      )
-                                    : image != null
-                                        ? SizedBox(
-                                            width: double.infinity,
-                                            height: 182.h,
-                                            child: Align(
-                                              alignment: Alignment.center,
-                                              child: Image.file(
-                                                image,
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                              ),
-                                            ),
-                                          )
-                                        : SizedBox.shrink()
-                                : image != null
-                                    ? SizedBox(
-                                        width: double.infinity,
-                                        height: 182.h,
-                                        child: Align(
-                                          alignment: Alignment.center,
-                                          child: Image.file(
-                                            image,
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                          ),
-                                        ),
-                                      )
-                                    : SizedBox.shrink(),
-                            18.verticalSpace,
-                            Text(
-                              getTemplateMessage(
-                                templates,
-                                selectedTemplate!,
-                                ref,
-                                id,
-                              ),
-                              style: AppTextStyle.rubikRegular14.copyWith(
-                                color: AppColors.black,
-                              ),
-                            ).onlyPadding(start: 18.w),
-                            18.verticalSpace,
-                            Localizations.override(
-                              context: context,
-                              locale: Locale(lang),
-                              child: Row(
-                                children: [
-                                  Spacer(),
-                                  CustomButtonWidget(
-                                    text: '',
-                                    backgroundColor: AppColors.white,
-                                    content: Text(
-                                      lang == 'en' ? 'Confirm' : 'تأكيد',
-                                      style: AppTextStyle.rubikRegular18
-                                          .copyWith(color: AppColors.black),
-                                    ),
-                                    boxDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          offset: Offset(0, 2),
-                                          blurRadius: 4,
-                                          color: AppColors.primary.withValues(
-                                            alpha: .25,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {},
-                                    isFiled: true,
-                                    height: 44.h,
-                                    width: 138.w,
-                                  ),
-                                  Spacer(),
-                                  CustomButtonWidget(
-                                    text: '',
-                                    backgroundColor: AppColors.white,
-                                    content: Text(
-                                      lang == 'en' ? 'Declined' : 'رفض',
-                                      style: AppTextStyle.rubikRegular18
-                                          .copyWith(color: AppColors.black),
-                                    ),
-                                    boxDecoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.r),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          offset: Offset(0, 2),
-                                          blurRadius: 4,
-                                          color: AppColors.primary.withValues(
-                                            alpha: .25,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    onTap: () {},
-                                    isFiled: true,
-                                    height: 44.h,
-                                    width: 125.w,
-                                  ),
-                                  Spacer(),
-                                ],
-                              ),
-                            ),
-                            18.verticalSpace,
-                            CustomButtonWidget(
-                              text: '',
-                              backgroundColor: AppColors.white,
-                              content: Text(
-                                lang == 'en' ? 'Event Location' : 'موقع الحدث',
-                                style: AppTextStyle.rubikRegular18.copyWith(
-                                  color: AppColors.black,
+                          child: Localizations.override(
+                            context: context,
+                            locale: Locale(itemLang),
+                            child: AnimatedContainer(
+                              padding: EdgeInsets.all(isSelected ? 1 : 0),
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                // تغيير الإطار بناءً على التحديد ليكون جذاباً
+                                border: Border.all(
+                                  color: isSelected
+                                      ? AppColors.primary.withValues()
+                                      : AppColors.grayBorder,
+                                  width: isSelected ? 2.0 : 1.0,
                                 ),
-                              ),
-                              boxDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.r),
+                                borderRadius: BorderRadius.circular(20.r),
                                 boxShadow: [
                                   BoxShadow(
                                     offset: Offset(0, 2),
-                                    blurRadius: 4,
+                                    blurRadius: isSelected ? 8 : 4,
                                     color: AppColors.primary.withValues(
-                                      alpha: .25,
-                                    ),
+                                        alpha: isSelected ? .4 : .25),
                                   ),
                                 ],
                               ),
-                              onTap: () {},
-                              isFiled: true,
-                              height: 44.h,
-                              width: double.infinity,
-                            ).symmetricPadding(horizontal: 22.w),
-                            18.verticalSpace,
-                          ],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(21.r)),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    id != null
+                                        ? resolveImageUrl() != null
+                                            ? SizedBox(
+                                                width: double.infinity,
+                                                height: 182.h,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: CachedNetworkImage(
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                    fit: BoxFit.cover,
+                                                    fadeInCurve: Curves.linear,
+                                                    placeholder: (context,
+                                                            url) =>
+                                                        FadeCircleLoadingIndicator(),
+                                                    imageUrl:
+                                                        resolveImageUrl()!,
+                                                  ),
+                                                ),
+                                              )
+                                            : image != null
+                                                ? SizedBox(
+                                                    width: double.infinity,
+                                                    height: 182.h,
+                                                    child: Align(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child: Image.file(
+                                                        image,
+                                                        fit: BoxFit.cover,
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                      ),
+                                                    ),
+                                                  )
+                                                : SizedBox.shrink()
+                                        : image != null
+                                            ? SizedBox(
+                                                width: double.infinity,
+                                                height: 182.h,
+                                                child: Align(
+                                                  alignment: Alignment.center,
+                                                  child: Image.file(
+                                                    image,
+                                                    fit: BoxFit.cover,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  ),
+                                                ),
+                                              )
+                                            : SizedBox.shrink(),
+                                    18.verticalSpace,
+                                    Expanded(
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                          // تم تمرير اسم القالب الحالي لكي يعرض النص الخاص به وليس النص المختار دائماً
+                                          getTemplateMessage(
+                                            templates,
+                                            currentTemplateName,
+                                            ref,
+                                            id,
+                                          ),
+                                          style: AppTextStyle.rubikRegular14
+                                              .copyWith(
+                                            color: AppColors.black,
+                                          ),
+                                        ).onlyPadding(start: 18.w, end: 18.w),
+                                      ),
+                                    ),
+                                    18.verticalSpace,
+                                    if (isWithConfirm ?? false)
+                                      Row(
+                                        children: [
+                                          Spacer(),
+                                          CustomButtonWidget(
+                                            text: '',
+                                            backgroundColor: AppColors.white,
+                                            content: Text(
+                                              itemLang == 'en'
+                                                  ? 'Confirm'
+                                                  : 'تأكيد',
+                                              style: AppTextStyle.rubikRegular18
+                                                  .copyWith(
+                                                      color: AppColors.black),
+                                            ),
+                                            boxDecoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset(0, 2),
+                                                  blurRadius: 4,
+                                                  color: AppColors.primary
+                                                      .withValues(
+                                                    alpha: .25,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () {},
+                                            isFiled: true,
+                                            height: 44.h,
+                                            width: 138.w,
+                                          ),
+                                          Spacer(),
+                                          CustomButtonWidget(
+                                            text: '',
+                                            backgroundColor: AppColors.white,
+                                            content: Text(
+                                              itemLang == 'en'
+                                                  ? 'Declined'
+                                                  : 'رفض',
+                                              style: AppTextStyle.rubikRegular18
+                                                  .copyWith(
+                                                      color: AppColors.black),
+                                            ),
+                                            boxDecoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  offset: Offset(0, 2),
+                                                  blurRadius: 4,
+                                                  color: AppColors.primary
+                                                      .withValues(
+                                                    alpha: .25,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () {},
+                                            isFiled: true,
+                                            height: 44.h,
+                                            width: 125.w,
+                                          ),
+                                          Spacer(),
+                                        ],
+                                      ),
+                                    18.verticalSpace,
+                                    if (isWithLocation ?? false)
+                                      CustomButtonWidget(
+                                        text: '',
+                                        backgroundColor: AppColors.white,
+                                        content: Text(
+                                          itemLang == 'en'
+                                              ? 'Event Location'
+                                              : 'موقع المناسبة',
+                                          style: AppTextStyle.rubikRegular18
+                                              .copyWith(
+                                            color: AppColors.black,
+                                          ),
+                                        ),
+                                        boxDecoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              offset: Offset(0, 2),
+                                              blurRadius: 4,
+                                              color:
+                                                  AppColors.primary.withValues(
+                                                alpha: .25,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        onTap: () {},
+                                        isFiled: true,
+                                        height: 44.h,
+                                        width: double.infinity,
+                                      ).symmetricPadding(horizontal: 22.w),
+                                    if (isWithLocation ?? false)
+                                      18.verticalSpace,
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
+              18.verticalSpace,
+              // أزرار الحفظ تم إخراجها لتبقى ثابتة في الأسفل ولا تدور مع الـ PageView
               if (id != null)
                 CustomButtonWidget(
                   text: '',
-                  onTap: () async {
-                    ref
-                        .read(updateEventControllerProvider.notifier)
-                        .updateEventToServer(id!);
+                  onTap: () {
+                    selectTemplateAction(currentTemplate, ref, context);
+                    // context.pop();
+                    // ref
+                    //     .read(updateEventControllerProvider.notifier)
+                    //     .updateEventToServer(id!);
                   },
                   isFiled: true,
                   content: Text(
@@ -430,7 +480,8 @@ class InviteTemplateScreen extends ConsumerWidget {
                       ),
                       AddEventPageBotton(
                         onTap: () {
-                          context.push(Routes.qrScreen, extra: id);
+                          // context.push(Routes.qrScreen, extra: id);
+                          selectTemplateAction(currentTemplate, ref, context);
                         },
                         isSubmit: true,
                         child: Text(
@@ -445,10 +496,79 @@ class InviteTemplateScreen extends ConsumerWidget {
                 ),
               18.verticalSpace,
             ],
-          ).symmetricPadding(horizontal: 18.w);
+          );
         },
       ),
     );
+  }
+
+  void selectTemplateAction(
+      TemplateModel template, WidgetRef ref, BuildContext context) {
+    final isWithConfirm = template.buttonsList
+        ?.where((element) => element.actionType?.toLowerCase() == 'confirm')
+        .isNotEmpty;
+
+    //? if event with confirm button :
+    if (isWithConfirm ?? false) {
+      onSubmit(ref, 'On Confirmation');
+      if (id == null)
+        context.push(Routes.qrScreen, extra: id);
+      else
+        context.pop();
+      return;
+    } else {
+      AppAlert.showTemplateDialog(
+          context: context,
+          onSubmit: () {
+            onSubmit(ref, 'Immediate');
+            context.pop();
+            if (id == null)
+              context.push(Routes.qrScreen, extra: id);
+            else
+              context.pop();
+          },
+          onCancel: () {
+            onSubmit(ref, 'Disabled');
+            context.pop();
+            if (id == null)
+              ref.read(addEventControllerProvider.notifier).createEvent();
+            else
+              context.pop();
+          });
+      // AppAlert.showGlobalDialog(
+      //     context: context,
+      //     title: 'Title',
+      //     isLogout: true,
+      //     text: Text(
+      //       context.tr('logoutAlert'),
+      //       style: AppTextStyle.rubikRegular14.copyWith(
+      //         color: AppColors.primary,
+      //       ),
+      //     ),
+      //     onSubmit: () {
+      //       isSubmitted = true;
+      //       onSubmit(ref, 'Immediate');
+      //       context.pop();
+      //       context.push(Routes.qrScreen, extra: id);
+      //     }).then((_) {
+      //   if (!isSubmitted) {
+      //     onSubmit(ref, 'Disabled');
+      //     ref.read(addEventControllerProvider.notifier).createEvent();
+      //   }
+      // });
+    }
+  }
+
+  void onSubmit(WidgetRef ref, String qr) {
+    if (id != null) {
+      ref
+          .read(updateEventControllerProvider.notifier)
+          .updateDataForEvent(EventModel(qrDelivery: qr), id!);
+    } else {
+      ref
+          .read(addEventControllerProvider.notifier)
+          .updateEvent(EventModel(qrDelivery: qr));
+    }
   }
 
   String getTemplateMessage(

@@ -298,5 +298,7 @@
     "select_event_type" : "اختر نوع المناسبة",
     "the_cards" : "الكروت",
     "card_details" : "تفاصيل الكرت",
-    "card" : "كرت"
+    "card" : "كرت",
+    "qr_confirmation" : "تأكيد رمز QR",
+    "qr_confirmation_message" : "هل تريد توليد هذا القالب مع رمز QR أم لا؟"
 }
