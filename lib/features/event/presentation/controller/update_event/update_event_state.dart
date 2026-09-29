@@ -32,16 +32,18 @@ class UpdateEventState {
 
   final String msg;
 
+  final bool isQr;
+  final bool isLocation;
+  final bool isConfirmation;
+  final String templateMessage;
+
   UpdateEventState({
-    
     required this.updatedEvent,
     required this.isChanged,
-
     required this.selectedPlace,
     required this.msg,
     required this.updateHandlersResponse,
     required this.deleteHandlersResponse,
-
     required this.predictions,
     required this.operators,
     required this.handlers,
@@ -51,26 +53,33 @@ class UpdateEventState {
     required this.contacts,
     required this.createEventResponse,
     required this.updateEventResponse,
+    required this.isQr,
+    required this.isLocation,
+    required this.isConfirmation,
+    required this.templateMessage,
   });
 
   factory UpdateEventState.init() => UpdateEventState(
-    updatedEvent: EventModel(),
-    selectedPlace: null,
-    selectedContacts: [],
-    isChanged: false,
-
-    predictions: null,
-    updateEventResponse: null,
-    msg: '',
-    isAddContact: false,
-    updateHandlersResponse: null,
-    deleteHandlersResponse: null,
-    contacts: [],
-    operators: [],
-    handlers: [],
-    isUpdateEvent: false,
-    createEventResponse: null,
-  );
+        updatedEvent: EventModel(),
+        selectedPlace: null,
+        selectedContacts: [],
+        isChanged: false,
+        predictions: null,
+        updateEventResponse: null,
+        isConfirmation: false,
+        isLocation: false,
+        templateMessage: '',
+        isQr: false,
+        msg: '',
+        isAddContact: false,
+        updateHandlersResponse: null,
+        deleteHandlersResponse: null,
+        contacts: [],
+        operators: [],
+        handlers: [],
+        isUpdateEvent: false,
+        createEventResponse: null,
+      );
 
   UpdateEventState copyWith({
     EventModel? updatedEvent,
@@ -79,9 +88,12 @@ class UpdateEventState {
     bool? isChanged,
     bool? isUpdateEvent,
     List<Contact>? contacts,
+    bool? isQr,
+    bool? isLocation,
+    bool? isConfirmation,
+    String? templateMessage,
     CreateEventResponse? createEventResponse,
     AsyncValue<String>? updateEventResponse,
-
     AsyncValue<List<AutocompletePrediction>>? predictions,
     AsyncValue<UpdateHandlersResponse>? updateHandlersResponse,
     AsyncValue<DeleteHandlerResponse>? deleteHandlersResponse,
@@ -91,10 +103,13 @@ class UpdateEventState {
     String? msg,
   }) {
     return UpdateEventState(
+      isQr: isQr ?? this.isQr,
+      isLocation: isLocation ?? this.isLocation,
+      isConfirmation: isConfirmation ?? this.isConfirmation,
+      templateMessage: templateMessage ?? this.templateMessage,
       updateEventResponse: updateEventResponse ?? this.updateEventResponse,
       deleteHandlersResponse:
           deleteHandlersResponse ?? this.deleteHandlersResponse,
-
       updateHandlersResponse:
           updateHandlersResponse ?? this.updateHandlersResponse,
       predictions: predictions ?? this.predictions,

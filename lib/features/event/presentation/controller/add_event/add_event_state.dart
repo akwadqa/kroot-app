@@ -28,6 +28,11 @@ class AddEventState {
   final List<HandlerModel> operators;
   final List<HandlerModel> handlers;
 
+  final bool isQr;
+  final bool isLocation;
+  final bool isConfirmation;
+  final String templateMessage;
+
   AddEventState({
     required this.eventModel,
     required this.operators,
@@ -42,24 +47,30 @@ class AddEventState {
     required this.latLng,
     required this.predictions,
     required this.isAddContact,
+    required this.isQr,
+    required this.isLocation,
+    required this.isConfirmation, required this.templateMessage,
   });
 
   factory AddEventState.init() => AddEventState(
-    eventModel: null,
-    selectedContacts: [],
-    isAddContact: null,
-    operators: [],
-    handlers: [],
-    isGetContacts: false,
-    contacts: [],
-
-    latLng: LatLng(lat: 25.2854473, lng: 51.53103979999999),
-    initialLatLng: null,
-    predictions: null,
-    createEventResponse: null,
-    selectedPlace: null,
-    isAddEvent: null,
-  );
+        eventModel: null,
+        selectedContacts: [],
+        isAddContact: null,
+        operators: [],
+        handlers: [],
+        isConfirmation: false,
+        isLocation: false,
+        templateMessage: '',
+        isQr: false,
+        isGetContacts: false,
+        contacts: [],
+        latLng: LatLng(lat: 25.2854473, lng: 51.53103979999999),
+        initialLatLng: null,
+        predictions: null,
+        createEventResponse: null,
+        selectedPlace: null,
+        isAddEvent: null,
+      );
 
   AddEventState copyWith({
     EventModel? eventModel,
@@ -69,14 +80,22 @@ class AddEventState {
     bool? isAddEvent,
     List<Contact>? contacts,
     LatLng? latLng,
+    String? templateMessage,
     List<HandlerModel>? operators,
     List<HandlerModel>? handlers,
     LatLng? initialLatLng,
+    bool? isQr,
+    bool? isLocation,
+    bool? isConfirmation,
     CreateEventResponse? createEventResponse,
     AsyncValue<List<AutocompletePrediction>>? predictions,
     AsyncValue<SelectedPlace>? selectedPlace,
   }) {
     return AddEventState(
+      isQr: isQr ?? this.isQr,
+      templateMessage: templateMessage ?? this.templateMessage,
+      isLocation: isLocation ?? this.isLocation,
+      isConfirmation: isConfirmation ?? this.isConfirmation,
       initialLatLng: initialLatLng ?? this.initialLatLng,
       operators: operators ?? this.operators,
       handlers: handlers ?? this.handlers,

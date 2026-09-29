@@ -300,7 +300,7 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                     text: '',
                     onTap: () {
                       context.push(
-                        Routes.inviteTemplate,
+                        Routes.customizeTemplate,
                         extra: widget.eventModel.occasionId ?? widget.id!,
                       );
                     },

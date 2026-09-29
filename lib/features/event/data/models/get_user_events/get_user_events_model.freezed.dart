@@ -427,16 +427,18 @@ mixin _$EventModel {
   String? get imageUrl;
   @JsonKey(name: 'qr_delivery')
   String? get qrDelivery;
+  @JsonKey(name: 'invitation_message')
+  String? get inviteMessage;
   @JsonKey(includeFromJson: false)
-  File? get image;
-  @JsonKey(name: 'invite_template')
-  String? get inviteTemplate;
-  @JsonKey(name: 'confirmed_template')
-  String? get confirmedTemplate;
-  @JsonKey(name: 'declined_template')
-  String? get declinedTemplate;
+  File? get image; // @JsonKey(name: 'invite_template') String? inviteTemplate,
+// @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
+// @JsonKey(name: 'declined_template') String? declinedTemplate,
   @JsonKey(name: 'workflow_state')
   String? get workflowState;
+  @JsonKey(name: 'has_confirm_button')
+  bool? get hasConfirmationButton;
+  @JsonKey(name: 'has_location_button')
+  bool? get hasLocationButton;
   String? get status;
   @JsonKey(name: 'guest_report')
   GuestReportModel? get guestReport;
@@ -481,15 +483,15 @@ mixin _$EventModel {
                 other.imageUrl == imageUrl) &&
             (identical(other.qrDelivery, qrDelivery) ||
                 other.qrDelivery == qrDelivery) &&
+            (identical(other.inviteMessage, inviteMessage) ||
+                other.inviteMessage == inviteMessage) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.inviteTemplate, inviteTemplate) ||
-                other.inviteTemplate == inviteTemplate) &&
-            (identical(other.confirmedTemplate, confirmedTemplate) ||
-                other.confirmedTemplate == confirmedTemplate) &&
-            (identical(other.declinedTemplate, declinedTemplate) ||
-                other.declinedTemplate == declinedTemplate) &&
             (identical(other.workflowState, workflowState) ||
                 other.workflowState == workflowState) &&
+            (identical(other.hasConfirmationButton, hasConfirmationButton) ||
+                other.hasConfirmationButton == hasConfirmationButton) &&
+            (identical(other.hasLocationButton, hasLocationButton) ||
+                other.hasLocationButton == hasLocationButton) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.guestReport, guestReport) ||
                 other.guestReport == guestReport) &&
@@ -514,11 +516,11 @@ mixin _$EventModel {
         showQr,
         imageUrl,
         qrDelivery,
+        inviteMessage,
         image,
-        inviteTemplate,
-        confirmedTemplate,
-        declinedTemplate,
         workflowState,
+        hasConfirmationButton,
+        hasLocationButton,
         status,
         guestReport,
         const DeepCollectionEquality().hash(guests),
@@ -528,7 +530,7 @@ mixin _$EventModel {
 
   @override
   String toString() {
-    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, qrDelivery: $qrDelivery, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
+    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, qrDelivery: $qrDelivery, inviteMessage: $inviteMessage, image: $image, workflowState: $workflowState, hasConfirmationButton: $hasConfirmationButton, hasLocationButton: $hasLocationButton, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
   }
 }
 
@@ -551,11 +553,11 @@ abstract mixin class $EventModelCopyWith<$Res> {
       @JsonKey(name: 'show_qr') int? showQr,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'qr_delivery') String? qrDelivery,
+      @JsonKey(name: 'invitation_message') String? inviteMessage,
       @JsonKey(includeFromJson: false) File? image,
-      @JsonKey(name: 'invite_template') String? inviteTemplate,
-      @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
-      @JsonKey(name: 'declined_template') String? declinedTemplate,
       @JsonKey(name: 'workflow_state') String? workflowState,
+      @JsonKey(name: 'has_confirm_button') bool? hasConfirmationButton,
+      @JsonKey(name: 'has_location_button') bool? hasLocationButton,
       String? status,
       @JsonKey(name: 'guest_report') GuestReportModel? guestReport,
       @JsonKey(name: 'guests') List<GuestModel>? guests,
@@ -589,11 +591,11 @@ class _$EventModelCopyWithImpl<$Res> implements $EventModelCopyWith<$Res> {
     Object? showQr = freezed,
     Object? imageUrl = freezed,
     Object? qrDelivery = freezed,
+    Object? inviteMessage = freezed,
     Object? image = freezed,
-    Object? inviteTemplate = freezed,
-    Object? confirmedTemplate = freezed,
-    Object? declinedTemplate = freezed,
     Object? workflowState = freezed,
+    Object? hasConfirmationButton = freezed,
+    Object? hasLocationButton = freezed,
     Object? status = freezed,
     Object? guestReport = freezed,
     Object? guests = freezed,
@@ -649,26 +651,26 @@ class _$EventModelCopyWithImpl<$Res> implements $EventModelCopyWith<$Res> {
           ? _self.qrDelivery
           : qrDelivery // ignore: cast_nullable_to_non_nullable
               as String?,
+      inviteMessage: freezed == inviteMessage
+          ? _self.inviteMessage
+          : inviteMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
       image: freezed == image
           ? _self.image
           : image // ignore: cast_nullable_to_non_nullable
               as File?,
-      inviteTemplate: freezed == inviteTemplate
-          ? _self.inviteTemplate
-          : inviteTemplate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      confirmedTemplate: freezed == confirmedTemplate
-          ? _self.confirmedTemplate
-          : confirmedTemplate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      declinedTemplate: freezed == declinedTemplate
-          ? _self.declinedTemplate
-          : declinedTemplate // ignore: cast_nullable_to_non_nullable
-              as String?,
       workflowState: freezed == workflowState
           ? _self.workflowState
           : workflowState // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasConfirmationButton: freezed == hasConfirmationButton
+          ? _self.hasConfirmationButton
+          : hasConfirmationButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      hasLocationButton: freezed == hasLocationButton
+          ? _self.hasLocationButton
+          : hasLocationButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
       status: freezed == status
           ? _self.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -813,11 +815,11 @@ extension EventModelPatterns on EventModel {
             @JsonKey(name: 'show_qr') int? showQr,
             @JsonKey(name: 'image_url') String? imageUrl,
             @JsonKey(name: 'qr_delivery') String? qrDelivery,
+            @JsonKey(name: 'invitation_message') String? inviteMessage,
             @JsonKey(includeFromJson: false) File? image,
-            @JsonKey(name: 'invite_template') String? inviteTemplate,
-            @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
-            @JsonKey(name: 'declined_template') String? declinedTemplate,
             @JsonKey(name: 'workflow_state') String? workflowState,
+            @JsonKey(name: 'has_confirm_button') bool? hasConfirmationButton,
+            @JsonKey(name: 'has_location_button') bool? hasLocationButton,
             String? status,
             @JsonKey(name: 'guest_report') GuestReportModel? guestReport,
             @JsonKey(name: 'guests') List<GuestModel>? guests,
@@ -842,11 +844,11 @@ extension EventModelPatterns on EventModel {
             _that.showQr,
             _that.imageUrl,
             _that.qrDelivery,
+            _that.inviteMessage,
             _that.image,
-            _that.inviteTemplate,
-            _that.confirmedTemplate,
-            _that.declinedTemplate,
             _that.workflowState,
+            _that.hasConfirmationButton,
+            _that.hasLocationButton,
             _that.status,
             _that.guestReport,
             _that.guests,
@@ -885,11 +887,11 @@ extension EventModelPatterns on EventModel {
             @JsonKey(name: 'show_qr') int? showQr,
             @JsonKey(name: 'image_url') String? imageUrl,
             @JsonKey(name: 'qr_delivery') String? qrDelivery,
+            @JsonKey(name: 'invitation_message') String? inviteMessage,
             @JsonKey(includeFromJson: false) File? image,
-            @JsonKey(name: 'invite_template') String? inviteTemplate,
-            @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
-            @JsonKey(name: 'declined_template') String? declinedTemplate,
             @JsonKey(name: 'workflow_state') String? workflowState,
+            @JsonKey(name: 'has_confirm_button') bool? hasConfirmationButton,
+            @JsonKey(name: 'has_location_button') bool? hasLocationButton,
             String? status,
             @JsonKey(name: 'guest_report') GuestReportModel? guestReport,
             @JsonKey(name: 'guests') List<GuestModel>? guests,
@@ -913,11 +915,11 @@ extension EventModelPatterns on EventModel {
             _that.showQr,
             _that.imageUrl,
             _that.qrDelivery,
+            _that.inviteMessage,
             _that.image,
-            _that.inviteTemplate,
-            _that.confirmedTemplate,
-            _that.declinedTemplate,
             _that.workflowState,
+            _that.hasConfirmationButton,
+            _that.hasLocationButton,
             _that.status,
             _that.guestReport,
             _that.guests,
@@ -955,11 +957,11 @@ extension EventModelPatterns on EventModel {
             @JsonKey(name: 'show_qr') int? showQr,
             @JsonKey(name: 'image_url') String? imageUrl,
             @JsonKey(name: 'qr_delivery') String? qrDelivery,
+            @JsonKey(name: 'invitation_message') String? inviteMessage,
             @JsonKey(includeFromJson: false) File? image,
-            @JsonKey(name: 'invite_template') String? inviteTemplate,
-            @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
-            @JsonKey(name: 'declined_template') String? declinedTemplate,
             @JsonKey(name: 'workflow_state') String? workflowState,
+            @JsonKey(name: 'has_confirm_button') bool? hasConfirmationButton,
+            @JsonKey(name: 'has_location_button') bool? hasLocationButton,
             String? status,
             @JsonKey(name: 'guest_report') GuestReportModel? guestReport,
             @JsonKey(name: 'guests') List<GuestModel>? guests,
@@ -983,11 +985,11 @@ extension EventModelPatterns on EventModel {
             _that.showQr,
             _that.imageUrl,
             _that.qrDelivery,
+            _that.inviteMessage,
             _that.image,
-            _that.inviteTemplate,
-            _that.confirmedTemplate,
-            _that.declinedTemplate,
             _that.workflowState,
+            _that.hasConfirmationButton,
+            _that.hasLocationButton,
             _that.status,
             _that.guestReport,
             _that.guests,
@@ -1015,11 +1017,11 @@ class _EventModel implements EventModel {
       @JsonKey(name: 'show_qr') this.showQr,
       @JsonKey(name: 'image_url') this.imageUrl,
       @JsonKey(name: 'qr_delivery') this.qrDelivery,
+      @JsonKey(name: 'invitation_message') this.inviteMessage,
       @JsonKey(includeFromJson: false) this.image,
-      @JsonKey(name: 'invite_template') this.inviteTemplate,
-      @JsonKey(name: 'confirmed_template') this.confirmedTemplate,
-      @JsonKey(name: 'declined_template') this.declinedTemplate,
       @JsonKey(name: 'workflow_state') this.workflowState,
+      @JsonKey(name: 'has_confirm_button') this.hasConfirmationButton,
+      @JsonKey(name: 'has_location_button') this.hasLocationButton,
       this.status,
       @JsonKey(name: 'guest_report') this.guestReport,
       @JsonKey(name: 'guests') final List<GuestModel>? guests,
@@ -1063,20 +1065,23 @@ class _EventModel implements EventModel {
   @JsonKey(name: 'qr_delivery')
   final String? qrDelivery;
   @override
+  @JsonKey(name: 'invitation_message')
+  final String? inviteMessage;
+  @override
   @JsonKey(includeFromJson: false)
   final File? image;
-  @override
-  @JsonKey(name: 'invite_template')
-  final String? inviteTemplate;
-  @override
-  @JsonKey(name: 'confirmed_template')
-  final String? confirmedTemplate;
-  @override
-  @JsonKey(name: 'declined_template')
-  final String? declinedTemplate;
+// @JsonKey(name: 'invite_template') String? inviteTemplate,
+// @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
+// @JsonKey(name: 'declined_template') String? declinedTemplate,
   @override
   @JsonKey(name: 'workflow_state')
   final String? workflowState;
+  @override
+  @JsonKey(name: 'has_confirm_button')
+  final bool? hasConfirmationButton;
+  @override
+  @JsonKey(name: 'has_location_button')
+  final bool? hasLocationButton;
   @override
   final String? status;
   @override
@@ -1154,15 +1159,15 @@ class _EventModel implements EventModel {
                 other.imageUrl == imageUrl) &&
             (identical(other.qrDelivery, qrDelivery) ||
                 other.qrDelivery == qrDelivery) &&
+            (identical(other.inviteMessage, inviteMessage) ||
+                other.inviteMessage == inviteMessage) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.inviteTemplate, inviteTemplate) ||
-                other.inviteTemplate == inviteTemplate) &&
-            (identical(other.confirmedTemplate, confirmedTemplate) ||
-                other.confirmedTemplate == confirmedTemplate) &&
-            (identical(other.declinedTemplate, declinedTemplate) ||
-                other.declinedTemplate == declinedTemplate) &&
             (identical(other.workflowState, workflowState) ||
                 other.workflowState == workflowState) &&
+            (identical(other.hasConfirmationButton, hasConfirmationButton) ||
+                other.hasConfirmationButton == hasConfirmationButton) &&
+            (identical(other.hasLocationButton, hasLocationButton) ||
+                other.hasLocationButton == hasLocationButton) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.guestReport, guestReport) ||
                 other.guestReport == guestReport) &&
@@ -1188,11 +1193,11 @@ class _EventModel implements EventModel {
         showQr,
         imageUrl,
         qrDelivery,
+        inviteMessage,
         image,
-        inviteTemplate,
-        confirmedTemplate,
-        declinedTemplate,
         workflowState,
+        hasConfirmationButton,
+        hasLocationButton,
         status,
         guestReport,
         const DeepCollectionEquality().hash(_guests),
@@ -1202,7 +1207,7 @@ class _EventModel implements EventModel {
 
   @override
   String toString() {
-    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, qrDelivery: $qrDelivery, image: $image, inviteTemplate: $inviteTemplate, confirmedTemplate: $confirmedTemplate, declinedTemplate: $declinedTemplate, workflowState: $workflowState, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
+    return 'EventModel(occasionId: $occasionId, title: $title, type: $type, date: $date, language: $language, role: $role, mapLongitude: $mapLongitude, mapLatitude: $mapLatitude, locationName: $locationName, showQr: $showQr, imageUrl: $imageUrl, qrDelivery: $qrDelivery, inviteMessage: $inviteMessage, image: $image, workflowState: $workflowState, hasConfirmationButton: $hasConfirmationButton, hasLocationButton: $hasLocationButton, status: $status, guestReport: $guestReport, guests: $guests, operators: $operators, handlers: $handlers)';
   }
 }
 
@@ -1227,11 +1232,11 @@ abstract mixin class _$EventModelCopyWith<$Res>
       @JsonKey(name: 'show_qr') int? showQr,
       @JsonKey(name: 'image_url') String? imageUrl,
       @JsonKey(name: 'qr_delivery') String? qrDelivery,
+      @JsonKey(name: 'invitation_message') String? inviteMessage,
       @JsonKey(includeFromJson: false) File? image,
-      @JsonKey(name: 'invite_template') String? inviteTemplate,
-      @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
-      @JsonKey(name: 'declined_template') String? declinedTemplate,
       @JsonKey(name: 'workflow_state') String? workflowState,
+      @JsonKey(name: 'has_confirm_button') bool? hasConfirmationButton,
+      @JsonKey(name: 'has_location_button') bool? hasLocationButton,
       String? status,
       @JsonKey(name: 'guest_report') GuestReportModel? guestReport,
       @JsonKey(name: 'guests') List<GuestModel>? guests,
@@ -1266,11 +1271,11 @@ class __$EventModelCopyWithImpl<$Res> implements _$EventModelCopyWith<$Res> {
     Object? showQr = freezed,
     Object? imageUrl = freezed,
     Object? qrDelivery = freezed,
+    Object? inviteMessage = freezed,
     Object? image = freezed,
-    Object? inviteTemplate = freezed,
-    Object? confirmedTemplate = freezed,
-    Object? declinedTemplate = freezed,
     Object? workflowState = freezed,
+    Object? hasConfirmationButton = freezed,
+    Object? hasLocationButton = freezed,
     Object? status = freezed,
     Object? guestReport = freezed,
     Object? guests = freezed,
@@ -1326,26 +1331,26 @@ class __$EventModelCopyWithImpl<$Res> implements _$EventModelCopyWith<$Res> {
           ? _self.qrDelivery
           : qrDelivery // ignore: cast_nullable_to_non_nullable
               as String?,
+      inviteMessage: freezed == inviteMessage
+          ? _self.inviteMessage
+          : inviteMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
       image: freezed == image
           ? _self.image
           : image // ignore: cast_nullable_to_non_nullable
               as File?,
-      inviteTemplate: freezed == inviteTemplate
-          ? _self.inviteTemplate
-          : inviteTemplate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      confirmedTemplate: freezed == confirmedTemplate
-          ? _self.confirmedTemplate
-          : confirmedTemplate // ignore: cast_nullable_to_non_nullable
-              as String?,
-      declinedTemplate: freezed == declinedTemplate
-          ? _self.declinedTemplate
-          : declinedTemplate // ignore: cast_nullable_to_non_nullable
-              as String?,
       workflowState: freezed == workflowState
           ? _self.workflowState
           : workflowState // ignore: cast_nullable_to_non_nullable
               as String?,
+      hasConfirmationButton: freezed == hasConfirmationButton
+          ? _self.hasConfirmationButton
+          : hasConfirmationButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      hasLocationButton: freezed == hasLocationButton
+          ? _self.hasLocationButton
+          : hasLocationButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
       status: freezed == status
           ? _self.status
           : status // ignore: cast_nullable_to_non_nullable

@@ -44,6 +44,36 @@ class UpdateEventController extends _$UpdateEventController {
         ?.operators;
     final handlers =
         ref.watch(homeControllerProvider).value?.occasionModel?.value?.handlers;
+
+    final isQr = ref
+            .watch(homeControllerProvider)
+            .value
+            ?.occasionModel
+            ?.value
+            ?.qrDelivery !=
+        'Disabled';
+
+    final isConfirm = ref
+        .watch(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value
+        ?.hasConfirmationButton;
+
+    final isLocation = ref
+        .watch(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value
+        ?.hasLocationButton;
+
+    final templateMessage = ref
+        .watch(homeControllerProvider)
+        .value
+        ?.occasionModel
+        ?.value
+        ?.inviteMessage;
+
     if (list != null) {
       final selected = convertGuestModelsToSelectedContacts(list);
 
@@ -51,10 +81,46 @@ class UpdateEventController extends _$UpdateEventController {
         selectedContacts: selected,
         operators: operators,
         handlers: handlers,
+        isConfirmation: isConfirm,
+        isLocation: isLocation,
+        isQr: isQr,
+        templateMessage: templateMessage,
       );
     } else {
       return UpdateEventState.init();
     }
+  }
+
+  void changeQrState(bool isEnabled) {
+    state = AsyncData(
+      state.value!.copyWith(
+        isQr: isEnabled,
+      ),
+    );
+  }
+
+  void changeTemplateMessage(String message) {
+    state = AsyncData(
+      state.value!.copyWith(
+        templateMessage: message,
+      ),
+    );
+  }
+
+  void changeLocationState(bool isEnables) {
+    state = AsyncData(
+      state.value!.copyWith(
+        isLocation: isEnables,
+      ),
+    );
+  }
+
+  void changeConfirmationState(bool isEnables) {
+    state = AsyncData(
+      state.value!.copyWith(
+        isConfirmation: isEnables,
+      ),
+    );
   }
 
   bool _checkSelectedContactsChanged(List<SelectedContact> currentSelected) {
@@ -415,12 +481,6 @@ class UpdateEventController extends _$UpdateEventController {
           language: current?.language ?? currentEvent?.language,
           image: null,
           imageUrl: null,
-          inviteTemplate:
-              current?.inviteTemplate ?? currentEvent?.inviteTemplate,
-          confirmedTemplate:
-              current?.confirmedTemplate ?? currentEvent?.confirmedTemplate,
-          declinedTemplate:
-              current?.declinedTemplate ?? currentEvent?.declinedTemplate,
           guests: setGuestListFromContacts() ?? current?.guests,
         ),
       ),
@@ -574,13 +634,11 @@ class UpdateEventController extends _$UpdateEventController {
           locationName: newData.locationName ?? current!.locationName,
           date: newData.date ?? current?.date,
           language: newData.language ?? current?.language,
+          hasConfirmationButton: state.value!.isConfirmation,
+          hasLocationButton: state.value!.isLocation,
+          inviteMessage: state.value!.templateMessage,
           image: newData.image ?? current?.image,
           imageUrl: newData.imageUrl ?? current?.imageUrl,
-          inviteTemplate: newData.inviteTemplate ?? current?.inviteTemplate,
-          confirmedTemplate:
-              newData.confirmedTemplate ?? current?.confirmedTemplate,
-          declinedTemplate:
-              newData.declinedTemplate ?? current?.declinedTemplate,
           qrDelivery: newData.qrDelivery ?? current?.qrDelivery ?? 'Disabled',
           guests: setGuestListFromContacts() ?? current?.guests,
         ),

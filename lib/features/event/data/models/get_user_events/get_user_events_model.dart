@@ -27,26 +27,24 @@ abstract class EventModel with _$EventModel {
     String? date,
     String? language,
     String? role,
-
     @JsonKey(name: 'map_longitude') String? mapLongitude,
     @JsonKey(name: 'map_latitude') String? mapLatitude,
     @JsonKey(name: 'location_name') String? locationName,
-
     @JsonKey(name: 'show_qr') int? showQr,
     @JsonKey(name: 'image_url') String? imageUrl,
     @JsonKey(name: 'qr_delivery') String? qrDelivery,
-
+    @JsonKey(name: 'invitation_message') String? inviteMessage,
     @JsonKey(includeFromJson: false) File? image,
 
-    @JsonKey(name: 'invite_template') String? inviteTemplate,
-    @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
-    @JsonKey(name: 'declined_template') String? declinedTemplate,
+    // @JsonKey(name: 'invite_template') String? inviteTemplate,
+    // @JsonKey(name: 'confirmed_template') String? confirmedTemplate,
+    // @JsonKey(name: 'declined_template') String? declinedTemplate,
 
     @JsonKey(name: 'workflow_state') String? workflowState,
+    @JsonKey(name: 'has_confirm_button') bool? hasConfirmationButton,
+    @JsonKey(name: 'has_location_button') bool? hasLocationButton,
     String? status,
-
     @JsonKey(name: 'guest_report') GuestReportModel? guestReport,
-
     @JsonKey(name: 'guests') List<GuestModel>? guests,
     @JsonKey(name: 'operators') List<HandlerModel>? operators,
     @JsonKey(name: 'handlers') List<HandlerModel>? handlers,

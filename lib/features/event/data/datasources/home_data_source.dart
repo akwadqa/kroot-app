@@ -64,9 +64,8 @@ class HomeDataSource {
     try {
       final data = FormData.fromMap({
         'occasion_id': id,
-        'image': event.image != null
-            ? await MultipartFile.fromFile(event.image!.path)
-            : null,
+        if (event.image != null)
+          'image': await MultipartFile.fromFile(event.image!.path),
         ...(event.toJson()
           ..remove('image_url')
           ..remove('handlers')

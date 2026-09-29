@@ -155,28 +155,28 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
       //? Listener for add :
       ref.listen(addEventControllerProvider, (prev, next) {
         //? This listener for create event in this screen :
-        if (next.value!.isAddEvent != null) {
-          //? For loading :
-          if (next is AsyncLoading) {
-            AppAlert.showLoadingDialog(ctx);
-          }
+        // if (next.value!.isAddEvent != null) {
+        //   //? For loading :
+        //   if (next is AsyncLoading) {
+        //     AppAlert.showLoadingDialog(ctx);
+        //   }
 
-          if (next is AsyncData && prev is AsyncLoading) {
-            ctx.pop();
+        //   if (next is AsyncData && prev is AsyncLoading) {
+        //     ctx.pop();
 
-            // AppToast.doneToast("successfullyCompleted".tr());
-            context.go(
-              Routes.eventDetails,
-              extra: {'id': next.value!.createEventResponse?.eventId},
-            );
-            ref.read(addEventControllerProvider.notifier).clearEventScreen();
-          }
+        //     // AppToast.doneToast("successfullyCompleted".tr());
+        //     context.go(
+        //       Routes.eventDetails,
+        //       extra: {'id': next.value!.createEventResponse?.eventId},
+        //     );
+        //     ref.read(addEventControllerProvider.notifier).clearEventScreen();
+        //   }
 
-          if (next is AsyncError && prev is AsyncLoading) {
-            ctx.pop();
-            AppToast.errorToast(next.error.toString());
-          }
-        }
+        //   if (next is AsyncError && prev is AsyncLoading) {
+        //     ctx.pop();
+        //     AppToast.errorToast(next.error.toString());
+        //   }
+        // }
 
         //? This listener for add new contact :
         if (next.value?.isAddContact ?? false) {
@@ -407,7 +407,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                                 ? null
                                 : () {
                                     context.push(
-                                      Routes.inviteTemplate,
+                                      Routes.customizeTemplate,
                                       extra: widget.id,
                                     );
                                   }
@@ -418,7 +418,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                                     .isEmpty
                                 ? null
                                 : () {
-                                    context.push(Routes.inviteTemplate);
+                                    context.push(Routes.customizeTemplate);
                                   },
                         isSubmit: widget.id != null
                             ? ref

@@ -40,120 +40,109 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(addEventControllerProvider);
-    late BuildContext ctx;
+    // late BuildContext ctx;
 
-    ref.listen(addEventControllerProvider, (prev, next) {
-      if (next.value!.isAddEvent != null) {
-        if (next is AsyncLoading) {
-          AppAlert.showLoadingDialog(ctx);
-        }
+    // ref.listen(addEventControllerProvider, (prev, next) {
+    // if (next.value!.isAddEvent != null) {
+    //   if (next is AsyncLoading) {
+    //     AppAlert.showLoadingDialog(ctx);
+    //   }
 
-        if (next is AsyncData && prev is AsyncLoading) {
-          ctx.pop();
-          // AppToast.doneToast("successfullyCompleted".tr());
+    //   if (next is AsyncData && prev is AsyncLoading) {
+    //     ctx.pop();
+    //     // AppToast.doneToast("successfullyCompleted".tr());
 
-          ref.read(homeControllerProvider.notifier)
-            ..getUserEvents(page: 1)
-            ..getUtils();
+    //     ref.read(homeControllerProvider.notifier)
+    //       ..getUserEvents(page: 1)
+    //       ..getUtils();
 
-          context.go(
-            Routes.eventDetails,
+    //     context.go(
+    //       Routes.eventDetails,
 
-            extra: next.value!.createEventResponse?.eventId,
-          );
-          ref.read(addEventControllerProvider.notifier).clearEventScreen();
-        }
+    //       extra: next.value!.createEventResponse?.eventId,
+    //     );
+    //     ref.read(addEventControllerProvider.notifier).clearEventScreen();
+    //   }
 
-        if (next is AsyncError && prev is AsyncLoading) {
-          ctx.pop();
-          AppToast.errorToast(next.error.toString());
-        }
-      }
-    });
+    //   if (next is AsyncError && prev is AsyncLoading) {
+    //     ctx.pop();
+    //     AppToast.errorToast(next.error.toString());
+    //   }
+    // }
+    // });
 
     return Scaffold(
-      appBar: CustomAppbar(
-        title: context.tr('selectContacts'),
-        withBackButton: true,
-      ),
-      body: Builder(
-        builder: (context) {
-          ctx = context;
-          return Column(
-            children: [
-              HomePageSearchField(
-                onChange: (val) {
-                  ref
-                      .read(addEventControllerProvider.notifier)
-                      .getContacts(val);
-                },
-                hint: context.tr('searchContactHere'),
-              ).symmetricPadding(horizontal: 22.w, vertical: 20.h),
-
-              Expanded(
-                child: controller.when(
-                  data: (data) {
-                    if (data.contacts.isEmpty) {
-                      return Center(
-                        child: Text(
-                          context.tr('emptyContacts1'),
-                          style: AppTextStyle.rubikRegular16.copyWith(
-                            color: AppColors.black,
-                          ),
+        appBar: CustomAppbar(
+          title: context.tr('selectContacts'),
+          withBackButton: true,
+        ),
+        body: Column(
+          children: [
+            HomePageSearchField(
+              onChange: (val) {
+                ref.read(addEventControllerProvider.notifier).getContacts(val);
+              },
+              hint: context.tr('searchContactHere'),
+            ).symmetricPadding(horizontal: 22.w, vertical: 20.h),
+            Expanded(
+              child: controller.when(
+                data: (data) {
+                  if (data.contacts.isEmpty) {
+                    return Center(
+                      child: Text(
+                        context.tr('emptyContacts1'),
+                        style: AppTextStyle.rubikRegular16.copyWith(
+                          color: AppColors.black,
                         ),
-                      );
-                    }
+                      ),
+                    );
+                  }
 
-                    return _buildList(data);
-                  },
+                  return _buildList(data);
+                },
+                error: (e, st) {
+                  final state = ref.watch(addEventControllerProvider);
 
-                  error: (e, st) {
-                    final state = ref.watch(addEventControllerProvider);
-
-                    if (state.value!.contacts.isEmpty) {
-                      return AppErrorWidget(
-                        onTap: () {
-                          ref
-                              .read(addEventControllerProvider.notifier)
-                              .getContacts(null);
-                        },
-                      );
-                    }
-                    return _buildList(state.value!);
-                  },
-                  loading: () {
-                    final state = ref.watch(addEventControllerProvider);
-                    if (state.value!.contacts.isEmpty) {
-                      return Center(child: MailPulseAnimation());
-                    }
-                    return _buildList(state.value!);
-                  },
+                  if (state.value!.contacts.isEmpty) {
+                    return AppErrorWidget(
+                      onTap: () {
+                        ref
+                            .read(addEventControllerProvider.notifier)
+                            .getContacts(null);
+                      },
+                    );
+                  }
+                  return _buildList(state.value!);
+                },
+                loading: () {
+                  final state = ref.watch(addEventControllerProvider);
+                  if (state.value!.contacts.isEmpty) {
+                    return Center(child: MailPulseAnimation());
+                  }
+                  return _buildList(state.value!);
+                },
+              ),
+            ),
+            CustomButtonWidget(
+              text: '',
+              onTap: () {
+                context.pop();
+                context.pop();
+              },
+              isFiled: true,
+              content: Text(
+                context.tr('confirm'),
+                style: AppTextStyle.nunitoBold16.copyWith(
+                  color: AppColors.white,
                 ),
               ),
-              CustomButtonWidget(
-                text: '',
-                onTap: () {
-                  context.pop();
-                  context.pop();
-                },
-                isFiled: true,
-                content: Text(
-                  context.tr('confirm'),
-                  style: AppTextStyle.nunitoBold16.copyWith(
-                    color: AppColors.white,
-                  ),
-                ),
-                height: 44.h,
-                width: 330.w,
-                backgroundColor: AppColors.primary,
-              ).symmetricPadding(horizontal: 22.w),
-
-              20.verticalSpace,
-            ],
-          );
-        },
-      ),
-    );
+              height: 44.h,
+              width: 330.w,
+              backgroundColor: AppColors.primary,
+            ).symmetricPadding(horizontal: 22.w),
+            20.verticalSpace,
+          ],
+        ));
   }
 
   Widget _buildList(AddEventState data) {
@@ -165,17 +154,17 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
           selectedContacts: widget.id == null
               ? ref.watch(addEventControllerProvider).value!.selectedContacts!
               : ref
-                    .watch(updateEventControllerProvider)
-                    .value!
-                    .selectedContacts!,
+                  .watch(updateEventControllerProvider)
+                  .value!
+                  .selectedContacts!,
           onChange: (val) {
             widget.id == null
                 ? (ref.read(addEventControllerProvider.notifier)
-                    ..selectContact(data.contacts[index])
-                    ..updateEvent(EventModel()))
+                  ..selectContact(data.contacts[index])
+                  ..updateEvent(EventModel()))
                 : (ref.read(updateEventControllerProvider.notifier)
-                    ..selectContactForUpdatedEvent(data.contacts[index])
-                    ..updateDataForEvent(EventModel(), widget.id!));
+                  ..selectContactForUpdatedEvent(data.contacts[index])
+                  ..updateDataForEvent(EventModel(), widget.id!));
           },
         );
       },

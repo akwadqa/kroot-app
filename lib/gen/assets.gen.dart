@@ -110,6 +110,18 @@ class $AssetsIconsGen {
   SvgGenImage get creditCardIcn =>
       const SvgGenImage('assets/icons/credit_card_icn.svg');
 
+  /// File path: assets/icons/customize_invitation_confirm_ic.svg
+  SvgGenImage get customizeInvitationConfirmIc =>
+      const SvgGenImage('assets/icons/customize_invitation_confirm_ic.svg');
+
+  /// File path: assets/icons/customize_invitation_location_ic.svg
+  SvgGenImage get customizeInvitationLocationIc =>
+      const SvgGenImage('assets/icons/customize_invitation_location_ic.svg');
+
+  /// File path: assets/icons/customize_invitation_qr_ic.svg
+  SvgGenImage get customizeInvitationQrIc =>
+      const SvgGenImage('assets/icons/customize_invitation_qr_ic.svg');
+
   /// File path: assets/icons/delete_contact_ic.svg
   SvgGenImage get deleteContactIc =>
       const SvgGenImage('assets/icons/delete_contact_ic.svg');
@@ -330,6 +342,9 @@ class $AssetsIconsGen {
         coupon,
         creditCardIc,
         creditCardIcn,
+        customizeInvitationConfirmIc,
+        customizeInvitationLocationIc,
+        customizeInvitationQrIc,
         deleteContactIc,
         deleteEventIc,
         deleteIc,

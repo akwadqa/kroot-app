@@ -80,8 +80,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           if (userData?.freeSubscribe == 0)
                             HomePageAvailableBalance(),
                           20.verticalSpace,
-                          if (eventsController.asData != null &&
-                              homeController.error == null)
+                          if (eventsController.asData != null)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               spacing: 5,

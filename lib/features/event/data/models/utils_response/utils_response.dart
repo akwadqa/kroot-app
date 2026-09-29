@@ -14,8 +14,8 @@ abstract class UtilsResponse with _$UtilsResponse {
     @JsonKey(name: 'bundles')
     List<BundleModel>? bundles,
 
-    @JsonKey(name: 'invite_templates')
-    List<TemplateModel>? templates,
+    @JsonKey(name: 'invitation_messages')
+    List<String>? templates,
 
     @JsonKey(name : 'apple_review')
     int? appleReview,
@@ -98,27 +98,29 @@ abstract class BundleModel with _$BundleModel {
 @freezed
 abstract class TemplateModel with _$TemplateModel {
   const factory TemplateModel({
-    String? name,
-    String? template,
-    @JsonKey(name: 'sample_values') String? sampleValues,
-    @JsonKey(name: 'for_doctype') String? forDoctype,
-    @JsonKey(name: 'field_names') String? fieldNames,
-    String? language,
-    @JsonKey(name: 'buttons_list') List<TemplateButtonModel>? buttonsList,
+    List<String?>? messages,
+    @JsonKey(name: 'has_confirm_button') bool? hasConfirmButton,
+    @JsonKey(name: 'has_location_button') bool? hasLocationButton,
+    // String? template,
+    // @JsonKey(name: 'sample_values') String? sampleValues,
+    // @JsonKey(name: 'for_doctype') String? forDoctype,
+    // @JsonKey(name: 'field_names') String? fieldNames,
+    // String? language,
+    // @JsonKey(name: 'buttons_list') List<TemplateButtonModel>? buttonsList,
   }) = _TemplateModel;
 
   factory TemplateModel.fromJson(Map<String, dynamic> json) =>
       _$TemplateModelFromJson(json);
 }
 
-@freezed
- abstract class TemplateButtonModel with _$TemplateButtonModel {
-  const factory TemplateButtonModel({
-    @JsonKey(name: 'button_label') String? buttonLabel,
-    @JsonKey(name: 'button_type') String? buttonType,
-    @JsonKey(name: 'action_type') String? actionType,
-  }) = _TemplateButtonModel;
+// @freezed
+//  abstract class TemplateButtonModel with _$TemplateButtonModel {
+//   const factory TemplateButtonModel({
+//     @JsonKey(name: 'button_label') String? buttonLabel,
+//     @JsonKey(name: 'button_type') String? buttonType,
+//     @JsonKey(name: 'action_type') String? actionType,
+//   }) = _TemplateButtonModel;
 
-  factory TemplateButtonModel.fromJson(Map<String, dynamic> json) =>
-      _$TemplateButtonModelFromJson(json);
-}
+//   factory TemplateButtonModel.fromJson(Map<String, dynamic> json) =>
+//       _$TemplateButtonModelFromJson(json);
+// }

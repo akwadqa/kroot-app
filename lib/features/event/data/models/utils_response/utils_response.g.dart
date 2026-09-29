@@ -18,8 +18,8 @@ _UtilsResponse _$UtilsResponseFromJson(Map<String, dynamic> json) =>
       bundles: (json['bundles'] as List<dynamic>?)
           ?.map((e) => BundleModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      templates: (json['invite_templates'] as List<dynamic>?)
-          ?.map((e) => TemplateModel.fromJson(e as Map<String, dynamic>))
+      templates: (json['invitation_messages'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
       appleReview: (json['apple_review'] as num?)?.toInt(),
       phone: json['phone'] as String?,
@@ -30,7 +30,7 @@ Map<String, dynamic> _$UtilsResponseToJson(_UtilsResponse instance) =>
       'subscriber': instance.subscriber,
       'event_types': instance.eventTypes,
       'bundles': instance.bundles,
-      'invite_templates': instance.templates,
+      'invitation_messages': instance.templates,
       'apple_review': instance.appleReview,
       'phone': instance.phone,
     };
@@ -98,39 +98,16 @@ Map<String, dynamic> _$BundleModelToJson(_BundleModel instance) =>
 
 _TemplateModel _$TemplateModelFromJson(Map<String, dynamic> json) =>
     _TemplateModel(
-      name: json['name'] as String?,
-      template: json['template'] as String?,
-      sampleValues: json['sample_values'] as String?,
-      forDoctype: json['for_doctype'] as String?,
-      fieldNames: json['field_names'] as String?,
-      language: json['language'] as String?,
-      buttonsList: (json['buttons_list'] as List<dynamic>?)
-          ?.map((e) => TemplateButtonModel.fromJson(e as Map<String, dynamic>))
+      messages: (json['messages'] as List<dynamic>?)
+          ?.map((e) => e as String?)
           .toList(),
+      hasConfirmButton: json['has_confirm_button'] as bool?,
+      hasLocationButton: json['has_location_button'] as bool?,
     );
 
 Map<String, dynamic> _$TemplateModelToJson(_TemplateModel instance) =>
     <String, dynamic>{
-      'name': instance.name,
-      'template': instance.template,
-      'sample_values': instance.sampleValues,
-      'for_doctype': instance.forDoctype,
-      'field_names': instance.fieldNames,
-      'language': instance.language,
-      'buttons_list': instance.buttonsList,
-    };
-
-_TemplateButtonModel _$TemplateButtonModelFromJson(Map<String, dynamic> json) =>
-    _TemplateButtonModel(
-      buttonLabel: json['button_label'] as String?,
-      buttonType: json['button_type'] as String?,
-      actionType: json['action_type'] as String?,
-    );
-
-Map<String, dynamic> _$TemplateButtonModelToJson(
-        _TemplateButtonModel instance) =>
-    <String, dynamic>{
-      'button_label': instance.buttonLabel,
-      'button_type': instance.buttonType,
-      'action_type': instance.actionType,
+      'messages': instance.messages,
+      'has_confirm_button': instance.hasConfirmButton,
+      'has_location_button': instance.hasLocationButton,
     };

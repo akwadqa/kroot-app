@@ -20,6 +20,11 @@ analyzer:
     unused_element: ignore
     use_build_context_synchronously: ignore
     use_function_type_syntax_for_parameters: ignore
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
 include: package:flutter_lints/flutter.yaml
 
 linter:

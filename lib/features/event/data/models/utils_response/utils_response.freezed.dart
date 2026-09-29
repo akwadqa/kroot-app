@@ -19,8 +19,8 @@ mixin _$UtilsResponse {
   List<String>? get eventTypes;
   @JsonKey(name: 'bundles')
   List<BundleModel>? get bundles;
-  @JsonKey(name: 'invite_templates')
-  List<TemplateModel>? get templates;
+  @JsonKey(name: 'invitation_messages')
+  List<String>? get templates;
   @JsonKey(name: 'apple_review')
   int? get appleReview;
   @JsonKey(name: 'phone')
@@ -80,7 +80,7 @@ abstract mixin class $UtilsResponseCopyWith<$Res> {
       {SubscriberModel? subscriber,
       @JsonKey(name: 'event_types') List<String>? eventTypes,
       @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-      @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+      @JsonKey(name: 'invitation_messages') List<String>? templates,
       @JsonKey(name: 'apple_review') int? appleReview,
       @JsonKey(name: 'phone') String? phone});
 
@@ -123,7 +123,7 @@ class _$UtilsResponseCopyWithImpl<$Res>
       templates: freezed == templates
           ? _self.templates
           : templates // ignore: cast_nullable_to_non_nullable
-              as List<TemplateModel>?,
+              as List<String>?,
       appleReview: freezed == appleReview
           ? _self.appleReview
           : appleReview // ignore: cast_nullable_to_non_nullable
@@ -247,7 +247,7 @@ extension UtilsResponsePatterns on UtilsResponse {
             SubscriberModel? subscriber,
             @JsonKey(name: 'event_types') List<String>? eventTypes,
             @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+            @JsonKey(name: 'invitation_messages') List<String>? templates,
             @JsonKey(name: 'apple_review') int? appleReview,
             @JsonKey(name: 'phone') String? phone)?
         $default, {
@@ -282,7 +282,7 @@ extension UtilsResponsePatterns on UtilsResponse {
             SubscriberModel? subscriber,
             @JsonKey(name: 'event_types') List<String>? eventTypes,
             @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+            @JsonKey(name: 'invitation_messages') List<String>? templates,
             @JsonKey(name: 'apple_review') int? appleReview,
             @JsonKey(name: 'phone') String? phone)
         $default,
@@ -315,7 +315,7 @@ extension UtilsResponsePatterns on UtilsResponse {
             SubscriberModel? subscriber,
             @JsonKey(name: 'event_types') List<String>? eventTypes,
             @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-            @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+            @JsonKey(name: 'invitation_messages') List<String>? templates,
             @JsonKey(name: 'apple_review') int? appleReview,
             @JsonKey(name: 'phone') String? phone)?
         $default,
@@ -338,7 +338,7 @@ class _UtilsResponse implements UtilsResponse {
       {this.subscriber,
       @JsonKey(name: 'event_types') final List<String>? eventTypes,
       @JsonKey(name: 'bundles') final List<BundleModel>? bundles,
-      @JsonKey(name: 'invite_templates') final List<TemplateModel>? templates,
+      @JsonKey(name: 'invitation_messages') final List<String>? templates,
       @JsonKey(name: 'apple_review') this.appleReview,
       @JsonKey(name: 'phone') this.phone})
       : _eventTypes = eventTypes,
@@ -371,10 +371,10 @@ class _UtilsResponse implements UtilsResponse {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<TemplateModel>? _templates;
+  final List<String>? _templates;
   @override
-  @JsonKey(name: 'invite_templates')
-  List<TemplateModel>? get templates {
+  @JsonKey(name: 'invitation_messages')
+  List<String>? get templates {
     final value = _templates;
     if (value == null) return null;
     if (_templates is EqualUnmodifiableListView) return _templates;
@@ -450,7 +450,7 @@ abstract mixin class _$UtilsResponseCopyWith<$Res>
       {SubscriberModel? subscriber,
       @JsonKey(name: 'event_types') List<String>? eventTypes,
       @JsonKey(name: 'bundles') List<BundleModel>? bundles,
-      @JsonKey(name: 'invite_templates') List<TemplateModel>? templates,
+      @JsonKey(name: 'invitation_messages') List<String>? templates,
       @JsonKey(name: 'apple_review') int? appleReview,
       @JsonKey(name: 'phone') String? phone});
 
@@ -494,7 +494,7 @@ class __$UtilsResponseCopyWithImpl<$Res>
       templates: freezed == templates
           ? _self._templates
           : templates // ignore: cast_nullable_to_non_nullable
-              as List<TemplateModel>?,
+              as List<String>?,
       appleReview: freezed == appleReview
           ? _self.appleReview
           : appleReview // ignore: cast_nullable_to_non_nullable
@@ -1857,17 +1857,11 @@ class __$BundleModelCopyWithImpl<$Res> implements _$BundleModelCopyWith<$Res> {
 
 /// @nodoc
 mixin _$TemplateModel {
-  String? get name;
-  String? get template;
-  @JsonKey(name: 'sample_values')
-  String? get sampleValues;
-  @JsonKey(name: 'for_doctype')
-  String? get forDoctype;
-  @JsonKey(name: 'field_names')
-  String? get fieldNames;
-  String? get language;
-  @JsonKey(name: 'buttons_list')
-  List<TemplateButtonModel>? get buttonsList;
+  List<String?>? get messages;
+  @JsonKey(name: 'has_confirm_button')
+  bool? get hasConfirmButton;
+  @JsonKey(name: 'has_location_button')
+  bool? get hasLocationButton;
 
   /// Create a copy of TemplateModel
   /// with the given fields replaced by the non-null parameter values.
@@ -1885,36 +1879,24 @@ mixin _$TemplateModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is TemplateModel &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.template, template) ||
-                other.template == template) &&
-            (identical(other.sampleValues, sampleValues) ||
-                other.sampleValues == sampleValues) &&
-            (identical(other.forDoctype, forDoctype) ||
-                other.forDoctype == forDoctype) &&
-            (identical(other.fieldNames, fieldNames) ||
-                other.fieldNames == fieldNames) &&
-            (identical(other.language, language) ||
-                other.language == language) &&
-            const DeepCollectionEquality()
-                .equals(other.buttonsList, buttonsList));
+            const DeepCollectionEquality().equals(other.messages, messages) &&
+            (identical(other.hasConfirmButton, hasConfirmButton) ||
+                other.hasConfirmButton == hasConfirmButton) &&
+            (identical(other.hasLocationButton, hasLocationButton) ||
+                other.hasLocationButton == hasLocationButton));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      name,
-      template,
-      sampleValues,
-      forDoctype,
-      fieldNames,
-      language,
-      const DeepCollectionEquality().hash(buttonsList));
+      const DeepCollectionEquality().hash(messages),
+      hasConfirmButton,
+      hasLocationButton);
 
   @override
   String toString() {
-    return 'TemplateModel(name: $name, template: $template, sampleValues: $sampleValues, forDoctype: $forDoctype, fieldNames: $fieldNames, language: $language, buttonsList: $buttonsList)';
+    return 'TemplateModel(messages: $messages, hasConfirmButton: $hasConfirmButton, hasLocationButton: $hasLocationButton)';
   }
 }
 
@@ -1925,13 +1907,9 @@ abstract mixin class $TemplateModelCopyWith<$Res> {
       _$TemplateModelCopyWithImpl;
   @useResult
   $Res call(
-      {String? name,
-      String? template,
-      @JsonKey(name: 'sample_values') String? sampleValues,
-      @JsonKey(name: 'for_doctype') String? forDoctype,
-      @JsonKey(name: 'field_names') String? fieldNames,
-      String? language,
-      @JsonKey(name: 'buttons_list') List<TemplateButtonModel>? buttonsList});
+      {List<String?>? messages,
+      @JsonKey(name: 'has_confirm_button') bool? hasConfirmButton,
+      @JsonKey(name: 'has_location_button') bool? hasLocationButton});
 }
 
 /// @nodoc
@@ -1947,43 +1925,23 @@ class _$TemplateModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? template = freezed,
-    Object? sampleValues = freezed,
-    Object? forDoctype = freezed,
-    Object? fieldNames = freezed,
-    Object? language = freezed,
-    Object? buttonsList = freezed,
+    Object? messages = freezed,
+    Object? hasConfirmButton = freezed,
+    Object? hasLocationButton = freezed,
   }) {
     return _then(_self.copyWith(
-      name: freezed == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      template: freezed == template
-          ? _self.template
-          : template // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sampleValues: freezed == sampleValues
-          ? _self.sampleValues
-          : sampleValues // ignore: cast_nullable_to_non_nullable
-              as String?,
-      forDoctype: freezed == forDoctype
-          ? _self.forDoctype
-          : forDoctype // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fieldNames: freezed == fieldNames
-          ? _self.fieldNames
-          : fieldNames // ignore: cast_nullable_to_non_nullable
-              as String?,
-      language: freezed == language
-          ? _self.language
-          : language // ignore: cast_nullable_to_non_nullable
-              as String?,
-      buttonsList: freezed == buttonsList
-          ? _self.buttonsList
-          : buttonsList // ignore: cast_nullable_to_non_nullable
-              as List<TemplateButtonModel>?,
+      messages: freezed == messages
+          ? _self.messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<String?>?,
+      hasConfirmButton: freezed == hasConfirmButton
+          ? _self.hasConfirmButton
+          : hasConfirmButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      hasLocationButton: freezed == hasLocationButton
+          ? _self.hasLocationButton
+          : hasLocationButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -2082,14 +2040,9 @@ extension TemplateModelPatterns on TemplateModel {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            String? name,
-            String? template,
-            @JsonKey(name: 'sample_values') String? sampleValues,
-            @JsonKey(name: 'for_doctype') String? forDoctype,
-            @JsonKey(name: 'field_names') String? fieldNames,
-            String? language,
-            @JsonKey(name: 'buttons_list')
-            List<TemplateButtonModel>? buttonsList)?
+            List<String?>? messages,
+            @JsonKey(name: 'has_confirm_button') bool? hasConfirmButton,
+            @JsonKey(name: 'has_location_button') bool? hasLocationButton)?
         $default, {
     required TResult orElse(),
   }) {
@@ -2097,13 +2050,7 @@ extension TemplateModelPatterns on TemplateModel {
     switch (_that) {
       case _TemplateModel() when $default != null:
         return $default(
-            _that.name,
-            _that.template,
-            _that.sampleValues,
-            _that.forDoctype,
-            _that.fieldNames,
-            _that.language,
-            _that.buttonsList);
+            _that.messages, _that.hasConfirmButton, _that.hasLocationButton);
       case _:
         return orElse();
     }
@@ -2125,27 +2072,16 @@ extension TemplateModelPatterns on TemplateModel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            String? name,
-            String? template,
-            @JsonKey(name: 'sample_values') String? sampleValues,
-            @JsonKey(name: 'for_doctype') String? forDoctype,
-            @JsonKey(name: 'field_names') String? fieldNames,
-            String? language,
-            @JsonKey(name: 'buttons_list')
-            List<TemplateButtonModel>? buttonsList)
+            List<String?>? messages,
+            @JsonKey(name: 'has_confirm_button') bool? hasConfirmButton,
+            @JsonKey(name: 'has_location_button') bool? hasLocationButton)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TemplateModel():
         return $default(
-            _that.name,
-            _that.template,
-            _that.sampleValues,
-            _that.forDoctype,
-            _that.fieldNames,
-            _that.language,
-            _that.buttonsList);
+            _that.messages, _that.hasConfirmButton, _that.hasLocationButton);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -2166,27 +2102,16 @@ extension TemplateModelPatterns on TemplateModel {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            String? name,
-            String? template,
-            @JsonKey(name: 'sample_values') String? sampleValues,
-            @JsonKey(name: 'for_doctype') String? forDoctype,
-            @JsonKey(name: 'field_names') String? fieldNames,
-            String? language,
-            @JsonKey(name: 'buttons_list')
-            List<TemplateButtonModel>? buttonsList)?
+            List<String?>? messages,
+            @JsonKey(name: 'has_confirm_button') bool? hasConfirmButton,
+            @JsonKey(name: 'has_location_button') bool? hasLocationButton)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _TemplateModel() when $default != null:
         return $default(
-            _that.name,
-            _that.template,
-            _that.sampleValues,
-            _that.forDoctype,
-            _that.fieldNames,
-            _that.language,
-            _that.buttonsList);
+            _that.messages, _that.hasConfirmButton, _that.hasLocationButton);
       case _:
         return null;
     }
@@ -2197,43 +2122,29 @@ extension TemplateModelPatterns on TemplateModel {
 @JsonSerializable()
 class _TemplateModel implements TemplateModel {
   const _TemplateModel(
-      {this.name,
-      this.template,
-      @JsonKey(name: 'sample_values') this.sampleValues,
-      @JsonKey(name: 'for_doctype') this.forDoctype,
-      @JsonKey(name: 'field_names') this.fieldNames,
-      this.language,
-      @JsonKey(name: 'buttons_list')
-      final List<TemplateButtonModel>? buttonsList})
-      : _buttonsList = buttonsList;
+      {final List<String?>? messages,
+      @JsonKey(name: 'has_confirm_button') this.hasConfirmButton,
+      @JsonKey(name: 'has_location_button') this.hasLocationButton})
+      : _messages = messages;
   factory _TemplateModel.fromJson(Map<String, dynamic> json) =>
       _$TemplateModelFromJson(json);
 
+  final List<String?>? _messages;
   @override
-  final String? name;
-  @override
-  final String? template;
-  @override
-  @JsonKey(name: 'sample_values')
-  final String? sampleValues;
-  @override
-  @JsonKey(name: 'for_doctype')
-  final String? forDoctype;
-  @override
-  @JsonKey(name: 'field_names')
-  final String? fieldNames;
-  @override
-  final String? language;
-  final List<TemplateButtonModel>? _buttonsList;
-  @override
-  @JsonKey(name: 'buttons_list')
-  List<TemplateButtonModel>? get buttonsList {
-    final value = _buttonsList;
+  List<String?>? get messages {
+    final value = _messages;
     if (value == null) return null;
-    if (_buttonsList is EqualUnmodifiableListView) return _buttonsList;
+    if (_messages is EqualUnmodifiableListView) return _messages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
+
+  @override
+  @JsonKey(name: 'has_confirm_button')
+  final bool? hasConfirmButton;
+  @override
+  @JsonKey(name: 'has_location_button')
+  final bool? hasLocationButton;
 
   /// Create a copy of TemplateModel
   /// with the given fields replaced by the non-null parameter values.
@@ -2255,36 +2166,24 @@ class _TemplateModel implements TemplateModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _TemplateModel &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.template, template) ||
-                other.template == template) &&
-            (identical(other.sampleValues, sampleValues) ||
-                other.sampleValues == sampleValues) &&
-            (identical(other.forDoctype, forDoctype) ||
-                other.forDoctype == forDoctype) &&
-            (identical(other.fieldNames, fieldNames) ||
-                other.fieldNames == fieldNames) &&
-            (identical(other.language, language) ||
-                other.language == language) &&
-            const DeepCollectionEquality()
-                .equals(other._buttonsList, _buttonsList));
+            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.hasConfirmButton, hasConfirmButton) ||
+                other.hasConfirmButton == hasConfirmButton) &&
+            (identical(other.hasLocationButton, hasLocationButton) ||
+                other.hasLocationButton == hasLocationButton));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      name,
-      template,
-      sampleValues,
-      forDoctype,
-      fieldNames,
-      language,
-      const DeepCollectionEquality().hash(_buttonsList));
+      const DeepCollectionEquality().hash(_messages),
+      hasConfirmButton,
+      hasLocationButton);
 
   @override
   String toString() {
-    return 'TemplateModel(name: $name, template: $template, sampleValues: $sampleValues, forDoctype: $forDoctype, fieldNames: $fieldNames, language: $language, buttonsList: $buttonsList)';
+    return 'TemplateModel(messages: $messages, hasConfirmButton: $hasConfirmButton, hasLocationButton: $hasLocationButton)';
   }
 }
 
@@ -2297,13 +2196,9 @@ abstract mixin class _$TemplateModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? name,
-      String? template,
-      @JsonKey(name: 'sample_values') String? sampleValues,
-      @JsonKey(name: 'for_doctype') String? forDoctype,
-      @JsonKey(name: 'field_names') String? fieldNames,
-      String? language,
-      @JsonKey(name: 'buttons_list') List<TemplateButtonModel>? buttonsList});
+      {List<String?>? messages,
+      @JsonKey(name: 'has_confirm_button') bool? hasConfirmButton,
+      @JsonKey(name: 'has_location_button') bool? hasLocationButton});
 }
 
 /// @nodoc
@@ -2319,410 +2214,23 @@ class __$TemplateModelCopyWithImpl<$Res>
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? name = freezed,
-    Object? template = freezed,
-    Object? sampleValues = freezed,
-    Object? forDoctype = freezed,
-    Object? fieldNames = freezed,
-    Object? language = freezed,
-    Object? buttonsList = freezed,
+    Object? messages = freezed,
+    Object? hasConfirmButton = freezed,
+    Object? hasLocationButton = freezed,
   }) {
     return _then(_TemplateModel(
-      name: freezed == name
-          ? _self.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      template: freezed == template
-          ? _self.template
-          : template // ignore: cast_nullable_to_non_nullable
-              as String?,
-      sampleValues: freezed == sampleValues
-          ? _self.sampleValues
-          : sampleValues // ignore: cast_nullable_to_non_nullable
-              as String?,
-      forDoctype: freezed == forDoctype
-          ? _self.forDoctype
-          : forDoctype // ignore: cast_nullable_to_non_nullable
-              as String?,
-      fieldNames: freezed == fieldNames
-          ? _self.fieldNames
-          : fieldNames // ignore: cast_nullable_to_non_nullable
-              as String?,
-      language: freezed == language
-          ? _self.language
-          : language // ignore: cast_nullable_to_non_nullable
-              as String?,
-      buttonsList: freezed == buttonsList
-          ? _self._buttonsList
-          : buttonsList // ignore: cast_nullable_to_non_nullable
-              as List<TemplateButtonModel>?,
-    ));
-  }
-}
-
-/// @nodoc
-mixin _$TemplateButtonModel {
-  @JsonKey(name: 'button_label')
-  String? get buttonLabel;
-  @JsonKey(name: 'button_type')
-  String? get buttonType;
-  @JsonKey(name: 'action_type')
-  String? get actionType;
-
-  /// Create a copy of TemplateButtonModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $TemplateButtonModelCopyWith<TemplateButtonModel> get copyWith =>
-      _$TemplateButtonModelCopyWithImpl<TemplateButtonModel>(
-          this as TemplateButtonModel, _$identity);
-
-  /// Serializes this TemplateButtonModel to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is TemplateButtonModel &&
-            (identical(other.buttonLabel, buttonLabel) ||
-                other.buttonLabel == buttonLabel) &&
-            (identical(other.buttonType, buttonType) ||
-                other.buttonType == buttonType) &&
-            (identical(other.actionType, actionType) ||
-                other.actionType == actionType));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, buttonLabel, buttonType, actionType);
-
-  @override
-  String toString() {
-    return 'TemplateButtonModel(buttonLabel: $buttonLabel, buttonType: $buttonType, actionType: $actionType)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $TemplateButtonModelCopyWith<$Res> {
-  factory $TemplateButtonModelCopyWith(
-          TemplateButtonModel value, $Res Function(TemplateButtonModel) _then) =
-      _$TemplateButtonModelCopyWithImpl;
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'button_label') String? buttonLabel,
-      @JsonKey(name: 'button_type') String? buttonType,
-      @JsonKey(name: 'action_type') String? actionType});
-}
-
-/// @nodoc
-class _$TemplateButtonModelCopyWithImpl<$Res>
-    implements $TemplateButtonModelCopyWith<$Res> {
-  _$TemplateButtonModelCopyWithImpl(this._self, this._then);
-
-  final TemplateButtonModel _self;
-  final $Res Function(TemplateButtonModel) _then;
-
-  /// Create a copy of TemplateButtonModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? buttonLabel = freezed,
-    Object? buttonType = freezed,
-    Object? actionType = freezed,
-  }) {
-    return _then(_self.copyWith(
-      buttonLabel: freezed == buttonLabel
-          ? _self.buttonLabel
-          : buttonLabel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      buttonType: freezed == buttonType
-          ? _self.buttonType
-          : buttonType // ignore: cast_nullable_to_non_nullable
-              as String?,
-      actionType: freezed == actionType
-          ? _self.actionType
-          : actionType // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
-}
-
-/// Adds pattern-matching-related methods to [TemplateButtonModel].
-extension TemplateButtonModelPatterns on TemplateButtonModel {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_TemplateButtonModel value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _TemplateButtonModel() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_TemplateButtonModel value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TemplateButtonModel():
-        return $default(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_TemplateButtonModel value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TemplateButtonModel() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(
-            @JsonKey(name: 'button_label') String? buttonLabel,
-            @JsonKey(name: 'button_type') String? buttonType,
-            @JsonKey(name: 'action_type') String? actionType)?
-        $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _TemplateButtonModel() when $default != null:
-        return $default(_that.buttonLabel, _that.buttonType, _that.actionType);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(
-            @JsonKey(name: 'button_label') String? buttonLabel,
-            @JsonKey(name: 'button_type') String? buttonType,
-            @JsonKey(name: 'action_type') String? actionType)
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TemplateButtonModel():
-        return $default(_that.buttonLabel, _that.buttonType, _that.actionType);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(
-            @JsonKey(name: 'button_label') String? buttonLabel,
-            @JsonKey(name: 'button_type') String? buttonType,
-            @JsonKey(name: 'action_type') String? actionType)?
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _TemplateButtonModel() when $default != null:
-        return $default(_that.buttonLabel, _that.buttonType, _that.actionType);
-      case _:
-        return null;
-    }
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _TemplateButtonModel implements TemplateButtonModel {
-  const _TemplateButtonModel(
-      {@JsonKey(name: 'button_label') this.buttonLabel,
-      @JsonKey(name: 'button_type') this.buttonType,
-      @JsonKey(name: 'action_type') this.actionType});
-  factory _TemplateButtonModel.fromJson(Map<String, dynamic> json) =>
-      _$TemplateButtonModelFromJson(json);
-
-  @override
-  @JsonKey(name: 'button_label')
-  final String? buttonLabel;
-  @override
-  @JsonKey(name: 'button_type')
-  final String? buttonType;
-  @override
-  @JsonKey(name: 'action_type')
-  final String? actionType;
-
-  /// Create a copy of TemplateButtonModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$TemplateButtonModelCopyWith<_TemplateButtonModel> get copyWith =>
-      __$TemplateButtonModelCopyWithImpl<_TemplateButtonModel>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$TemplateButtonModelToJson(
-      this,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _TemplateButtonModel &&
-            (identical(other.buttonLabel, buttonLabel) ||
-                other.buttonLabel == buttonLabel) &&
-            (identical(other.buttonType, buttonType) ||
-                other.buttonType == buttonType) &&
-            (identical(other.actionType, actionType) ||
-                other.actionType == actionType));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, buttonLabel, buttonType, actionType);
-
-  @override
-  String toString() {
-    return 'TemplateButtonModel(buttonLabel: $buttonLabel, buttonType: $buttonType, actionType: $actionType)';
-  }
-}
-
-/// @nodoc
-abstract mixin class _$TemplateButtonModelCopyWith<$Res>
-    implements $TemplateButtonModelCopyWith<$Res> {
-  factory _$TemplateButtonModelCopyWith(_TemplateButtonModel value,
-          $Res Function(_TemplateButtonModel) _then) =
-      __$TemplateButtonModelCopyWithImpl;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(name: 'button_label') String? buttonLabel,
-      @JsonKey(name: 'button_type') String? buttonType,
-      @JsonKey(name: 'action_type') String? actionType});
-}
-
-/// @nodoc
-class __$TemplateButtonModelCopyWithImpl<$Res>
-    implements _$TemplateButtonModelCopyWith<$Res> {
-  __$TemplateButtonModelCopyWithImpl(this._self, this._then);
-
-  final _TemplateButtonModel _self;
-  final $Res Function(_TemplateButtonModel) _then;
-
-  /// Create a copy of TemplateButtonModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? buttonLabel = freezed,
-    Object? buttonType = freezed,
-    Object? actionType = freezed,
-  }) {
-    return _then(_TemplateButtonModel(
-      buttonLabel: freezed == buttonLabel
-          ? _self.buttonLabel
-          : buttonLabel // ignore: cast_nullable_to_non_nullable
-              as String?,
-      buttonType: freezed == buttonType
-          ? _self.buttonType
-          : buttonType // ignore: cast_nullable_to_non_nullable
-              as String?,
-      actionType: freezed == actionType
-          ? _self.actionType
-          : actionType // ignore: cast_nullable_to_non_nullable
-              as String?,
+      messages: freezed == messages
+          ? _self._messages
+          : messages // ignore: cast_nullable_to_non_nullable
+              as List<String?>?,
+      hasConfirmButton: freezed == hasConfirmButton
+          ? _self.hasConfirmButton
+          : hasConfirmButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      hasLocationButton: freezed == hasLocationButton
+          ? _self.hasLocationButton
+          : hasLocationButton // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }

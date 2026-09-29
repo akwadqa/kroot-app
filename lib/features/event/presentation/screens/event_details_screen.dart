@@ -162,39 +162,21 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
         }
       },
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              backgroundColor: AppColors.white,
-              surfaceTintColor: AppColors.white,
-              title: const SizedBox.shrink(),
-              leadingWidth: 74.w,
-              leading: context.locale.languageCode == 'ar'
-                  ? controller!.maybeWhen(
-                      orElse: () => const SizedBox.shrink(),
-                      data: (data) {
-                        if (data.role == 'owner' ||
-                            data.role == 'handler_edit') {
-                          return Padding(
-                            padding: EdgeInsets.only(right: 22.w, left: 22.w),
-                            child: GestureDetector(
-                              onTap: () => _buildBottomSheet(
-                                context,
-                                widget.eventModel ?? data,
-                              ),
-                              child: Assets.icons.optionsIc.svg(width: 30.w),
-                            ),
-                          );
-                        }
-                        return SizedBox.shrink();
-                      },
-                    )
-                  : _backButton(context),
-              actions: [
-                context.locale.languageCode == 'ar'
-                    ? _backButton(context)
-                    : controller!.maybeWhen(
+        body: RefreshIndicator(
+          onRefresh: () async {
+            ref.read(homeControllerProvider.notifier).getEventDetails(
+                widget.id ?? widget.eventModel?.occasionId ?? '');
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                backgroundColor: AppColors.white,
+                surfaceTintColor: AppColors.white,
+                title: const SizedBox.shrink(),
+                leadingWidth: 74.w,
+                leading: context.locale.languageCode == 'ar'
+                    ? controller!.maybeWhen(
                         orElse: () => const SizedBox.shrink(),
                         data: (data) {
                           if (data.role == 'owner' ||
@@ -212,98 +194,124 @@ class _EventDetailsScreenState extends ConsumerState<EventDetailsScreen> {
                           }
                           return SizedBox.shrink();
                         },
-                      ),
-              ],
-              expandedHeight: expandedH,
-              flexibleSpace: LayoutBuilder(
-                builder: (context, constraints) {
-                  final double top = constraints.biggest.height;
+                      )
+                    : _backButton(context),
+                actions: [
+                  context.locale.languageCode == 'ar'
+                      ? _backButton(context)
+                      : controller!.maybeWhen(
+                          orElse: () => const SizedBox.shrink(),
+                          data: (data) {
+                            if (data.role == 'owner' ||
+                                data.role == 'handler_edit') {
+                              return Padding(
+                                padding:
+                                    EdgeInsets.only(right: 22.w, left: 22.w),
+                                child: GestureDetector(
+                                  onTap: () => _buildBottomSheet(
+                                    context,
+                                    widget.eventModel ?? data,
+                                  ),
+                                  child:
+                                      Assets.icons.optionsIc.svg(width: 30.w),
+                                ),
+                              );
+                            }
+                            return SizedBox.shrink();
+                          },
+                        ),
+                ],
+                expandedHeight: expandedH,
+                flexibleSpace: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final double top = constraints.biggest.height;
 
-                  final double collapsedH =
-                      kToolbarHeight + MediaQuery.of(context).padding.top;
+                    final double collapsedH =
+                        kToolbarHeight + MediaQuery.of(context).padding.top;
 
-                  final double t = (expandedH <= 0)
-                      ? 0
-                      : ((top - collapsedH) / (expandedH - collapsedH)).clamp(
-                          0.0,
-                          1.0,
-                        );
+                    final double t = (expandedH <= 0)
+                        ? 0
+                        : ((top - collapsedH) / (expandedH - collapsedH)).clamp(
+                            0.0,
+                            1.0,
+                          );
 
-                  final bool showTitle = t <= 0.02;
+                    final bool showTitle = t <= 0.02;
 
-                  return Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Container(color: AppColors.white),
-                      if (resolvedUrl != null)
-                        Opacity(
-                          opacity: t,
-                          child: CachedNetworkImage(
-                            fadeInCurve: Curves.linear,
-                            placeholder: (context, url) =>
-                                FadeCircleLoadingIndicator(),
-                            imageUrl: resolvedUrl,
-                            // بما أننا قمنا بحساب الارتفاع بدقة بناءً على نسبة الأبعاد،
-                            // فإن استخدام BoxFit.cover لن يقوم بقص الصورة في وضعها الطبيعي،
-                            // وسيسمح لها بالتلاشي والقص بشكل أنيق وسلس عند السحب للأعلى
-                            fit: BoxFit.cover,
+                    return Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Container(color: AppColors.white),
+                        if (resolvedUrl != null)
+                          Opacity(
+                            opacity: t,
+                            child: CachedNetworkImage(
+                              fadeInCurve: Curves.linear,
+                              placeholder: (context, url) =>
+                                  FadeCircleLoadingIndicator(),
+                              imageUrl: resolvedUrl,
+                              // بما أننا قمنا بحساب الارتفاع بدقة بناءً على نسبة الأبعاد،
+                              // فإن استخدام BoxFit.cover لن يقوم بقص الصورة في وضعها الطبيعي،
+                              // وسيسمح لها بالتلاشي والقص بشكل أنيق وسلس عند السحب للأعلى
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        IgnorePointer(
+                          ignoring: true,
+                          child: Container(
+                            color: AppColors.white.withOpacity((1 - t) * 0.10),
                           ),
                         ),
-                      IgnorePointer(
-                        ignoring: true,
-                        child: Container(
-                          color: AppColors.white.withOpacity((1 - t) * 0.10),
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: SafeArea(
-                          bottom: false,
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.only(
-                              start: 72.w,
-                              end: 22.w,
-                              bottom: 12.h,
-                            ),
-                            child: AnimatedOpacity(
-                              opacity: showTitle ? 1 : 0,
-                              duration: const Duration(milliseconds: 180),
-                              curve: Curves.easeOut,
-                              child: Text(
-                                controller?.value?.title ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle.rubikMedium20.copyWith(
-                                  color: AppColors.primary,
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: SafeArea(
+                            bottom: false,
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.only(
+                                start: 72.w,
+                                end: 22.w,
+                                bottom: 12.h,
+                              ),
+                              child: AnimatedOpacity(
+                                opacity: showTitle ? 1 : 0,
+                                duration: const Duration(milliseconds: 180),
+                                curve: Curves.easeOut,
+                                child: Text(
+                                  controller?.value?.title ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTextStyle.rubikMedium20.copyWith(
+                                    color: AppColors.primary,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-            controller!.when(
-              data: (event) => _buildBody(context, event, ref),
-              error: (e, st) => SliverToBoxAdapter(
-                child: AppErrorWidget(
-                  onTap: () {
-                    ref
-                        .read(homeControllerProvider.notifier)
-                        .getEventDetails(widget.id!);
+                      ],
+                    );
                   },
                 ),
               ),
-              loading: () => SliverFillRemaining(
-                child: Center(child: MailPulseAnimation()),
+              controller!.when(
+                data: (event) => _buildBody(context, event, ref),
+                error: (e, st) => SliverToBoxAdapter(
+                  child: AppErrorWidget(
+                    onTap: () {
+                      ref
+                          .read(homeControllerProvider.notifier)
+                          .getEventDetails(widget.id!);
+                    },
+                  ),
+                ),
+                loading: () => SliverFillRemaining(
+                  child: Center(child: MailPulseAnimation()),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

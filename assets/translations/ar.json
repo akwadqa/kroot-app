@@ -300,5 +300,12 @@
     "card_details" : "تفاصيل الكرت",
     "card" : "كرت",
     "qr_confirmation" : "تأكيد رمز QR",
-    "qr_confirmation_message" : "هل تريد توليد هذا القالب مع رمز QR أم لا؟"
+    "qr_confirmation_message" : "هل تريد توليد هذا القالب مع رمز QR أم لا؟",
+    "customize_invitation" : "تخصيص الدعوة",
+    "chose_template_optiosn" : "اختر ما تريد تضمينه في دعوتك",
+    "choose_invitation_message" : "اختر رسالة الدعوة",
+    "choose_invitation_message_description" : "اختر رسالة لدعوتك",
+    "qr_code" : "باركود دخول",
+    "confirmation" : "تأكيد الحضور",
+    "decline" : "رفض"
 }

@@ -97,9 +97,6 @@ class AddEventController extends _$AddEventController {
           language: current.language ?? 'Arabic',
           showQr: current.showQr,
           image: null,
-          inviteTemplate: 'Kroot Invite-',
-          confirmedTemplate: current.confirmedTemplate,
-          declinedTemplate: current.declinedTemplate,
           guests: setGuestListFromContacts() ?? current.guests,
         ),
       ),
@@ -211,15 +208,15 @@ class AddEventController extends _$AddEventController {
         ?.eventTypes
         ?.first;
 
-    final lang = state.value?.eventModel?.language ?? 'Arabic';
+    // final lang = state.value?.eventModel?.language ?? 'Arabic';
 
-    final firsTemplate = ref
-        .read(homeControllerProvider)
-        .value
-        ?.utilsResponse
-        ?.value
-        ?.templates
-        ?.firstWhere((e) => lang.toLowerCase().contains(e.language ?? 'ar'));
+    // final firsTemplate = ref
+    //     .read(homeControllerProvider)
+    //     .value
+    //     ?.utilsResponse
+    //     ?.value
+    //     ?.templates
+    //     ?.firstWhere((e) => e.messages == '');
 
     state = AsyncData(
       state.value!.copyWith(
@@ -235,11 +232,11 @@ class AddEventController extends _$AddEventController {
           mapLongitude: newData.mapLongitude ?? current.mapLongitude,
           operators: newData.operators ?? state.value!.operators,
           handlers: newData.handlers ?? state.value!.handlers,
-          inviteTemplate: newData.inviteTemplate ??
-              current.inviteTemplate ??
-              firsTemplate?.name,
           qrDelivery: newData.qrDelivery ?? current.qrDelivery ?? 'Disabled',
           guests: setGuestListFromContacts() ?? current.guests,
+          inviteMessage: state.value!.templateMessage,
+          hasConfirmationButton: state.value!.isConfirmation,
+          hasLocationButton: state.value!.isLocation,
         ),
       ),
     );
@@ -278,30 +275,49 @@ class AddEventController extends _$AddEventController {
     state = AsyncData(currentState.copyWith(selectedContacts: updatedList));
   }
 
-  Future<void> getContacts(String? search) async {
-    state = AsyncLoading();
+  List<Contact> _cachedContacts = [];
 
-    final granted = await FlutterContacts.requestPermission();
-    if (!granted) {
-      state = AsyncError('The permission has denied', StackTrace.current);
+  Future<void> getContacts(String? search) async {
+   
+    if (search != null && search.isNotEmpty && _cachedContacts.isNotEmpty) {
+      _filterLocalContacts(search);
       return;
     }
 
-    final contacts = await FlutterContacts.getContacts(withProperties: true);
+    if (_cachedContacts.isEmpty) {
+      state = const AsyncLoading();
+
+      final granted = await FlutterContacts.requestPermission();
+      if (!granted) {
+        state = AsyncError('The permission has denied', StackTrace.current);
+        return;
+      }
+
+      _cachedContacts = await FlutterContacts.getContacts(withProperties: true);
+    }
+
+    // 3. عرض البيانات
+    if (search == null || search.isEmpty) {
+      state = AsyncData(
+        state.value!.copyWith(contacts: _cachedContacts),
+      );
+    } else {
+      _filterLocalContacts(search);
+    }
+  }
+
+// دالة مساعدة للفلترة السريعة
+  void _filterLocalContacts(String search) {
+    final query = search.toLowerCase();
+
+    final filtered = _cachedContacts.where((c) {
+      final nameMatch = c.displayName.toLowerCase().contains(query);
+      final phoneMatch = c.phones.any((p) => p.number.contains(query));
+      return nameMatch || phoneMatch;
+    }).toList();
+
     state = AsyncData(
-      state.value!.copyWith(
-        contacts: search == null
-            ? contacts
-            : contacts
-                .where(
-                  (c) =>
-                      c.displayName.toLowerCase().contains(
-                            search.toLowerCase(),
-                          ) ||
-                      c.phones.any((p) => p.number.contains(search)),
-                )
-                .toList(),
-      ),
+      state.value!.copyWith(contacts: filtered),
     );
   }
 
@@ -653,6 +669,38 @@ class AddEventController extends _$AddEventController {
         state.value!.copyWith(selectedPlace: AsyncError(e, st)),
       );
     }
+  }
+
+  void changeQrState(bool isEnabled) {
+    state = AsyncData(
+      state.value!.copyWith(
+        isQr: isEnabled,
+      ),
+    );
+  }
+
+  void changeTemplateMessage(String message) {
+    state = AsyncData(
+      state.value!.copyWith(
+        templateMessage: message,
+      ),
+    );
+  }
+
+  void changeLocationState(bool isEnables) {
+    state = AsyncData(
+      state.value!.copyWith(
+        isLocation: isEnables,
+      ),
+    );
+  }
+
+  void changeConfirmationState(bool isEnables) {
+    state = AsyncData(
+      state.value!.copyWith(
+        isConfirmation: isEnables,
+      ),
+    );
   }
 
   String cleanName(String address) {

@@ -28,81 +28,88 @@ class QrScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     late BuildContext ctx;
     if (id == null) {
-      ref.listen(addEventControllerProvider, (prev, next) {
-        if (next.value!.isAddEvent != null) {
-          if (next is AsyncLoading) {
-            AppAlert.showLoadingDialog(ctx);
-          }
+      // ref.listen(addEventControllerProvider, (prev, next) {
+      //   if (next.value!.isAddEvent != null) {
+      //     if (next is AsyncLoading) {
+      //       AppAlert.showLoadingDialog(ctx);
+      //     }
 
-          if (next is AsyncData && prev is AsyncLoading) {
-            ctx.pop();
-            // AppToast.doneToast("successfullyCompleted".tr());
+      //     if (next is AsyncData && prev is AsyncLoading) {
+      //       ctx.pop();
+      //       // AppToast.doneToast("successfullyCompleted".tr());
 
-            ref.read(homeControllerProvider.notifier)
-              ..getUserEvents(page: 1)
-              ..getUtils();
+      //       ref.read(homeControllerProvider.notifier)
+      //         ..getUserEvents(page: 1)
+      //         ..getUtils();
 
-            context.go(
-              Routes.eventDetails,
-              extra: {'id': next.value!.createEventResponse?.eventId},
-            );
-            ref.read(addEventControllerProvider.notifier).clearEventScreen();
-          }
+      //       context.go(
+      //         Routes.eventDetails,
+      //         extra: {'id': next.value!.createEventResponse?.eventId},
+      //       );
+      //       ref.read(addEventControllerProvider.notifier).clearEventScreen();
+      //     }
 
-          if (next is AsyncError && prev is AsyncLoading) {
-            ctx.pop();
-            AppToast.errorToast(next.error.toString());
-          }
-        }
+      //     if (next is AsyncError && prev is AsyncLoading) {
+      //       ctx.pop();
+      //       AppToast.errorToast(next.error.toString());
+      //     }
+      //   }
 
-        if (next.value?.isAddContact ?? false) {
-          if (next is AsyncData) {
-            context.pop();
-            // AppToast.doneToast('successfullyCompleted'.tr());
-          }
+      //   if (next.value?.isAddContact ?? false) {
+      //     if (next is AsyncData) {
+      //       context.pop();
+      //       // AppToast.doneToast('successfullyCompleted'.tr());
+      //     }
 
-          if (next is AsyncError) {
-            context.pop();
-            AppToast.errorToast(next.error.toString());
-          }
-        }
-      });
+      //     if (next is AsyncError) {
+      //       context.pop();
+      //       AppToast.errorToast(next.error.toString());
+      //     }
+      //   }
+      // });
     } else {
-      ref.listen(updateEventControllerProvider, (prev, next) {
-        if (next.value!.isUpdateEvent != null) {
-          if (next is AsyncLoading) {
-            AppAlert.showLoadingDialog(ctx);
-          }
+      // ref.listen(updateEventControllerProvider, (prev, next) {
+      //   if (next.value!.isUpdateEvent != null) {
+      //     if (next is AsyncLoading) {
+      //       AppAlert.showLoadingDialog(ctx);
+      //     }
 
-          if (next is AsyncData && prev is AsyncLoading) {
-            ctx.pop();
-            AppToast.doneToast("successfullyCompleted".tr());
+      //     if (next is AsyncData && prev is AsyncLoading) {
+      //       ctx.pop();
+      //       AppToast.doneToast("successfullyCompleted".tr());
 
-            ref.read(homeControllerProvider.notifier)
-              ..getUserEvents(page: 1)
-              ..getUtils();
+      //       ref.read(homeControllerProvider.notifier)
+      //         ..getUserEvents(page: 1)
+      //         ..getUtils();
 
-            context.go(
-              Routes.eventDetails,
-              extra: {'id': next.value!.updatedEvent?.occasionId},
-            );
-            ref.read(addEventControllerProvider.notifier).clearEventScreen();
-          }
+      //       context.go(
+      //         Routes.eventDetails,
+      //         extra: {'id': next.value!.updatedEvent?.occasionId},
+      //       );
+      //       ref.read(addEventControllerProvider.notifier).clearEventScreen();
+      //     }
 
-          if (next is AsyncError && prev is AsyncLoading) {
-            ctx.pop();
-            AppToast.errorToast(next.error.toString());
-          }
-        }
-      });
+      //     if (next is AsyncError && prev is AsyncLoading) {
+      //       ctx.pop();
+      //       AppToast.errorToast(next.error.toString());
+      //     }
+      //   }
+      // });
     }
 
-    final guests = ref
-        .read(addEventControllerProvider)
-        .value!
-        .selectedContacts!
-        .length
-        .toString();
+    final guests = id == null
+        ? ref
+            .read(addEventControllerProvider)
+            .value!
+            .selectedContacts!
+            .length
+            .toString()
+        : ref
+            .read(updateEventControllerProvider)
+            .value!
+            .selectedContacts!
+            .length
+            .toString();
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('qrPreview')),
@@ -190,7 +197,13 @@ class QrScreen extends ConsumerWidget {
               CustomButtonWidget(
                 text: '',
                 onTap: () {
-                  ref.read(addEventControllerProvider.notifier).createEvent();
+                  if (id == null) {
+                    ref.read(addEventControllerProvider.notifier).createEvent();
+                  } else {
+                    context.pop();
+                    context.pop();
+                    context.pop();
+                  }
                 },
                 backgroundColor: AppColors.primary,
                 isFiled: true,

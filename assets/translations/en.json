@@ -281,5 +281,13 @@
     "card_details" : "Card Details",
     "card" : "Card",
     "qr_confirmation" : "QR Confirmation",
-    "qr_confirmation_message" : "Do you want to generate this template with Qr code or not?"
+    "qr_confirmation_message" : "Do you want to generate this template with Qr code or not?",
+    "customize_invitation" : "Customize Invitation",
+    "chose_template_optiosn" : "Select what to include in your  invitation ",
+    "choose_invitation_message" : "Choose Invitation Message",
+    "choose_invitation_message_description" : "Choose a message for your invitation",
+    "qr_code" : "QR Code",
+    "confirmation" : "Attendance Confirmation",
+    "select_message" : "Select a message",
+    "decline" : "Decline"
 }

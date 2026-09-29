@@ -16,6 +16,7 @@ class Routes {
   static String guestList = '/guests-list-page';
   static String eventGuestList = '/event-guests-list-page';
   static String inviteTemplate = '/invite-template-page';
+  static String customizeTemplate = '/customize-template-page';
   static String qrScreen = '/qr-page';
   static String sendInvite = '/send-invite-page';
   static String manageAccess = '/manage-access-page';
