@@ -14,7 +14,7 @@ Dio dio(Ref ref) {
 
   final dio = Dio(
     BaseOptions(
-      baseUrl: ServicesUrls.baseUrl,
+      baseUrl: ServicesUrls.baseProductionUrl,
       connectTimeout: timeout,
       receiveTimeout: timeout,
       sendTimeout: timeout,

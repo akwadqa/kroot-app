@@ -72,6 +72,7 @@ dependencies:
   share_plus: ^12.0.2
   permission_handler: ^12.0.3
   gal: ^2.3.2
+  screen_protector: ^1.5.3
 
 
 
