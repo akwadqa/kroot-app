@@ -1,26 +1,15 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
 
 import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_state.dart';
-import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 
 class UpdateEventState {
   final EventModel? updatedEvent;
-  final List<SelectedContact>? selectedContacts;
-  final bool? isAddContact;
   final bool? isUpdateEvent;
-  final bool? isChanged;
-  final List<Contact> contacts;
 
-  final AsyncValue<List<AutocompletePrediction>>? predictions;
-
-  final AsyncValue<SelectedPlace>? selectedPlace;
   final AsyncValue<UpdateHandlersResponse>? updateHandlersResponse;
   final AsyncValue<DeleteHandlerResponse>? deleteHandlersResponse;
 
@@ -39,18 +28,12 @@ class UpdateEventState {
 
   UpdateEventState({
     required this.updatedEvent,
-    required this.isChanged,
-    required this.selectedPlace,
     required this.msg,
     required this.updateHandlersResponse,
     required this.deleteHandlersResponse,
-    required this.predictions,
     required this.operators,
     required this.handlers,
-    required this.selectedContacts,
     required this.isUpdateEvent,
-    required this.isAddContact,
-    required this.contacts,
     required this.createEventResponse,
     required this.updateEventResponse,
     required this.isQr,
@@ -61,20 +44,14 @@ class UpdateEventState {
 
   factory UpdateEventState.init() => UpdateEventState(
         updatedEvent: EventModel(),
-        selectedPlace: null,
-        selectedContacts: [],
-        isChanged: false,
-        predictions: null,
         updateEventResponse: null,
         isConfirmation: false,
         isLocation: false,
         templateMessage: '',
         isQr: false,
         msg: '',
-        isAddContact: false,
         updateHandlersResponse: null,
         deleteHandlersResponse: null,
-        contacts: [],
         operators: [],
         handlers: [],
         isUpdateEvent: false,
@@ -83,21 +60,15 @@ class UpdateEventState {
 
   UpdateEventState copyWith({
     EventModel? updatedEvent,
-    List<SelectedContact>? selectedContacts,
-    bool? isAddContact,
-    bool? isChanged,
     bool? isUpdateEvent,
-    List<Contact>? contacts,
     bool? isQr,
     bool? isLocation,
     bool? isConfirmation,
     String? templateMessage,
     CreateEventResponse? createEventResponse,
     AsyncValue<String>? updateEventResponse,
-    AsyncValue<List<AutocompletePrediction>>? predictions,
     AsyncValue<UpdateHandlersResponse>? updateHandlersResponse,
     AsyncValue<DeleteHandlerResponse>? deleteHandlersResponse,
-    AsyncValue<SelectedPlace>? selectedPlace,
     List<HandlerModel>? operators,
     List<HandlerModel>? handlers,
     String? msg,
@@ -112,17 +83,11 @@ class UpdateEventState {
           deleteHandlersResponse ?? this.deleteHandlersResponse,
       updateHandlersResponse:
           updateHandlersResponse ?? this.updateHandlersResponse,
-      predictions: predictions ?? this.predictions,
       msg: msg ?? this.msg,
       operators: operators ?? this.operators,
       handlers: handlers ?? this.handlers,
-      isChanged: isChanged ?? this.isChanged,
-      selectedPlace: selectedPlace ?? this.selectedPlace,
       isUpdateEvent: isUpdateEvent,
       updatedEvent: updatedEvent ?? this.updatedEvent,
-      selectedContacts: selectedContacts ?? this.selectedContacts,
-      isAddContact: isAddContact,
-      contacts: contacts ?? this.contacts,
       createEventResponse: createEventResponse ?? this.createEventResponse,
     );
   }

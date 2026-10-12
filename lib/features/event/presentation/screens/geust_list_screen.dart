@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
@@ -151,48 +152,23 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
       },
     );
 
-    if (widget.id == null) {
-      //? Listener for add :
-      ref.listen(addEventControllerProvider, (prev, next) {
-        //? This listener for create event in this screen :
-        // if (next.value!.isAddEvent != null) {
-        //   //? For loading :
-        //   if (next is AsyncLoading) {
-        //     AppAlert.showLoadingDialog(ctx);
-        //   }
-
-        //   if (next is AsyncData && prev is AsyncLoading) {
-        //     ctx.pop();
-
-        //     // AppToast.doneToast("successfullyCompleted".tr());
-        //     context.go(
-        //       Routes.eventDetails,
-        //       extra: {'id': next.value!.createEventResponse?.eventId},
-        //     );
-        //     ref.read(addEventControllerProvider.notifier).clearEventScreen();
-        //   }
-
-        //   if (next is AsyncError && prev is AsyncLoading) {
-        //     ctx.pop();
-        //     AppToast.errorToast(next.error.toString());
-        //   }
-        // }
-
-        //? This listener for add new contact :
-        if (next.value?.isAddContact ?? false) {
-          if (next is AsyncData) {
-            AppToast.doneToast('successfullyCompleted'.tr());
-          }
-
-          if (next is AsyncError) {
-            AppToast.errorToast(next.error.toString());
-          }
-          firstName.clear();
-          lastName.clear();
-          number.clear();
+    //? This listener for add new contact :
+    ref.listen(contactsControllerProvider(widget.id), (prev, next) {
+      if (next.value?.isAddContact ?? false) {
+        if (next is AsyncData) {
+          AppToast.doneToast('successfullyCompleted'.tr());
         }
-      });
-    } else {
+
+        if (next is AsyncError) {
+          AppToast.errorToast(next.error.toString());
+        }
+        firstName.clear();
+        lastName.clear();
+        number.clear();
+      }
+    });
+
+    if (widget.id != null) {
       ref.listen(updateEventControllerProvider, (prev, next) {
         //? This listener for create event in this screen :
         if (next.value!.isUpdateEvent != null) {
@@ -219,12 +195,14 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
       });
     }
 
-    final items = widget.id != null
-        ? ref.watch(updateEventControllerProvider).value!.selectedContacts
-        : ref.watch(addEventControllerProvider).value!.selectedContacts;
+    final items = ref
+        .watch(contactsControllerProvider(widget.id))
+        .value!
+        .selectedContacts;
 
     final isChanged = ref.watch(
-      updateEventControllerProvider.select((val) => val.value!.isChanged),
+      contactsControllerProvider(widget.id)
+          .select((val) => val.value!.isChanged),
     );
 
     return Scaffold(
@@ -244,7 +222,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               20.verticalSpace,
-              if (items?.isNotEmpty ?? false)
+              if (items.isNotEmpty)
                 Text(
                   context.tr('additionalGuest'),
                   style: AppTextStyle.rubikRegular12.copyWith(
@@ -253,7 +231,7 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                 ).onlyPadding(end: 22.w),
 
               Expanded(
-                child: items!.isEmpty
+                child: items.isEmpty
                     ?
                     //? Empty :
                     Padding(
@@ -315,30 +293,16 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                             id: widget.id,
                             contact: items[index],
                             decreament: () {
-                              widget.id != null
-                                  ? ref
-                                      .read(
-                                        updateEventControllerProvider.notifier,
-                                      )
-                                      .decrementCount(items[index])
-                                  : ref
-                                      .read(
-                                        addEventControllerProvider.notifier,
-                                      )
-                                      .decrementCount(items[index]);
+                              ref
+                                  .read(contactsControllerProvider(widget.id)
+                                      .notifier)
+                                  .decrementCount(items[index]);
                             },
                             increament: () {
-                              widget.id != null
-                                  ? ref
-                                      .read(
-                                        updateEventControllerProvider.notifier,
-                                      )
-                                      .incrementCount(items[index])
-                                  : ref
-                                      .read(
-                                        addEventControllerProvider.notifier,
-                                      )
-                                      .incrementCount(items[index]);
+                              ref
+                                  .read(contactsControllerProvider(widget.id)
+                                      .notifier)
+                                  .incrementCount(items[index]);
                             },
                           );
                         },
@@ -400,9 +364,10 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                       AddEventPageBotton(
                         onTap: widget.id != null
                             ? ref
-                                    .watch(updateEventControllerProvider)
+                                    .watch(
+                                        contactsControllerProvider(widget.id))
                                     .value!
-                                    .selectedContacts!
+                                    .selectedContacts
                                     .isEmpty
                                 ? null
                                 : () {
@@ -412,9 +377,10 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                                     );
                                   }
                             : ref
-                                    .watch(addEventControllerProvider)
+                                    .watch(
+                                        contactsControllerProvider(widget.id))
                                     .value!
-                                    .selectedContacts!
+                                    .selectedContacts
                                     .isEmpty
                                 ? null
                                 : () {
@@ -422,30 +388,32 @@ class _GeustListScreenState extends ConsumerState<GeustListScreen> {
                                   },
                         isSubmit: widget.id != null
                             ? ref
-                                .read(updateEventControllerProvider)
+                                .read(contactsControllerProvider(widget.id))
                                 .value!
-                                .selectedContacts!
+                                .selectedContacts
                                 .isNotEmpty
                             : ref
-                                .read(addEventControllerProvider)
+                                .read(contactsControllerProvider(widget.id))
                                 .value!
-                                .selectedContacts!
+                                .selectedContacts
                                 .isNotEmpty,
                         child: Text(
                           context.tr('continue'),
                           style: AppTextStyle.rubikSemiBold18.copyWith(
                             color: widget.id != null
                                 ? ref
-                                        .watch(updateEventControllerProvider)
+                                        .watch(contactsControllerProvider(
+                                            widget.id))
                                         .value!
-                                        .selectedContacts!
+                                        .selectedContacts
                                         .isEmpty
                                     ? AppColors.primary
                                     : AppColors.white
                                 : ref
-                                        .watch(addEventControllerProvider)
+                                        .watch(contactsControllerProvider(
+                                            widget.id))
                                         .value!
-                                        .selectedContacts!
+                                        .selectedContacts
                                         .isEmpty
                                     ? AppColors.primary
                                     : AppColors.white,

@@ -7,7 +7,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/map_controller/map_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
@@ -42,12 +44,18 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
   void initState() {
     super.initState();
     Future(() {
-      ref.read(updateEventControllerProvider.notifier)
-        ..updateDataForEvent(
-          widget.eventModel,
-          widget.eventModel.occasionId ?? widget.id!,
-        )
-        ..setSelectedContactsFromGuests(widget.eventModel.guests!);
+      final eventId = widget.eventModel.occasionId ?? widget.id!;
+      ref
+          .read(updateEventControllerProvider.notifier)
+          .updateDataForEvent(widget.eventModel, eventId);
+      ref
+          .read(contactsControllerProvider(eventId).notifier)
+          .setSelectedContactsFromGuests(widget.eventModel.guests!);
+      ref.read(mapControllerProvider(eventId).notifier).setFromEvent(
+            lat: widget.eventModel.mapLatitude,
+            lng: widget.eventModel.mapLongitude,
+            locationName: widget.eventModel.locationName,
+          );
     });
     _title = TextEditingController(text: widget.eventModel.title);
   }
@@ -252,18 +260,14 @@ class _UpdateEventScreenState extends ConsumerState<UpdateEventScreen> {
                   12.verticalSpace,
                   Consumer(
                     builder: (context, ref, child) {
-                      String? lat;
-                      String? lng;
                       final latlng = ref.watch(
-                        updateEventControllerProvider.select((val) {
-                          lat = val.value!.updatedEvent!.mapLatitude;
-                          lng = val.value!.updatedEvent!.mapLongitude;
-                          return LatLng(double.parse(lat!), double.parse(lng!));
-                        }),
+                        mapControllerProvider(
+                          widget.eventModel.occasionId ?? widget.id!,
+                        ).select((val) => val.value!.latLng),
                       );
                       return EventLocationWidget(
                         id: widget.id ?? widget.eventModel.occasionId!,
-                        latlng: LatLng(latlng.latitude, latlng.longitude),
+                        latlng: LatLng(latlng.lat, latlng.lng),
                       );
                     },
                   ),

@@ -4,9 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_guest_number_filed.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -148,28 +147,19 @@ class _AddContactManuallBottomSheetState
                         text: '',
                         onTap: () {
                           if (_key.currentState!.validate()) {
-                            if (widget.id == null) {
-                              if (FocusManager.instance.primaryFocus != null) {
-                                FocusManager.instance.primaryFocus!.unfocus();
-                              }
-                              ref
-                                  .read(addEventControllerProvider.notifier)
-                                  .addNewContact(
-                                    firstName: firstName.text,
-                                    lastName: lastName.text,
-                                    phoneNumber: number.text,
-                                    code: code.text,
-                                  );
-                            } else {
-                              ref
-                                  .read(updateEventControllerProvider.notifier)
-                                  .addNewContact(
-                                    firstName: firstName.text,
-                                    lastName: lastName.text,
-                                    phoneNumber: number.text,
-                                    code: code.text,
-                                  );
+                            if (FocusManager.instance.primaryFocus != null) {
+                              FocusManager.instance.primaryFocus!.unfocus();
                             }
+                            ref
+                                .read(
+                                  contactsControllerProvider(widget.id).notifier,
+                                )
+                                .addNewContact(
+                                  firstName: firstName.text,
+                                  lastName: lastName.text,
+                                  phoneNumber: number.text,
+                                  code: code.text,
+                                );
                             context.pop();
                           }
                         },

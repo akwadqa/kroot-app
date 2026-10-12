@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
@@ -97,19 +97,12 @@ class QrScreen extends ConsumerWidget {
       // });
     }
 
-    final guests = id == null
-        ? ref
-            .read(addEventControllerProvider)
-            .value!
-            .selectedContacts!
-            .length
-            .toString()
-        : ref
-            .read(updateEventControllerProvider)
-            .value!
-            .selectedContacts!
-            .length
-            .toString();
+    final guests = ref
+        .read(contactsControllerProvider(id))
+        .value!
+        .selectedContacts
+        .length
+        .toString();
 
     return Scaffold(
       appBar: CustomAppbar(title: context.tr('qrPreview')),

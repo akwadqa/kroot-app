@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +19,7 @@ import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart'
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
+import 'package:kroot_app/src/utils/resolve_image_url.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -246,17 +246,6 @@ class HomePageEventItem extends StatelessWidget {
 
   final EventModel event;
 
-  String? resolveImageUrl() {
-    final imagePath = event.imageUrl;
-
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
-    if (imagePath == null || imagePath.isEmpty) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-    final path = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
-    return '$base$path';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -292,14 +281,15 @@ class HomePageEventItem extends StatelessWidget {
                     ],
                     borderRadius: BorderRadius.circular(10.r),
                   ),
-                  child: (event.imageUrl != null && resolveImageUrl() != null)
+                  child: (event.imageUrl != null &&
+                          resolveImageUrl(event.imageUrl) != null)
                       ? ClipRRect(
                           borderRadius: BorderRadius.circular(10.r),
                           child: CachedNetworkImage(
                             fadeInCurve: Curves.linear,
                             placeholder: (context, url) =>
                                 FadeCircleLoadingIndicator(),
-                            imageUrl: resolveImageUrl()!,
+                            imageUrl: resolveImageUrl(event.imageUrl)!,
                             fit: BoxFit.cover,
                           ),
                         )

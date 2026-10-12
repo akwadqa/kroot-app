@@ -4,7 +4,7 @@ import 'package:kroot_app/features/event/data/models/add_guests_response/add_gue
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/repositories/home_repositories.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/guests/domain/model/update_guest_list_response.dart/update_guest_list_response.dart';
 import 'package:kroot_app/features/guests/domain/model/update_guest_response/update_guest_response.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_state.dart';
@@ -120,33 +120,6 @@ class GuestsController extends _$GuestsController {
     }
   }
 
-  List<GuestModel>? setGuestListFromContacts() {
-    final selectedContacts = ref
-        .read(updateEventControllerProvider)
-        .value!
-        .selectedContacts;
-    return selectedContacts?.map((s) {
-      final nameParts = (s.contact.displayName).split(' ');
-      final firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      final lastName = nameParts.length > 1
-          ? nameParts.sublist(1).join(' ')
-          : null;
-
-      final number = (s.contact.phones.isNotEmpty)
-          ? s.contact.phones.first.number.replaceAll(' ', '').length > 11
-                ? s.contact.phones.first.number.replaceAll(' ', '')
-                : '${s.code}${s.contact.phones.first.number.replaceAll(' ', '')}'
-          : null;
-
-      return GuestModel(
-        firstName: firstName,
-        lastName: lastName,
-        whatsappNumber: number,
-        partySize: s.count,
-      );
-    }).toList();
-  }
-
   Future<UpdateGuestListRespone?> updateGuestList({
     required String occasionId,
   }) async {
@@ -157,7 +130,9 @@ class GuestsController extends _$GuestsController {
       final repo = ref.read(guestsRepositoryProvider);
       final response = await repo.updateGuestList(
         occasionId: occasionId,
-        guests: setGuestListFromContacts()!,
+        guests: ref
+            .read(contactsControllerProvider(occasionId).notifier)
+            .toGuestModels(),
       );
 
       if (response.hasFailed) {

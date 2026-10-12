@@ -7,8 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/map_controller/map_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/select_location_page/location_search_box.dart';
 import 'package:kroot_app/features/event/presentation/widgets/select_location_page/select_location_google_map.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
@@ -38,25 +37,8 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen(
-      addEventControllerProvider.select((val) => val.value!.selectedPlace),
-      (prev, next) {
-        if (next is AsyncLoading) {
-          AppAlert.showLoadingDialog(context);
-        }
-
-        if (next is AsyncData) {
-          context.pop();
-          context.pop();
-        }
-        if (next is AsyncError) {
-          context.pop();
-          AppToast.errorToast(next!.error.toString());
-        }
-      },
-    );
-
-    ref.listen(
-      updateEventControllerProvider.select((val) => val.value!.selectedPlace),
+      mapControllerProvider(widget.id)
+          .select((val) => val.value!.selectedPlace),
       (prev, next) {
         if (next is AsyncLoading) {
           AppAlert.showLoadingDialog(context);
@@ -86,20 +68,15 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
             child: CustomButtonWidget(
               text: '',
               onTap: () async {
-                if (widget.id == null) {
-                  await ref
-                      .read(addEventControllerProvider.notifier)
-                      .getPlaceInfoFromLatLng();
-                } else {
-                  await ref
-                      .read(updateEventControllerProvider.notifier)
-                      .getPlaceInfoFromLatLng(widget.id!);
-                }
+                await ref
+                    .read(mapControllerProvider(widget.id).notifier)
+                    .getPlaceInfoFromLatLng();
               },
               isFiled: true,
               content: Text(
                 context.tr('confirm'),
-                style: AppTextStyle.nunitoBold16.copyWith(color: AppColors.white),
+                style:
+                    AppTextStyle.nunitoBold16.copyWith(color: AppColors.white),
               ),
               height: 44.h,
               width: 260.w,
@@ -110,21 +87,14 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
           Spacer(),
           Flexible(
             flex: 1,
-
             child: IconButton(
               style: ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(AppColors.white),
               ),
               onPressed: () {
-                final location = ref
-                    .watch(addEventControllerProvider)
-                    .value!
-                    .initialLatLng;
-            
                 ref
-                    .read(addEventControllerProvider.notifier)
-                    .changeLatlng(location!.lat, location.lng);
-                setState(() {});
+                    .read(mapControllerProvider(widget.id).notifier)
+                    .moveToInitialLocation();
               },
               icon: Icon(Icons.my_location_outlined),
             ),
@@ -150,41 +120,21 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
                   children: [
                     Expanded(
                       child: LocationSearchBox(
+                        id: widget.id,
                         onSelect: (id, des) async {
-                          if (widget.id == null) {
-                            final notifier = ref.read(
-                              addEventControllerProvider.notifier,
+                          final latLng = await ref
+                              .read(mapControllerProvider(widget.id).notifier)
+                              .getPlaceLocation(id);
+
+                          if (latLng != null) {
+                            final GoogleMapController mapController =
+                                await _controller.future;
+
+                            mapController.animateCamera(
+                              CameraUpdate.newLatLng(
+                                LatLng(latLng.lat, latLng.lng),
+                              ),
                             );
-
-                            final latLng = await notifier.getPlaceLocation(id);
-
-                            if (latLng != null) {
-                              final GoogleMapController mapController =
-                                  await _controller.future;
-
-                              mapController.animateCamera(
-                                CameraUpdate.newLatLng(
-                                  LatLng(latLng.lat, latLng.lng),
-                                ),
-                              );
-                            }
-                          } else {
-                            final notifier = ref.read(
-                              updateEventControllerProvider.notifier,
-                            );
-
-                            final latLng = await notifier.getPlaceLocation(id);
-
-                            if (latLng != null) {
-                              final GoogleMapController mapController =
-                                  await _controller.future;
-
-                              mapController.animateCamera(
-                                CameraUpdate.newLatLng(
-                                  LatLng(latLng.lat, latLng.lng),
-                                ),
-                              );
-                            }
                           }
                         },
                       ),
@@ -202,7 +152,6 @@ class _SelectLocationPageState extends ConsumerState<SelectLocationPage> {
                   ],
                 ),
               ),
-
               Spacer(),
               _buildConfirmButton(context),
             ],

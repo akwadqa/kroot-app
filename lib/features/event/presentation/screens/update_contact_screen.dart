@@ -4,8 +4,8 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/add_contact_page/add_contact_page_tile.dart';
@@ -34,13 +34,15 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
   void initState() {
     super.initState();
     Future(() {
-      ref.read(addEventControllerProvider.notifier).getContacts(null);
+      ref
+          .read(contactsControllerProvider(widget.id).notifier)
+          .getContacts(null);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(addEventControllerProvider);
+    final controller = ref.watch(contactsControllerProvider(widget.id));
     late BuildContext ctx;
 
     ref.listen(updateEventControllerProvider, (prev, next) {
@@ -85,7 +87,7 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
               HomePageSearchField(
                 onSubmit: (val) {
                   ref
-                      .read(addEventControllerProvider.notifier)
+                      .read(contactsControllerProvider(widget.id).notifier)
                       .getContacts(val);
                 },
                 hint: context.tr('searchContactHere'),
@@ -109,13 +111,13 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
                   },
 
                   error: (e, st) {
-                    final state = ref.watch(addEventControllerProvider);
+                    final state = ref.watch(contactsControllerProvider(widget.id));
 
                     if (state.value!.contacts.isEmpty) {
                       return AppErrorWidget(
                         onTap: () {
                           ref
-                              .read(addEventControllerProvider.notifier)
+                              .read(contactsControllerProvider(widget.id).notifier)
                               .getContacts(null);
                         },
                       );
@@ -124,7 +126,7 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
                     return _buildList(state.value!.contacts);
                   },
                   loading: () {
-                    final state = ref.watch(addEventControllerProvider);
+                    final state = ref.watch(contactsControllerProvider(widget.id));
                     if (state.value!.contacts.isEmpty) {
                       return Center(child: MailPulseAnimation());
                     }
@@ -157,27 +159,27 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
                   AddEventPageBotton(
                     onTap:
                         ref
-                            .read(updateEventControllerProvider)
+                            .read(contactsControllerProvider(widget.id))
                             .value!
-                            .selectedContacts!
+                            .selectedContacts
                             .isEmpty
                         ? null
                         : () {
                             context.push(Routes.guestList, extra: widget.id);
                           },
                     isSubmit: ref
-                        .read(updateEventControllerProvider)
-                        .value!
-                        .selectedContacts!
+                            .read(contactsControllerProvider(widget.id))
+                            .value!
+                            .selectedContacts
                         .isNotEmpty,
                     child: Text(
                       context.tr('continue'),
                       style: AppTextStyle.rubikSemiBold18.copyWith(
                         color:
                             ref
-                                .read(updateEventControllerProvider)
-                                .value!
-                                .selectedContacts!
+                            .read(contactsControllerProvider(widget.id))
+                            .value!
+                            .selectedContacts
                                 .isEmpty
                             ? AppColors.primary
                             : AppColors.white,
@@ -202,13 +204,13 @@ class _UpdateContactScreenState extends ConsumerState<UpdateContactScreen> {
           contact: contacts[index],
 
           selectedContacts: ref
-              .watch(updateEventControllerProvider)
-              .value!
-              .selectedContacts!,
+                            .watch(contactsControllerProvider(widget.id))
+                            .value!
+                            .selectedContacts,
           onChange: (val) {
-            ref.read(updateEventControllerProvider.notifier)
-              ..selectContactForUpdatedEvent(contacts[index])
-              ..updateDataForEvent(EventModel(), widget.id!);
+            ref
+                .read(contactsControllerProvider(widget.id).notifier)
+                .selectContact(contacts[index]);
           },
         );
       },

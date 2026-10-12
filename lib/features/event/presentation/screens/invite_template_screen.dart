@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +22,7 @@ import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
+import 'package:kroot_app/src/utils/resolve_image_url.dart';
 
 class InviteTemplateScreen extends ConsumerWidget {
   const InviteTemplateScreen({super.key, this.id});
@@ -46,17 +46,6 @@ class InviteTemplateScreen extends ConsumerWidget {
               (val) => val.value!.eventModel!.image,
             ),
           );
-
-    String? resolveImageUrl() {
-      final imagePath = imageUrl;
-      final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
-      if (imagePath == null || imagePath.isEmpty) return null;
-      if (imagePath.startsWith('http')) return imagePath;
-      final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-      final path =
-          imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
-      return '$base$path';
-    }
 
     late BuildContext ctx;
     if (id == null) {
@@ -201,7 +190,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           id != null
-                              ? resolveImageUrl() != null
+                              ? resolveImageUrl(imageUrl) != null
                                   ? SizedBox(
                                       width: double.infinity,
                                       height: 182.h,
@@ -214,7 +203,7 @@ class InviteTemplateScreen extends ConsumerWidget {
                                           fadeInCurve: Curves.linear,
                                           placeholder: (context, url) =>
                                               FadeCircleLoadingIndicator(),
-                                          imageUrl: resolveImageUrl()!,
+                                          imageUrl: resolveImageUrl(imageUrl)!,
                                         ),
                                       ),
                                     )

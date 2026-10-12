@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -15,22 +14,12 @@ import 'package:kroot_app/src/utils/download_image.dart';
 import 'package:kroot_app/src/utils/functions.dart';
 
 import '../../../../gen/assets.gen.dart';
+import 'package:kroot_app/src/utils/resolve_image_url.dart';
 
 class MyOccasionsScreenCardItem extends ConsumerWidget {
   const MyOccasionsScreenCardItem({super.key, required this.card});
 
   final ConfirmPreviewCardResponse card;
-
-  String? resolveImageUrl() {
-    final imagePath = card.finalImage;
-
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
-    if (imagePath == null || imagePath.isEmpty) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-    final path = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
-    return '$base$path';
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,14 +56,14 @@ class MyOccasionsScreenCardItem extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(10.r),
                 border: Border.all(color: AppColors.primary),
               ),
-              child: (resolveImageUrl() != null)
+              child: (resolveImageUrl(card.finalImage) != null)
                   ? ClipRRect(
                       borderRadius: BorderRadius.circular(10.r),
                       child: CachedNetworkImage(
                         fadeInCurve: Curves.linear,
                         placeholder: (context, url) =>
                             FadeCircleLoadingIndicator(),
-                        imageUrl: resolveImageUrl()!,
+                        imageUrl: resolveImageUrl(card.finalImage)!,
                         fit: BoxFit.cover,
                       ),
                     )
@@ -120,7 +109,9 @@ class MyOccasionsScreenCardItem extends ConsumerWidget {
                       radius: 32.r,
                       onTap: () {
                         FileDownloadService.downloadImageToDownloads(
-                            resolveImageUrl() ?? '', '${card.name}.png', ref);
+                            resolveImageUrl(card.finalImage) ?? '',
+                            '${card.name}.png',
+                            ref);
                       },
                       isFiled: false,
                       height: 28.h,
@@ -147,7 +138,7 @@ class MyOccasionsScreenCardItem extends ConsumerWidget {
                       onTap: () {
                         sharePost(
                           ref: ref,
-                          imageUrl: resolveImageUrl(),
+                          imageUrl: resolveImageUrl(card.finalImage),
                         );
                       },
                       isFiled: false,

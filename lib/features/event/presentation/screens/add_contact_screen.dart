@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_state.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/add_contact_page/add_contact_page_tile.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
@@ -33,13 +31,15 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
   void initState() {
     super.initState();
     Future(() {
-      ref.read(addEventControllerProvider.notifier).getContacts(null);
+      ref
+          .read(contactsControllerProvider(widget.id).notifier)
+          .getContacts(null);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(addEventControllerProvider);
+    final controller = ref.watch(contactsControllerProvider(widget.id));
     // late BuildContext ctx;
 
     // ref.listen(addEventControllerProvider, (prev, next) {
@@ -80,7 +80,9 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
           children: [
             HomePageSearchField(
               onChange: (val) {
-                ref.read(addEventControllerProvider.notifier).getContacts(val);
+                ref
+                    .read(contactsControllerProvider(widget.id).notifier)
+                    .getContacts(val);
               },
               hint: context.tr('searchContactHere'),
             ).symmetricPadding(horizontal: 22.w, vertical: 20.h),
@@ -101,13 +103,13 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                   return _buildList(data);
                 },
                 error: (e, st) {
-                  final state = ref.watch(addEventControllerProvider);
+                  final state = ref.watch(contactsControllerProvider(widget.id));
 
                   if (state.value!.contacts.isEmpty) {
                     return AppErrorWidget(
                       onTap: () {
                         ref
-                            .read(addEventControllerProvider.notifier)
+                            .read(contactsControllerProvider(widget.id).notifier)
                             .getContacts(null);
                       },
                     );
@@ -115,7 +117,7 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
                   return _buildList(state.value!);
                 },
                 loading: () {
-                  final state = ref.watch(addEventControllerProvider);
+                  final state = ref.watch(contactsControllerProvider(widget.id));
                   if (state.value!.contacts.isEmpty) {
                     return Center(child: MailPulseAnimation());
                   }
@@ -145,26 +147,20 @@ class _AddContactScreenState extends ConsumerState<AddContactScreen> {
         ));
   }
 
-  Widget _buildList(AddEventState data) {
+  Widget _buildList(ContactsState data) {
     return ListView.separated(
       padding: EdgeInsets.symmetric(horizontal: 7.w),
       itemBuilder: (context, index) {
         return AddContactScreenTile(
           contact: data.contacts[index],
-          selectedContacts: widget.id == null
-              ? ref.watch(addEventControllerProvider).value!.selectedContacts!
-              : ref
-                  .watch(updateEventControllerProvider)
-                  .value!
-                  .selectedContacts!,
+          selectedContacts: ref
+              .watch(contactsControllerProvider(widget.id))
+              .value!
+              .selectedContacts,
           onChange: (val) {
-            widget.id == null
-                ? (ref.read(addEventControllerProvider.notifier)
-                  ..selectContact(data.contacts[index])
-                  ..updateEvent(EventModel()))
-                : (ref.read(updateEventControllerProvider.notifier)
-                  ..selectContactForUpdatedEvent(data.contacts[index])
-                  ..updateDataForEvent(EventModel(), widget.id!));
+            ref
+                .read(contactsControllerProvider(widget.id).notifier)
+                .selectContact(data.contacts[index]);
           },
         );
       },

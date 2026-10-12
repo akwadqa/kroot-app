@@ -8,6 +8,7 @@ import 'package:kroot_app/features/auth/presentation/widgets/create_account_page
 import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/map_controller/map_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_date.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/event_details_image.dart';
@@ -37,7 +38,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
     _title = TextEditingController(text: '');
 
     Future(() {
-      ref.read(addEventControllerProvider.notifier).initLocation();
+      ref.read(mapControllerProvider(null).notifier).useCurrentLocation();
     });
   }
 
@@ -53,7 +54,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
     late BuildContext ctx;
 
     ref.listen(
-      addEventControllerProvider.select((val) => val.value!.selectedPlace),
+      mapControllerProvider(null).select((val) => val.value!.selectedPlace),
       (prev, next) {
         if (next is AsyncLoading) {
           AppAlert.showLoadingDialog(context);
@@ -252,7 +253,7 @@ class _AddEventScreenState extends ConsumerState<AddEventScreen> {
                       Consumer(
                         builder: (context, ref, child) {
                           final latlng = ref.watch(
-                            addEventControllerProvider.select(
+                            mapControllerProvider(null).select(
                               (val) => val.value!.latLng,
                             ),
                           );

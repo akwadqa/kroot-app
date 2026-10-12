@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/image_picker.dart';
+import 'package:kroot_app/src/utils/resolve_image_url.dart';
 
 class EventDetailsImage extends StatelessWidget {
   final String? imageUrl;
@@ -24,15 +24,6 @@ class EventDetailsImage extends StatelessWidget {
     required this.deleteFile,
     required this.deleteLink,
   });
-  String? resolveImageUrl() {
-    final imagePath = imageUrl;
-    final baseUrl = dotenv.env['BASE_IMAGE'] ?? '';
-    if (imagePath == null || imagePath.isEmpty) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    final base = baseUrl.endsWith('/') ? baseUrl : '$baseUrl/';
-    final path = imagePath.startsWith('/') ? imagePath.substring(1) : imagePath;
-    return '$base$path';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +42,10 @@ class EventDetailsImage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(7.r),
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: imageUrl != null && imageUrl!.isNotEmpty
-                        ? 0
-                        : 16.w,
-                    vertical: imageUrl != null && imageUrl!.isNotEmpty
-                        ? 0
-                        : 13.h,
+                    horizontal:
+                        imageUrl != null && imageUrl!.isNotEmpty ? 0 : 16.w,
+                    vertical:
+                        imageUrl != null && imageUrl!.isNotEmpty ? 0 : 13.h,
                   ),
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -74,14 +63,13 @@ class EventDetailsImage extends StatelessWidget {
                       ? SizedBox(
                           width: double.infinity,
                           height: 182.h,
-
                           child: Stack(
                             children: [
                               CachedNetworkImage(
                                 fadeInCurve: Curves.linear,
                                 placeholder: (context, url) =>
                                     FadeCircleLoadingIndicator(),
-                                imageUrl: resolveImageUrl()!,
+                                imageUrl: resolveImageUrl(imageUrl)!,
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                                 height: double.infinity,

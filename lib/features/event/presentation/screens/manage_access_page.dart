@@ -52,7 +52,7 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
         if (next is AsyncData) {
           context.pop();
 
-          context.pop();
+          // context.pop();
           context.pop();
           AppToast.doneToast("successfullyCompleted".tr());
           ref.read(homeControllerProvider.notifier).getEventDetails(widget.id!);
@@ -104,7 +104,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
             ),
             child: TabBar(
               indicatorSize: TabBarIndicatorSize.tab,
-
               indicatorWeight: 3.h,
               indicatorColor: AppColors.primary,
               dividerColor: Colors.transparent,
@@ -152,7 +151,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
               },
               isFiled: false,
               height: 50.h,
-
               content: Text(
                 context.tr('confirm'),
                 style: AppTextStyle.rubikSemiBold16.copyWith(
@@ -224,7 +222,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
-
                           builder: (context) => AddOperatorHandlerBotomSheet(
                             title: context.tr('addAuthorizeds'),
                             onFinish: (number) {
@@ -388,7 +385,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
-
                     builder: (context) => AddOperatorHandlerBotomSheet(
                       title: context.tr('addOperators'),
                       onFinish: (number) {
@@ -455,7 +451,6 @@ class _ManageAccessPageState extends ConsumerState<ManageAccessPage>
           ),
         );
       },
-
       separatorBuilder: (context, index) => Divider(height: 0),
       itemCount: operator.length + 1,
     );

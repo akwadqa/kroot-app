@@ -4,9 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/add_guest_number_filed.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -137,25 +136,15 @@ class _EditGuestNameBottomSheetState
                   backgroundColor: AppColors.primary,
                   onTap: () {
                     if (_key.currentState!.validate()) {
-                      widget.id == null
-                          ? ref
-                                .read(addEventControllerProvider.notifier)
-                                .updateContactName(
-                                  widget.contact.contact,
-                                  _firstNameController.text,
-                                  _lastNameController.text,
-                                  _codeController.text,
-                                  widget.contact.count,
-                                )
-                          : ref
-                                .read(updateEventControllerProvider.notifier)
-                                .updateContactName(
-                                  widget.contact.contact,
-                                  _firstNameController.text,
-                                  _lastNameController.text,
-                                  _codeController.text,
-                                  widget.contact.count,
-                                );
+                      ref
+                          .read(contactsControllerProvider(widget.id).notifier)
+                          .updateContactName(
+                            widget.contact.contact,
+                            _firstNameController.text,
+                            _lastNameController.text,
+                            _codeController.text,
+                            widget.contact.count,
+                          );
                       context.pop();
                     }
                   },

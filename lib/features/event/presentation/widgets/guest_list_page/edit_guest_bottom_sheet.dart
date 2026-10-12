@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_ui_controller.dart';
-import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -108,13 +107,9 @@ class EditGuestBottomSheet extends ConsumerWidget {
                     context: context,
                     title: context.tr('deleteGuest'),
                     onSubmit: () {
-                      id == null
-                          ? ref
-                                .read(addEventControllerProvider.notifier)
-                                .deleteSelectedContact(contact.contact)
-                          : ref
-                                .read(updateEventControllerProvider.notifier)
-                                .deleteSelectedContact(contact.contact);
+                      ref
+                          .read(contactsControllerProvider(id).notifier)
+                          .deleteSelectedContact(contact.contact);
                       context.pop();
                       context.pop();
                     },

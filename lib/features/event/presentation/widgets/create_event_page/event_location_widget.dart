@@ -17,6 +17,8 @@ class EventLocationWidget extends StatelessWidget {
         width: double.infinity,
         height: 194.h,
         child: GoogleMap(
+          // Recreate the preview when the location changes so the camera follows.
+          key: ValueKey('${latlng.latitude},${latlng.longitude}'),
           onTap: (_) => context.push(Routes.selectLocation, extra: id),
           scrollGesturesEnabled: false,
           markers: {
