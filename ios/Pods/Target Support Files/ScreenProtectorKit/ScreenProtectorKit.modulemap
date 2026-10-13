@@ -1,0 +1,6 @@
+framework module ScreenProtectorKit {
+  umbrella header "ScreenProtectorKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
