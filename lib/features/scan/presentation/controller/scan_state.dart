@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/scan/data/model/scan_qr_response/scan_qr_response.dart';
-import 'package:kroot_app/features/scan/data/model/user_scan_event_response/user_scan_event_response.dart';
+import 'package:kroot_app/features/scan/domain/model/scan_qr_response/scan_qr_response.dart';
+import 'package:kroot_app/features/scan/domain/model/user_scan_event_response/user_scan_event_response.dart';
 
 class ScanState {
   final ScanQrResponse? scanQrResponse;

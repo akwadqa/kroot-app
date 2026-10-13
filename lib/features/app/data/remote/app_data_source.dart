@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kroot_app/features/app/domain/version_update.dart';
+import 'package:kroot_app/features/app/domain/model/version_update.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/constants/Api/end_points.dart';
 import 'package:kroot_app/src/network/services/network_service.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_field.dart';
-import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
+import 'package:kroot_app/features/cards/domain/model/template_field_model/template_field_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_date.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_time.dart';

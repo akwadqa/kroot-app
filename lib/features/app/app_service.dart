@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:kroot_app/features/app/domain/version_update.dart';
+import 'package:kroot_app/features/app/domain/model/version_update.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 import 'package:kroot_app/src/shared_widgets/app_dialogs.dart';
 import 'package:package_info_plus/package_info_plus.dart';

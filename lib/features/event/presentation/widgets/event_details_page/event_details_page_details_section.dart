@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';

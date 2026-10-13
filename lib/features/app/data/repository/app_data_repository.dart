@@ -1,5 +1,5 @@
 import 'package:kroot_app/features/app/data/remote/app_data_source.dart';
-import 'package:kroot_app/features/app/domain/version_update.dart';
+import 'package:kroot_app/features/app/domain/model/version_update.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/network/exception/dio_exceptions.dart';
 import 'package:kroot_app/src/network/services/dio_client.dart';

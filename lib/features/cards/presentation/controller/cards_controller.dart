@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:kroot_app/features/cards/data/repository/cards_repository.dart';
-import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
-import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
-import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
-import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
+import 'package:kroot_app/features/cards/domain/model/confirm_card_preview_response/confirm_preview_card_response.dart';
+import 'package:kroot_app/features/cards/domain/model/template_categories_model/template_categories_mode.dart';
+import 'package:kroot_app/features/cards/domain/model/template_field_model/template_field_model.dart';
+import 'package:kroot_app/features/cards/domain/model/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_state.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -152,7 +153,7 @@ class CardsController extends _$CardsController {
       state = AsyncData(state.value!.copyWith(templates: AsyncLoading()));
       final repo = ref.read(cardsRepositoryProvider);
       final filters = state.value!.selectedOptions.map((filter) {
-        if (filter.values.first == 'All') {
+        if (filter.values.first == 'status_all'.tr()) {
           return FilterSearchModel(
               filter_label: filter.keys.first, option_value: '');
         }

@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/auth/application/auth_service.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/my_occasions_screen_occasion_grid.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/routing/go_router_app.dart';
 import 'package:kroot_app/src/routing/routes.dart';

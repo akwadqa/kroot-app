@@ -1,4 +1,4 @@
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
+import 'package:kroot_app/features/event/domain/model/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class ProfileState {

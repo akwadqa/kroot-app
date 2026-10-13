@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
+import 'package:kroot_app/features/cards/domain/model/confirm_card_preview_response/confirm_preview_card_response.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
-import 'package:kroot_app/features/event/data/models/retry_bulk_response/retry_bulk_response.dart';
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
+import 'package:kroot_app/features/event/domain/model/retry_bulk_response/retry_bulk_response.dart';
+import 'package:kroot_app/features/event/domain/model/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/repositories/home_repositories.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_state.dart';
 part 'home_controller.g.dart';

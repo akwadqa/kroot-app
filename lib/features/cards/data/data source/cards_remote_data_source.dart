@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
-import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
-import 'package:kroot_app/features/cards/domain/template_field_model/template_field_model.dart';
-import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
+import 'package:kroot_app/features/cards/domain/model/confirm_card_preview_response/confirm_preview_card_response.dart';
+import 'package:kroot_app/features/cards/domain/model/template_categories_model/template_categories_mode.dart';
+import 'package:kroot_app/features/cards/domain/model/template_field_model/template_field_model.dart';
+import 'package:kroot_app/features/cards/domain/model/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_state.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/constants/Api/end_points.dart';

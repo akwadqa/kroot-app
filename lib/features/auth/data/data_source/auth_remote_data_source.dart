@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:kroot_app/features/auth/data/models/create_account/create_account_response.dart';
-import 'package:kroot_app/features/auth/data/models/login_params.dart';
-import 'package:kroot_app/features/auth/data/models/login_response_model.dart';
-import 'package:kroot_app/features/auth/data/models/send_otp/send_otp_response.dart';
-import 'package:kroot_app/features/auth/data/models/verify_otp/verify_otp_response.dart';
+import 'package:kroot_app/features/auth/domain/model/create_account/create_account_response.dart';
+import 'package:kroot_app/features/auth/domain/model/login_params.dart';
+import 'package:kroot_app/features/auth/domain/model/login_response_model.dart';
+import 'package:kroot_app/features/auth/domain/model/send_otp/send_otp_response.dart';
+import 'package:kroot_app/features/auth/domain/model/verify_otp/verify_otp_response.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/constants/Api/end_points.dart';
 import 'package:kroot_app/src/network/services/network_service.dart';

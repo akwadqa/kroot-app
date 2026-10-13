@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:kroot_app/features/event/data/models/add_guests_response/add_guests_response.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/add_guests_response/add_guests_response.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/repositories/home_repositories.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';

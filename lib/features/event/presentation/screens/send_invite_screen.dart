@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/extenssions/int_extenssion.dart';
 import 'package:kroot_app/src/extenssions/widget_extensions.dart';

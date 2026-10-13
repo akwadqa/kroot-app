@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
+import 'package:kroot_app/features/event/domain/model/utils_response/utils_response.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/profile/data/repository/profile_respository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
-import 'package:kroot_app/features/event/data/models/retry_bulk_response/retry_bulk_response.dart';
-import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
-import 'package:kroot_app/features/event/data/models/utils_response/utils_response.dart';
+import 'package:kroot_app/features/event/domain/model/delete_handler_response/delete_handler_response.dart';
+import 'package:kroot_app/features/event/domain/model/retry_bulk_response/retry_bulk_response.dart';
+import 'package:kroot_app/features/event/domain/model/update_handlers_response/update_handlers_response.dart';
+import 'package:kroot_app/features/event/domain/model/utils_response/utils_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:kroot_app/features/event/data/datasources/home_data_source.dart';
-import 'package:kroot_app/features/event/data/models/add_guests_response/add_guests_response.dart';
-import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/add_guests_response/add_guests_response.dart';
+import 'package:kroot_app/features/event/domain/model/event_response/create_event_response.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/src/constants/Api/api_response.dart';
 import 'package:kroot_app/src/network/services/dio_client.dart';
 

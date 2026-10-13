@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_back_button.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_flexible_space.dart';
 import 'package:kroot_app/features/event/presentation/widgets/event_details_page/event_details_page_options_button.dart';

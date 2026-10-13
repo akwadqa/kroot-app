@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
+import 'package:kroot_app/features/event/domain/model/delete_handler_response/delete_handler_response.dart';
 
-import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
-import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
+import 'package:kroot_app/features/event/domain/model/event_response/create_event_response.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/update_handlers_response/update_handlers_response.dart';
 
 class UpdateEventState {
   final EventModel? updatedEvent;

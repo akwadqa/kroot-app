@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
+import 'package:kroot_app/features/cards/domain/model/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/fade_circle_loading_indicator.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';

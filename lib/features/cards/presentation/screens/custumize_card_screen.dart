@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/cards/domain/template_model/template_model.dart';
+import 'package:kroot_app/features/cards/domain/model/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_screen_form.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_screen_price.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kroot_app/features/cards/domain/template_categories_model/template_categories_mode.dart';
+import 'package:kroot_app/features/cards/domain/model/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/presentation/widgets/my_occasions_screen_occasion_item.dart';
 
 class MyOccasionsScreenOccasionsGrid extends StatelessWidget {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kroot_app/features/event/data/models/delete_handler_response/delete_handler_response.dart';
-import 'package:kroot_app/features/event/data/models/update_handlers_response/update_handlers_response.dart';
+import 'package:kroot_app/features/event/domain/model/delete_handler_response/delete_handler_response.dart';
+import 'package:kroot_app/features/event/domain/model/update_handlers_response/update_handlers_response.dart';
 import 'package:kroot_app/features/event/presentation/controller/contacts_controller/contacts_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/map_controller/map_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/map_controller/map_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:kroot_app/features/event/data/models/event_response/create_event_response.dart';
-import 'package:kroot_app/features/event/data/models/get_user_events/get_user_events_model.dart';
+import 'package:kroot_app/features/event/domain/model/event_response/create_event_response.dart';
+import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
 import 'package:kroot_app/features/event/data/repositories/home_repositories.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_state.dart';

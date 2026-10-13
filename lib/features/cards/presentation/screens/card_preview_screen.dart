@@ -8,7 +8,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
+import 'package:kroot_app/features/cards/domain/model/confirm_card_preview_response/confirm_preview_card_response.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';

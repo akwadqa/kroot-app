@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:kroot_app/features/cards/domain/confirm_card_preview_response/confirm_preview_card_response.dart';
+import 'package:kroot_app/features/cards/domain/model/confirm_card_preview_response/confirm_preview_card_response.dart';
 
 part 'get_user_events_model.freezed.dart';
 part 'get_user_events_model.g.dart';
