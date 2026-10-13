@@ -149,6 +149,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ScreenProtectorKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwiftyGif-SwiftyGif.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -310,6 +315,11 @@
 			<false/>
 		</dict>
 		<key>permission_handler_apple.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>screen_protector.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

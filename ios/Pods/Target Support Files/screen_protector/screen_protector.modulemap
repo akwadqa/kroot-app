@@ -1,0 +1,6 @@
+framework module screen_protector {
+  umbrella header "screen_protector-umbrella.h"
+
+  export *
+  module * { export * }
+}
