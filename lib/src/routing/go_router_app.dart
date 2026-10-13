@@ -33,7 +33,6 @@ import 'package:kroot_app/features/guests/presentation/screens/guests_screen.dar
 import 'package:kroot_app/features/event/presentation/screens/select_location_screen.dart';
 import 'package:kroot_app/features/profile/presentation/pages/pricing_screen.dart';
 import 'package:kroot_app/features/scan/presentation/pages/scan_qr_event_page.dart';
-import 'package:kroot_app/features/scan_qr_code/presentation/screens/scan_qr_code_screen.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 
 part 'go_router_app.g.dart';
@@ -235,18 +234,6 @@ class GoRouterApp {
         pageBuilder: (context, state) => CustomTransitionPage(
           child: QrScreen(id: state.extra as String?),
           key: state.pageKey,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        ),
-      ),
-
-      GoRoute(
-        path: Routes.scanCameraQR,
-        pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-
-          child: ScanQrCodeScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

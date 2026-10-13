@@ -27,7 +27,6 @@ class Routes {
   static String payment = '/paynemt-page';
 
   static String scanQr = '/scan-qr-page';
-  static String scanCameraQR = '/scan-camera-qr-page';
   static String occasionCards = '/occasion-cards-page';
   static String customizeCard = '/customize-card-page';
   static String finalPreview = '/final-preview-page';
