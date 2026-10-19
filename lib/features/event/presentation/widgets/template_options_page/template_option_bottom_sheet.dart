@@ -85,6 +85,7 @@ class _TemplateOptionsBottomSheetState
                 itemBuilder: (context, index) {
                   return TemplateScreenBottomSheetItem(
                     currentTemplate: selectedTemplate,
+                    id: widget.id,
                     templateName: templates[index],
                     onChanged: (val) {
                       selectedTemplate = val ?? '';

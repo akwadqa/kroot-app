@@ -10,10 +10,11 @@ class TemplateScreenBottomSheetItem extends ConsumerWidget {
     super.key,
     required this.templateName,
     required this.onChanged,
-    required this.currentTemplate,
+    required this.currentTemplate,  this.id,
   });
   final String templateName;
   final String currentTemplate;
+  final String? id;
   final void Function(String?)? onChanged;
 
   @override
@@ -39,7 +40,10 @@ class TemplateScreenBottomSheetItem extends ConsumerWidget {
           Expanded(
             //TODO :id
             child: Text(
-              getTemplateMessage(templateName, ref, null),
+              getTemplateMessage(
+                templateName,
+                ref,id
+              ),
               style: AppTextStyle.rubikRegular16
                   .copyWith(color: AppColors.blackText),
             ),
