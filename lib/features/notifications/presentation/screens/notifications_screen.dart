@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/notifications/presentation/controller/app_notifications_controller.dart';
 import 'package:kroot_app/features/notifications/presentation/widgets/notification_screen_list.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/extensions/int_extension.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';

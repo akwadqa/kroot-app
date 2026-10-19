@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/presentation/controller/add_event/add_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/update_event/update_event_controller.dart';
 import 'package:kroot_app/features/event/presentation/screens/templates_options_screen.dart';
 import 'package:kroot_app/features/event/presentation/widgets/template_options_page/template_screen_bottom_sheet_item.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
@@ -14,7 +15,10 @@ import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 
 class TemplateOptionsBottomSheet extends ConsumerStatefulWidget {
-  const TemplateOptionsBottomSheet({super.key});
+  const TemplateOptionsBottomSheet({super.key, required this.id});
+
+  /// null = create flow, otherwise the event id of the update flow.
+  final String? id;
 
   @override
   ConsumerState<TemplateOptionsBottomSheet> createState() =>
@@ -27,8 +31,9 @@ class _TemplateOptionsBottomSheetState
 
   @override
   void initState() {
-    selectedTemplate = ref.read(
-        addEventControllerProvider.select((val) => val.value!.templateMessage));
+    selectedTemplate = widget.id == null
+        ? ref.read(addEventControllerProvider).value!.templateMessage
+        : ref.read(updateEventControllerProvider).value!.templateMessage;
     super.initState();
   }
 
@@ -36,11 +41,6 @@ class _TemplateOptionsBottomSheetState
   Widget build(BuildContext context) {
     final templates = ref.read(homeControllerProvider
         .select((val) => val.value!.utilsResponse!.value!.templates ?? []));
-
-    final currentTemplate = ref.watch(
-        addEventControllerProvider.select((val) => val.value!.templateMessage));
-
-    // selectedTemplate = currentTemplate;
 
     return Container(
       height: 600.h,
@@ -100,11 +100,13 @@ class _TemplateOptionsBottomSheetState
                 return CustomButtonWidget(
                   text: '',
                   onTap: () {
-                    ref
-                        .read(addEventControllerProvider.notifier)
-                        .changeTemplateMessage(
-                          selectedTemplate,
-                        );
+                    widget.id == null
+                        ? ref
+                            .read(addEventControllerProvider.notifier)
+                            .changeTemplateMessage(selectedTemplate)
+                        : ref
+                            .read(updateEventControllerProvider.notifier)
+                            .changeTemplateMessage(selectedTemplate);
                     // if (widget.id == null) {
                     //   if (FocusManager.instance.primaryFocus != null) {
                     //     FocusManager.instance.primaryFocus!.unfocus();

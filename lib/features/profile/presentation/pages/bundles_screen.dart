@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kroot_app/features/event/domain/model/utils_response/utils_response.dart';
 import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/features/profile/presentation/controller/profile_controller.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/extensions/int_extension.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';

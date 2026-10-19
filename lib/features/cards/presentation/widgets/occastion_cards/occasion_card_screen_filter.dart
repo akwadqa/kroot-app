@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kroot_app/features/cards/domain/model/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 

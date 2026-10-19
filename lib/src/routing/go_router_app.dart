@@ -5,7 +5,7 @@ import 'package:kroot_app/features/cards/domain/model/confirm_card_preview_respo
 import 'package:kroot_app/features/cards/domain/model/template_categories_model/template_categories_mode.dart';
 import 'package:kroot_app/features/cards/domain/model/template_model/template_model.dart';
 import 'package:kroot_app/features/cards/presentation/screens/card_preview_screen.dart';
-import 'package:kroot_app/features/cards/presentation/screens/custumize_card_screen.dart';
+import 'package:kroot_app/features/cards/presentation/screens/customize_card_screen.dart';
 import 'package:kroot_app/features/cards/presentation/screens/final_preview_screen.dart';
 import 'package:kroot_app/features/cards/presentation/screens/occasion_cards_screen.dart';
 import 'package:kroot_app/features/event/domain/model/get_user_events/get_user_events_model.dart';
@@ -22,7 +22,7 @@ import 'package:kroot_app/features/auth/presentation/pages/verification_screen.d
 import 'package:kroot_app/features/event/presentation/screens/add_contact_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/add_event_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/event_details_screen.dart';
-import 'package:kroot_app/features/event/presentation/screens/geust_list_screen.dart';
+import 'package:kroot_app/features/event/presentation/screens/guest_list_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/invite_template_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/main_screen.dart';
 import 'package:kroot_app/features/event/presentation/screens/qr_screen.dart';
@@ -189,7 +189,7 @@ class GoRouterApp {
         path: Routes.guestList,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: GeustListScreen(id: state.extra as String?),
+          child: GuestListScreen(id: state.extra as String?),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -327,7 +327,7 @@ class GoRouterApp {
         path: Routes.customizeCard,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: CustumizeCardScreen(template: state.extra as InvitationTemplateModel),
+          child: CustomizeCardScreen(template: state.extra as InvitationTemplateModel),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

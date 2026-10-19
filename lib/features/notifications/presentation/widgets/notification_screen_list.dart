@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kroot_app/features/notifications/domain/model/app_notifications_model.dart';
 import 'package:kroot_app/features/notifications/presentation/controller/app_notifications_controller.dart';
 import 'package:kroot_app/features/notifications/presentation/widgets/notification_screen_item.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
 
 class NotificationScreenList extends ConsumerWidget {

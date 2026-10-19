@@ -11,7 +11,7 @@ import 'package:kroot_app/features/event/presentation/controller/update_event/up
 import 'package:kroot_app/features/event/presentation/widgets/add_contact_page/add_contact_page_tile.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/add_event_page_botton.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';

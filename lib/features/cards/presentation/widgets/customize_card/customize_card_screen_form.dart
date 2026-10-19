@@ -10,7 +10,7 @@ import 'package:kroot_app/features/cards/presentation/widgets/customize_card/cus
 import 'package:kroot_app/features/cards/presentation/widgets/customize_card/customize_card_time.dart';
 import 'package:kroot_app/features/event/presentation/widgets/create_event_page/create_event_page_select_language_field.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';

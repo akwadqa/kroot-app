@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 
 class GuestsSearchField extends StatelessWidget {

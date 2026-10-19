@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/cards/presentation/controller/cards_controller.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
 import 'package:kroot_app/src/localization/current_language.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
@@ -32,7 +34,6 @@ class _ChangeLanguageBottomSheetState
 
     return Container(
       padding: EdgeInsets.all(22.w),
-
       child: Column(
         children: [
           Row(
@@ -45,7 +46,6 @@ class _ChangeLanguageBottomSheetState
               ),
               Spacer(),
               20.verticalSpace,
-
               GestureDetector(
                 onTap: () => context.pop(),
                 child: Assets.icons.closeIc.svg(),
@@ -53,7 +53,6 @@ class _ChangeLanguageBottomSheetState
             ],
           ),
           33.verticalSpace,
-
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -76,13 +75,19 @@ class _ChangeLanguageBottomSheetState
                     color: AppColors.primary,
                   ),
                 ),
-
                 Checkbox(
                   value: currentLang == 'en' ? true : false,
                   onChanged: (val) {
                     ref
                         .read(currentLanguageProvider.notifier)
                         .changeLanguage(context, 'en');
+
+                    ref
+                        .read(homeControllerProvider.notifier)
+                        .getUserEvents(page: 1);
+                    ref
+                        .read(cardsControllerProvider.notifier)
+                        .getTemplateCategories();
                   },
                   fillColor: WidgetStateProperty.resolveWith<Color>((states) {
                     if (states.contains(WidgetState.selected)) {
@@ -94,9 +99,7 @@ class _ChangeLanguageBottomSheetState
               ],
             ),
           ),
-
           20.verticalSpace,
-
           Container(
             width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -119,13 +122,18 @@ class _ChangeLanguageBottomSheetState
                     color: AppColors.primary,
                   ),
                 ),
-
                 Checkbox(
                   value: currentLang == 'ar' ? true : false,
                   onChanged: (val) {
                     ref
                         .read(currentLanguageProvider.notifier)
                         .changeLanguage(context, 'ar');
+                    ref
+                        .read(homeControllerProvider.notifier)
+                        .getUserEvents(page: 1);
+                    ref
+                        .read(cardsControllerProvider.notifier)
+                        .getTemplateCategories();
                   },
                   fillColor: WidgetStateProperty.resolveWith<Color>((states) {
                     if (states.contains(WidgetState.selected)) {

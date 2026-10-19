@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:kroot_app/features/event/domain/model/add_guests_response/add_guests_response.dart';
 import 'package:kroot_app/features/event/domain/model/delete_handler_response/delete_handler_response.dart';
 import 'package:kroot_app/features/event/domain/model/event_response/create_event_response.dart';
@@ -237,11 +238,14 @@ class HomeDataSource {
         'search': search,
         'limit': 10,
         'list_type': type,
-        if (filter.isNotEmpty && filter != 'All')
+        if (filter.isNotEmpty && filter != 'status_all'.tr())
           type == 'kroot' ? 'category' : 'status': filter,
       });
 
-      print(data.fields);
+      for (final field in data.fields) {
+        print('Field: ${field.key} = ${field.value}');
+      }
+      // print(data.fields);
       final response = await _networkService.get(
         EndPoints.getEvents,
         data: data,

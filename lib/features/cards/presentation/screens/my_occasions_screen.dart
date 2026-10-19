@@ -13,8 +13,8 @@ import 'package:kroot_app/features/event/presentation/controller/home_controller
 import 'package:kroot_app/features/event/presentation/screens/home_screen.dart';
 import 'package:kroot_app/features/event/presentation/widgets/home_page/home_page_search_field.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/int_extension.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/shared_widgets/app_error_widget.dart';
 import 'package:kroot_app/src/shared_widgets/app_pagination_widget.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
@@ -58,7 +58,7 @@ class _MyOccasionsScreenBodyState
     final categriesFilter = ref.watch(
         homeControllerProvider.select((val) => val.value!.categoriesFilter));
 
-    final filters = ['All', ...categriesFilter];
+    final filters = ['status_all'.tr(), ...categriesFilter];
     final selectedFilter = ref
         .watch(cardsControllerProvider.select((val) => val.value!.filerValue));
 
@@ -101,7 +101,6 @@ class _MyOccasionsScreenBodyState
                       if (currentList == null || currentList.isEmpty) {
                         return MyOccasionsScreenEmptyData(ref: ref);
                       }
-                      
 
                       return MyOccasionsScreenList(currentList: currentList);
                     },
@@ -264,7 +263,7 @@ class MyOccasionsScreenCardsEventsFilter extends ConsumerWidget {
               onTap: () {
                 ref.read(cardsControllerProvider.notifier)
                   ..setIsCards(false)
-                  ..changeFilterValue('All');
+                  ..changeFilterValue('status_all'.tr());
                 ref.read(homeControllerProvider.notifier)
                   ..makeCategoriesEmpty()
                   ..getUserEvents(page: 1);
@@ -289,7 +288,7 @@ class MyOccasionsScreenCardsEventsFilter extends ConsumerWidget {
               onTap: () {
                 ref.read(cardsControllerProvider.notifier)
                   ..setIsCards(true)
-                  ..changeFilterValue('All');
+                  ..changeFilterValue('status_all'.tr());
                 ref.read(homeControllerProvider.notifier)
                   ..makeCategoriesEmpty()
                   ..getUserEvents(page: 1);

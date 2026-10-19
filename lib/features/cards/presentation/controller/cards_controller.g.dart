@@ -33,7 +33,7 @@ final class CardsControllerProvider
   CardsController create() => CardsController();
 }
 
-String _$cardsControllerHash() => r'30e99c711c6fe8bce12505c40f53c1fb629abd07';
+String _$cardsControllerHash() => r'01285a413d34531740cf219b84df2040595409e1';
 
 abstract class _$CardsController extends $AsyncNotifier<CardsState> {
   FutureOr<CardsState> build();

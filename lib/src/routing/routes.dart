@@ -24,7 +24,7 @@ class Routes {
 
   static String pricing = '/pricing-page';
   static String bundle = '/bundle-page';
-  static String payment = '/paynemt-page';
+  static String payment = '/payment-page';
 
   static String scanQr = '/scan-qr-page';
   static String occasionCards = '/occasion-cards-page';

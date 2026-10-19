@@ -13,7 +13,7 @@ import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/ad
 import 'package:kroot_app/features/event/presentation/widgets/guest_list_page/guest_list_item.dart';
 import 'package:kroot_app/features/guests/presentation/controller/guests_controller.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -22,15 +22,15 @@ import 'package:kroot_app/src/theme/app_text_style.dart';
 import 'package:kroot_app/src/utils/app_alert.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
 
-class GeustListScreen extends ConsumerStatefulWidget {
-  const GeustListScreen({super.key, required this.id});
+class GuestListScreen extends ConsumerStatefulWidget {
+  const GuestListScreen({super.key, required this.id});
   final String? id;
 
   @override
-  ConsumerState<GeustListScreen> createState() => _GeustListScreenState();
+  ConsumerState<GuestListScreen> createState() => _GuestListScreenState();
 }
 
-class _GeustListScreenState extends ConsumerState<GeustListScreen> {
+class _GuestListScreenState extends ConsumerState<GuestListScreen> {
   late TextEditingController firstName, lastName, number;
 
   @override

@@ -14,7 +14,7 @@ import 'package:kroot_app/features/event/presentation/widgets/create_event_page/
 import 'package:kroot_app/features/event/presentation/widgets/template_options_page/custom_invitation_tile.dart';
 import 'package:kroot_app/features/event/presentation/widgets/template_options_page/template_option_bottom_sheet.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/shared_widgets/custom_button_widget.dart';
@@ -155,7 +155,7 @@ class TemplatesOptionsScreen extends ConsumerWidget {
                 child: TextField(
                   onTap: () => showModalBottomSheet(
                     context: context,
-                    builder: (context) => TemplateOptionsBottomSheet(),
+                    builder: (context) => TemplateOptionsBottomSheet(id: id),
                   ),
                   readOnly: true,
                   decoration: InputDecoration(

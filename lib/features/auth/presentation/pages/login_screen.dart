@@ -9,9 +9,9 @@ import 'package:kroot_app/features/auth/presentation/controller/send_otp_control
 import 'package:kroot_app/features/auth/presentation/widgets/login_page/login_page_number_field.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/login_page/login_page_signin_button.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/login_page/login_page_terms_section.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/extensions/int_extension.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';

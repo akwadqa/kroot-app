@@ -13,8 +13,8 @@ import 'package:kroot_app/features/auth/presentation/widgets/create_account_page
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_page_confirm_button.dart';
 import 'package:kroot_app/features/auth/presentation/widgets/create_account_page/create_account_terms.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
-import 'package:kroot_app/src/extenssions/widget_extensions.dart';
+import 'package:kroot_app/src/extensions/int_extension.dart';
+import 'package:kroot_app/src/extensions/widget_extensions.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';

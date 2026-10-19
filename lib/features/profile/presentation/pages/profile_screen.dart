@@ -9,7 +9,7 @@ import 'package:kroot_app/features/profile/presentation/controller/profile_contr
 import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/change_language_bottom_sheet.dart';
 import 'package:kroot_app/features/profile/presentation/widgets/profile_screen/profile_page_user_section_item.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/extenssions/int_extenssion.dart';
+import 'package:kroot_app/src/extensions/int_extension.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/custom_appbar.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';

@@ -8,7 +8,7 @@ import 'package:kroot_app/features/event/presentation/screens/home_screen.dart';
 import 'package:kroot_app/features/profile/presentation/pages/profile_screen.dart';
 import 'package:kroot_app/features/scan/presentation/pages/scan_page.dart';
 import 'package:kroot_app/gen/assets.gen.dart';
-import 'package:kroot_app/src/bottm_navigation_bar_provider.dart';
+import 'package:kroot_app/src/bottom_navigation_bar_provider.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/shared_widgets/bottom_navigation_bar_view.dart';
 import 'package:kroot_app/src/utils/app_toast.dart';
