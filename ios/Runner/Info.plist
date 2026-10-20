@@ -72,6 +72,6 @@
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
 		<key>NSPhotoLibraryAddUsageDescription</key>
-    <string>We need access to your photos to save cards and invitations.</string>
+        <string>We need access to your photos to save cards and invitations.</string>
 	</dict>
 </plist>
