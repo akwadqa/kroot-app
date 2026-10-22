@@ -38,7 +38,8 @@ class CardsState {
         categories: AsyncLoading(),
         templates: AsyncLoading(),
         filters: [],
-        filerValue: 'All',
+        // Empty means "All": no category/status is sent to the API.
+        filerValue: '',
         isCards: true,
         selectedOptions: [],
         fieldsValues: [],

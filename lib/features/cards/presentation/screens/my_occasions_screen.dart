@@ -58,7 +58,8 @@ class _MyOccasionsScreenBodyState
     final categriesFilter = ref.watch(
         homeControllerProvider.select((val) => val.value!.categoriesFilter));
 
-    final filters = ['status_all'.tr(), ...categriesFilter];
+    // '' is the "All" filter value.
+    final filters = ['', ...categriesFilter];
     final selectedFilter = ref
         .watch(cardsControllerProvider.select((val) => val.value!.filerValue));
 
@@ -203,7 +204,7 @@ class MyOccasionsScreenCategoriesFilter extends ConsumerWidget {
                       border: Border.all(color: AppColors.primary),
                       borderRadius: BorderRadius.circular(32),
                     ),
-                    child: Text(filter,
+                    child: Text(filter.isEmpty ? 'status_all'.tr() : filter,
                         style: AppTextStyle.rubikRegular14.copyWith(
                             color: filter == selectedFilter
                                 ? AppColors.white
@@ -263,7 +264,7 @@ class MyOccasionsScreenCardsEventsFilter extends ConsumerWidget {
               onTap: () {
                 ref.read(cardsControllerProvider.notifier)
                   ..setIsCards(false)
-                  ..changeFilterValue('status_all'.tr());
+                  ..changeFilterValue('');
                 ref.read(homeControllerProvider.notifier)
                   ..makeCategoriesEmpty()
                   ..getUserEvents(page: 1);
@@ -288,7 +289,7 @@ class MyOccasionsScreenCardsEventsFilter extends ConsumerWidget {
               onTap: () {
                 ref.read(cardsControllerProvider.notifier)
                   ..setIsCards(true)
-                  ..changeFilterValue('status_all'.tr());
+                  ..changeFilterValue('');
                 ref.read(homeControllerProvider.notifier)
                   ..makeCategoriesEmpty()
                   ..getUserEvents(page: 1);
