@@ -13,9 +13,5 @@ class ServicesUrls {
     baseProductionUrl = dotenv.get(DotenvKeys.productionBaseUrl);
     imageUrl = dotenv.get(DotenvKeys.imageUrl);
     mapApiKey = dotenv.get(DotenvKeys.mapApiKey);
-
-    debugPrint('mnor $baseProductionUrl');
-    debugPrint('mnor $baseUrl');
   }
-
 }

@@ -50,6 +50,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final eventsController = ref
         .watch(cardsControllerProvider.select((val) => val.value!.categories));
 
+    final isReview = ref.watch(
+      homeControllerProvider.select(
+        (val) => val.value?.utilsResponse?.value?.appleReview,
+      ),
+    );
+
     final homeController = ref.watch(homeControllerProvider);
     // final eventsController = ref.watch(
     //   homeControllerProvider.select((val) => val.value!.eventResponse),
@@ -77,7 +83,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          if (userData?.freeSubscribe == 0)
+                          if (userData?.freeSubscribe == 0 && isReview != 1)
                             HomePageAvailableBalance(),
                           20.verticalSpace,
                           if (eventsController.asData != null)

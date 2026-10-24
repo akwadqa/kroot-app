@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kroot_app/features/event/presentation/controller/home_controller.dart';
 import 'package:kroot_app/src/routing/routes.dart';
 import 'package:kroot_app/src/theme/app_colors.dart';
 import 'package:kroot_app/src/theme/app_text_style.dart';
 
-class CustomizeCardScreenPrice extends StatelessWidget {
+class CustomizeCardScreenPrice extends ConsumerWidget {
   const CustomizeCardScreenPrice({
     super.key,
     required this.price,
@@ -13,9 +15,18 @@ class CustomizeCardScreenPrice extends StatelessWidget {
   final num price;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isReview = ref.watch(
+      homeControllerProvider.select(
+        (val) => val.value?.utilsResponse?.value?.appleReview,
+      ),
+    );
     return GestureDetector(
-      onTap: () => context.push(Routes.bundle),
+      onTap: () {
+        if (isReview != 1) {
+          context.push(Routes.bundle);
+        }
+      },
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
